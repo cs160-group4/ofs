@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { auth } from '../../public/firebase';
+import { auth } from '/firebase';
 import styles from './Page.module.css'; // Import the CSS module
 
 export default function Page() {
