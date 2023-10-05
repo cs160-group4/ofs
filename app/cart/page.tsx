@@ -9,11 +9,14 @@ const page = () => {
         
         <div className="mx-auto justify-center md:flex md:space-x-6">
             <div className="rounded-lg md:w-3/5">
+                {/* replace bg color */}
                 <div className="justify-between mb-5 rounded-lg w-full p-6 bg-white sm:flex sm:justify-start">
                     {/* shopping items */}
                     <div className="flex flex-col w-full mt-6">
                         <div className="flow-root">
+                            {/* populate list with appropriate data later(li is just filler)*/}
                             <ul className="-my-6 pb-6 divide-y space-y-5 divide-white-100">
+                                {/* replace bg color */}
                                 <li className="flex h-30 content-center py-6 bg-red-300 rounded-box place-items center">
                                     img 
                                     <div className="mt-5 sm:mt-0">
@@ -38,7 +41,9 @@ const page = () => {
                 </div>
             </div>
 
-            {/* price totals */}
+
+            
+            {/* price totals -- replace bg color*/}
             <div className="container mt-6 h-full rounded-lg border bg-white shadow-md md:mt-0 md:w-2/5 px-3 py-3">
                 <div className="mb-2 flex justify-between">
                     <p>Subtotal</p>
