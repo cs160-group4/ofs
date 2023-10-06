@@ -4,15 +4,15 @@ export default function FooterComponent() {
     <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
       <nav className="grid grid-flow-col gap-4">
         {/* About us */}
-        <Link href="/about">About us</Link>
+        <Link href="/pages/about">About us</Link>
         {/* Contact */}
-        <Link href="/contact">Contact Us</Link>
+        <Link href="/pages/contact">Contact Us</Link>
         {/* Privacy */}
-        <Link href="/privacy">Privacy</Link>
+        <Link href="/pages/privacy">Privacy</Link>
         {/* Terms */}
-        <Link href="/terms">Terms</Link>
+        <Link href="/pages/terms">Terms</Link>
         {/* FAQ */}
-        <Link href="/faq">FAQ</Link>
+        <Link href="/pages/faq">FAQ</Link>
 
       </nav>
       <nav>

@@ -26,9 +26,9 @@ export default function NavbarComponent() {
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
                             {/* About Us */}
-                            <li><Link href="/about">About Us</Link></li>
+                            <li><Link href="/pages/about">About Us</Link></li>
                             {/* Contact Us */}
-                            <li><Link href="/contact">Contact Us</Link></li>
+                            <li><Link href="/pages/contact">Contact Us</Link></li>
                         </ul>
                     </div>
                     {/* Logo */}
@@ -54,9 +54,9 @@ export default function NavbarComponent() {
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
                         {/* About Us */}
-                        <li><Link href="/about">About Us</Link></li>
+                        <li><Link href="/pages/about">About Us</Link></li>
                         {/* Contact Us */}
-                        <li><Link href="/contact">Contact Us</Link></li>
+                        <li><Link href="/pages/contact">Contact Us</Link></li>
                     </ul>
                 </div>
                 <div className="navbar-end">
@@ -104,13 +104,12 @@ export default function NavbarComponent() {
                         </label>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li>
-                                <a className="justify-between">
-                                    Profile
-                                    <span className="badge">New</span>
-                                </a>
+                                <Link href="/profile" className="justify-between">Profile
+                                    {/* <span className="badge">New</span>*/}
+                                </Link>
                             </li>
-                            <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
+                            <li><Link href="/settings">Settings</Link></li>
+                            <li><Link href="/logout">Logout</Link></li>
                         </ul>
                     </div>
                     {/* Toggle darkmode button */}

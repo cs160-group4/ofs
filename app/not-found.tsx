@@ -17,10 +17,9 @@ export default function FourOhFour() {
                         The page you’re looking for doesn’t exist.
                     </p>
 
-                    <button type="button" onClick={() => router.back()}>
+                    <button type="button" onClick={() => router.back()} className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">
                         Go Back
                     </button>
-
                 </div>
             </div>
             <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" />
