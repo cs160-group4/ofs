@@ -4,8 +4,8 @@ import MainSliderComponent from './components/MainSliderComponent'
 export default function Home() {
   return (
     <main className="">
-      {/* A grid of 3 cards centered on the page */}
       <MainSliderComponent />
+      {/* A grid of 3 cards centered on the page */}
       <div className="flex justify-evenly lg:flex-row flex-col items-center">
         <div className="card w-96 bg-base-100 shadow-xl m-4">
           <figure>
@@ -58,7 +58,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-     
+
     </main>
   )
 }
