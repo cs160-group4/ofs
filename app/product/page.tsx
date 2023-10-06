@@ -17,7 +17,6 @@ const page: FC<pageProps> = ({searchParams}) => {
    }
 
     return <div> 
-            <Navbar />
             <div className='bg-white flex'>
                 <div className='flex-grow bg-red-500 max-w-screen-sm max-h-32 m-4'>
                     <div className='items-stretch w-fill h-fill'>Image</div>
@@ -29,7 +28,6 @@ const page: FC<pageProps> = ({searchParams}) => {
                     <div className="text-black">Description: {retData.description}</div>
                     <div className="text-black">Quanitty: {retData.quantity}</div>
                 </div>
-                
             </div>
         </div>
 }
