@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 06, 2023 at 02:44 PM
+-- Generation Time: Oct 06, 2023 at 03:17 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -38,8 +38,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `name`, `text`) VALUES
-(1, 'Review 1', 'This is the review number 1'),
-(2, 'Review 2', 'Review 2, This is the review 2');
+(1, 'Review 1', 'This is the review 1'),
+(2, 'Review 2', 'This is the review 2');
 
 --
 -- Indexes for dumped tables
@@ -49,7 +49,7 @@ INSERT INTO `reviews` (`id`, `name`, `text`) VALUES
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables

@@ -8,23 +8,23 @@
       "name": "reviews",
       "columns": {
         "id": {
-          "autoincrement": false,
+          "autoincrement": true,
           "name": "id",
           "type": "int(11)",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true
         },
         "name": {
           "autoincrement": false,
           "name": "name",
-          "type": "int(11)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
         },
-        "review": {
+        "text": {
           "autoincrement": false,
-          "name": "review",
-          "type": "int(11)",
+          "name": "text",
+          "type": "varchar(200)",
           "primaryKey": false,
           "notNull": true
         }
