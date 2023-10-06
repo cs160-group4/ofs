@@ -31,7 +31,7 @@ const page: FC<pageProps> = ({}) => {
                 </div>
                 <div className="flex-grow bg-red-500 p-4">
                     <div className="flex flex-wrap">
-                        {productList.map(item => (
+                        {/* {productList.map(item => (
                             <Product
                                 name={item.name}
                                 price={item.price}
@@ -39,7 +39,7 @@ const page: FC<pageProps> = ({}) => {
                                 description={item.description}
                                 quantity={item.quantity}
                             />
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </div>

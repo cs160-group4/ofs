@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
-         
       <body className={inter.className}>
         <Navbar />
         {children}
         <Footer />
+        <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" />
       </body>
     </html>
   )

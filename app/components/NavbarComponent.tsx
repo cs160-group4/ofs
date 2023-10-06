@@ -26,9 +26,9 @@ export default function NavbarComponent() {
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
                             {/* About Us */}
-                            <li><a>About Us</a></li>
+                            <li><Link href="/about">About Us</Link></li>
                             {/* Contact Us */}
-                            <li><a>Contact Us</a></li>
+                            <li><Link href="/contact">Contact Us</Link></li>
                         </ul>
                     </div>
                     {/* Logo */}
@@ -54,9 +54,9 @@ export default function NavbarComponent() {
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
                         {/* About Us */}
-                        <li><a>About Us</a></li>
+                        <li><Link href="/about">About Us</Link></li>
                         {/* Contact Us */}
-                        <li><a>Contact Us</a></li>
+                        <li><Link href="/contact">Contact Us</Link></li>
                     </ul>
                 </div>
                 <div className="navbar-end">

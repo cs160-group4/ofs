@@ -1,36 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import MainSliderComponent from './components/MainSliderComponent'
 export default function Home() {
   return (
     <main className="">
-      {/* ------------Casousel---------------- */}
-      <div className="carousel w-full  h-[650px] shadow-xl relative">
-        <div id="slide1" className="carousel-item relative w-full ">
-          <Image width={1920} height={1080} src="/images/sliders/slide1.jpg" className="w-full" alt='slide 1' />
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide4" className="btn btn-circle">❮</a>
-            <a href="#slide2" className="btn btn-circle">❯</a>
-          </div>
-        </div>
-        <div id="slide2" className="carousel-item relative  w-full ">
-          <Image width={1920} height={1080} src="/images/sliders/slide2.jpg" className="w-full" alt='slide 2' />
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide1" className="btn btn-circle">❮</a>
-            <a href="#slide3" className="btn btn-circle">❯</a>
-          </div>
-        </div>
-        <div id="slide3" className="carousel-item relative  w-full ">
-          <Image width={1920} height={1080} src="/images/sliders/slide3.jpg" className="w-full" alt='slide 3' />
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide2" className="btn btn-circle">❮</a>
-            <a href="#slide4" className="btn btn-circle">❯</a>
-          </div>
-        </div>
-      </div>
-      {/* ------------ End Casousel---------------- */}
-
       {/* A grid of 3 cards centered on the page */}
-
+      <MainSliderComponent />
       <div className="flex justify-evenly lg:flex-row flex-col items-center">
         <div className="card w-96 bg-base-100 shadow-xl m-4">
           <figure>
@@ -83,7 +58,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js" />
+     
     </main>
   )
 }

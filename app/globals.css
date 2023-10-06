@@ -16,9 +16,6 @@
     --var-logo-image: url('/images/h_logo.png');
 }
 
-[data-theme=''] {
-    --var-logo-image: url('/images/h_logo.png');
-}
 
 .logo-image {
     content: var(--var-logo-image);
