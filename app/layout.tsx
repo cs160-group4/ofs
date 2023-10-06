@@ -8,19 +8,15 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'OFS - On-Demand Food Delivery Service',
-  description: 'Order food from your favorite restaurants.',
+  description: 'Order food from your OFS groceries.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
-      <body className={inter.className}>{children}
+      <body className={inter.className}>
+        {children}
         <Footer />
-       
       </body>
     </html>
   )
