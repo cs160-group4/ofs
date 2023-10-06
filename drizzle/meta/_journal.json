@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1696591550417,
+      "tag": "0000_long_mac_gargan",
+      "breakpoints": true
+    }
+  ]
+}
