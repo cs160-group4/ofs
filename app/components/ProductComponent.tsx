@@ -10,9 +10,7 @@ interface pageProps {
 }
 
 const ProductComponent :  FC<pageProps> = ({name, price, weight, description, quantity}) => {
-  
-  let param = {name : name};
-  
+    
   return (
     <Link href={`/product?name=${name}`}>
       <div className="max-w-xs min-w-max w-60 p-4 m-2 outline-black outline">

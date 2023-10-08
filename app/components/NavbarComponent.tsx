@@ -124,7 +124,6 @@ export default function NavbarComponent() {
                 </div>
 
             </div>
-            <hr></hr>
         </div>
     )
 }

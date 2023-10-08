@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Footer from './components/FooterComponent'
 import Navbar from './components/NavbarComponent'
+import Categories from './components/ProductCategoryComponent'
 import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,6 +20,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
     
       <body className={inter.className}>
         <Navbar />
+        <Categories/>
         {children}
         <Footer />
         <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" />

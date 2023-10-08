@@ -1,7 +1,8 @@
 import { db } from '../db/db'
 import { reviews } from "../db/schema"
+
 type Review = {
-    id: number;
+    reviewID: number;
     name: string;
 }
 

@@ -5,16 +5,28 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
 
+    /* Example to fetch route and print information
+    const fetchComments = async() => {
+        const response = await fetch("http://localhost:3000/api/reviews", {
+            method: 'GET'
+        });
+        console.log("hi")
+        console.log(await response.json())
+    }
+
+    fetchComments();
+    */
+
     const productList = [
-        {name : "Apple", price : 1, weight : 1, description : "1", quantity : 1},
-        {name : "Pineapple", price : 2, weight : 1, description : "1", quantity : 1},
-        {name : 'Peach', price : 3, weight : 1, description : '1', quantity : 1},
-        {name : "Milk", price : 4, weight : 1, description : "1", quantity : 1},
-        {name : 'Steak', price : 5, weight : 1, description : "1", quantity : 1},
-        {name : "Eggs", price : 6, weight : 1, description : '1', quantity : 1},
-        {name : "Plum", price : 7, weight : 1, description : '1', quantity : 1},
-        {name : "Watermelon", price : 8, weight : 1, description : "1", quantity : 1},
-        {name : "Oranges", price : 9, weight : 1, description : "1", quantity : 1}
+        {key : 1, name : "Apple", price : 1, weight : 1, description : "1", quantity : 1},
+        {key : 2,name : "Pineapple", price : 2, weight : 1, description : "1", quantity : 1},
+        {key : 3,name : 'Peach', price : 3, weight : 1, description : '1', quantity : 1},
+        {key : 4,name : "Milk", price : 4, weight : 1, description : "1", quantity : 1},
+        {key : 5,name : 'Steak', price : 5, weight : 1, description : "1", quantity : 1},
+        {key : 6,name : "Eggs", price : 6, weight : 1, description : '1', quantity : 1},
+        {key : 7,name : "Plum", price : 7, weight : 1, description : '1', quantity : 1},
+        {key : 8,name : "Watermelon", price : 8, weight : 1, description : "1", quantity : 1},
+        {key : 9,name : "Oranges", price : 9, weight : 1, description : "1", quantity : 1}
     ];
 
     return <div className="flex">
@@ -31,15 +43,16 @@ const page: FC<pageProps> = ({}) => {
                 </div>
                 <div className="flex-grow bg-red-500 p-4">
                     <div className="flex flex-wrap">
-                        {/* {productList.map(item => (
+                        {productList.map(item => (
                             <Product
+                                key={item.key}
                                 name={item.name}
                                 price={item.price}
                                 weight={item.weight}
                                 description={item.description}
                                 quantity={item.quantity}
                             />
-                        ))} */}
+                        ))}
                     </div>
                 </div>
             </div>
