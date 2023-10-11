@@ -21,10 +21,10 @@ export default function NavbarComponent() {
                                     <li><a>Category 2</a></li>
                                 </ul>
                             </li>
-                            {/* Pages */}
-                            <li><Link href="/pages">Pages</Link></li>
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
+                             {/* Pages */}
+                             <li><Link href="/pages">Pages</Link></li>
                             {/* About Us */}
                             <li><Link href="/pages/about">About Us</Link></li>
                             {/* Contact Us */}
@@ -40,7 +40,8 @@ export default function NavbarComponent() {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href="/">Home</Link></li>
-                        <li tabIndex={0}>
+                        <li><Link href="/shop">Shop</Link></li>
+                        {/* <li tabIndex={0}>
                             <details>
                                 <summary><Link href="/shop">Shop</Link></summary>
                                 <ul className="p-2">
@@ -48,11 +49,11 @@ export default function NavbarComponent() {
                                     <li><a>Category 2</a></li>
                                 </ul>
                             </details>
-                        </li>
-                        {/* Pages */}
-                        <li><Link href="/pages">Pages</Link></li>
+                        </li> */}
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
+                         {/* Pages */}
+                         <li><Link href="/pages">Pages</Link></li>
                         {/* About Us */}
                         <li><Link href="/pages/about">About Us</Link></li>
                         {/* Contact Us */}
@@ -124,6 +125,8 @@ export default function NavbarComponent() {
                 </div>
 
             </div>
+            <hr></hr>
         </div>
+        
     )
 }

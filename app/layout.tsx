@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Footer from './components/FooterComponent'
 import Navbar from './components/NavbarComponent'
-import Categories from './components/ProductCategoryComponent'
 import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,11 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
-    
       <body className={inter.className}>
         <Navbar />
-        <Categories/>
-        {children}
+        <main className="min-h-[calc(100vh-299px)] overflow-auto ">
+          {children}
+        </main>
         <Footer />
         <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" />
       </body>
