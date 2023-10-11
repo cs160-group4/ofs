@@ -40,7 +40,7 @@ export default function NavbarComponent() {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href="/">Home</Link></li>
-                        <li><Link href="/shop">Shop</Link></li>
+                        <li><Link href="/shop/all">Shop</Link></li>
                         {/* <li tabIndex={0}>
                             <details>
                                 <summary><Link href="/shop">Shop</Link></summary>
@@ -125,7 +125,6 @@ export default function NavbarComponent() {
                 </div>
 
             </div>
-            <hr></hr>
         </div>
         
     )
