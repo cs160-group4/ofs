@@ -36,12 +36,8 @@ export default function FAQs() {
                 </p>
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">7. How can I return my order?</h2>
                 <p className="mt-3 text-1xl">
-
                 </p>
-
-
             </div>
         </div>
-
     )
 }

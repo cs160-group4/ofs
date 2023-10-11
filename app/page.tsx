@@ -26,6 +26,7 @@ export default function Home() {
             </div>
           </div>
         </Link>
+        <Link href="/product/2">
         <div className="card w-96 bg-base-100 shadow-xl m-4">
           <figure>
             <Image src="/images/food/food2.jpg" alt="vegetable dish" width={640} height={448} />
@@ -43,6 +44,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </Link>
+        <Link href="/product/3">
         <div className="card w-96 bg-base-100 shadow-xl m-4">
           <figure>
             <Image src="/images/food/food3.jpg" alt="vegetable dish" width={640} height={448} />
@@ -60,7 +63,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </Link>
       </div>
+
+
 
     </main>
   )
