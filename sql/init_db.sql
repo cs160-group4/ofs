@@ -5,7 +5,7 @@ USE ofs_dev;
 -- CREATE Tables for database
 
 CREATE TABLE customers (
-    customerID BIGINT NOT NULL AUTO_INCREMENT,
+    customerID int NOT NULL AUTO_INCREMENT,
     firstName varchar(20) NOT NULL,
     lastName varchar(20) NOT NULL,
     email varchar(30) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE customers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE products (
-    productID BIGINT NOT NULL AUTO_INCREMENT,
+    productID int NOT NULL AUTO_INCREMENT,
     productName varchar(40) NOT NULL,
     productDescription varchar(100) NOT NULL,
     productBrand varchar(30) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE products (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE robots (
-    robotID BIGINT NOT NULL AUTO_INCREMENT,
+    robotID int NOT NULL AUTO_INCREMENT,
     currentWeight int NOT NULL,
     deliveryStatus varchar(20) NOT NULL,
     PRIMARY KEY(robotID)
@@ -37,7 +37,7 @@ CREATE TABLE robots (
 
 CREATE TABLE reviews (
     reviewID int NOT NULL AUTO_INCREMENT,
-    customerID BIGINT NOT NULL,
+    customerID int NOT NULL,
     reviewName varchar(50) NOT NULL,
     reviewDescription varchar(200) NOT NULL,
     PRIMARY KEY(reviewID),
@@ -45,9 +45,9 @@ CREATE TABLE reviews (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE orders (
-    orderID BIGINT NOT NULL AUTO_INCREMENT,
-    customerID BIGINT NOT NULL,
-    robotID BIGINT NOT NULL, 
+    orderID int NOT NULL AUTO_INCREMENT,
+    customerID int NOT NULL,
+    robotID int NOT NULL, 
     orderDate timestamp NOT NULL,
     totalWeight int NOT NULL,
     totalPrice decimal(6, 2) NOT NULL,
@@ -58,9 +58,9 @@ CREATE TABLE orders (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE delivery (
-    deliveryID BIGINT NOT NULL AUTO_INCREMENT,
-    orderID BIGINT NOT NULL,
-    robotID BIGINT NOT NULL, 
+    deliveryID int NOT NULL AUTO_INCREMENT,
+    orderID int NOT NULL,
+    robotID int NOT NULL, 
     deliveryTime timestamp NOT NULL,
     deliveryAddress varchar(50) NOT NULL,
     PRIMARY KEY(deliveryID),
