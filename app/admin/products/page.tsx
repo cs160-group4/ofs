@@ -1,3 +1,4 @@
+import ProductTable from '@/app/components/ProductTable'
 import React from 'react'
 
 const page = () => {
@@ -17,10 +18,9 @@ const page = () => {
             </div>
             <input type="text" placeholder='Search...' className='rounded-box pl-4'/>
         </div>
-
         {/* product list items */}
         <div className='overflow-x-auto'>
-            <table className='table'>
+            <table className='table bg-base-200'>
                 {/* table header */}
                 <thead>
                     <tr>
