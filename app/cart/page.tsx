@@ -3,7 +3,7 @@ import React from 'react'
 
 const Cart = () => {
     return (
-        <div className="container mx-auto px-6 pt-7 bg-base-100 h-screen xl:px-0">
+        <div className="container mx-auto px-6 pt-7 bg-base-100 xl:px-0 relative">
             <div className="flex pb-6 justify-center md:justify-start">
                 <h1 className="text-3xl">Shopping Cart</h1>
             </div>
@@ -13,10 +13,10 @@ const Cart = () => {
                     {/* replace bg color */}
                     <div className="justify-between mb-5 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
                         {/* shopping items */}
-                        <div className="flex flex-col w-full mt-6">
+                        <div className="flex flex-col w-full mt-6 overflow-y-auto max-h-96">
                             <div className="flow-root">
                                 {/* populate list with appropriate data later(li is just filler)*/}
-                                <ul className="-my-6 pb-6 space-y-5">
+                                <ul className="-my-6 pb-6 space-y-5 mt-auto mb-auto">
                                     {/* replace bg color */}
                                     <li className="flex h-30 content-center py-6 bg-white rounded-box place-items-center">
                                         img
