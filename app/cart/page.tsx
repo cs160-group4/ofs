@@ -5,7 +5,7 @@ const Cart = () => {
     return (
         <div className="container mx-auto px-6 pt-7 bg-base-100 xl:px-0 relative">
             <div className="flex pb-6 justify-center md:justify-start">
-                <h1 className="text-3xl">Shopping Cart</h1>
+                <h1 className="text-3xl font-bold">Shopping Cart</h1>
             </div>
 
             <div className="mx-auto justify-center md:flex md:space-x-6">
