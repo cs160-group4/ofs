@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import logo from "../../public/images/h_logo.png"
+import logo from "@/public/images/h_logo.png"
 import logo_white from "../../public/images/h_logo_w.png"
 export default function NavbarComponent() {
     return (

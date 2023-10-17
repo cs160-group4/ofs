@@ -10,7 +10,7 @@ interface Product {
     images: [string];
 }
 
-async function getProduct() {
+async function getProduct(id: number) {
     const res = await fetch('https://dummyjson.com/products/search?q=food')
     if (!res.ok) {
         throw new Error('Failed to fetch data')
@@ -18,8 +18,11 @@ async function getProduct() {
     return res.json()
 }
 
-export default async function ProductDetailsPage() {
-    const data = await getProduct()
+export default async function ProductDetailsPage({ params }: { params: { id: string } }) {
+    var id:number = parseInt(params.id)
+    console.log(params.id)
+    var data = await getProduct(id)
+   
     const product = data.products[0] as Product
     return <main>
         {/* <h1>{product.title}</h1>

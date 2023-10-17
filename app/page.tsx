@@ -1,7 +1,8 @@
 import { db } from './db/db'
 import Image from 'next/image'
 import Link from 'next/link'
-import MainSliderComponent from './components/MainSliderComponent'
+import MainSliderComponent from '@/components/MainSliderComponent'
+
 export default function Home() {
   return (
     <main className="">

@@ -1,5 +1,5 @@
 import {FC, ReactNode} from 'react'
-import Navbar from '../../components/NavbarComponent'
+import Navbar from '@/components/NavbarComponent'
 
 
 interface LayoutProps {

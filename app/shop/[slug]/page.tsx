@@ -1,6 +1,6 @@
 'use client'
 import {FC, useState, useEffect} from 'react'
-import Product from '../../components/ProductComponent'
+import Product from '@/components/ProductComponent'
 
 interface pageProps {}
 

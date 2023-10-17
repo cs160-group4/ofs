@@ -1,5 +1,5 @@
 import {FC, ReactNode} from 'react'
-import Categories from '../components/ProductCategoryComponent'
+import Categories from '@/components/ProductCategoryComponent'
 
 
 interface LayoutProps {
