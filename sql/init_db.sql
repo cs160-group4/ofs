@@ -8,11 +8,12 @@ USE ofs_dev;
 -- CREATE Tables for database
 CREATE TABLE users (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    first_name varchar(20) NOT NULL,
-    last_name varchar(20) NOT NULL,
-    email varchar(30) NOT NULL,
-    password_token varchar(30) NOT NULL,
-    address varchar(30) NOT NULL,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    email varchar(50) NOT NULL UNIQUE,
+    password varchar(100) NOT NULL,
+    password_token varchar(50) NOT NULL,
+    address varchar(150) NOT NULL,
     phone_number varchar(10) NOT NULL,
     role varchar(10) NOT NULL,
     -- (admin, customer, store_owner)

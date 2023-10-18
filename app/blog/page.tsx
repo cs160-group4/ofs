@@ -1,9 +1,9 @@
 import Image from 'next/image'
 export default function Blog() {
   return (
-    <section className="flex items-center bg-gray-100 lg:h-screen font-poppins dark:bg-gray-900 ">
-      <div className="container flex flex-col items-center px-5 py-16 mx-auto lg:px-20">
-        <div className="justify-center max-w-6xl px-4 py-4 mx-auto lg:py-0">
+    <section className="flex items-center font-poppins justify-center ">
+      <div className="container flex flex-col items-center px-5 py-16">
+        <div className="justify-center items-center  max-w-6xl px-4 py-4 ">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 md:grid-cols-2">
             <div className="bg-white rounded-lg shadow-md dark:bg-gray-800 ">
               <a href="#" className="">
@@ -83,7 +83,7 @@ export default function Blog() {
             </div>
           </div>
         </div>
-        <div className="justify-center max-w-6xl px-4 py-4 mx-auto lg:py-0">
+        <div className="justify-center max-w-6xl px-4 py-4">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 md:grid-cols-2">
             <div className="bg-white rounded-lg shadow-md dark:bg-gray-800 ">
               <a href="#" className="">

@@ -56,16 +56,18 @@ CREATE TABLE `robots` (
 --> statement-breakpoint
 CREATE TABLE `users` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`first_name` varchar(20) NOT NULL,
-	`last_name` varchar(20) NOT NULL,
-	`email` varchar(30) NOT NULL,
-	`password_token` varchar(30) NOT NULL,
-	`address` varchar(30) NOT NULL,
+	`first_name` varchar(50) NOT NULL,
+	`last_name` varchar(50) NOT NULL,
+	`email` varchar(50) NOT NULL,
+	`password` varchar(100) NOT NULL,
+	`password_token` varchar(50) NOT NULL,
+	`address` varchar(150) NOT NULL,
 	`phone_number` varchar(10) NOT NULL,
 	`role` varchar(10) NOT NULL,
 	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT `users_id` PRIMARY KEY(`id`)
+	CONSTRAINT `users_id` PRIMARY KEY(`id`),
+	CONSTRAINT `email` UNIQUE(`email`)
 );
 --> statement-breakpoint
 ALTER TABLE `orders` ADD CONSTRAINT `fk_robot_order` FOREIGN KEY (`robot_id`) REFERENCES `robots`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint

@@ -1,4 +1,4 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, int, decimal, varchar, timestamp } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, int, decimal, varchar, timestamp, unique } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 
@@ -77,11 +77,12 @@ export const robots = mysqlTable("robots", {
 
 export const users = mysqlTable("users", {
 	id: int("id").autoincrement().notNull(),
-	firstName: varchar("first_name", { length: 20 }).notNull(),
-	lastName: varchar("last_name", { length: 20 }).notNull(),
-	email: varchar("email", { length: 30 }).notNull(),
-	passwordToken: varchar("password_token", { length: 30 }).notNull(),
-	address: varchar("address", { length: 30 }).notNull(),
+	firstName: varchar("first_name", { length: 50 }).notNull(),
+	lastName: varchar("last_name", { length: 50 }).notNull(),
+	email: varchar("email", { length: 50 }).notNull(),
+	password: varchar("password", { length: 100 }).notNull(),
+	passwordToken: varchar("password_token", { length: 50 }).notNull(),
+	address: varchar("address", { length: 150 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 10 }).notNull(),
 	role: varchar("role", { length: 10 }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
@@ -90,5 +91,6 @@ export const users = mysqlTable("users", {
 (table) => {
 	return {
 		usersId: primaryKey(table.id),
+		email: unique("email").on(table.email),
 	}
 });

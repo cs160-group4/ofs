@@ -1,12 +1,23 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import logo from "@/public/images/h_logo.png"
-import logo_white from "../../public/images/h_logo_w.png"
-export default function NavbarComponent() {
+import { getAuthSession } from '@/api/auth/[...nextauth]/options'
+import { SignOutLink } from '@/components/SignOutLink'
+import { SignInButton } from '@/components/SignInButton'
+
+export default async function NavbarComponent() {
+    var signedIn = false;
+    var name = "";
+    const session = await getAuthSession();
+    if (session?.user) {
+        signedIn = true;
+        name = session.user.name as string;
+    }
     return (
         <div>
+
             <div className="navbar bg-base-100">
-                {/* Dropdown Menu */}
+                {/* Mobile Dropdown Menu */}
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -23,8 +34,8 @@ export default function NavbarComponent() {
                             </li>
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
-                             {/* Pages */}
-                             <li><Link href="/pages">Pages</Link></li>
+                            {/* Pages */}
+                            <li><Link href="/pages">Pages</Link></li>
                             {/* About Us */}
                             <li><Link href="/pages/about">About Us</Link></li>
                             {/* Contact Us */}
@@ -52,8 +63,8 @@ export default function NavbarComponent() {
                         </li> */}
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
-                         {/* Pages */}
-                         <li><Link href="/pages">Pages</Link></li>
+                        {/* Pages */}
+                        <li><Link href="/pages">Pages</Link></li>
                         {/* About Us */}
                         <li><Link href="/pages/about">About Us</Link></li>
                         {/* Contact Us */}
@@ -92,29 +103,36 @@ export default function NavbarComponent() {
                         </div>
                     </div>
                     {/* Avatar */}
-                    <div className="dropdown dropdown-end mr-4">
-                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
+                    {signedIn ?
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} className="flex flex-col btn btn-ghost">
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
                                     <path
                                         d="M819.2 729.088V757.76c0 33.792-27.648 61.44-61.44 61.44H266.24c-33.792 0-61.44-27.648-61.44-61.44v-28.672c0-74.752 87.04-119.808 168.96-155.648 3.072-1.024 5.12-2.048 8.192-4.096 6.144-3.072 13.312-3.072 19.456 1.024C434.176 591.872 472.064 604.16 512 604.16c39.936 0 77.824-12.288 110.592-32.768 6.144-4.096 13.312-4.096 19.456-1.024 3.072 1.024 5.12 2.048 8.192 4.096 81.92 34.816 168.96 79.872 168.96 154.624z" />
                                     <path d="M359.424 373.76a168.96 152.576 90 1 0 305.152 0 168.96 152.576 90 1 0-305.152 0Z" />
-                                </svg>
+                                </svg> */}
+                                <Image src={session?.user?.image as string} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
+                                <span className="text-sm text-primary">{name}</span>
 
                             </div>
-                        </label>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li>
-                                <Link href="/profile" className="justify-between">Profile
-                                    {/* <span className="badge">New</span>*/}
-                                </Link>
-                            </li>
-                            <li><Link href="/settings">Settings</Link></li>
-                            <li><Link href="/logout">Logout</Link></li>
-                        </ul>
-                    </div>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <Link href="/profile" className="justify-between">Profile
+                                        {/* <span className="badge">New</span>*/}
+                                    </Link>
+                                </li>
+                                {/* <li><Link href="/settings">Settings</Link></li> */}
+                                <li><SignOutLink /></li>
+                            </ul>
+                        </div>
+                        : <Link href="/auth/sign-in"  className="btn btn-ghost btn-circle"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
+                            <path
+                                d="M819.2 729.088V757.76c0 33.792-27.648 61.44-61.44 61.44H266.24c-33.792 0-61.44-27.648-61.44-61.44v-28.672c0-74.752 87.04-119.808 168.96-155.648 3.072-1.024 5.12-2.048 8.192-4.096 6.144-3.072 13.312-3.072 19.456 1.024C434.176 591.872 472.064 604.16 512 604.16c39.936 0 77.824-12.288 110.592-32.768 6.144-4.096 13.312-4.096 19.456-1.024 3.072 1.024 5.12 2.048 8.192 4.096 81.92 34.816 168.96 79.872 168.96 154.624z" />
+                            <path d="M359.424 373.76a168.96 152.576 90 1 0 305.152 0 168.96 152.576 90 1 0-305.152 0Z" />
+                        </svg></Link>
+                    }
                     {/* Toggle darkmode button */}
-                    <label className="swap swap-rotate mr-4">
+                    <label className="btn btn-ghost btn-circle swap swap-rotate">
                         {/* this hidden checkbox controls the state */}
                         <input type="checkbox" data-toggle-theme="dark,cupcake" />
                         {/* sun icon */}
@@ -126,6 +144,6 @@ export default function NavbarComponent() {
 
             </div>
         </div>
-        
+
     )
 }

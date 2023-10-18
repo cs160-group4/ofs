@@ -1,6 +1,5 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, int, decimal, varchar, timestamp } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, int, decimal, varchar, timestamp, unique } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
-
 
 export const orders = mysqlTable("orders", {
 	id: int("id").autoincrement().notNull(),
@@ -12,11 +11,11 @@ export const orders = mysqlTable("orders", {
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
-(table) => {
-	return {
-		ordersId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			ordersId: primaryKey(table.id),
+		}
+	});
 
 export const products = mysqlTable("products", {
 	id: int("id").autoincrement().notNull(),
@@ -31,11 +30,11 @@ export const products = mysqlTable("products", {
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
-(table) => {
-	return {
-		productsId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			productsId: primaryKey(table.id),
+		}
+	});
 
 export const ratings = mysqlTable("ratings", {
 	id: int("id").autoincrement().notNull(),
@@ -45,11 +44,11 @@ export const ratings = mysqlTable("ratings", {
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
-(table) => {
-	return {
-		ratingsId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			ratingsId: primaryKey(table.id),
+		}
+	});
 
 export const reviews = mysqlTable("reviews", {
 	id: int("id").autoincrement().notNull(),
@@ -59,36 +58,38 @@ export const reviews = mysqlTable("reviews", {
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
-(table) => {
-	return {
-		reviewsId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			reviewsId: primaryKey(table.id),
+		}
+	});
 
 export const robots = mysqlTable("robots", {
 	id: int("id").autoincrement().notNull(),
 	status: varchar("status", { length: 20 }).notNull(),
 },
-(table) => {
-	return {
-		robotsId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			robotsId: primaryKey(table.id),
+		}
+	});
 
 export const users = mysqlTable("users", {
 	id: int("id").autoincrement().notNull(),
-	firstName: varchar("first_name", { length: 20 }).notNull(),
-	lastName: varchar("last_name", { length: 20 }).notNull(),
-	email: varchar("email", { length: 30 }).notNull(),
-	passwordToken: varchar("password_token", { length: 30 }).notNull(),
-	address: varchar("address", { length: 30 }).notNull(),
+	firstName: varchar("first_name", { length: 50 }).notNull(),
+	lastName: varchar("last_name", { length: 50 }).notNull(),
+	email: varchar("email", { length: 50 }).notNull(),
+	password: varchar("password", { length: 100 }).notNull(),
+	passwordToken: varchar("password_token", { length: 50 }).notNull(),
+	address: varchar("address", { length: 150 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 10 }).notNull(),
 	role: varchar("role", { length: 10 }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
-(table) => {
-	return {
-		usersId: primaryKey(table.id),
-	}
-});
+	(table) => {
+		return {
+			usersId: primaryKey(table.id),
+			email: unique("email").on(table.email),
+		}
+	});

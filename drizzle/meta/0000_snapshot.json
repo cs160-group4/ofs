@@ -421,35 +421,42 @@
         "first_name": {
           "autoincrement": false,
           "name": "first_name",
-          "type": "varchar(20)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
         },
         "last_name": {
           "autoincrement": false,
           "name": "last_name",
-          "type": "varchar(20)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
         },
         "email": {
           "autoincrement": false,
           "name": "email",
-          "type": "varchar(30)",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "autoincrement": false,
+          "name": "password",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true
         },
         "password_token": {
           "autoincrement": false,
           "name": "password_token",
-          "type": "varchar(30)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
         },
         "address": {
           "autoincrement": false,
           "name": "address",
-          "type": "varchar(30)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": true
         },
@@ -495,7 +502,14 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "email": {
+          "name": "email",
+          "columns": [
+            "email"
+          ]
+        }
+      }
     }
   },
   "schemas": {},
