@@ -67,6 +67,7 @@ export const products = mysqlTable("products", {
 });
 
 export const reviews = mysqlTable("reviews", {
+<<<<<<< Updated upstream
 	reviewId: int("reviewID").autoincrement().notNull(),
 	customerId: int("customerID").notNull().references(() => customers.customerId),
 	reviewName: varchar("reviewName", { length: 50 }).notNull(),
@@ -89,3 +90,12 @@ export const robots = mysqlTable("robots", {
 		robotsRobotId: primaryKey(table.robotId),
 	}
 });
+=======
+	reviewID: int("reviewID").autoincrement().notNull().primaryKey(),
+	customerID: int("customerID").notNull(),
+	name: varchar("reviewName", { length: 50 }).notNull(),
+	text: varchar("reviewDescription", { length: 200 }).notNull(),
+});
+
+export const customers = mysqlTable( "")
+>>>>>>> Stashed changes

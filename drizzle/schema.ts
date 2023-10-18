@@ -1,9 +1,17 @@
+<<<<<<< Updated upstream
 import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, int, varchar, index, foreignKey, timestamp, decimal } from "drizzle-orm/mysql-core"
+=======
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, bigint, varchar, index, foreignKey, timestamp, int, decimal } from "drizzle-orm/mysql-core"
+>>>>>>> Stashed changes
 import { sql } from "drizzle-orm"
 
 
 export const customers = mysqlTable("customers", {
+<<<<<<< Updated upstream
 	customerId: int("customerID").autoincrement().notNull(),
+=======
+	customerId: bigint("customerID", { mode: "number" }).autoincrement().notNull().primaryKey(),
+>>>>>>> Stashed changes
 	firstName: varchar("firstName", { length: 20 }).notNull(),
 	lastName: varchar("lastName", { length: 20 }).notNull(),
 	email: varchar("email", { length: 30 }).notNull(),
@@ -18,9 +26,15 @@ export const customers = mysqlTable("customers", {
 });
 
 export const delivery = mysqlTable("delivery", {
+<<<<<<< Updated upstream
 	deliveryId: int("deliveryID").autoincrement().notNull(),
 	orderId: int("orderID").notNull().references(() => orders.orderId),
 	robotId: int("robotID").notNull().references(() => robots.robotId),
+=======
+	deliveryId: bigint("deliveryID", { mode: "number" }).autoincrement().notNull(),
+	orderId: bigint("orderID", { mode: "number" }).notNull().references(() => orders.orderId),
+	robotId: bigint("robotID", { mode: "number" }).notNull().references(() => robots.robotId),
+>>>>>>> Stashed changes
 	deliveryTime: timestamp("deliveryTime", { mode: 'string' }).notNull(),
 	deliveryAddress: varchar("deliveryAddress", { length: 50 }).notNull(),
 },
@@ -33,9 +47,15 @@ export const delivery = mysqlTable("delivery", {
 });
 
 export const orders = mysqlTable("orders", {
+<<<<<<< Updated upstream
 	orderId: int("orderID").autoincrement().notNull(),
 	customerId: int("customerID").notNull().references(() => customers.customerId),
 	robotId: int("robotID").notNull().references(() => robots.robotId),
+=======
+	orderId: bigint("orderID", { mode: "number" }).autoincrement().notNull(),
+	customerId: bigint("customerID", { mode: "number" }).notNull().references(() => customers.customerId),
+	robotId: bigint("robotID", { mode: "number" }).notNull().references(() => robots.robotId),
+>>>>>>> Stashed changes
 	orderDate: timestamp("orderDate", { mode: 'string' }).notNull(),
 	totalWeight: int("totalWeight").notNull(),
 	totalPrice: decimal("totalPrice", { precision: 6, scale: 2 }).notNull(),
@@ -50,7 +70,11 @@ export const orders = mysqlTable("orders", {
 });
 
 export const products = mysqlTable("products", {
+<<<<<<< Updated upstream
 	productId: int("productID").autoincrement().notNull(),
+=======
+	productId: bigint("productID", { mode: "number" }).autoincrement().notNull(),
+>>>>>>> Stashed changes
 	productName: varchar("productName", { length: 40 }).notNull(),
 	productDescription: varchar("productDescription", { length: 100 }).notNull(),
 	productBrand: varchar("productBrand", { length: 30 }).notNull(),
@@ -68,7 +92,11 @@ export const products = mysqlTable("products", {
 
 export const reviews = mysqlTable("reviews", {
 	reviewId: int("reviewID").autoincrement().notNull(),
+<<<<<<< Updated upstream
 	customerId: int("customerID").notNull().references(() => customers.customerId),
+=======
+	customerId: bigint("customerID", { mode: "number" }).notNull().references(() => customers.customerId),
+>>>>>>> Stashed changes
 	reviewName: varchar("reviewName", { length: 50 }).notNull(),
 	reviewDescription: varchar("reviewDescription", { length: 200 }).notNull(),
 },
@@ -80,7 +108,11 @@ export const reviews = mysqlTable("reviews", {
 });
 
 export const robots = mysqlTable("robots", {
+<<<<<<< Updated upstream
 	robotId: int("robotID").autoincrement().notNull(),
+=======
+	robotId: bigint("robotID", { mode: "number" }).autoincrement().notNull(),
+>>>>>>> Stashed changes
 	currentWeight: int("currentWeight").notNull(),
 	deliveryStatus: varchar("deliveryStatus", { length: 20 }).notNull(),
 },
