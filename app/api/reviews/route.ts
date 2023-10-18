@@ -1,6 +1,7 @@
 
-import { getReviews } from "../../lib/getData";
- 
+import { getReviews } from "@/lib/reviews";
+import { get } from "http";
+
 export async function GET(req: Request) {
     return Response.json(await getReviews());
 }

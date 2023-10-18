@@ -1,69 +1,86 @@
-CREATE DATABASE ofs_dev;
+SET
+    default_storage_engine = InnoDB;
+
+CREATE DATABASE ofs_dev CHARACTER SET utf8mb4 COLLATE = utf8mb4_general_ci;
 
 USE ofs_dev;
 
 -- CREATE Tables for database
-
-CREATE TABLE customers (
-    customerID int NOT NULL AUTO_INCREMENT,
-    firstName varchar(20) NOT NULL,
-    lastName varchar(20) NOT NULL,
+CREATE TABLE users (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    first_name varchar(20) NOT NULL,
+    last_name varchar(20) NOT NULL,
     email varchar(30) NOT NULL,
-    passwordToken varchar(30) NOT NULL,
-    customerAddress varchar(30) NOT NULL,
-    phoneNumber varchar(10) NOT NULL,
-    PRIMARY KEY(customerID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    password_token varchar(30) NOT NULL,
+    address varchar(30) NOT NULL,
+    phone_number varchar(10) NOT NULL,
+    role varchar(10) NOT NULL,
+    -- (admin, customer, store_owner)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 CREATE TABLE products (
-    productID int NOT NULL AUTO_INCREMENT,
-    productName varchar(40) NOT NULL,
-    productDescription varchar(100) NOT NULL,
-    productBrand varchar(30) NOT NULL,
-    productCategory varchar(30) NOT NULL,
-    productPictureLink varchar(100) NOT NULL,
-    itemWeight int NOT NULL,
-    itemPrice decimal(5, 2) NOT NULL,
-    itemQuantity int NOT NULL,
-    PRIMARY KEY(productID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE robots (
-    robotID int NOT NULL AUTO_INCREMENT,
-    currentWeight int NOT NULL,
-    deliveryStatus varchar(20) NOT NULL,
-    PRIMARY KEY(robotID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name varchar(40) NOT NULL,
+    description varchar(100) NOT NULL,
+    store varchar(30) NOT NULL,
+    category varchar(30) NOT NULL,
+    picture varchar(100) NOT NULL,
+    item_weight int NOT NULL,
+    item_price decimal(5, 2) NOT NULL,
+    item_quantity int NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 CREATE TABLE reviews (
-    reviewID int NOT NULL AUTO_INCREMENT,
-    customerID int NOT NULL,
-    reviewName varchar(50) NOT NULL,
-    reviewDescription varchar(200) NOT NULL,
-    PRIMARY KEY(reviewID),
-    FOREIGN KEY (customerID) REFERENCES customers(customerID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    text varchar(100) NOT NULL,
+    user_id int NOT NULL,
+    product_id int NOT NULL,
+    CONSTRAINT fk_user_review FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_product_review FOREIGN KEY (product_id) REFERENCES products(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ratings (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    rating_value INT,
+    user_id int NOT NULL,
+    product_id int NOT NULL,
+    CONSTRAINT fk_user_rating FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_product_rating FOREIGN KEY (product_id) REFERENCES products(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE robots (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    status varchar(20) NOT NULL -- (available, busy, offline)
+);
 
 CREATE TABLE orders (
-    orderID int NOT NULL AUTO_INCREMENT,
-    customerID int NOT NULL,
-    robotID int NOT NULL, 
-    orderDate timestamp NOT NULL,
-    totalWeight int NOT NULL,
-    totalPrice decimal(6, 2) NOT NULL,
-    deliveryStatus varchar(20) NOT NULL,
-    PRIMARY KEY(orderID),
-    FOREIGN KEY (customerID) REFERENCES customers(customerID),
-    FOREIGN KEY (robotID) REFERENCES robots(robotID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    total_weight int NOT NULL,
+    total_price decimal(6, 2) NOT NULL,
+    delivery_status varchar(20) NOT NULL,
+    user_id int NOT NULL,
+    robot_id int NOT NULL,
+    CONSTRAINT fk_user_order FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
-CREATE TABLE delivery (
-    deliveryID int NOT NULL AUTO_INCREMENT,
-    orderID int NOT NULL,
-    robotID int NOT NULL, 
-    deliveryTime timestamp NOT NULL,
-    deliveryAddress varchar(50) NOT NULL,
-    PRIMARY KEY(deliveryID),
-    FOREIGN KEY (orderID) REFERENCES orders(orderID),
-    FOREIGN KEY (robotID) REFERENCES robots(robotID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- CREATE TABLE delivery (
+--      id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+--     orderID int NOT NULL,
+--     robotID int NOT NULL,
+--     deliveryTime timestamp NOT NULL,
+--     deliveryAddress varchar(50) NOT NULL,
+--     PRIMARY KEY (deliveryID),
+--     FOREIGN KEY (orderID) REFERENCES orders (orderID),
+--     FOREIGN KEY (robotID) REFERENCES robots (robotID)
+-- );

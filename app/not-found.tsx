@@ -1,7 +1,7 @@
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function FourOhFour() {
-    const router = useRouter()
     return (
         <main className="flex items-center justify-center">
             <div className="px-40 py-20 bg-white rounded-md shadow-xl">
@@ -13,13 +13,14 @@ export default function FourOhFour() {
                     <p className="mb-8 text-center text-gray-500 md:text-lg">
                         The page you’re looking for doesn’t exist.
                     </p>
-
-                    <button type="button" onClick={() => router.back()} className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">
-                        Go Back
+                    <button type="button" className="btn btn-accent w-full rounded-md py-1.5 font-medium">
+                        <Link href="/">Go Back</Link>
                     </button>
+                    {/* <button type="button" onClick={() => router.back()} className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">
+                        Go Back
+                    </button> */}
                 </div>
             </div>
-            <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" />
         </main>
     )
 }
