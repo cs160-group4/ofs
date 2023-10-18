@@ -1,32 +1,39 @@
-import {FC} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Product } from '@/lib/products'
 
-interface pageProps {
-  productData : any
-}
+export default async function ProductComponent({ product }: { product: Product }) {
+  if (!product) return null;
+  let imageLink = '/images/food/' + product?.picture;
 
-const ProductComponent :  FC<pageProps> = ({productData}) => {
-    
-  let imageLink = '/images/food/'+productData.productPictureLink;
+  const maxLength = 35;
+  const productDescription: string = product.description;
+
+  const truncatedDescription: string = productDescription.length > maxLength
+    ? productDescription.substring(0, maxLength) + "..." : productDescription;
 
   return (
-    <Link href={`/product?productID=${productData.productID}`}>
-      <div className="max-w-xs min-w-max max-h-64 w-60 p-4 m-2 outline-black outline">
-          <Image 
-            src={imageLink} 
-            alt={productData.productName} 
-            width={150} height={150}
-            className='w-auto h-auto'
-          />
-          <div className="text-black">{productData.productBrand} {productData.productName}</div>
-          <div className="text-black">Category: {productData.productCategory}</div>
-          <div className="text-black">Weight: {productData.itemWeight}</div>
-          <div className="text-black">Price: ${productData.itemPrice}</div>
+    <Link href={"/products/" + product.id} >
+      <div className="card w-96 bg-base-100 shadow-xl m-4 ">
+        <figure>
+          <Image src={imageLink} alt={product.name}
+            width={640} height={448} className="h-[250px]" />
+        </figure>
+        <div className="card-body">
+          <h2 className="card-title">
+            {product.name}
+            {/* <div className="badge badge-secondary">NEW</div> */}
+          </h2>
+          <p>{truncatedDescription}</p>
+          <div className="card-actions justify-end">
+            <div className="badge badge-outline">{product.category}</div>
+          </div>
+        </div>
       </div>
     </Link>
+
+
+
+
   );
 };
-
-
-export default  ProductComponent;

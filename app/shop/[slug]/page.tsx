@@ -1,55 +1,41 @@
-'use client'
-import {FC, useState, useEffect} from 'react'
-import Product from '@/components/ProductComponent'
+import ProductComponent from '@/components/ProductComponent'
+import { getProductByCategory, getProducts } from "@/lib/products";
+import { Product } from '@/lib/products'
+import Image from 'next/image'
+import Link from 'next/link'
 
-interface pageProps {}
-
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-    
-    const [productList, setData] = useState<any[]>([]);
-
-    useEffect( () => {
-        const fetchProducts = async() => {
-            try {
-                const response = await fetch("http://localhost:3000/api/basicProduct", {
-                    method: 'GET'
-                });
-                setData(await response.json());
-            }
-            catch (error) {
-                console.error('Error: ', error);
-            }
-        }
-        fetchProducts();
-    }, []);
+export default async function ShopCategory({ params }: { params: { slug: string } }) {
+    const { slug } = params;
+    let products = [];
+    if (slug === 'all') {
+        products = await getProducts();
+    } else {
+        products = await getProductByCategory(slug);
+    }
 
     return (
         <>
-            <div className="flex flex-col p-2">
-                <p className="mt-3 text-2xl">Category: {params.slug}</p>
+            <div className="flex flex-wrap justify-center space-evenly">
+                {products.map((product) => (
+                    <ProductComponent key={product.id} product={product} />
+                ))}
             </div>
-            <div className="flex">
-                <div className="flex-shrink bg-blue-500 p-4 w-80">
-                    <h6 className='text-lg font-large text-gray-900'>Filters</h6>
-                    <div className="flex items-center mb-4">
-                        <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                        <label htmlFor="default-checkbox" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
-                    </div>
-                    <div className="flex items-center">
-                        <input id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                        <label htmlFor="checked-checkbox" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
-                    </div>
-                </div>
-                <div className="flex-grow bg-red-500 p-4">
-                    {productList && (
-                        <div className="flex flex-wrap">
-                            {productList.map(data => (
-                                <Product key={data.productID} productData={data}/>
-                            ))}
+
+            {/* <section className="flex items-center bg-stone-100 lg:h-screen font-poppins dark:bg-gray-800 ">
+                <div className="justify-center flex-1 max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
+                   
+                    <div className="grid gap-4 mb-11 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+                        {products.map((product) => (
+                            <ProductComponent key={product.id} product={product} />
+                        ))}
                         </div>
-                    )}
+                    <div className="flex justify-center">
+                        <a href="#" className="px-4 py-2    ">
+                            View More</a>
+                    </div>
                 </div>
-            </div>
+            </section> */}
+
         </>
     )
 

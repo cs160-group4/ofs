@@ -1,16 +1,10 @@
-import {FC, ReactNode} from 'react'
+import { FC, ReactNode } from 'react'
 import Categories from '@/components/ProductCategoryComponent'
 
-
-interface LayoutProps {
-    children: ReactNode
+export default function ShopLayout({ children, }: { children: React.ReactNode }) {
+    return (
+        <>
+            <Categories />
+            {children}</>
+    )
 }
-
-const Layout: FC<LayoutProps> = ({ children }) => {
-    return <div>
-        <Categories />
-        {children}
-    </div>
-}
-
-export default Layout

@@ -93,7 +93,7 @@ export default async function NavbarComponent() {
                         <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
                                 <span className="font-bold text-lg">8 Items</span>
-                                <span className="text-info">Subtotal: $999</span>
+                                <span className="text-info">Subtotal: $36.62</span>
                                 <div className="card-actions">
                                     <button className="btn btn-primary btn-block">
                                         <Link href="/cart">View Cart</Link>
@@ -111,8 +111,28 @@ export default async function NavbarComponent() {
                                         d="M819.2 729.088V757.76c0 33.792-27.648 61.44-61.44 61.44H266.24c-33.792 0-61.44-27.648-61.44-61.44v-28.672c0-74.752 87.04-119.808 168.96-155.648 3.072-1.024 5.12-2.048 8.192-4.096 6.144-3.072 13.312-3.072 19.456 1.024C434.176 591.872 472.064 604.16 512 604.16c39.936 0 77.824-12.288 110.592-32.768 6.144-4.096 13.312-4.096 19.456-1.024 3.072 1.024 5.12 2.048 8.192 4.096 81.92 34.816 168.96 79.872 168.96 154.624z" />
                                     <path d="M359.424 373.76a168.96 152.576 90 1 0 305.152 0 168.96 152.576 90 1 0-305.152 0Z" />
                                 </svg> */}
-                                <Image src={session?.user?.image as string} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
-                                <span className="text-sm text-primary">{name}</span>
+                                <button className="flex items-center">
+                                    <div className="hidden mr-3 text-right md:block">
+                                        <p className="text-sm font-bold text-black dark:text-gray-400">
+                                            <span className="text-sm text-primary">{name}</span>
+                                        </p>
+                                    </div>
+                                    <div className="mr-2">
+                                        <Image src={session?.user?.image as string} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
+                                    </div>
+                                    <span>
+                                        <svg className="text-gray-400" width="10" height="6" viewBox="0 0 10 6"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M9.08335 0.666657C8.75002 0.333323 8.25002 0.333323 7.91669 0.666657L5.00002 3.58332L2.08335 0.666657C1.75002 0.333323 1.25002 0.333323 0.916687 0.666657C0.583354 0.99999 0.583354 1.49999 0.916687 1.83332L4.41669 5.33332C4.58335 5.49999 4.75002 5.58332 5.00002 5.58332C5.25002 5.58332 5.41669 5.49999 5.58335 5.33332L9.08335 1.83332C9.41669 1.49999 9.41669 0.99999 9.08335 0.666657Z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+
+
+
+
 
                             </div>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -125,7 +145,7 @@ export default async function NavbarComponent() {
                                 <li><SignOutLink /></li>
                             </ul>
                         </div>
-                        : <Link href="/auth/sign-in"  className="btn btn-ghost btn-circle"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
+                        : <Link href="/auth/sign-in" className="btn btn-ghost btn-circle"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
                             <path
                                 d="M819.2 729.088V757.76c0 33.792-27.648 61.44-61.44 61.44H266.24c-33.792 0-61.44-27.648-61.44-61.44v-28.672c0-74.752 87.04-119.808 168.96-155.648 3.072-1.024 5.12-2.048 8.192-4.096 6.144-3.072 13.312-3.072 19.456 1.024C434.176 591.872 472.064 604.16 512 604.16c39.936 0 77.824-12.288 110.592-32.768 6.144-4.096 13.312-4.096 19.456-1.024 3.072 1.024 5.12 2.048 8.192 4.096 81.92 34.816 168.96 79.872 168.96 154.624z" />
                             <path d="M359.424 373.76a168.96 152.576 90 1 0 305.152 0 168.96 152.576 90 1 0-305.152 0Z" />

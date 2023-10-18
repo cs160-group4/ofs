@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function FourOhFour() {
     return (
@@ -14,7 +12,7 @@ export default function FourOhFour() {
                         The page you’re looking for doesn’t exist.
                     </p>
                     <button type="button" className="btn btn-accent w-full rounded-md py-1.5 font-medium">
-                        <Link href="/">Go Back</Link>
+                        {/* <Link href="/">Go Back</Link> */}
                     </button>
                     {/* <button type="button" onClick={() => router.back()} className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">
                         Go Back

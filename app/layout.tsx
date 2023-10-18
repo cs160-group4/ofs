@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="cupcake">
       <body className={inter.className}>
         <Navbar />
         <main className="min-h-[calc(100vh-299px)] overflow-auto ">

@@ -10,8 +10,18 @@ export const getProducts = async () => {
     return result;
 }
 
-export const getProductById = async (id: number) => {
-    const result: Product[] = await db.select().from(products).where(eq(products.id, id));
+export const getProductsLimit = async (limit: number) => {
+    const result: Product[] = await db.select().from(products).limit(limit);
+    return result;
+}
+
+export const getProductById = async (p_id: number) : Promise<Product> =>{
+    const result: Product[] = await db.select().from(products).where(eq(products.id, p_id));
+    return result[0];
+}
+
+export const getProductByCategory = async (category: string) => {
+    const result: Product[] = await db.select().from(products).where(eq(products.category, category));
     return result;
 }
 

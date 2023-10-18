@@ -60,7 +60,7 @@ const Checkout = async () => {
             <p className="text-red-600">Total</p>
             <p>$XX.XX</p>
           </div>
-          <Link href="/" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">Place Your Order & Pay</Link>
+          <Link href="/order-summary" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">Place Your Order & Pay</Link>
         </div>
       </div>
     </div>

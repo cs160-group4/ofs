@@ -1,19 +1,27 @@
-import { getAuthSession } from '@/api/auth/[...nextauth]/options'
 import MainSliderComponent from '@/components/MainSliderComponent'
-import { SignOutLink } from '@/components/SignOutLink'
-import { SignInButton } from '@/components/SignInButton'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getProductsLimit } from "@/lib/products";
+import ProductComponent from '@/components/ProductComponent'
 export default async function Home() {
-  const session = await getAuthSession();
+  let products = await getProductsLimit(4);
   return (
     <main className="">
-
-
       {/* Main slider component */}
       <MainSliderComponent />
       {/* A grid of 3 cards centered on the page */}
-      <div className="flex justify-evenly lg:flex-row flex-col items-center">
+      <div className='feature-product m-8'>
+        <h2 className="p-2 text-2xl font-bold text-center md:text-4xl ">
+          Featured Products
+        </h2>
+        <div className="w-20 mx-auto mb-6 border-b border-red-700 dark:border-gray-400"></div>
+        <div className="flex flex-wrap justify-center space-evenly">
+          {products.map((product) => (
+            <ProductComponent key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+      {/* <div className="flex justify-evenly lg:flex-row flex-col items-center">
         <Link href="/product/1">
           <div className="card w-96 bg-base-100 shadow-xl m-4">
             <figure>
@@ -70,7 +78,7 @@ export default async function Home() {
             </div>
           </div>
         </Link>
-      </div>
+      </div> */}
 
     </main>
   )
