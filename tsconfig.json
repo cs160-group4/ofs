@@ -5,6 +5,12 @@
       "@/public/*": [
         "public/*"
       ],
+      "@/lib/*": [
+        "app/lib/*"
+      ],
+      "@/db/*": [
+        "app/db/*"
+      ],
       "@/api/*": [
         "app/api/*"
       ],
@@ -13,9 +19,6 @@
       ],
       "@/components/*": [
         "app/components/*"
-      ],
-      "@/*": [
-        "./*"
       ]
     },
     "target": "esnext",
