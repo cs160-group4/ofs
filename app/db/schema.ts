@@ -44,6 +44,14 @@ export const orders = mysqlTable("orders", {
 	totalWeight: int("totalWeight").notNull(),
 	totalPrice: decimal("totalPrice", { precision: 6, scale: 2 }).notNull(),
 	deliveryStatus: varchar("deliveryStatus", { length: 20 }).notNull(),
+export const orders = mysqlTable("orders", {
+	orderId: int("orderID").autoincrement().notNull(),
+	customerId: int("customerID").notNull().references(() => customers.customerId),
+	robotId: int("robotID").notNull().references(() => robots.robotId),
+	orderDate: timestamp("orderDate", { mode: 'string' }).notNull(),
+	totalWeight: int("totalWeight").notNull(),
+	totalPrice: decimal("totalPrice", { precision: 6, scale: 2 }).notNull(),
+	deliveryStatus: varchar("deliveryStatus", { length: 20 }).notNull(),
 },
 	(table) => {
 		return {
@@ -61,6 +69,16 @@ export const products = mysqlTable("products", {
 	itemWeight: int("itemWeight").notNull(),
 	itemPrice: decimal("itemPrice", { precision: 5, scale: 2 }).notNull(),
 	itemQuantity: int("itemQuantity").notNull(),
+export const products = mysqlTable("products", {
+	productId: int("productID").autoincrement().notNull(),
+	productName: varchar("productName", { length: 40 }).notNull(),
+	productDescription: varchar("productDescription", { length: 100 }).notNull(),
+	productBrand: varchar("productBrand", { length: 30 }).notNull(),
+	productCategory: varchar("productCategory", { length: 30 }).notNull(),
+	productPictureLink: varchar("productPictureLink", { length: 100 }).notNull(),
+	itemWeight: int("itemWeight").notNull(),
+	itemPrice: decimal("itemPrice", { precision: 5, scale: 2 }).notNull(),
+	itemQuantity: int("itemQuantity").notNull(),
 },
 	(table) => {
 		return {
@@ -68,6 +86,12 @@ export const products = mysqlTable("products", {
 		}
 	});
 
+export const reviews = mysqlTable("reviews", {
+<<<<<<< Updated upstream
+	reviewId: int("reviewID").autoincrement().notNull(),
+	customerId: int("customerID").notNull().references(() => customers.customerId),
+	reviewName: varchar("reviewName", { length: 50 }).notNull(),
+	reviewDescription: varchar("reviewDescription", { length: 200 }).notNull(),
 export const reviews = mysqlTable("reviews", {
 <<<<<<< Updated upstream
 	reviewId: int("reviewID").autoincrement().notNull(),
