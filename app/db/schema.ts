@@ -1,6 +1,6 @@
 import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, int, decimal, varchar, timestamp, unique } from "drizzle-orm/mysql-core"
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, int, varchar, index, foreignKey, timestamp, decimal } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
+
 
 export const orders = mysqlTable("orders", {
 	id: int("id").autoincrement().notNull(),
@@ -17,18 +17,19 @@ export const orders = mysqlTable("orders", {
 			ordersId: primaryKey(table.id),
 		}
 	});
-(table) => {
-	return {
-		customersCustomerId: primaryKey(table.customerId),
-	}
-});
 
-export const delivery = mysqlTable("delivery", {
-	deliveryId: int("deliveryID").autoincrement().notNull(),
-	orderId: int("orderID").notNull().references(() => orders.orderId),
-	robotId: int("robotID").notNull().references(() => robots.robotId),
-	deliveryTime: timestamp("deliveryTime", { mode: 'string' }).notNull(),
-	deliveryAddress: varchar("deliveryAddress", { length: 50 }).notNull(),
+export const products = mysqlTable("products", {
+	id: int("id").autoincrement().notNull(),
+	name: varchar("name", { length: 40 }).notNull(),
+	description: varchar("description", { length: 100 }).notNull(),
+	store: varchar("store", { length: 30 }).notNull(),
+	category: varchar("category", { length: 30 }).notNull(),
+	picture: varchar("picture", { length: 100 }).notNull(),
+	itemWeight: int("item_weight").notNull(),
+	itemPrice: decimal("item_price", { precision: 5, scale: 2 }).notNull(),
+	itemQuantity: int("item_quantity").notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 	(table) => {
 		return {
@@ -36,22 +37,13 @@ export const delivery = mysqlTable("delivery", {
 		}
 	});
 
-export const orders = mysqlTable("orders", {
-	orderId: int("orderID").autoincrement().notNull(),
-	customerId: int("customerID").notNull().references(() => customers.customerId),
-	robotId: int("robotID").notNull().references(() => robots.robotId),
-	orderDate: timestamp("orderDate", { mode: 'string' }).notNull(),
-	totalWeight: int("totalWeight").notNull(),
-	totalPrice: decimal("totalPrice", { precision: 6, scale: 2 }).notNull(),
-	deliveryStatus: varchar("deliveryStatus", { length: 20 }).notNull(),
-export const orders = mysqlTable("orders", {
-	orderId: int("orderID").autoincrement().notNull(),
-	customerId: int("customerID").notNull().references(() => customers.customerId),
-	robotId: int("robotID").notNull().references(() => robots.robotId),
-	orderDate: timestamp("orderDate", { mode: 'string' }).notNull(),
-	totalWeight: int("totalWeight").notNull(),
-	totalPrice: decimal("totalPrice", { precision: 6, scale: 2 }).notNull(),
-	deliveryStatus: varchar("deliveryStatus", { length: 20 }).notNull(),
+export const ratings = mysqlTable("ratings", {
+	id: int("id").autoincrement().notNull(),
+	ratingValue: int("rating_value"),
+	userId: int("user_id").notNull().references(() => users.id),
+	productId: int("product_id").notNull().references(() => products.id),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 	(table) => {
 		return {
@@ -59,26 +51,13 @@ export const orders = mysqlTable("orders", {
 		}
 	});
 
-export const products = mysqlTable("products", {
-	productId: int("productID").autoincrement().notNull(),
-	productName: varchar("productName", { length: 40 }).notNull(),
-	productDescription: varchar("productDescription", { length: 100 }).notNull(),
-	productBrand: varchar("productBrand", { length: 30 }).notNull(),
-	productCategory: varchar("productCategory", { length: 30 }).notNull(),
-	productPictureLink: varchar("productPictureLink", { length: 100 }).notNull(),
-	itemWeight: int("itemWeight").notNull(),
-	itemPrice: decimal("itemPrice", { precision: 5, scale: 2 }).notNull(),
-	itemQuantity: int("itemQuantity").notNull(),
-export const products = mysqlTable("products", {
-	productId: int("productID").autoincrement().notNull(),
-	productName: varchar("productName", { length: 40 }).notNull(),
-	productDescription: varchar("productDescription", { length: 100 }).notNull(),
-	productBrand: varchar("productBrand", { length: 30 }).notNull(),
-	productCategory: varchar("productCategory", { length: 30 }).notNull(),
-	productPictureLink: varchar("productPictureLink", { length: 100 }).notNull(),
-	itemWeight: int("itemWeight").notNull(),
-	itemPrice: decimal("itemPrice", { precision: 5, scale: 2 }).notNull(),
-	itemQuantity: int("itemQuantity").notNull(),
+export const reviews = mysqlTable("reviews", {
+	id: int("id").autoincrement().notNull(),
+	text: varchar("text", { length: 100 }).notNull(),
+	userId: int("user_id").notNull().references(() => users.id),
+	productId: int("product_id").notNull().references(() => products.id),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 	(table) => {
 		return {
@@ -86,18 +65,9 @@ export const products = mysqlTable("products", {
 		}
 	});
 
-export const reviews = mysqlTable("reviews", {
-<<<<<<< Updated upstream
-	reviewId: int("reviewID").autoincrement().notNull(),
-	customerId: int("customerID").notNull().references(() => customers.customerId),
-	reviewName: varchar("reviewName", { length: 50 }).notNull(),
-	reviewDescription: varchar("reviewDescription", { length: 200 }).notNull(),
-export const reviews = mysqlTable("reviews", {
-<<<<<<< Updated upstream
-	reviewId: int("reviewID").autoincrement().notNull(),
-	customerId: int("customerID").notNull().references(() => customers.customerId),
-	reviewName: varchar("reviewName", { length: 50 }).notNull(),
-	reviewDescription: varchar("reviewDescription", { length: 200 }).notNull(),
+export const robots = mysqlTable("robots", {
+	id: int("id").autoincrement().notNull(),
+	status: varchar("status", { length: 20 }).notNull(),
 },
 	(table) => {
 		return {
