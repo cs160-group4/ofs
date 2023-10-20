@@ -1,6 +1,5 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import Button from '../components/Button'
 import { GitHubSignInButton } from '@/components/GitHubSignInButton'
 
 const SignInPage = () => {

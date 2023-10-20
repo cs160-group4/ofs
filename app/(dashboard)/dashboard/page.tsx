@@ -640,8 +640,8 @@ export default async function Dashboard() {
                                         Comments</h2>
                                     <div className="flex flex-wrap mb-6">
                                         <div className="px-4 ">
-                                            <img className="object-cover w-20 h-20 p-2 rounded-full"
-                                                src="https://i.postimg.cc/RhQYkKYk/pexels-italo-melo-2379005.jpg" />
+                                            {/* <img className="object-cover w-20 h-20 p-2 rounded-full"
+                                                src="https://i.postimg.cc/RhQYkKYk/pexels-italo-melo-2379005.jpg" /> */}
                                         </div>
                                         <div className="flex-grow px-4">
                                             <a href="#" className="text-black ">
@@ -687,8 +687,8 @@ export default async function Dashboard() {
                                     </div>
                                     <div className="flex flex-wrap ">
                                         <div className="px-4 ">
-                                            <img className="object-cover w-20 h-20 p-2 rounded-full"
-                                                src="https://i.postimg.cc/bNyr5cJq/pexels-anastasia-shuraeva-5704720.jpg" />
+                                            {/* <img className="object-cover w-20 h-20 p-2 rounded-full"
+                                                src="https://i.postimg.cc/bNyr5cJq/pexels-anastasia-shuraeva-5704720.jpg" /> */}
                                         </div>
                                         <div className="flex-grow px-4">
                                             <a href="#" className="text-black ">

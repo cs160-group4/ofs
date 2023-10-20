@@ -539,8 +539,8 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                             <div
                                 className="p-3 mb-4 border border-gray-200 rounded-md bg-gray-50 lg:p-6 dark:bg-gray-700 dark:border-gray-700">
                                 <div className="md:block lg:flex">
-                                    <img className="object-cover w-16 h-16 mr-4 rounded-full shadow"
-                                        src="https://i.postimg.cc/rF6G0Dh9/pexels-emmy-e-2381069.jpg" alt="avatar" />
+                                    {/* <img className="object-cover w-16 h-16 mr-4 rounded-full shadow"
+                                        src="https://i.postimg.cc/rF6G0Dh9/pexels-emmy-e-2381069.jpg" alt="avatar" /> */}
                                     <div>
                                         <div className="flex flex-wrap items-center justify-between mb-1">
                                             <div className="mb-2 md:mb-0">
@@ -647,8 +647,8 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                             <div
                                 className="p-3 mb-4 border border-gray-200 rounded-md bg-gray-50 lg:p-6 dark:bg-gray-700 dark:border-gray-700">
                                 <div className=" md:block lg:flex">
-                                    <img className="object-cover w-16 h-16 mr-4 rounded-full shadow"
-                                        src="https://i.postimg.cc/m2c3hQNk/pexels-andrea-piacquadio-3760373.jpg" alt="avatar" />
+                                    {/* <img className="object-cover w-16 h-16 mr-4 rounded-full shadow"
+                                        src="https://i.postimg.cc/m2c3hQNk/pexels-andrea-piacquadio-3760373.jpg" alt="avatar" /> */}
                                     <div>
                                         <div className="flex flex-wrap items-center justify-between mb-1">
                                             <div className="mb-2 md:mb-0">
