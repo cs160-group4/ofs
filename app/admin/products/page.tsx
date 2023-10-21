@@ -1,3 +1,5 @@
+import { AddProductForm } from '@/components/AddProductForm';
+import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { SearchBarComponent } from '@/components/SearchBarComponent';
 import { getProducts } from '@/lib/products'
 
@@ -15,6 +17,7 @@ export default async function AdminProducts() {
             <p className='text-base'>Add, filter, or make quick updates to your existing product catalogue</p>
           </div>
                 
+          <AddProductForm />
           {/* management tools container */}
           <div className='flex justify-between items-center max-w-2xl'>
             <button className='btn btn-primary rounded-box w-48'>+ Add Item</button>
@@ -26,7 +29,7 @@ export default async function AdminProducts() {
                 <li>Draft</li>
               </ul>
             </div>
-                   
+            
             {/* search */}
           
           </div>
@@ -51,7 +54,7 @@ export default async function AdminProducts() {
                         </thead>
                         <tbody>
                           {products.map((product) => (
-                            <tr>
+                            <tr key='{product}'>
                               <td>
                                 <label>
                                   <input type="checkbox" className='checkbox' />
@@ -69,6 +72,7 @@ export default async function AdminProducts() {
                               <td>{product.itemPrice}</td>
                               <td>{product.itemWeight}</td>
                               <td>{product.itemQuantity}</td>
+                              <td><RemoveProductForm prod={product}/></td>
                             </tr>
                           ))}
                         </tbody>

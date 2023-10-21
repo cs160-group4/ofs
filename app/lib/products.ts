@@ -25,7 +25,7 @@ export const getProductByCategory = async (category: string) => {
     return result;
 }
 
-const insertProduct = async (data: Product) => {
+export const insertProduct = async (data: Product) => {
     return db.insert(products).values(data);
 }
 
@@ -33,6 +33,6 @@ const updateProduct = async (data: Product) => {
     return db.update(products).set(data);
 }
 
-const deleteProduct = async (data: Product) => {
+export const deleteProduct = async (data: Product) => {
     return db.delete(products).where(eq(products.id, data.id));
 }
