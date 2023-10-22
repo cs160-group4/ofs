@@ -4,7 +4,22 @@ import { Product, deleteProduct, insertProduct } from './lib/products'
 import { revalidatePath } from 'next/cache'
 
 
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+  }
+
 export async function createProduct(formData: FormData) {
+    const currentDateTime = new Date();
+    const formattedDateTime = formatDate(currentDateTime);
+    
     const schema = z.object({
         id: z.number().int(),
         name: z.string().min(1).max(40),
@@ -15,8 +30,8 @@ export async function createProduct(formData: FormData) {
         itemWeight: z.number().positive(),
         itemPrice: z.string(),
         itemQuantity: z.number().int().positive(),
-        createdAt: z.null(),
-        updatedAt: z.null(),
+        createdAt: z.string(),
+        updatedAt: z.string(),
     })
 
     const data = schema.parse({
@@ -29,19 +44,8 @@ export async function createProduct(formData: FormData) {
         itemWeight: Number(formData.get('itemWeight')),
         itemPrice: formData.get('itemPrice'),
         itemQuantity: Number(formData.get('itemQuantity')),
-        createdAt: null,
-        updatedAt: null
-        // id:0, 
-        // name: "123", 
-        // description: "123", 
-        // store: "123", 
-        // category: "123", 
-        // picture: "123",
-        // itemWeight: 1,
-        // itemPrice: "1.0",
-        // itemQuantity: 2,
-        // createdAt: null,
-        // updatedAt: null,
+        createdAt: formattedDateTime,
+        updatedAt: formattedDateTime
     })
     try {
         await insertProduct(data)

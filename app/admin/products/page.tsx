@@ -1,6 +1,5 @@
-import { AddProductForm } from '@/components/AddProductForm';
+import AddProductButtonComponent from '@/components/AddProductButtonComponent';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
-import { SearchBarComponent } from '@/components/SearchBarComponent';
 import { getProducts } from '@/lib/products'
 
 
@@ -15,12 +14,10 @@ export default async function AdminProducts() {
           <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
             <p className='font-bold text-3xl'>Manage Catalogue</p>
             <p className='text-base'>Add, filter, or make quick updates to your existing product catalogue</p>
-          </div>
-                
-          <AddProductForm />
+          </div>    
           {/* management tools container */}
           <div className='flex justify-between items-center max-w-2xl'>
-            <button className='btn btn-primary rounded-box w-48'>+ Add Item</button>
+            <AddProductButtonComponent /> 
             <div className='dropdown dropdown-bottom'>
               <span tabIndex={0} className='menu-dropdown-toggle'>Status</span>
               <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 bg-base-300 rounded-box w-50'>
@@ -46,7 +43,7 @@ export default async function AdminProducts() {
                               </th>
                               <th>IMAGE</th>
                               <th>ITEM DETAILS</th>
-                              <th>STATUS</th>
+                              <th>CATEGORY</th>
                               <th>PRICE</th>
                               <th>WEIGHT</th>
                               <th>INVENTORY</th>
@@ -54,7 +51,7 @@ export default async function AdminProducts() {
                         </thead>
                         <tbody>
                           {products.map((product) => (
-                            <tr key='{product}'>
+                            <tr key={product.id}>
                               <td>
                                 <label>
                                   <input type="checkbox" className='checkbox' />
@@ -63,11 +60,12 @@ export default async function AdminProducts() {
                               <td></td>
                               <td>
                                 <div className='flex flex-col'>
-                                  <p>{product.name}</p>
+                                  <p className='font-bold'>{product.name}</p>
+                                  <p>{product.description}</p>
                                 </div>
                               </td>
                               <td>
-                                {product.description}
+                                {product.category}
                               </td>
                               <td>{product.itemPrice}</td>
                               <td>{product.itemWeight}</td>
