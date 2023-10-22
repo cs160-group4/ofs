@@ -10,7 +10,7 @@ export const RemoveProductModal = () => {
                 <form method="dialog">
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <h3 className="font-bold text-lg">Hello!</h3>
+                <h3 className="font-bold text-lg">Delete Product?</h3>
 
                 </div>
                 <form method="dialog" className="modal-backdrop">

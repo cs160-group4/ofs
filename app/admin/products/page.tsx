@@ -1,4 +1,4 @@
-import AddProductButtonComponent from '@/components/AddProductButtonComponent';
+import AddProductButtonComponent from '@/components/AddProductModal';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { getProducts } from '@/lib/products'
 

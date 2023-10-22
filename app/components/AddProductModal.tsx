@@ -10,14 +10,14 @@ const AddProductButtonComponent = () => {
         <dialog id='add-modal' className="modal">
             <div className="modal-box w-8/12 max-w-5xl">
               <form method="dialog">
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button onClick={() => (document.getElementById('product-form') as HTMLFormElement).reset()} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
               </form>
               <h3 className="font-bold text-lg">Add a Product to the Catalogue</h3>
               <div className='divider my-3'></div>
               <p>Enter the required product details below</p>
               <AddProductForm />
             </div>
-            <form method="dialog" className="modal-backdrop">
+            <form onClick={() => (document.getElementById('product-form') as HTMLFormElement).reset()} method="dialog" className="modal-backdrop">
                 <button>close</button>
             </form>
         </dialog>
