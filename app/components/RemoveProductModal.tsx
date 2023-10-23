@@ -1,7 +1,7 @@
 import React from 'react'
 'use client'
 
-export const RemoveProductModal = () => {
+export function RemoveProductModal(){
     return (
         <>
             <button className="btn btn-primary rounded-box w-48" onClick={()=> ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>-  Delete</button>

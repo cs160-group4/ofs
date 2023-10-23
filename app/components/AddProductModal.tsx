@@ -2,7 +2,7 @@
 import React from 'react'
 import { AddProductForm } from './AddProductForm'
 
-const AddProductButtonComponent = () => {
+export function AddProductButtonComponent(){
   return (
     <>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -24,5 +24,3 @@ const AddProductButtonComponent = () => {
     </>
   )
 }
-
-export default AddProductButtonComponent
