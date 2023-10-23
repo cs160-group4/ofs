@@ -40,13 +40,16 @@ export function AddProductForm() {
     <form id='product-form' action={ createProduct }>
       <div className='form-control w-full my-4'>
         <div className='flex flex-wrap -mx-3 mb-2'>
-          <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+          <div className='w-full md:w-1/4 px-3 mb-6 md:mb-0'>
             <LimitedInput max={40} descriptor={'Product'} name={'name'}/>
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-            <LimitedInput max={30} descriptor={'Brand'} name={'store'}/>
+          <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+            <LimitedInput max={30} descriptor={'Store'} name={'store'}/>
           </div>
-          <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+            <LimitedInput max={30} descriptor={'Brand'} name={'brand'}/>
+          </div>
+          <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label className='label'>
               <span className='label-text'>Category</span>
             </label>

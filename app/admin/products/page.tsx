@@ -43,6 +43,8 @@ export default async function AdminProducts() {
                               </th>
                               <th>IMAGE</th>
                               <th>ITEM DETAILS</th>
+                              <th>BRAND</th>
+                              <th>STORE</th>
                               <th>CATEGORY</th>
                               <th>PRICE</th>
                               <th>WEIGHT</th>
@@ -64,6 +66,8 @@ export default async function AdminProducts() {
                                   <p>{product.description}</p>
                                 </div>
                               </td>
+                              <td>{product.brand}</td>
+                              <td>{product.store}</td>
                               <td>
                                 {product.category}
                               </td>

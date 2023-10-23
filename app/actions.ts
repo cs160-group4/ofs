@@ -4,7 +4,7 @@ import { Product, deleteProduct, insertProduct } from './lib/products'
 import { revalidatePath } from 'next/cache'
 
 
-function formatDate(date) {
+function formatDate(date:Date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const day = String(date.getDate()).padStart(2, '0');
@@ -23,10 +23,11 @@ export async function createProduct(formData: FormData) {
     const schema = z.object({
         id: z.number().int(),
         name: z.string().min(1).max(40),
-        description: z.string().min(1).max(100),
+        description: z.string().min(0).max(100),
         store: z.string().min(1).max(30),
-        category: z.string().min(1).max(30),
-        picture: z.string().min(1).max(100),
+        brand: z.string().min(1).max(30),
+        category: z.string().min(0).max(30),
+        picture: z.string().min(0).max(100),
         itemWeight: z.number().positive(),
         itemPrice: z.string(),
         itemQuantity: z.number().int().positive(),
@@ -39,6 +40,7 @@ export async function createProduct(formData: FormData) {
         name: formData.get('name'),
         description: formData.get('description'),
         store: formData.get('store'),
+        brand: formData.get('brand'),
         category: formData.get('category'),
         picture: formData.get('picture'),
         itemWeight: Number(formData.get('itemWeight')),
