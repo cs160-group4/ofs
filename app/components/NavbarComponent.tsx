@@ -5,8 +5,10 @@ import { getAuthSession } from '@/api/auth/[...nextauth]/options'
 import { SignOutLink } from '@/components/SignOutLink'
 import { SignInButton } from '@/components/SignInButton'
 import DarkModeToggleButton from '@/components/DarkModeButton'
+import { SearchBarComponent } from './SearchBarComponent'
 
 export default async function NavbarComponent() {
+
     var signedIn = false;
     var name = "";
     const session = await getAuthSession();
@@ -28,10 +30,6 @@ export default async function NavbarComponent() {
                             <li><Link href="/">Home</Link></li>
                             <li>
                                 <Link href="/shop">Shop</Link>
-                                <ul className="p-2">
-                                    <li><a >Category 1</a></li>
-                                    <li><a>Category 2</a></li>
-                                </ul>
                             </li>
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
@@ -73,10 +71,7 @@ export default async function NavbarComponent() {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    {/* Search Button*/}
-                    <button className="btn btn-ghost btn-circle mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button>
+                    <SearchBarComponent/>
                     {/* Cart Button */}
                     <button className="btn btn-ghost btn-circle mr-1">
                         <div className="indicator">
