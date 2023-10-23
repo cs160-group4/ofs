@@ -21,7 +21,7 @@ export default async function ProductComponent({ product }: { product: Product }
         </figure>
         <div className="card-body">
           <h2 className="card-title">
-            {product.name}
+            {product.brand} {product.name}
             {/* <div className="badge badge-secondary">NEW</div> */}
           </h2>
           <p>{truncatedDescription}</p>

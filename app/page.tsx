@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { getProductsLimit } from "@/lib/products";
 import ProductComponent from '@/components/ProductComponent'
 export default async function Home() {
-  let products = await getProductsLimit(4);
+  let products = await getProductsLimit(3);
   return (
     <main className="">
       {/* Main slider component */}
