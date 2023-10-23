@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8888",
     "lint": "next lint",
     "introspect": "drizzle-kit introspect:mysql"
   },
@@ -26,7 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
-    "theme-change": "2.5.0",
+    "theme-change": "^2.5.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
