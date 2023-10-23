@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mysql-db: 
+    container_name: mysql-db
+    image: mysql:8.0
+    restart: unless-stopped
+    env_file: ./.env.local
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports: 
+      - '3306:3306'
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+    networks:
+      - default
+      
+  nextjs-app:
+    container_name: nextjs-app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    links:
+      - "mysql-db:database"
+    restart: unless-stopped
+    env_file: ./.env.local
+    ports: 
+      - "3000:3000"
+    volumes:
+      - /next
+      - /node_modules
+      - /app
+    depends_on:
+      - mysql-db
+    networks:
+      - default
+

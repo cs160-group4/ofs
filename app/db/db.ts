@@ -16,7 +16,7 @@ const connection = mysql.createPool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD
+    password: process.env.DB_PASSWORD,
 });
 
 export const db = drizzle(connection,  { schema, mode: 'default' });
