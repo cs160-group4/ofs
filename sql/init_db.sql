@@ -26,6 +26,7 @@ CREATE TABLE products (
     name varchar(40) NOT NULL,
     description varchar(100) NOT NULL,
     store varchar(30) NOT NULL,
+    brand varchar(30) NOT NULL,
     category varchar(30) NOT NULL,
     picture varchar(100) NOT NULL,
     item_weight int NOT NULL,

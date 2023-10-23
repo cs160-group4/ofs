@@ -63,7 +63,7 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                 <div className="mb-6 ">
                                     <span className="px-2.5 py-0.5 text-xs text-blue-600 bg-blue-100 dark:bg-gray-700 rounded-xl dark:text-gray-200">{product.category}</span>
                                     <h2 className="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
-                                        {product.name}
+                                        {product.brand} {product.name}
                                     </h2>
                                     <div className="flex flex-wrap items-center mb-6">
                                         <ul className="flex mb-4 mr-2 lg:mb-0">

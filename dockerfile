@@ -1,7 +1,15 @@
-FROM mysql:8.0
+FROM node:18
 
-ENV MYSQL_ROOT_PASSWORD='root'
+RUN mkdir -p /app
 
-COPY ./sql/ /docker-entrypoint-initdb.d/
+WORKDIR /app
 
-EXPOSE 3306
+COPY package*.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

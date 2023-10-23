@@ -1,6 +1,6 @@
 import { db } from '@/db/db';
 import { products } from "@/db/schema";
-import { eq } from 'drizzle-orm';
+import { eq, sql} from 'drizzle-orm';
 
 export type Product = typeof products.$inferSelect
 
@@ -20,12 +20,17 @@ export const getProductById = async (p_id: number) : Promise<Product> =>{
     return result[0];
 }
 
+export const getProductByName = async (p_name: string = '') :Promise<Product[]> => { 
+    const result: Product[] = await db.select().from(products).where(sql`${products.name} LIKE ${p_name}`).limit(5);
+    return result;
+}
+
 export const getProductByCategory = async (category: string) => {
     const result: Product[] = await db.select().from(products).where(eq(products.category, category));
     return result;
 }
 
-const insertProduct = async (data: Product) => {
+export const insertProduct = async (data: Product) => {
     return db.insert(products).values(data);
 }
 
@@ -33,6 +38,6 @@ const updateProduct = async (data: Product) => {
     return db.update(products).set(data);
 }
 
-const deleteProduct = async (data: Product) => {
+export const deleteProduct = async (data: Product) => {
     return db.delete(products).where(eq(products.id, data.id));
 }

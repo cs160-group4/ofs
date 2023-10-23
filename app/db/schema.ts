@@ -94,31 +94,25 @@ export const orders = mysqlTable(
   }
 );
 
-export const products = mysqlTable(
-  "products",
-  {
-    id: int("id").autoincrement().notNull(),
-    name: varchar("name", { length: 40 }).notNull(),
-    description: varchar("description", { length: 100 }).notNull(),
-    store: varchar("store", { length: 30 }).notNull(),
-    category: varchar("category", { length: 30 }).notNull(),
-    picture: varchar("picture", { length: 100 }).notNull(),
-    itemWeight: int("item_weight").notNull(),
-    itemPrice: decimal("item_price", { precision: 5, scale: 2 }).notNull(),
-    itemQuantity: int("item_quantity").notNull(),
-    createdAt: timestamp("created_at", { mode: "string" }).default(
-      sql`CURRENT_TIMESTAMP`
-    ),
-    updatedAt: timestamp("updated_at", { mode: "string" })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .onUpdateNow(),
-  },
-  (table) => {
-    return {
-      productsId: primaryKey(table.id),
-    };
-  }
-);
+export const products = mysqlTable("products", {
+	id: int("id").autoincrement().notNull(),
+	name: varchar("name", { length: 40 }).notNull(),
+	description: varchar("description", { length: 100 }).notNull(),
+	store: varchar("store", { length: 30 }).notNull(),
+	brand: varchar("brand", { length: 30 }).notNull(),
+	category: varchar("category", { length: 30 }).notNull(),
+	picture: varchar("picture", { length: 100 }).notNull(),
+	itemWeight: int("item_weight").notNull(),
+	itemPrice: decimal("item_price", { precision: 5, scale: 2 }).notNull(),
+	itemQuantity: int("item_quantity").notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+	(table) => {
+		return {
+			productsId: primaryKey(table.id),
+		}
+	});
 
 export const ratings = mysqlTable(
   "ratings",
