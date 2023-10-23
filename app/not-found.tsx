@@ -1,3 +1,6 @@
+'use client'
+import Link from "next/link";
+import router from "next/router";
 
 export default function FourOhFour() {
     return (
@@ -11,12 +14,9 @@ export default function FourOhFour() {
                     <p className="mb-8 text-center text-gray-500 md:text-lg">
                         The page you’re looking for doesn’t exist.
                     </p>
-                    <button type="button" className="btn btn-accent w-full rounded-md py-1.5 font-medium">
-                        {/* <Link href="/">Go Back</Link> */}
-                    </button>
-                    {/* <button type="button" onClick={() => router.back()} className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">
-                        Go Back
-                    </button> */}
+                    <Link href="/" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
+                        Go back home
+                    </Link>
                 </div>
             </div>
         </main>

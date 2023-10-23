@@ -3,6 +3,7 @@ import Navbar from '@/components/NavbarComponent'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,14 +15,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="cupcake">
       <body className={inter.className}>
-        <Navbar />
-        <main className="min-h-[calc(100vh-299px)] overflow-auto ">
-          {children}
-        </main>
-        <Footer />
-        {/* <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" /> */}
+          <Navbar />
+          <main className="min-h-[calc(100vh-299px)] overflow-auto ">
+            {children}
+          </main>
+          <Footer />
+          {/* <script defer src="https://cdn.jsdelivr.net/npm/theme-change@2.5.0/index.js" /> */}
       </body>
     </html>
   )
