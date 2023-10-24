@@ -2,6 +2,9 @@ import { redirect, useSearchParams } from 'next/navigation'
 import { GitHubSignInButton } from '@/components/GitHubSignInButton'
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
+import Link from 'next/link';
+import { sign } from 'crypto';
+import { signIn } from 'next-auth/react';
 
 export default async function SignInPage() {
     const session = await getAuthSession();
@@ -10,7 +13,7 @@ export default async function SignInPage() {
         redirect("/");
     }
     return (
-        <section className="flex flex-wrap items-center justify-center h-screen font-poppins">
+        <section className="flex flex-wrap items-center justify-center font-poppins">
             <div className="max-w-6xl mx-auto ">
                 <div className=" lg:py-7">
                     <div
@@ -110,9 +113,8 @@ export default async function SignInPage() {
                         </div>
                         <p className="px-2 mt-6 text-sm text-left text-gray-700 dark:text-gray-400">
                             If you dont have an account?
-                            <a href="#"
-                                className="ml-2 text-base font-semibold text-cyan-400 hover:text-cyan-600 dark:text-cyan-400 dark:hover:text-cyan-500">
-                                Create new account</a>
+                            <Link href="/auth/register" className="ml-2 text-base font-semibold text-cyan-400 hover:text-cyan-600 dark:text-cyan-400 dark:hover:text-cyan-500">
+                                Create new account</Link>
                         </p>
                     </div>
                 </div>
