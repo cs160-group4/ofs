@@ -21,12 +21,12 @@ export async function createProduct(formData: FormData) {
     const formattedDateTime = formatDate(currentDateTime);
     
     const schema = z.object({
-        id: z.number().int(),
         name: z.string().min(1).max(40),
         description: z.string().min(0).max(100),
-        store: z.string().min(1).max(30),
+        slug: z.string().min(1).max(50),
+        // store: z.string().min(1).max(30),
         brand: z.string().min(1).max(30),
-        category: z.string().min(0).max(30),
+        categoryId: z.number().int(),
         picture: z.string().min(0).max(100),
         itemWeight: z.number().positive(),
         itemPrice: z.string(),
@@ -36,12 +36,12 @@ export async function createProduct(formData: FormData) {
     })
 
     const data = schema.parse({
-        id: 0,
         name: formData.get('name'),
         description: formData.get('description'),
-        store: formData.get('store'),
+        slug: formData.get('slug'),
+        // store: formData.get('store'),
         brand: formData.get('brand'),
-        category: formData.get('category'),
+        categoryId: Number(formData.get('category_id')),
         picture: formData.get('picture'),
         itemWeight: Number(formData.get('itemWeight')),
         itemPrice: formData.get('itemPrice'),

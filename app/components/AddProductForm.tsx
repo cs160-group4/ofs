@@ -44,7 +44,7 @@ export function AddProductForm() {
             <LimitedInput max={40} descriptor={'Product'} name={'name'}/>
           </div>
           <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-            <LimitedInput max={30} descriptor={'Store'} name={'store'}/>
+            <LimitedInput max={30} descriptor={'Slug'} name={'slug'}/>
           </div>
           <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <LimitedInput max={30} descriptor={'Brand'} name={'brand'}/>
@@ -53,12 +53,12 @@ export function AddProductForm() {
             <label className='label'>
               <span className='label-text'>Category</span>
             </label>
-            <select defaultValue={'Select a Category'} className='w-full select select-bordered' name="category">
-              <option>Fruits</option>
-              <option>Dairy</option>
-              <option>Vegetables</option>
-              <option>Frozen</option>
-              <option>Dried Goods</option>
+            <select defaultValue={'Select a Category'} className='w-full select select-bordered' name="category_id">
+              <option value='1'>Fruits</option>
+              <option value='2'>Frozen</option>
+              <option value='3'>Meats</option>
+              <option value='4'>Dried-Goods</option>
+              <option value='5'>Vegetables</option>
             </select>
           </div>
         </div>
