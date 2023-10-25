@@ -68,7 +68,7 @@ INSERT INTO robots (status, name) VALUES
 
 -- Populate Review Data
 
-INSERT INTO reviews (text, userId, product_id)
+INSERT INTO comments (text, userId, product_id)
 VALUES 
     ('Great product, I love it!', 'f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 1),
     ('Highly recommended. Quality is excellent.', 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 2),

@@ -1,4 +1,4 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, decimal, timestamp, unique } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, timestamp, decimal, unique } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 
@@ -18,6 +18,20 @@ export const account = mysqlTable("account", {
 (table) => {
 	return {
 		accountProviderProviderAccountId: primaryKey(table.provider, table.providerAccountId),
+	}
+});
+
+export const comments = mysqlTable("comments", {
+	id: int("id").autoincrement().notNull(),
+	text: varchar("text", { length: 255 }).notNull(),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
+	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		commentsId: primaryKey(table.id),
 	}
 });
 

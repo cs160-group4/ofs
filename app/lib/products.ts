@@ -15,22 +15,20 @@ export type ProductInsert = {
   itemQuantity: number;
 };
 
-export const getProducts = async () => {
+export const getProducts = async (): Promise<Product[]> => {
   const result: Product[] = await db.select().from(products);
   return result;
 };
-
 
 export const getFeaturedProducts = async () => {
   // select random 3 products
   const result: Product[] = await db
     .select()
     .from(products)
-    .orderBy(sql `rand()`)
+    .orderBy(sql`rand()`)
     .limit(3);
   return result;
-}
-
+};
 
 export const getProductsLimit = async (limit: number) => {
   const result: Product[] = await db.select().from(products).limit(limit);

@@ -117,6 +117,19 @@ CREATE TABLE orders (
     CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id)
 );
 
+CREATE TABLE comments (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    text varchar(255) NOT NULL,
+    userId varchar(255) NOT NULL,
+    product_id int NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_comment FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
+    CONSTRAINT fk_product_comment FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
+);
+
+
+
 ALTER TABLE
     account
 ADD

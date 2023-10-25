@@ -3,7 +3,6 @@ import { getProducts, getProductById } from "@/lib/products";
 
 export default async function Categories() {
     const productList = await getProducts();
-    console.log(productList);
     return <div className="flex">
         <div className="flex-shrink bg-blue-500 p-4 w-80">
             <h6 className='text-lg font-large text-gray-900'>Filters</h6>
