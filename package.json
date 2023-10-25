@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 8888",
     "lint": "next lint",
-    "db:introspect": "drizzle-kit introspect",
+    "db:introspect": "drizzle-kit introspect:mysql",
     "db:push": "drizzle-kit push:mysql",
     "db:studio": "drizzle-kit studio"
   },

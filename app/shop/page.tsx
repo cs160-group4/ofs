@@ -14,8 +14,6 @@ export default async function ShopPage({ params }: { params: { slug: string } })
           <ProductComponent key={product.id} product={product} />
         ))}
       </div>
-
-
     </>
   )
 

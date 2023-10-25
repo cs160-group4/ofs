@@ -4,7 +4,7 @@ import { Product } from '@/lib/products'
 
 export default async function ProductComponent({ product }: { product: Product }) {
   if (!product) return null;
-  let imageLink = '/images/food/' + product?.picture;
+  let imageLink = "/"+product?.picture;
 
   const maxLength = 35;
   const productDescription: string = product.description;
@@ -26,7 +26,7 @@ export default async function ProductComponent({ product }: { product: Product }
           </h2>
           <p>{truncatedDescription}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{product.category}</div>
+            <div className="badge badge-outline">{product.categoryId}</div>
           </div>
         </div>
       </div>
