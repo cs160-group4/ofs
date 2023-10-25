@@ -1,12 +1,16 @@
-import { getServerSession } from "next-auth/next"
+import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 
 export default async function IndexPage() {
-    const session = await getServerSession()
+    const session = await getAuthSession();
     return (
+        <>
+
         <div>
             <h1>Session</h1>
             <p>Session data</p>
             <pre>{JSON.stringify(session, null)}</pre>
         </div>
+        
+        </>
     )
 }

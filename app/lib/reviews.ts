@@ -9,3 +9,10 @@ export const getReviews = async (limit: number = 10) => {
     return result;
 }
 
+
+export const postReview = async (id: number) => {
+    const result: Review[] = await db.select().from(reviews).where({id: id});
+    return result;
+}
+
+

@@ -79,18 +79,29 @@ export const authOptions: AuthOptions = {
     }
   },
   callbacks: {
-    async jwt({ token, user }) {
-      // Add role to the token right after signin
-      if (user) {
-        token.role = user.role;
-      }
-
-      return { ...token, ...user };
-    },
+    // async jwt({ token, user, account, profile }) {
+    //   // Add role to the token right after signin
+    //   // if (user) {
+    //   //   token.role = user.role;
+    //   // }
+    //   console.log("--------------------");
+    //   console.log("Token:\n", token);
+    //   console.log("--------------------");
+    //   console.log("User:\n", user);
+    //   console.log("--------------------");
+    //   console.log("Account:\n", account);
+    //   console.log("--------------------");
+    //   console.log("Profile:\n", profile);
+    //   return { ...token, ...user };
+    // },
     async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
-      session.user.role = token.role;
-      console.log(session);
+      session.user = user;
+      console.log("--------------------");
+      console.log("Session:\n", session);
+      console.log("--------------------");
+      console.log("Token:\n", token);
+      console.log("--------------------");
+      console.log("User:\n", user);
       return session;
     },
   },
@@ -102,15 +113,15 @@ export const authOptions: AuthOptions = {
     signOut: '/auth/signout',
     error: '/auth/error', // Error code passed in query string as ?error=
     verifyRequest: '/auth/verify-request', // (used for check email message)
-    newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    newUser: '/auth/register' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
-export function auth(
-  ...args:
-    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
-    | [NextApiRequest, NextApiResponse]
-    | []
-) {
-  return getServerSession(...args, authOptions);
-}
+// export function auth(
+//   ...args:
+//     | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+//     | [NextApiRequest, NextApiResponse]
+//     | []
+// ) {
+//   return getServerSession(...args, authOptions);
+// }
 export const getAuthSession = () => getServerSession(authOptions);
