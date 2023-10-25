@@ -22,27 +22,27 @@ VALUES (1, 'Fruits', 'fruits', 'Fresh and delicious fruits'),
 -- Populate Products Data
 -- Fruits
 INSERT INTO products(id, name, slug, description, brand, category_id, picture, item_weight, item_price, item_quantity)
-VALUES (1, 'Oranges', 'oranges', 'Delicious Fresh Orange Oranges', 'Kirkland', 1, 'images/food/orange.jpg', 2, 2.99, 0),
-       (2, 'Pineapple', 'pineapple', 'Delicious Fresh Yellow Pineapples', 'Kirkland', 1, 'images/food/pineapple.jpg', 5, 4.99, 0),
-       (3, 'Red Apples', 'red-apples', 'Delicious Fresh Red Apples', 'Kirkland', 1, 'images/food/redApple.jpg', 3, 1.99, 0),
-       (4, 'Watermelon', 'watermelon', 'Delicious Round Green Watermelon', 'Kirkland', 1, 'images/food/watermelon.jpg', 1, 6.99, 0),
-       (5, 'Peach', 'peach', 'Delicious Pink Peaches', 'Driscolli', 1, 'images/food/peach.jpg', 6, 2.99, 0),
+VALUES (1, 'Oranges', 'oranges', 'Delicious Fresh Orange Oranges', 'Kirkland', 1, 'images/food/orange.jpg', 2, 2.99, 30),
+       (2, 'Pineapple', 'pineapple', 'Delicious Fresh Yellow Pineapples', 'Kirkland', 1, 'images/food/pineapple.jpg', 5, 4.99, 20),
+       (3, 'Red Apples', 'red-apples', 'Delicious Fresh Red Apples', 'Kirkland', 1, 'images/food/redApple.jpg', 3, 1.99, 10),
+       (4, 'Watermelon', 'watermelon', 'Delicious Round Green Watermelon', 'Kirkland', 1, 'images/food/watermelon.jpg', 1, 6.99, 12),
+       (5, 'Peach', 'peach', 'Delicious Pink Peaches', 'Driscolli', 1, 'images/food/peach.jpg', 6, 2.99, 6),
        (6, 'Black Berries', 'black-berries', 'Delicious Dark and Juicy Black Berries', 'Driscolli', 1, 'images/food/blackBerries.jpg', 1, 5.99, 15),
-       (7, 'Banana', 'banana', 'Delicious Yellow and Large Bananas', '1 Farms', 1, 'images/food/banana.jpg', 5, 3.99, 2);
+       (7, 'Banana', 'banana', 'Delicious Yellow and Large Bananas', '1 Farms', 1, 'images/food/banana.jpg', 5, 3.99, 50);
 
 -- Frozen
 INSERT INTO products(id, name, slug, description, brand, category_id, picture, item_weight, item_price, item_quantity)
 VALUES (8, 'Chicken Pot Pie', 'chicken-pot-pie', 'Delicious Chicken Pot Pie with peas, carrots, and chicken', 'Marie Callenders', 2, 'images/food/chickenPotPie.jpg', 15, 3.48, 9),
-       (9, 'Chicken Bowl and Rice', 'chicken-bowl-rice', 'Delicious Chicken Bowl and Rice with Broccoli', 'Marie Callenders', 2, 'images/food/chickenBowlRice.jpg', 10, 2.80, 2),
+       (9, 'Chicken Bowl and Rice', 'chicken-bowl-rice', 'Delicious Chicken Bowl and Rice with Broccoli', 'Marie Callenders', 2, 'images/food/chickenBowlRice.jpg', 10, 2.80, 7),
        (10,'Sweet and Sour Chicken', 'sweet-sour-chicken', 'Delicious Sweet and Sour Chicken Over Fried Rice', 'Banquet', 2, 'images/food/sweetSourChicken.jpg', 8, 1.24, 9),
-       (11,'Dynamite Penne and Meatballs', 'penne-meatballs', 'Delicious Pasta with Meatballs', 'Banquet', 2, 'images/food/penneMeatballs.jpg', 4, 3.59, 32),
-       (12,'Spaghetti with Meat Sauce', 'spaghetti-meat-sauce', 'Delicious Spaghetti with Meat Sauce', 'Stouffers', 2, 'images/food/spaghetti.jpg', 9, 5.32, 15);
+       (11,'Dynamite Penne and Meatballs', 'penne-meatballs', 'Delicious Pasta with Meatballs', 'Banquet', 2, 'images/food/penneMeatballs.jpg', 4, 3.59, 69),
+       (12,'Spaghetti with Meat Sauce', 'spaghetti-meat-sauce', 'Delicious Spaghetti with Meat Sauce', 'Stouffers', 2, 'images/food/spaghetti.jpg', 9, 5.32, 33);
 
 -- Meats
 INSERT INTO products(id, name, slug, description, brand, category_id, picture, item_weight, item_price, item_quantity)
-VALUES (13, 'Beef Chuck Roast', 'beef-chuck-roast', 'Delicious Boneless Beef Chuck Roast', 'Tyson', 3, 'images/food/beefChuckRoast.jpg', 10, 6.21, 9),
-       (14, 'Beef Country Style Ribs', 'beef-country-style-ribs', 'Delicious Beef Country Style Ribs', 'Tyson', 3, 'images/food/beefCountryRibs.jpg', 10, 15.30, 2),
-       (15, 'Whole Chicken', 'whole-chicken', 'Delicious Fresh and Natural, No Antibiotics Ever, Young Whole Chicken', 'Foster Farms', 3, 'images/food/wholeChicken.jpg', 10, 15.24, 9),
+VALUES (13, 'Beef Chuck Roast', 'beef-chuck-roast', 'Delicious Boneless Beef Chuck Roast', 'Tyson', 3, 'images/food/beefChuckRoast.jpg', 10, 6.21, 22),
+       (14, 'Beef Country Style Ribs', 'beef-country-style-ribs', 'Delicious Beef Country Style Ribs', 'Tyson', 3, 'images/food/beefCountryRibs.jpg', 10, 15.30, 78),
+       (15, 'Whole Chicken', 'whole-chicken', 'Delicious Fresh and Natural, No Antibiotics Ever, Young Whole Chicken', 'Foster Farms', 3, 'images/food/wholeChicken.jpg', 10, 15.24, 58),
        (16, 'Skinless Chicken Breast Tenderloins', 'chicken-breast-tenderloins', 'Delicious Fresh and Natural, No Antibiotics Ever, Skinless Chicken Breast Tenderloins', 'Foster Farms', 3, 'images/food/chickenBreastTenderloin.jpg', 4, 3.59, 32);
 
 -- Dried-Goods

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Product } from '@/lib/products'
+import { getCategoryById } from '@/lib/categories';
 
 export default async function ProductComponent({ product }: { product: Product }) {
   if (!product) return null;
@@ -11,7 +12,7 @@ export default async function ProductComponent({ product }: { product: Product }
 
   const truncatedDescription: string = productDescription.length > maxLength
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
-
+    var category =await getCategoryById(product.categoryId);
   return (
     <Link href={"/products/" + product.id} >
       <div className="card w-96 bg-base-100 shadow-xl m-4 ">
@@ -26,7 +27,7 @@ export default async function ProductComponent({ product }: { product: Product }
           </h2>
           <p>{truncatedDescription}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{product.categoryId}</div>
+            <div className="badge badge-outline">{category}</div>
           </div>
         </div>
       </div>

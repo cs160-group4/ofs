@@ -1,7 +1,6 @@
 import { db } from "@/db/db";
-import { products } from "@/db/schema";
+import { productCategories, products } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
-import { reviews } from "drizzle/schema";
 
 export type Product = typeof products.$inferSelect;
 export type ProductInsert = {
@@ -20,6 +19,18 @@ export const getProducts = async () => {
   const result: Product[] = await db.select().from(products);
   return result;
 };
+
+
+export const getFeaturedProducts = async () => {
+  // select random 3 products
+  const result: Product[] = await db
+    .select()
+    .from(products)
+    .orderBy(sql `rand()`)
+    .limit(3);
+  return result;
+}
+
 
 export const getProductsLimit = async (limit: number) => {
   const result: Product[] = await db.select().from(products).limit(limit);

@@ -1,4 +1,5 @@
 import { getProductById } from '@/lib/products'
+import { getCategoryById } from '@/lib/categories'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/products'
@@ -9,7 +10,7 @@ export default async function ShopCategory({ params }: { params: { id: string } 
     if (product == null) {
         return <div>Product not found</div>
     }
-    let imageLink = '/images/food/' + product?.picture;
+    var category =await getCategoryById(product.categoryId);
     return <main>
         <>
             <section className="py-10 font-poppins dark:bg-gray-800">
@@ -32,7 +33,7 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                         </svg>
                                     </a>
                                 </Image> */}
-                                    <Image src={imageLink} alt={product.name} width={500} height={500} />
+                                    <Image src={'/' + product?.picture} alt={product.name} width={500} height={500} />
                                 </div>
                                 <div className="flex-wrap hidden -mx-2 md:flex">
                                     <div className="w-1/2 p-2 sm:w-1/4">
@@ -61,7 +62,7 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                         <div className="w-full px-4 md:w-1/2">
                             <div className="lg:pl-20">
                                 <div className="mb-6 ">
-                                    <span className="px-2.5 py-0.5 text-xs text-blue-600 bg-blue-100 dark:bg-gray-700 rounded-xl dark:text-gray-200">{product.category}</span>
+                                    <span className="px-2.5 py-0.5 text-xs text-blue-600 bg-blue-100 dark:bg-gray-700 rounded-xl dark:text-gray-200">{category}</span>
                                     <h2 className="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
                                         {product.brand} {product.name}
                                     </h2>
@@ -797,9 +798,9 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                     // for="firstname"
                                     className="block mb-2 font-bold text-gray-700 uppercase dark:text-gray-400">
                                     Review</label>
-                                <textarea 
-                                // type="message" 
-                                placeholder="write a review"
+                                <textarea
+                                    // type="message" 
+                                    placeholder="write a review"
                                     // required=""
                                     className="block w-full px-4 leading-tight text-gray-700 bg-gray-100 rounded dark:placeholder-gray-500 py-7 dark:text-gray-400 dark:border-gray-800 dark:bg-gray-800 "></textarea>
                             </div>
