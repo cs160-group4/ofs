@@ -22,6 +22,24 @@ export const getUsers = async () => {
   return result;
 };
 
+export const getUser = async (id: string) => {
+  const result: User[] = await db.select().from(users).where(eq(users.id, id));
+  if (result.length > 0) {
+    return result[0];
+  } else {
+    return null;
+  }
+};
+
+export const getUserRole = async (id: string): Promise<string> => {
+  const result: User[] = await db.select().from(users).where(eq(users.id, id));
+  if (result.length > 0) {
+    return result[0].role;
+  } else {
+    return "user";
+  }
+};
+
 export const insertUser = async (data: User) => {
   return db.insert(users).values(data);
 };

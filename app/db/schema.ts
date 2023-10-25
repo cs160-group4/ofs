@@ -19,7 +19,7 @@ export const users = mysqlTable("user", {
   }).defaultNow(),
   password: varchar("password", { length: 255 }),
   image: varchar("image", { length: 255 }),
-  role: varchar("role", { length: 20 }),
+  role: varchar("role", { length: 20 }).notNull().default("user"),
 });
 
 export const accounts = mysqlTable(
