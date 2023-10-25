@@ -61,6 +61,7 @@ export async function removeProduct(prod:Product, formData: FormData){
     try {
         await deleteProduct(prod)
     } catch (error) {
+        console.log(prod)
         console.log(error)
     }
     revalidatePath('/')

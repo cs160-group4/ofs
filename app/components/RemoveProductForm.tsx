@@ -1,5 +1,4 @@
 'use client'
-
 import { Product } from "@/lib/products"
 import { removeProduct } from "app/actions"
 import { experimental_useFormStatus as useFormStatus} from "react-dom"
@@ -14,11 +13,11 @@ function DeleteButton() {
     )
 }
 
-export function RemoveProductForm({ prod }: { prod:Product}){
-    const remove = removeProduct.bind(null, prod)
+export function RemoveProductForm({ product }: { product:Product}){
+    const remove = removeProduct.bind(null, product)
     return (
         <form action={ remove }>
-            <DeleteButton />
+            <DeleteButton/>
         </form>
     )
 }
