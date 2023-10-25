@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { Product, deleteProduct, insertProduct } from './lib/products'
 import { revalidatePath } from 'next/cache'
+import { deleteReview } from './lib/reviews';
 
 
 function formatDate(date:Date) {
@@ -57,8 +58,11 @@ export async function createProduct(formData: FormData) {
     revalidatePath('/')
 }
 
+// delete product and all dependent reviews
+// may separate into different functions
 export async function removeProduct(prod:Product, formData: FormData){
     try {
+        await deleteReview(prod.id)
         await deleteProduct(prod)
     } catch (error) {
         console.log(error)
