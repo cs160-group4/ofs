@@ -20,3 +20,13 @@
 .logo-image {
     content: var(--var-logo-image);
 }
+
+#map {
+    height: 500px;
+    width: 100%;
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
