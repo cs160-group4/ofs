@@ -1,5 +1,5 @@
 import ProductComponent from '@/components/ProductComponent'
-import { getProductByCategory, getProducts } from "@/lib/products";
+import { getProductByCategoryName, getProducts } from "@/lib/products";
 import { Product } from '@/lib/products'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,7 +10,7 @@ export default async function ShopCategory({ params }: { params: { slug: string 
     if (slug === 'all') {
         products = await getProducts();
     } else {
-        products = await getProductByCategory(slug);
+        products = await getProductByCategoryName(slug);
     }
 
     return (
