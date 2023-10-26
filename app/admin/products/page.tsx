@@ -66,7 +66,8 @@ export default async function AdminProducts() {
                       <td>{product.itemPrice}</td>
                       <td>{product.itemWeight}</td>
                       <td>{product.itemQuantity}</td>
-                      <td><RemoveProductForm product={product}/></td>
+                      {/* <td><RemoveProductForm product={product}/></td> */}
+                      <td><RemoveProductModal product={product}/></td>
                   </tr>
                 ))}
               </tbody>

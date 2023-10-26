@@ -95,7 +95,6 @@ export function AddProductForm() {
             <LimitedInput max={100} descriptor={'Picture(WIP)'} name={'picture'}/>
           </div>
         </div>
-
       </div>
       <SubmitButton/>
     </form>

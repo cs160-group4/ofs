@@ -7,7 +7,10 @@ function DeleteButton() {
     const { pending } = useFormStatus()
 
     return (
-        <button type="submit" className="btn btn-error rounded-box" aria-disabled={pending}>
+        <button 
+            type="submit" 
+            className="btn btn-error rounded-box" 
+            aria-disabled={pending}>
             Delete
         </button>
     )
@@ -16,7 +19,7 @@ function DeleteButton() {
 export function RemoveProductForm({ product }: { product:Product}){
     const remove = removeProduct.bind(null, product)
     return (
-        <form action={ remove }>
+        <form id='rm-form' action={ remove }>
             <DeleteButton/>
         </form>
     )
