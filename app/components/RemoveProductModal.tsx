@@ -10,7 +10,7 @@ export function RemoveProductModal({ product }: { product:Product}){
             <button className="btn btn-error btn-md rounded-box w-30" onClick={()=> ((document.getElementById(product.id.toString()) as HTMLDialogElement)).showModal()}>Delete</button>
             <dialog id={product.id.toString()} className="modal">
                 <div className="modal-box">
-                    <div className='flex flex-col items-center'>
+                    <div className='flex flex-col  items-center text-center'>
                         <h3 className="font-bold text-lg">Delete this Product?</h3>
                         <p>Are you sure you would like to delete {product.name}? This action is permanent and cannot be undone</p>
                         <div className='flex mt-6'>

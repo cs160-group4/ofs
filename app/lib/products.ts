@@ -36,3 +36,7 @@ const updateProduct = async (data: Product) => {
 export const deleteProduct = async (data: Product) => {
     return db.delete(products).where(eq(products.id, data.id));
 }
+
+export const orderProductBy = async () => {
+    const result : Product[] = await db.select().from(products);
+}

@@ -3,9 +3,18 @@ import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { RemoveProductModal } from '@/components/RemoveProductModal';
 import { getProducts } from '@/lib/products'
 
+function sortSelect() {
+  <select name="sort-product" id="sort-product">
+    <option value=""></option>
+    <option value=""></option>
+    <option value=""></option>
+    <option value=""></option>
+  </select>
+}
+
 
 export default async function AdminProducts() {
-    const products = await getProducts();
+    let products = await getProducts();
     return (
       <>
         <div className='flex flex-col mx-6 pt-7 gap-y-5'>
