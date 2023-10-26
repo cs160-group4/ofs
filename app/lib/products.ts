@@ -62,6 +62,27 @@ export const getProductByCategory = async (category: number) => {
   return result;
 };
 
+export const getProductByCategoryName = async (category: string) => {
+  const result: Product[] = await db
+    .select( {
+      id: products.id,
+      name: products.name,
+      slug: productCategories.slug, 
+      brand: products.brand,
+      description: products.description,
+      createdAt: products.createdAt,
+      updatedAt: products.updatedAt,
+      categoryId: products.categoryId,
+      picture: products.picture,
+      itemWeight: products.itemWeight,
+      itemPrice: products.itemPrice,
+      itemQuantity: products.itemQuantity
+    })
+    .from(products).leftJoin(productCategories, eq(productCategories.id, products.categoryId))
+    .where(eq(productCategories.slug, category));
+  return result;
+};
+
 export const insertProduct = async (data: ProductInsert) => {
   return db.insert(products).values(data);
 };
