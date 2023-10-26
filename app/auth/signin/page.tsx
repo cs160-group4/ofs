@@ -1,13 +1,10 @@
 
-import { redirect, useSearchParams } from 'next/navigation'
-import { GitHubSignInButton } from '@/components/GitHubSignInButton'
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getAuthSession } from '@/api/auth/[...nextauth]/options'
-import Link from 'next/link';
-import { sign } from 'crypto';
-import { signIn } from 'next-auth/react';
-import React, { useRef } from "react";
+import { getAuthSession } from '@/api/auth/[...nextauth]/options';
+import { GitHubSignInButton } from '@/components/GitHubSignInButton';
 import { DiscordSignInButton } from '@/components/auth/DiscordSignInButton';
+import { SigninForm } from '@/components/auth/SigninForm';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export default async function SignInPage() {
     const session = await getAuthSession();
@@ -29,8 +26,8 @@ export default async function SignInPage() {
                         className="max-w-xl lg:p-12 shadow-md rounded-md p-6 mx-auto text-center bg-[#dbeafe6e] dark:bg-gray-800 ">
                         <h2 className="mb-4 text-3xl font-bold text-gray-700 lg:mb-7 lg:text-5xl dark:text-gray-300">
                             Sign In</h2>
-
-                        <div className="mb-4 lg:mb-7">
+                        <SigninForm />
+                        {/* <div className="mb-4 lg:mb-7">
                             <input type="email"
                                 className="w-full px-4 py-4 bg-white rounded-lg lg:py-5 dark:text-gray-300 dark:bg-gray-700 "
                                 name="" placeholder="Enter your email" />
@@ -64,9 +61,9 @@ export default async function SignInPage() {
                                 className="text-sm font-semibold text-cyan-400 hover:text-cyan-600 dark:text-cyan-400 dark:hover:text-cyan-500">
                                 forgot password?</a>
                         </div>
-                        <button
-                            className="w-full px-4 py-4 text-sm font-bold text-gray-300 uppercase bg-cyan-600 rounded-md lg:text-lg dark:text-gray-300 dark:bg-cyan-800 hover:bg-cyan-700 dark:hover:bg-cyan-900 "
-                            type="submit">LOGIN</button>
+                        <button className="w-full px-4 py-4 text-sm font-bold text-gray-300 uppercase bg-cyan-600 rounded-md lg:text-lg dark:text-gray-300 dark:bg-cyan-800 hover:bg-cyan-700 dark:hover:bg-cyan-900 "
+                            type="submit">LOGIN
+                        </button> */}
 
 
                         <div className="my-3 lg:my-6"><span className="text-sm text-gray-700 dark:text-gray-300">

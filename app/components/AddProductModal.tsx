@@ -1,8 +1,7 @@
 'use client'
-import React from 'react'
 import { AddProductForm } from './AddProductForm'
 
-export default function AddProductButtonComponent(){
+export default  function AddProductButtonComponent(){
   return (
     <>
         {/* Open the modal using document.getElementById('ID').showModal() method */}

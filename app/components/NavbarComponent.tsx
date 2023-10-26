@@ -1,10 +1,9 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import logo from "@/public/images/h_logo.png"
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
-import { SignOutLink } from '@/components/SignOutLink'
-import { SignInButton } from '@/components/SignInButton'
 import DarkModeToggleButton from '@/components/DarkModeButton'
+import { SignOutLink } from '@/components/SignOutLink'
+import logo from "@/public/images/h_logo.png"
+import Image from 'next/image'
+import Link from 'next/link'
 import { SearchBarComponent } from './SearchBarComponent'
 
 export default async function NavbarComponent() {
@@ -14,6 +13,10 @@ export default async function NavbarComponent() {
     if (session?.user) {
         signedIn = true;
         name = session.user.name as string;
+    }
+    let avatar = session?.user?.image as string;
+    if(!avatar?.startsWith("http")) {
+        avatar = "/" + avatar;
     }
     return (
         <div>
@@ -42,7 +45,7 @@ export default async function NavbarComponent() {
                     </div>
                     {/* Logo */}
                     <Link href="/" className='lg:ml-36 ml-4'>
-                        <Image src={logo} alt="avatar" width={640} height={256} className="w-48 h-14 logo-image" />
+                        <Image src={logo} alt="avatar" width={640} height={256} priority className="w-48 h-14 logo-image" />
                     </Link>
                 </div>
                 {/* Main Menu */}
@@ -113,7 +116,7 @@ export default async function NavbarComponent() {
                                         </p>
                                     </div>
                                     <div className="mr-2">
-                                        <Image src={session?.user?.image as string} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
+                                        <Image src={avatar} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
                                     </div>
                                     <span>
                                         <svg className="text-gray-400" width="10" height="6" viewBox="0 0 10 6"

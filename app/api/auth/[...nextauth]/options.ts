@@ -1,11 +1,11 @@
 import { db } from "@/db/db";
-import { User, authenticate, getUserRole } from "@/lib/users";
+import { authenticate, getUserRole } from "@/lib/users";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { randomBytes, randomUUID } from "crypto";
 import { AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
+import GithubProvider from "next-auth/providers/github";
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
@@ -38,17 +38,16 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
-      // profile(profile) {
-      //   // console.log("--------------------");
-      //   // console.log("Profile:\n", profile);
-      //   return {
-      //     id: profile.id.toString(),
-      //     name: profile.name || profile.login,
-      //     email: profile.email,
-      //     emailVerified: new Date(),
-      //     image: profile.avatar_url,
-      //   };
-      // },
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          emailVerified: new Date(),
+          image: profile.avatar_url,
+          role: profile.role ?? "user",
+        };
+      },
     }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
@@ -62,7 +61,7 @@ export const authOptions: AuthOptions = {
     // You can still force a JWT session by explicitly defining `"jwt"`.
     // When using `"database"`, the session cookie will only contain a `sessionToken` value,
     // which is used to look up the session in the database.
-    strategy: "database",
+    strategy: "jwt",
 
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -79,30 +78,27 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    async session({ session, user }) {
-      // console.log("------------------ Role ------------------");
-      // console.log("Role:", user.role);
-      session.user = user;
-      if (!session.user?.role || session.user.role == "") {
-        session.user.role = await getUserRole(session.user.id);
-      }
-      // console.log("------------------ Session ------------------");
-      // console.log("Session:\n", session);
-      return session;
-    },
-    // async jwt({ token, user, account, profile }) {
-    //   console.log("--------- jwt ---------");
-    //   console.log("Token:\n", token);
-    //   console.log("User:\n", user);
-    //   console.log("Account:\n", account);
-    //   console.log("Profile:\n", profile);
-    //   return token;
-    // },
     async signIn({ user, account }) {
-      console.log("------------------ signIn ------------------");
+      console.log("\n\n\n\n\n------------------ signIn ------------------");
       console.log("User:\n", user);
       console.log("Account:\n", account);
       return true;
+    },
+    async jwt({ token, user }) {
+      // if (user) {
+      //   console.log("---------- Set user role ----------");
+
+      // }
+      token.role = await getUserRole(token?.sub!);
+      console.log("\n\n--------- jwt ---------");
+      console.log("Token:\n", token);
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      console.log("------------------ Session ------------------");
+      console.log("Session:\n", session);
+      return session;
     },
   },
   jwt: {
@@ -110,10 +106,10 @@ export const authOptions: AuthOptions = {
   },
   pages: {
     signIn: "/auth/signin",
-    signOut: "/auth/signout",
-    error: "/auth/error", // Error code passed in query string as ?error=
-    verifyRequest: "/auth/verify-request", // (used for check email message)
-    newUser: "/auth/register", // New users will be directed here on first sign in (leave the property out if not of interest)
+    // signOut: "/auth/signout",
+    // error: "/auth/error", // Error code passed in query string as ?error=
+    // verifyRequest: "/auth/verify-request", // (used for check email message)
+    // newUser: "/auth/register", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
 
