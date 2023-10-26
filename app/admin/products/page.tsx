@@ -2,8 +2,23 @@ import AddProductButtonComponent from '@/components/AddProductModal';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { getProducts } from '@/lib/products'
 import Image from 'next/image'
+import { redirect } from "next/navigation";
+import { getAuthSession } from "@/api/auth/[...nextauth]/options";
+import Link from 'next/link';
 
 export default async function AdminProducts() {
+  const session = await getAuthSession();
+  if (!session || !session.user || session.user.role !== "admin") {
+    return <>
+      <div className="flex flex-col justify-center items-center h-96">
+         <h1 className='text-3xl font-bold m-12'>You are not authorized to view this page</h1>
+
+        <div>
+          <Link href="/" className='btn btn-primary text-white'>Go back to home page</Link>
+          </div>
+      </div>
+    </>
+  }
   const products = await getProducts();
   return (
 

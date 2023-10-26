@@ -1,3 +1,4 @@
+
 import { redirect, useSearchParams } from 'next/navigation'
 import { GitHubSignInButton } from '@/components/GitHubSignInButton'
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
@@ -5,12 +6,20 @@ import { getAuthSession } from '@/api/auth/[...nextauth]/options'
 import Link from 'next/link';
 import { sign } from 'crypto';
 import { signIn } from 'next-auth/react';
+import React, { useRef } from "react";
+import { DiscordSignInButton } from '@/components/auth/DiscordSignInButton';
 
 export default async function SignInPage() {
     const session = await getAuthSession();
-
     if (session?.user) {
         redirect("/");
+    }
+    async function handleSignIn(formData: any) {
+        console.log("Sign in");
+        // const email = formData.get('email');
+        // const password = formData.get('password');
+        // console.log(email, password);
+        // await signIn('credentials', { email, password, callbackUrl: '/' });
     }
     return (
         <section className="flex flex-wrap items-center justify-center font-poppins">
@@ -20,6 +29,7 @@ export default async function SignInPage() {
                         className="max-w-xl lg:p-12 shadow-md rounded-md p-6 mx-auto text-center bg-[#dbeafe6e] dark:bg-gray-800 ">
                         <h2 className="mb-4 text-3xl font-bold text-gray-700 lg:mb-7 lg:text-5xl dark:text-gray-300">
                             Sign In</h2>
+
                         <div className="mb-4 lg:mb-7">
                             <input type="email"
                                 className="w-full px-4 py-4 bg-white rounded-lg lg:py-5 dark:text-gray-300 dark:bg-gray-700 "
@@ -57,6 +67,8 @@ export default async function SignInPage() {
                         <button
                             className="w-full px-4 py-4 text-sm font-bold text-gray-300 uppercase bg-cyan-600 rounded-md lg:text-lg dark:text-gray-300 dark:bg-cyan-800 hover:bg-cyan-700 dark:hover:bg-cyan-900 "
                             type="submit">LOGIN</button>
+
+
                         <div className="my-3 lg:my-6"><span className="text-sm text-gray-700 dark:text-gray-300">
                             Or, login with</span></div>
                         <div className="flex flex-wrap ">
@@ -93,7 +105,8 @@ export default async function SignInPage() {
                                         Google</span>
                                 </a>
                             </div>
-                            <div className="w-full py-2 lg:px-2 lg:py-0 lg:w-1/3">
+                            <DiscordSignInButton />
+                            {/* <div className="w-full py-2 lg:px-2 lg:py-0 lg:w-1/3">
                                 <a href="#"
                                     className="flex items-center justify-center p-3 bg-gray-800 rounded-md dark:bg-gray-500 hover:bg-gray-700 dark:hover:bg-gray-600">
                                     <span className="inline-block mr-2 text-gray-300 dark:text-gray-400">
@@ -109,7 +122,7 @@ export default async function SignInPage() {
                                         className="text-xs font-medium text-gray-200 uppercase lg:text-sm dark:text-gray-300 ">
                                         Apple</span>
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
                         <p className="px-2 mt-6 text-sm text-left text-gray-700 dark:text-gray-400">
                             If you dont have an account?

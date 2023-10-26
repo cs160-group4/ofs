@@ -1,10 +1,11 @@
 import { db } from "@/db/db";
-import { authenticate, getUserRole } from "@/lib/users";
+import { User, authenticate, getUserRole } from "@/lib/users";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { randomBytes, randomUUID } from "crypto";
 import { AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
+import DiscordProvider from "next-auth/providers/discord";
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
@@ -28,11 +29,10 @@ export const authOptions: AuthOptions = {
           return null;
         }
         const res = await authenticate(credentials.email, credentials.password);
-        if (!res) {
-          return res;
-        }
+        console.log("------------------ authenticate ------------------");
+        console.log(res);
         // Return null if user data could not be retrieved
-        return null;
+        return res;
       },
     }),
     GithubProvider({
@@ -49,6 +49,10 @@ export const authOptions: AuthOptions = {
       //     image: profile.avatar_url,
       //   };
       // },
+    }),
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
     }),
   ],
   session: {
@@ -76,14 +80,14 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async session({ session, user }) {
-      console.log("------------------ Role ------------------");
-      console.log("Role:", user.role);
+      // console.log("------------------ Role ------------------");
+      // console.log("Role:", user.role);
       session.user = user;
       if (!session.user?.role || session.user.role == "") {
         session.user.role = await getUserRole(session.user.id);
       }
-      console.log("------------------ Session ------------------");
-      console.log("Session:\n", session);
+      // console.log("------------------ Session ------------------");
+      // console.log("Session:\n", session);
       return session;
     },
     // async jwt({ token, user, account, profile }) {
@@ -94,9 +98,12 @@ export const authOptions: AuthOptions = {
     //   console.log("Profile:\n", profile);
     //   return token;
     // },
-    // async signIn({ user, account }) {
-    //   return true;
-    // },
+    async signIn({ user, account }) {
+      console.log("------------------ signIn ------------------");
+      console.log("User:\n", user);
+      console.log("Account:\n", account);
+      return true;
+    },
   },
   jwt: {
     secret: process.env.JWT_SECRET as string,

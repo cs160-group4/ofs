@@ -70,7 +70,7 @@ export default async function NavbarComponent() {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <SearchBarComponent/>
+                    <SearchBarComponent />
                     {/* Cart Button */}
                     <button className="btn btn-ghost btn-circle mr-1">
                         <div className="indicator">
@@ -127,6 +127,10 @@ export default async function NavbarComponent() {
 
                             </div>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                {session?.user?.role === "admin" ?
+                                    <li>
+                                        <Link href="/admin">Admin Dashboard</Link>
+                                    </li> : null}
                                 <li>
                                     <Link href="/profile" className="justify-between">Profile
                                         {/* <span className="badge">New</span>*/}

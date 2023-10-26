@@ -5,6 +5,7 @@ import { getCategoryById } from '@/lib/categories'
 import { getProductById } from '@/lib/products'
 import CommentsComponent from '@/components/products/CommentsComponent'
 import { getCommentsByProductId } from '@/lib/comments'
+import { getProductAverageRating } from '@/lib/ratings'
 export default async function ShopCategory({ params }: { params: { id: string } }) {
     var id: number = parseInt(params.id)
     var product = await getProductById(id);
@@ -13,6 +14,8 @@ export default async function ShopCategory({ params }: { params: { id: string } 
     }
     var category = await getCategoryById(product.categoryId);
     let comments = await getCommentsByProductId(id);
+    let averageRating = await getProductAverageRating(id);
+    console.log(averageRating);
     return <main>
         <>
             <section className="py-10 font-poppins dark:bg-gray-800">
