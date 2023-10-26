@@ -6,6 +6,15 @@ import Image from 'next/image'
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import Link from 'next/link';
+function sortSelect() {
+  <select name="sort-product" id="sort-product">
+    <option value=""></option>
+    <option value=""></option>
+    <option value=""></option>
+    <option value=""></option>
+  </select>
+}
+
 
 export default async function AdminProducts() {
   const session = await getAuthSession();

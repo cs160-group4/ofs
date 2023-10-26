@@ -9,7 +9,7 @@ function SubmitButton() {
 
   return (
     <button className='btn btn-primary' type='submit' aria-disabled={pending}>
-      +  Add Product 
+      +  Add
     </button>
   )
 }
