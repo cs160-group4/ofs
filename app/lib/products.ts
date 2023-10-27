@@ -21,6 +21,11 @@ export const getProducts = async (): Promise<Product[]> => {
   return result;
 };
 
+// get product count
+export const getProductCount = async (): Promise<number> => {
+  const result: Product[] = await db.select().from(products);
+  return result.length;
+};
 
 // get all featured products
 export const getFeaturedProducts = async () => {
@@ -72,10 +77,10 @@ export const getProductByCategory = async (category: number) => {
 // get product by category name
 export const getProductByCategoryName = async (category: string) => {
   const result: Product[] = await db
-    .select( {
+    .select({
       id: products.id,
       name: products.name,
-      slug: productCategories.slug, 
+      slug: productCategories.slug,
       brand: products.brand,
       description: products.description,
       createdAt: products.createdAt,
@@ -84,9 +89,10 @@ export const getProductByCategoryName = async (category: string) => {
       picture: products.picture,
       itemWeight: products.itemWeight,
       itemPrice: products.itemPrice,
-      itemQuantity: products.itemQuantity
+      itemQuantity: products.itemQuantity,
     })
-    .from(products).leftJoin(productCategories, eq(productCategories.id, products.categoryId))
+    .from(products)
+    .leftJoin(productCategories, eq(productCategories.id, products.categoryId))
     .where(eq(productCategories.slug, category));
   return result;
 };

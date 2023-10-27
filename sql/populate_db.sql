@@ -3,11 +3,11 @@ USE ofs_dev;
 -- Populate Customer Data
 INSERT INTO user (id, email, password, name, image, role, first_name, last_name, phone_number)
 VALUES 
-    ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', 'masterm', 'Hung Pham', 'images/avatars/default.png', 'admin', 'Hung', 'Pham', '4086039113'),
-    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'jackma@gmail.com', 'password', 'Jack Ma', 'images/avatars/default.png', 'employee', 'Jack', 'Ma', '4085027699'),
-    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'elonw@gmail.com', 'test1', 'Bob Li', 'images/avatars/default.png', 'employee', 'Elon', 'Will', '4084892987'),
-    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', 'jill123456lane', 'Jill Lane', 'images/avatars/default.png', 'customer', 'Jill', 'Lane', '4086056555'),
-    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'billgates@gmail.com', 'Jogger123456', 'Jogger Bogger', 'images/avatars/default.png', 'customer', 'Bill', 'Gates', '4086088899');
+    ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', 'masterm', 'Hung Pham', 'images/avatars/default.svg', 'admin', 'Hung', 'Pham', '4086039113'),
+    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'jackma@gmail.com', 'password', 'Jack Ma', 'images/avatars/default.svg', 'employee', 'Jack', 'Ma', '4085027699'),
+    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'elonw@gmail.com', 'test1', 'Bob Li', 'images/avatars/default.svg', 'employee', 'Elon', 'Will', '4084892987'),
+    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', 'jill123456lane', 'Jill Lane', 'images/avatars/default.svg', 'customer', 'Jill', 'Lane', '4086056555'),
+    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'billgates@gmail.com', 'Jogger123456', 'Jogger Bogger', 'images/avatars/default.svg', 'customer', 'Bill', 'Gates', '4086088899');
 
 INSERT INTO addresses (id, userId, address_line1, city, state, postal_code, country, latitude, longitude)
 VALUES 

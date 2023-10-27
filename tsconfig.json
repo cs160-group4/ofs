@@ -11,6 +11,9 @@
       "@/lib/*": [
         "app/lib/*"
       ],
+      "@/utils/*": [
+        "app/utils/*"
+      ],
       "@/db/*": [
         "app/db/*"
       ],

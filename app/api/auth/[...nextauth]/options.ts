@@ -1,4 +1,5 @@
 import { db } from "@/db/db";
+import { getUser } from "@/lib/users";
 import { authenticate, getUserRole } from "@/lib/users";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { randomBytes, randomUUID } from "crypto";
@@ -78,26 +79,17 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    async signIn({ user, account }) {
-      console.log("\n\n\n\n\n------------------ signIn ------------------");
-      console.log("User:\n", user);
-      console.log("Account:\n", account);
-      return true;
-    },
+    // async signIn({ user, account }) {
+    //   return true;
+    // },
     async jwt({ token, user }) {
-      // if (user) {
-      //   console.log("---------- Set user role ----------");
-
-      // }
-      token.role = await getUserRole(token?.sub!);
-      console.log("\n\n--------- jwt ---------");
-      console.log("Token:\n", token);
+      if (token?.sub) {
+        token.user = await getUser(token?.sub);
+      }
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role;
-      console.log("------------------ Session ------------------");
-      console.log("Session:\n", session);
+      session.user = token.user;
       return session;
     },
   },

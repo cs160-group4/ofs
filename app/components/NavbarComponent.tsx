@@ -5,6 +5,8 @@ import logo from "@/public/images/h_logo.png"
 import Image from 'next/image'
 import Link from 'next/link'
 import { SearchBarComponent } from './SearchBarComponent'
+import IconAdmin from './admin/IconAdmin'
+import getAvatarURL from '@/utils/utils'
 
 export default async function NavbarComponent() {
     var signedIn = false;
@@ -14,14 +16,10 @@ export default async function NavbarComponent() {
         signedIn = true;
         name = session.user.name as string;
     }
-    let avatar = session?.user?.image as string;
-    if(!avatar?.startsWith("http")) {
-        avatar = "/" + avatar;
-    }
+    let avatar = getAvatarURL(session?.user?.image);
     return (
-        <div>
-
-            <div className="navbar bg-base-100">
+        <div className="z-1">
+            <div className="navbar bg-base-100 ">
                 {/* Mobile Dropdown Menu */}
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -44,7 +42,7 @@ export default async function NavbarComponent() {
                         </ul>
                     </div>
                     {/* Logo */}
-                    <Link href="/" className='lg:ml-36 ml-4'>
+                    <Link href="/" className='lg:ml-12 ml-4'>
                         <Image src={logo} alt="avatar" width={640} height={256} priority className="w-48 h-14 logo-image" />
                     </Link>
                 </div>
@@ -77,10 +75,15 @@ export default async function NavbarComponent() {
                     {/* Cart Button */}
                     <button className="btn btn-ghost btn-circle mr-1">
                         <div className="indicator">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                            <span className="badge badge-xs badge-primary indicator-item"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="currentColor" className="" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                            </svg>
+                            <span className="badge badge-xs badge-primary indicator-item "></span>
                         </div>
                     </button>
+
                     <div className="dropdown dropdown-end mr-1">
                         <label tabIndex={0} className="btn btn-ghost btn-circle">
                             <div className="indicator">
@@ -103,12 +106,7 @@ export default async function NavbarComponent() {
                     {/* Avatar */}
                     {signedIn ?
                         <div className="dropdown dropdown-end">
-                            <div tabIndex={0} className="flex flex-col btn btn-ghost">
-                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">
-                                    <path
-                                        d="M819.2 729.088V757.76c0 33.792-27.648 61.44-61.44 61.44H266.24c-33.792 0-61.44-27.648-61.44-61.44v-28.672c0-74.752 87.04-119.808 168.96-155.648 3.072-1.024 5.12-2.048 8.192-4.096 6.144-3.072 13.312-3.072 19.456 1.024C434.176 591.872 472.064 604.16 512 604.16c39.936 0 77.824-12.288 110.592-32.768 6.144-4.096 13.312-4.096 19.456-1.024 3.072 1.024 5.12 2.048 8.192 4.096 81.92 34.816 168.96 79.872 168.96 154.624z" />
-                                    <path d="M359.424 373.76a168.96 152.576 90 1 0 305.152 0 168.96 152.576 90 1 0-305.152 0Z" />
-                                </svg> */}
+                            <div tabIndex={0} className="flex flex-col btn btn-ghost z-0">
                                 <button className="flex items-center">
                                     <div className="hidden mr-3 text-right md:block">
                                         <p className="text-sm font-bold text-black dark:text-gray-400">
@@ -116,7 +114,7 @@ export default async function NavbarComponent() {
                                         </p>
                                     </div>
                                     <div className="mr-2">
-                                        <Image src={avatar} alt="avatar" width={640} height={256} className="w-8 h-8 rounded-full" />
+                                        <Image src={avatar} alt="avatar" width={32} height={32} className="w-8 h-8 rounded-full" />
                                     </div>
                                     <span>
                                         <svg className="text-gray-400" width="10" height="6" viewBox="0 0 10 6"
@@ -132,15 +130,40 @@ export default async function NavbarComponent() {
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 {session?.user?.role === "admin" ?
                                     <li>
-                                        <Link href="/admin">Admin Dashboard</Link>
+                                        <div>
+                                            <IconAdmin />
+                                            <Link href="/admin">Admin Dashboard</Link>
+
+                                        </div>
+                                        <div className="divider m-0"></div>
                                     </li> : null}
                                 <li>
-                                    <Link href="/profile" className="justify-between">Profile
-                                        {/* <span className="badge">New</span>*/}
-                                    </Link>
+                                    <div>
+                                        <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" width="18"
+                                            height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                            <path
+                                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                            </path>
+                                        </svg>
+                                        <Link href="/profile" className="justify-between">Profile
+                                            {/* <span className="badge">New</span>*/}
+                                        </Link>
+                                    </div>
                                 </li>
-                                {/* <li><Link href="/settings">Settings</Link></li> */}
-                                <li><SignOutLink /></li>
+
+                                <li><div>
+                                    <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" width="18"
+                                        height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                        <polyline points="16 17 21 12 16 7"></polyline>
+                                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                                    </svg>
+                                    <SignOutLink />
+                                </div>
+                                </li>
                             </ul>
                         </div>
                         : <Link href="/auth/signin" className="btn btn-ghost btn-circle"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 1024 1024" className="fill-current">

@@ -8,13 +8,19 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'avatars.githubusercontent.com',
-            },
-            {
-                protocol: 'https',
-                hostname: 'cdn.discordapp.com',
-                
+                hostname: '**',
+                port: '',
+                pathname: '**',
             }
+            // {
+            //     protocol: 'https',
+            //     hostname: 'avatars.githubusercontent.com',
+            // },
+            // {
+            //     protocol: 'https',
+            //     hostname: 'cdn.discordapp.com',
+
+            // }
         ],
     },
 
