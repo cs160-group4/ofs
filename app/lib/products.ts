@@ -15,11 +15,14 @@ export type ProductInsert = {
   itemQuantity: number;
 };
 
+// get all products
 export const getProducts = async (): Promise<Product[]> => {
   const result: Product[] = await db.select().from(products);
   return result;
 };
 
+
+// get all featured products
 export const getFeaturedProducts = async () => {
   // select random 3 products
   const result: Product[] = await db
@@ -30,11 +33,13 @@ export const getFeaturedProducts = async () => {
   return result;
 };
 
+// get all products with limit
 export const getProductsLimit = async (limit: number) => {
   const result: Product[] = await db.select().from(products).limit(limit);
   return result;
 };
 
+// get product by id
 export const getProductById = async (p_id: number): Promise<Product> => {
   const result: Product[] = await db
     .select()
@@ -43,6 +48,7 @@ export const getProductById = async (p_id: number): Promise<Product> => {
   return result[0];
 };
 
+// get product by name
 export const getProductByName = async (
   p_name: string = ""
 ): Promise<Product[]> => {
@@ -54,6 +60,7 @@ export const getProductByName = async (
   return result;
 };
 
+// get product by category
 export const getProductByCategory = async (category: number) => {
   const result: Product[] = await db
     .select()
@@ -62,6 +69,7 @@ export const getProductByCategory = async (category: number) => {
   return result;
 };
 
+// get product by category name
 export const getProductByCategoryName = async (category: string) => {
   const result: Product[] = await db
     .select( {
@@ -83,14 +91,17 @@ export const getProductByCategoryName = async (category: string) => {
   return result;
 };
 
+// add a product
 export const insertProduct = async (data: ProductInsert) => {
   return db.insert(products).values(data);
 };
 
+// update product
 const updateProduct = async (data: Product) => {
   return db.update(products).set(data);
 };
 
+// delete product
 export const deleteProduct = async (data: Product) => {
   return db.delete(products).where(eq(products.id, data.id));
 };
