@@ -1,4 +1,4 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, timestamp, decimal, unique } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, decimal, timestamp, unique } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 
@@ -21,6 +21,40 @@ export const account = mysqlTable("account", {
 	}
 });
 
+export const addresses = mysqlTable("addresses", {
+	id: int("id").autoincrement().notNull(),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
+	addressLine1: varchar("address_line1", { length: 255 }).notNull(),
+	addressLine2: varchar("address_line2", { length: 255 }),
+	city: varchar("city", { length: 100 }).notNull(),
+	state: varchar("state", { length: 100 }).notNull(),
+	postalCode: varchar("postal_code", { length: 20 }).notNull(),
+	country: varchar("country", { length: 100 }),
+	latitude: decimal("latitude", { precision: 12, scale: 8 }),
+	longitude: decimal("longitude", { precision: 12, scale: 8 }),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		addressesId: primaryKey(table.id),
+	}
+});
+
+export const cart = mysqlTable("cart", {
+	id: int("id").autoincrement().notNull(),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
+	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
+	quantity: int("quantity").notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		cartId: primaryKey(table.id),
+	}
+});
+
 export const comments = mysqlTable("comments", {
 	id: int("id").autoincrement().notNull(),
 	text: varchar("text", { length: 255 }).notNull(),
@@ -35,19 +69,68 @@ export const comments = mysqlTable("comments", {
 	}
 });
 
+export const coupons = mysqlTable("coupons", {
+	id: int("id").autoincrement().notNull(),
+	code: varchar("code", { length: 20 }).notNull(),
+	discount: decimal("discount", { precision: 5, scale: 2 }).notNull(),
+	expiresAt: timestamp("expires_at", { mode: 'string' }).notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		couponsId: primaryKey(table.id),
+	}
+});
+
+export const orderItem = mysqlTable("order_item", {
+	id: int("id").autoincrement().notNull(),
+	orderId: int("order_id").notNull().references(() => orders.id, { onDelete: "cascade" } ),
+	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
+	quantity: int("quantity").notNull(),
+	price: decimal("price", { precision: 6, scale: 2 }).notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		orderItemId: primaryKey(table.id),
+	}
+});
+
 export const orders = mysqlTable("orders", {
 	id: int("id").autoincrement().notNull(),
 	totalWeight: int("total_weight").notNull(),
-	totalPrice: decimal("total_price", { precision: 6, scale: 2 }).notNull(),
-	deliveryStatus: varchar("delivery_status", { length: 20 }).notNull(),
+	shippingCost: decimal("shipping_cost", { precision: 10, scale: 2 }).notNull(),
+	tax: decimal("tax", { precision: 10, scale: 2 }).notNull(),
+	discount: decimal("discount", { precision: 10, scale: 2 }).notNull(),
+	subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(),
+	grandTotal: decimal("grand_total", { precision: 10, scale: 2 }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
-	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
 	robotId: int("robot_id").references(() => robots.id),
+	shippingAddressId: int("shipping_address_id").references(() => addresses.id),
+	deliveryStatus: varchar("delivery_status", { length: 20 }).notNull(),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
 },
 (table) => {
 	return {
 		ordersId: primaryKey(table.id),
+	}
+});
+
+export const paymentMethods = mysqlTable("payment_methods", {
+	id: int("id").autoincrement().notNull(),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
+	cardNumber: varchar("card_number", { length: 20 }).notNull(),
+	expirationDate: varchar("expiration_date", { length: 7 }).notNull(),
+	cvv: varchar("cvv", { length: 4 }).notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		paymentMethodsId: primaryKey(table.id),
 	}
 });
 
@@ -117,6 +200,10 @@ export const robots = mysqlTable("robots", {
 	id: int("id").autoincrement().notNull(),
 	status: varchar("status", { length: 20 }).notNull(),
 	name: varchar("name", { length: 50 }),
+	totalOrders: int("total_orders").default(0),
+	totalWeight: decimal("total_weight", { precision: 10, scale: 2 }).default('0.00'),
+	latitude: decimal("latitude", { precision: 12, scale: 8 }),
+	longitude: decimal("longitude", { precision: 12, scale: 8 }),
 },
 (table) => {
 	return {

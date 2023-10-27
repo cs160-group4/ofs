@@ -16,16 +16,89 @@ CREATE TABLE `account` (
 	CONSTRAINT `account_provider_providerAccountId` PRIMARY KEY(`provider`,`providerAccountId`)
 );
 --> statement-breakpoint
+CREATE TABLE `addresses` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` varchar(255) NOT NULL,
+	`address_line1` varchar(255) NOT NULL,
+	`address_line2` varchar(255),
+	`city` varchar(100) NOT NULL,
+	`state` varchar(100) NOT NULL,
+	`postal_code` varchar(20) NOT NULL,
+	`country` varchar(100),
+	`latitude` decimal(12,8),
+	`longitude` decimal(12,8),
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `addresses_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `cart` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` varchar(255) NOT NULL,
+	`product_id` int NOT NULL,
+	`quantity` int NOT NULL,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `cart_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `comments` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`text` varchar(255) NOT NULL,
+	`userId` varchar(255) NOT NULL,
+	`product_id` int NOT NULL,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `comments_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `coupons` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`code` varchar(20) NOT NULL,
+	`discount` decimal(5,2) NOT NULL,
+	`expires_at` timestamp NOT NULL,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `coupons_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `order_item` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`order_id` int NOT NULL,
+	`product_id` int NOT NULL,
+	`quantity` int NOT NULL,
+	`price` decimal(6,2) NOT NULL,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `order_item_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `orders` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`total_weight` int NOT NULL,
-	`total_price` decimal(6,2) NOT NULL,
-	`delivery_status` varchar(20) NOT NULL,
+	`shipping_cost` decimal(10,2) NOT NULL,
+	`tax` decimal(10,2) NOT NULL,
+	`discount` decimal(10,2) NOT NULL,
+	`subtotal` decimal(10,2) NOT NULL,
+	`grand_total` decimal(10,2) NOT NULL,
 	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	`userId` varchar(255) NOT NULL,
 	`robot_id` int,
+	`shipping_address_id` int,
+	`delivery_status` varchar(20) NOT NULL,
+	`userId` varchar(255) NOT NULL,
 	CONSTRAINT `orders_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `payment_methods` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` varchar(255) NOT NULL,
+	`card_number` varchar(20) NOT NULL,
+	`expiration_date` varchar(7) NOT NULL,
+	`cvv` varchar(4) NOT NULL,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `payment_methods_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `product_categories` (
@@ -78,6 +151,10 @@ CREATE TABLE `robots` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`status` varchar(20) NOT NULL,
 	`name` varchar(50),
+	`total_orders` int DEFAULT 0,
+	`total_weight` decimal(10,2) DEFAULT '0.00',
+	`latitude` decimal(12,8),
+	`longitude` decimal(12,8),
 	CONSTRAINT `robots_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -113,8 +190,17 @@ CREATE TABLE `verificationToken` (
 );
 --> statement-breakpoint
 ALTER TABLE `account` ADD CONSTRAINT `account_userId_user_id_fk` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `addresses` ADD CONSTRAINT `fk_user_address` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `cart` ADD CONSTRAINT `fk_product_cart` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `cart` ADD CONSTRAINT `fk_user_cart` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `comments` ADD CONSTRAINT `fk_product_comment` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `comments` ADD CONSTRAINT `fk_user_comment` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `order_item` ADD CONSTRAINT `fk_order_detail_order` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `order_item` ADD CONSTRAINT `fk_order_detail_product` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `orders` ADD CONSTRAINT `fk_robot_order` FOREIGN KEY (`robot_id`) REFERENCES `robots`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `orders` ADD CONSTRAINT `fk_shipping_address` FOREIGN KEY (`shipping_address_id`) REFERENCES `addresses`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `orders` ADD CONSTRAINT `fk_user_order` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `payment_methods` ADD CONSTRAINT `fk_user_payment` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products` ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `product_categories`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `ratings` ADD CONSTRAINT `fk_product_rating` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `ratings` ADD CONSTRAINT `fk_user_rating` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

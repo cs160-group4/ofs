@@ -128,7 +128,11 @@ CREATE TABLE robots (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     status varchar(20) NOT NULL,
     -- (available, busy, offline)
-    name varchar(50)
+    name varchar(50),
+    total_orders int DEFAULT 0,
+    total_weight decimal(10, 2) DEFAULT 0.00,
+    latitude decimal(12, 8),
+    longitude decimal(12, 8)
 );
 
 CREATE TABLE cart (
