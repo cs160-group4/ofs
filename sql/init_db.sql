@@ -22,6 +22,22 @@ CREATE TABLE user (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE addresses (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    userId varchar(255) NOT NULL,
+    address_line1 varchar(255) NOT NULL,
+    address_line2 varchar(255),
+    city varchar(100) NOT NULL,
+    state varchar(100) NOT NULL,
+    postal_code varchar(20) NOT NULL,
+    country varchar(100),
+	latitude decimal(12, 8),
+    longitude decimal(12, 8),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_address FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action
+);
+
 CREATE TABLE account (
     userId varchar(255) NOT NULL,
     type varchar(255) NOT NULL,
@@ -86,6 +102,17 @@ CREATE TABLE reviews (
     CONSTRAINT fk_product_review FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
 );
 
+CREATE TABLE comments (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    text varchar(255) NOT NULL,
+    userId varchar(255) NOT NULL,
+    product_id int NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_comment FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
+    CONSTRAINT fk_product_comment FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
+);
+
 CREATE TABLE ratings (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     rating_value INT,
@@ -104,31 +131,75 @@ CREATE TABLE robots (
     name varchar(50)
 );
 
+CREATE TABLE cart (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    userId varchar(255) NOT NULL,
+    product_id int NOT NULL,
+    quantity int NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_cart FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
+    CONSTRAINT fk_product_cart FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
+);
+
 CREATE TABLE orders (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     total_weight int NOT NULL,
-    total_price decimal(6, 2) NOT NULL,
-    delivery_status varchar(20) NOT NULL,
+    shipping_cost decimal(10, 2) NOT NULL,
+    -- free shipping if total_weight > 20lbs  
+    tax decimal(10, 2) NOT NULL,
+    -- total tax = subtotal * 0.1
+    discount decimal(10, 2) NOT NULL,
+    subtotal decimal(10, 2) NOT NULL,
+    -- total price of all items
+    grand_total decimal(10, 2) NOT NULL,
+    -- subtotal + shipping_cost + tax - discount
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    userId varchar(255) NOT NULL,
     robot_id int,
+    -- references robots(id)
+    shipping_address_id int,
+    -- references addresses(id)
+    delivery_status varchar(20) NOT NULL,
+    -- (pending, shipped, delivered, cancelled)
+    userId varchar(255) NOT NULL,
+    -- references user(id)
     CONSTRAINT fk_user_order FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
-    CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id)
+    CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id),
+    CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE no action ON UPDATE no action
 );
 
-CREATE TABLE comments (
+CREATE TABLE order_item (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    text varchar(255) NOT NULL,
-    userId varchar(255) NOT NULL,
+    order_id int NOT NULL,
     product_id int NOT NULL,
+    quantity int NOT NULL,
+    price decimal(6, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_user_comment FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
-    CONSTRAINT fk_product_comment FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
+    CONSTRAINT fk_order_detail_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE cascade ON UPDATE no action,
+    CONSTRAINT fk_order_detail_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
 );
 
+CREATE TABLE payment_methods (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    userId varchar(255) NOT NULL,
+    card_number varchar(20) NOT NULL,
+    expiration_date varchar(7) NOT NULL,
+    cvv varchar(4) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_payment FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action
+);
 
+CREATE TABLE coupons (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    code varchar(20) NOT NULL,
+    discount decimal(5, 2) NOT NULL,
+    expires_at timestamp NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 ALTER TABLE
     account
