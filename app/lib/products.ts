@@ -1,6 +1,6 @@
 import { db } from "@/db/db";
 import { productCategories, products } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { asc, desc, eq, sql } from "drizzle-orm";
 
 export type Product = typeof products.$inferSelect;
 export type ProductInsert = {
@@ -14,6 +14,9 @@ export type ProductInsert = {
   itemPrice: string;
   itemQuantity: number;
 };
+export type productBrand = {
+  brand: string
+}
 
 // get all products
 export const getProducts = async (): Promise<Product[]> => {
@@ -75,7 +78,18 @@ export const getProductByCategory = async (category: number) => {
 };
 
 // get product by category name
-export const getProductByCategoryName = async (category: string) => {
+export const getProductByCategoryName = async (category: string, priceSort: string, nameSort: string) => {
+  
+  if(priceSort === 'ASC')
+    var priceOrder = asc(products.itemPrice);
+  else
+    var priceOrder = desc(products.itemPrice);
+
+  if(nameSort === 'ASC')
+    var nameOrder = asc(products.name);
+  else
+    var nameOrder = desc(products.name);
+  
   const result: Product[] = await db
     .select({
       id: products.id,
@@ -93,7 +107,8 @@ export const getProductByCategoryName = async (category: string) => {
     })
     .from(products)
     .leftJoin(productCategories, eq(productCategories.id, products.categoryId))
-    .where(eq(productCategories.slug, category));
+    .where(sql`${productCategories.name} LIKE ${category}`)
+    .orderBy(priceOrder, nameOrder);
   return result;
 };
 
