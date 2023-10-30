@@ -32,7 +32,7 @@ export default async function AdminProducts() {
         </div>
         {/* management tools container */}
         <div className='flex justify-between items-center max-w-2xl'>
-          <AddProductButtonComponent />
+          {/* <AddProductButtonComponent /> */}
           <div className='dropdown dropdown-bottom'>
             <span tabIndex={0} className='menu-dropdown-toggle'>Status</span>
             <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 bg-base-300 rounded-box w-50'>
@@ -92,7 +92,7 @@ export default async function AdminProducts() {
                   <td>{product.itemPrice}</td>
                   <td>{product.itemWeight}</td>
                   <td>{product.itemQuantity}</td>
-                  <td><RemoveProductForm prod={product} /></td>
+                  {/* <td><RemoveProductForm prod={product} /></td> */}
                 </tr>
               ))}
             </tbody>

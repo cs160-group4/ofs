@@ -3,8 +3,8 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { createUser } from '@/actions/users'
 
-import { experimental_useFormState as useFormState } from 'react-dom'
-import { experimental_useFormStatus as useFormStatus } from 'react-dom'
+
+import { useFormState, useFormStatus } from 'react-dom'
 
 const initialState = {
     message: null,
