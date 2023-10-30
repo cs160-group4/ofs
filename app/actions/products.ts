@@ -54,7 +54,7 @@ export async function createProduct(prevState: any, formData: FormData) {
         {
             await insertProduct(result.data)
             revalidatePath('/')
-            return { success: true, message: result.data.name + ' Successfully Added'}
+            return { success: true, message: result.data.name + ' Added Successfully'}
         }
         else {
             return {success: false, error: result.error.format()}
