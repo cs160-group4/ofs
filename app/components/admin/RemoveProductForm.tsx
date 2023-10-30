@@ -1,6 +1,6 @@
 'use client'
 import { Product } from "@/lib/products"
-import { removeProduct } from "app/actions"
+import { removeProduct } from "@/actions/products"
 import { experimental_useFormStatus as useFormStatus} from "react-dom"
 
 function DeleteButton() {
