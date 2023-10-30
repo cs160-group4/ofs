@@ -1,9 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Product } from '@/lib/products'
-import { getCategoryById } from '@/lib/categories';
+import { useEffect, useState } from 'react';
 
-export default async function ProductComponent({ product }: { product: Product }) {
+const ProductComponent = ({ product }: { product: Product }) => {
   if (!product) return null;
   let imageLink = "/"+product?.picture;
 
@@ -12,7 +14,23 @@ export default async function ProductComponent({ product }: { product: Product }
 
   const truncatedDescription: string = productDescription.length > maxLength
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
-    var category =await getCategoryById(product.categoryId);
+  
+  const [category, setCategory] = useState<string>("");
+
+  useEffect( () => {
+    const fetchData = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/api/categoryByID?categoryID="+product.categoryId, {
+            method: 'GET',
+        });
+        setCategory(await response.json());
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } 
+    }
+    fetchData();
+}, [])
+  
   return (
     <Link href={"/products/" + product.id} >
       <div className="card w-96 bg-base-100 shadow-xl m-4 ">
@@ -38,3 +56,5 @@ export default async function ProductComponent({ product }: { product: Product }
 
   );
 };
+
+export default ProductComponent;
