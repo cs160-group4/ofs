@@ -37,6 +37,7 @@ function MapComponent() {
                     L.latLng(37.3197, -121.8683), //test data
                 ],
                 routeWhileDragging: true,
+                draggableWaypoints: false,
             }).addTo(map);
         }
     }, []);
