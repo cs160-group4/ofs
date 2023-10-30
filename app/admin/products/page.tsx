@@ -1,6 +1,7 @@
 import AddProductButtonComponent from '@/components/AddProductModal';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { RemoveProductModal } from '@/components/RemoveProductModal';
+import { RemoveProductModal } from '@/components/RemoveProductModal';
 import { getProducts } from '@/lib/products'
 import Image from 'next/image'
 import { redirect } from "next/navigation";
