@@ -57,7 +57,7 @@ export async function createProduct(prevState: any, formData: FormData) {
             return { success: true, message: result.data.name + ' Added Successfully'}
         }
         else {
-            return {success: false, error: result.error.format()}
+            return {success: false, message: "failed to add product"}
         }
     }
     catch(error) {
