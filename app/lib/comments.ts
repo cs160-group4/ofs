@@ -3,7 +3,7 @@ import { comments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export type Comments = typeof comments.$inferSelect;
-
+export type NewComment = typeof comments.$inferInsert;
 // get all comments
 export const getComments = async () => {
   return await db.select().from(comments).limit(5);
@@ -38,7 +38,7 @@ export const getCommentsByUserId = async (userId: string) => {
 };
 
 // add a comment to product
-export const addComment = async (data: Comments) => {
+export const addComment = async (data: NewComment) => {
   return await db.insert(comments).values(data);
 };
 
@@ -48,7 +48,7 @@ export const deleteComment = async (id: number) => {
 };
 
 // update comment
-export const updateComment = async (id: number, data: Comments) => {
+export const updateComment = async (id: number, data: NewComment) => {
   return await db.update(comments).set(data).where(eq(comments.id, id));
 };
 

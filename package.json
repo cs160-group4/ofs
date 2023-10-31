@@ -12,15 +12,15 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^0.3.4",
+    "@auth/drizzle-adapter": "^0.3.5",
     "@hookform/resolvers": "^3.3.2",
-    "@types/node": "20.6.3",
-    "@types/react": "18.2.22",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.15",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "10.4.16",
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.28.6",
-    "eslint": "8.49.0",
+    "eslint": "^8",
     "eslint-config-next": "^14.0.0",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
@@ -31,12 +31,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sharp": "^0.32.6",
-    "tailwindcss": "3.3.3",
+    "tailwindcss": "^3.3",
     "theme-change": "^2.5.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "daisyui": "3.8.2",
+    "daisyui": "^3",
     "drizzle-kit": "^0.19.13"
   }
 }

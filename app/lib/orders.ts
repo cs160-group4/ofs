@@ -3,6 +3,7 @@ import { orders } from "@/db/schema";
 import { eq, or, sql } from "drizzle-orm";
 
 export type Order = typeof orders.$inferSelect;
+export type NewOrder = typeof orders.$inferInsert;
 
 // get all orders
 export const getOrders = async () => {
@@ -20,7 +21,7 @@ export const getOrdersByUserId = async (user_id: string) => {
 };
 
 // create order
-export const createOrder = async (order: Order) => {
+export const createOrder = async (order: NewOrder) => {
   return await db.insert(orders).values(order);
 };
 
@@ -30,7 +31,7 @@ export const deleteOrder = async (id: number) => {
 };
 
 // update order
-export const updateOrder = async (id: number, data: Order) => {
+export const updateOrder = async (id: number, data: NewOrder) => {
   return await db.update(orders).set(data).where(eq(orders.id, id));
 };
 

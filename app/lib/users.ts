@@ -3,8 +3,12 @@ import { user } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export type User = typeof user.$inferSelect;
+export type NewUser = typeof user.$inferInsert;
 
-export const authenticate = async (email: string, password: string): Promise<User | null> => {
+export const authenticate = async (
+  email: string,
+  password: string
+): Promise<User | null> => {
   const result: User[] = await db
     .select()
     .from(user)
@@ -43,16 +47,16 @@ export const getUserRole = async (id: string): Promise<string> => {
 };
 
 // add a user
-export const insertUser = async (data: User) => {
+export const insertUser = async (data: NewUser) => {
   return db.insert(user).values(data);
 };
 
 // update user
-export const updateUser = async (data: User) => {
+export const updateUser = async (data: NewUser) => {
   return db.update(user).set(data);
 };
 
 // delete user
-export const deleteUser = async (data: User) => {
-  return db.delete(user).where(eq(user.id, data.id));
+export const deleteUser = async (id: string) => {
+  return db.delete(user).where(eq(user.id, id));
 };

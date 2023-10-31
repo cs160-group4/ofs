@@ -15,7 +15,7 @@ export default async function ShopCategory({ params }: { params: { id: string } 
     var category = await getCategoryById(product.categoryId);
     let comments = await getCommentsByProductId(id);
     let averageRating = await getProductAverageRating(id);
-    console.log(averageRating);
+    // console.log(averageRating);
     return <main>
         <>
             <section className="py-10 font-poppins dark:bg-gray-800">

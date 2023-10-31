@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 
 
 export type Review = typeof reviews.$inferSelect
-
+export type NewReview = typeof reviews.$inferInsert
 // get all reviews
 export const getReviews = async () => {
     return await db.select().from(reviews);
@@ -31,7 +31,7 @@ export const getReviewByProductId = async (product_id: number) => {
 }
 
 // add a review to product
-export const addReview = async (data: Review) => {
+export const addReview = async (data: NewReview) => {
     return await db.insert(reviews).values(data);
 }
 
@@ -41,7 +41,7 @@ export const deleteReview = async (id: number) => {
 }
 
 // update review
-export const updateReview = async (id: number, data: Review) => {
+export const updateReview = async (id: number, data: NewReview) => {
     return await db.update(reviews).set(data).where(eq(reviews.id, id));
 }
 

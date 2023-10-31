@@ -3,6 +3,7 @@ import { addresses } from "@/db/schema";
 import { eq, or, sql } from "drizzle-orm";
 
 export type Addresses = typeof addresses.$inferSelect;
+export type NewAddress = typeof addresses.$inferInsert;
 
 export const getAddresses = async () => {
   return await db.select().from(addresses);
@@ -14,7 +15,7 @@ export const getAddress = async (user_id: string) => {
 };
 
 // add a address to user
-export const addAddress = async (data: Addresses) => {
+export const addAddress = async (data: NewAddress) => {
   return await db.insert(addresses).values(data);
 };
 
