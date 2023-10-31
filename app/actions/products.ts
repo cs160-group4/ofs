@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { deleteReview } from '../lib/reviews';
 
 
+
 function formatDate(date:Date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
@@ -18,9 +19,10 @@ function formatDate(date:Date) {
   }
 
 export async function createProduct(prevState: any, formData: FormData) {
+
     const currentDateTime = new Date();
     const formattedDateTime = formatDate(currentDateTime);
-    
+    const priceEx = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/gm
     try {
         const schema = z.object({
             name: z.string().min(1).max(40).trim(),
@@ -31,7 +33,7 @@ export async function createProduct(prevState: any, formData: FormData) {
             categoryId: z.number().int(),
             picture: z.string().min(0).max(100),
             itemWeight: z.number().positive(),
-            itemPrice: z.string(),
+            itemPrice: z.string().regex(priceEx),
             itemQuantity: z.number().int().positive(),
             createdAt: z.string(),
             updatedAt: z.string(),
@@ -57,11 +59,15 @@ export async function createProduct(prevState: any, formData: FormData) {
             return { success: true, message: result.data.name + ' Added Successfully'}
         }
         else {
-            return {success: false, message: "failed to add product"}
+            return {success: false,  message: "Product Failed to be Added"}
         }
     }
     catch(error) {
+        if (error instanceof z.ZodError) {
+            return {success: false, message: error.message}
+        }
         return {success: false, message: "Product Failed to be Added"}
+        
     }
 }
 

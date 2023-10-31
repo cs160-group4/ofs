@@ -53,11 +53,7 @@ export default async function AdminProducts() {
             {/* table header */}
             <thead>
               <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className='checkbox' />
-                  </label>
-                </th>
+                <th></th>
                 <th>IMAGE</th>
                 <th>ITEM DETAILS</th>
                 <th>BRAND</th>
@@ -70,14 +66,10 @@ export default async function AdminProducts() {
             <tbody>
               {products.map((product) => (
                 <tr key={product.id}>
+                  <td></td>
                   <td>
                     <Image src={"/" + product.picture} alt={product.name}
                     width={50} height={50} className="h-[50px]" />
-                  </td>
-                  <td>
-                    <label>
-                      <input type="checkbox" className='checkbox' />
-                    </label>
                   </td>
                   <td>
                     <div className='flex flex-col'>

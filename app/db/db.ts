@@ -37,7 +37,8 @@ if (process.env.NODE_ENV === 'production') {
   db = drizzle(poolConnection)
 }
 
-//sourced from 
+//sourced from https://github.com/jenseng/abuse-the-platform/blob/2993a7e846c95ace693ce61626fa072174c8d9c7/app/utils/singleton.ts
+
 export function singleton<Value>(name: string, value: () => Value): Value {
   const yolo = global as any
   yolo.__singletons ??= {}
