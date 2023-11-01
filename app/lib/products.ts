@@ -3,20 +3,11 @@ import { productCategories, products } from "@/db/schema";
 import { asc, desc, eq, sql } from "drizzle-orm";
 
 export type Product = typeof products.$inferSelect;
-export type ProductInsert = {
-  name: string;
-  description: string;
-  slug: string | null;
-  brand: string;
-  categoryId: number;
-  picture: string;
-  itemWeight: number;
-  itemPrice: string;
-  itemQuantity: number;
-};
+export type NewProduct = typeof products.$inferInsert;
+
 export type productBrand = {
-  brand: string
-}
+  brand: string;
+};
 
 // get all products
 export const getProducts = async (): Promise<Product[]> => {
@@ -78,18 +69,17 @@ export const getProductByCategory = async (category: number) => {
 };
 
 // get product by category name
-export const getProductByCategoryName = async (category: string, priceSort: string, nameSort: string) => {
-  
-  if(priceSort === 'ASC')
-    var priceOrder = asc(products.itemPrice);
-  else
-    var priceOrder = desc(products.itemPrice);
+export const getProductByCategoryName = async (
+  category: string,
+  priceSort: string,
+  nameSort: string
+) => {
+  if (priceSort === "ASC") var priceOrder = asc(products.itemPrice);
+  else var priceOrder = desc(products.itemPrice);
 
-  if(nameSort === 'ASC')
-    var nameOrder = asc(products.name);
-  else
-    var nameOrder = desc(products.name);
-  
+  if (nameSort === "ASC") var nameOrder = asc(products.name);
+  else var nameOrder = desc(products.name);
+
   const result: Product[] = await db
     .select({
       id: products.id,
@@ -113,16 +103,34 @@ export const getProductByCategoryName = async (category: string, priceSort: stri
 };
 
 // add a product
-export const insertProduct = async (data: ProductInsert) => {
+export const insertProduct = async (data: NewProduct) => {
   return db.insert(products).values(data);
 };
 
 // update product
-const updateProduct = async (data: Product) => {
-  return db.update(products).set(data);
+export const updateProduct = async (data: Product) => {
+  return await db
+    .update(products)
+    .set(data)
+    .where(eq(products.id, data.id));
+
+    // return await db
+    // .update(products)
+    // .set({
+    //   name: data.name,
+    //   description: data.description,
+    //   slug: data.slug,
+    //   brand: data.brand,
+    //   categoryId: data.categoryId,
+    //   picture: data.picture,
+    //   itemWeight: data.itemWeight,
+    //   itemPrice: data.itemPrice,
+    //   itemQuantity: data.itemQuantity,
+    // })
+    // .where(eq(products.id, data.id));
 };
 
 // delete product
-export const deleteProduct = async (data: Product) => {
-  return db.delete(products).where(eq(products.id, data.id));
+export const deleteProduct = async (id: number) => {
+  return db.delete(products).where(eq(products.id, id));
 };

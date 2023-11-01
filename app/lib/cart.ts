@@ -3,6 +3,7 @@ import { cart } from "@/db/schema";
 import { eq, or, sql } from "drizzle-orm";
 
 export type Cart = typeof cart.$inferSelect;
+export type NewCart = typeof cart.$inferInsert;
 
 export const getCarts = async () => {
   return await db.select().from(cart);
@@ -14,7 +15,7 @@ export const getCart = async (user_id: string) => {
 };
 
 // add a product to cart
-export const addProductToCart = async (data: Cart) => {
+export const addProductToCart = async (data: NewCart) => {
   return await db.insert(cart).values(data);
 };
 

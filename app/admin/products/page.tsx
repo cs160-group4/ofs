@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { redirect } from "next/navigation";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 function sortSelect() {
   <select name="sort-product" id="sort-product">
@@ -17,26 +18,23 @@ function sortSelect() {
 
 
 export default async function AdminProducts() {
-  // const session = await getAuthSession();
-  // if (!session || !session.user || session.user.role !== "admin") {
-  //   return <>
-  //     <div className="flex flex-col justify-center items-center h-96">
-  //        <h1 className='text-3xl font-bold m-12'>You are not authorized to view this page</h1>
+  const session = await getAuthSession();
+  if (!session || !session.user || session.user.role !== "admin") {
+    return <>
+      <div className="flex flex-col justify-center items-center h-96">
+        <h1 className='text-3xl font-bold m-12'>You are not authorized to view this page</h1>
 
-  //       <div>
-  //         <Link href="/" className='btn btn-primary text-white'>Go back to home page</Link>
-  //         </div>
-  //     </div>
-  //   </>
-  // }
-
+        <div>
+          <Link href="/" className='btn btn-primary text-white'>Go back to home page</Link>
+        </div>
+      </div>
+    </>
+  }
   const products = await getProducts();
   
   return (
-
     <>
       <div className='flex flex-col mx-6 pt-7 gap-y-5'>
-
         {/* title/header */}
         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
           <p className='font-bold text-3xl'>Manage Catalogue</p>
@@ -58,6 +56,7 @@ export default async function AdminProducts() {
                 <th>IMAGE</th>
                 <th>ITEM DETAILS</th>
                 <th>BRAND</th>
+                <th>CATEGORY</th>
                 <th>PRICE</th>
                 <th>WEIGHT</th>
                 <th>INVENTORY</th>
@@ -79,10 +78,17 @@ export default async function AdminProducts() {
                     </div>
                   </td>
                   <td>{product.brand}</td>
+                  <td>
+                    {product.categoryId}
+                  </td>
                   <td>{product.itemPrice}</td>
                   <td>{product.itemWeight}</td>
                   <td>{product.itemQuantity}</td>
-                  <td><RemoveProductModal product={product}/></td>
+                  <td>
+                    <Suspense fallback={<p>Deleting...</p>}>
+                    <RemoveProductModal product={product.id}/>
+                    </Suspense>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -3,6 +3,11 @@ import { db } from "@/db/db";
 import { eq, sql } from "drizzle-orm";
 import { productCategories } from "drizzle/schema";
 
+
+export type Categories = typeof productCategories.$inferSelect;
+export type NewCategory = typeof productCategories.$inferInsert;
+
+
 // get all categories
 export const getCategories = async () => {
   return await db.select().from(productCategories);
@@ -19,7 +24,7 @@ export const getCategoryById = async (id: number) => {
 };
 
 // add a category
-export const addCategory = async (data: any) => {
+export const addCategory = async (data: NewCategory) => {
   return await db.insert(productCategories).values(data);
 };
 
@@ -29,7 +34,7 @@ export const deleteCategory = async (id: number) => {
 };
 
 // update category
-export const updateCategory = async (id: number, data: any) => {
+export const updateCategory = async (id: number, data: NewCategory) => {
   return await db
     .update(productCategories)
     .set(data)

@@ -6,31 +6,29 @@ import { Product } from '@/lib/products'
 import { useEffect, useState } from 'react';
 
 const ProductComponent = ({ product }: { product: Product }) => {
+  const [category, setCategory] = useState<string>("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/categoryByID?categoryID=" + product.categoryId, {
+          method: 'GET',
+        });
+        setCategory(await response.json());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  },)
   if (!product) return null;
-  let imageLink = "/"+product?.picture;
+  let imageLink = "/" + product?.picture;
 
   const maxLength = 35;
   const productDescription: string = product.description;
 
   const truncatedDescription: string = productDescription.length > maxLength
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
-  
-  const [category, setCategory] = useState<string>("");
 
-  useEffect( () => {
-    const fetchData = async () => {
-        try {
-          const response = await fetch("http://localhost:3000/api/categoryByID?categoryID="+product.categoryId, {
-            method: 'GET',
-        });
-        setCategory(await response.json());
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        } 
-    }
-    fetchData();
-}, [])
-  
   return (
     <Link href={"/products/" + product.id} >
       <div className="card w-96 bg-base-100 shadow-xl m-4 ">
