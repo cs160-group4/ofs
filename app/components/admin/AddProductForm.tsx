@@ -104,9 +104,9 @@ export function AddProductForm() {
               <label className='label'>
                 <span className='label-text'>Price</span>
               </label>
-              <input className='w-full input input-bordered' pattern='(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$' name="itemPrice" min={0} required/>
+              <input className='w-full input input-bordered'  name="itemPrice" min={0} required/>
             </div>
-
+{/* pattern='(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$' */}
             <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
               <label className='label'>
                 <span className='label-text'>Quantity</span>

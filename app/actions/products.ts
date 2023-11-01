@@ -59,15 +59,12 @@ export async function createProduct(prevState: any, formData: FormData) {
             return { success: true, message: result.data.name + ' Added Successfully'}
         }
         else {
+            console.log(result.error.format);
             return {success: false,  message: "Product Failed to be Added"}
         }
     }
     catch(error) {
-        if (error instanceof z.ZodError) {
-            return {success: false, message: error.message}
-        }
         return {success: false, message: "Product Failed to be Added"}
-        
     }
 }
 
@@ -77,7 +74,8 @@ export async function removeProduct(prod:Product, formData: FormData){
     try {
         await deleteReview(prod.id)
         await deleteProduct(prod)
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error)
     }
     revalidatePath('/')

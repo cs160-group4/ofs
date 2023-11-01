@@ -31,6 +31,7 @@ export default async function AdminProducts() {
   // }
 
   const products = await getProducts();
+  
   return (
 
     <>
