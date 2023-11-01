@@ -1,8 +1,29 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { User, insertUser } from "@/lib/users";
+import { User, insertUser, updateUserRole } from "@/lib/users";
 import { randomUUID } from "crypto";
+import { deleteUser } from "@/lib/users";
+import { redirect } from "next/navigation";
+
+const FormSchema = z.object({
+  id: z.string(),
+  name: z.string().min(3).max(50),
+  email: z.string().email().min(3).max(100),
+  password: z.string().min(10),
+  confirmPassword: z.string().min(10),
+  role: z.string({ invalid_type_error: "Please select a role" }),
+});
+export type State = {
+  errors?: {
+    name?: string[];
+    role?: string[];
+    status?: string[];
+  };
+  message?: string;
+};
+const UpdateUser = FormSchema.pick({ id: true, role: true });
+const DeleteUser = FormSchema.pick({ id: true });
 
 export async function createUser(prevState: any, formData: FormData) {
   try {
@@ -31,25 +52,61 @@ export async function createUser(prevState: any, formData: FormData) {
           },
         };
       }
-          // const user: User = {
-    //   id: randomUUID(), // https://www.rfc-editor.org/rfc/rfc4122.txt
-    //   name: data.name,
-    //   email: data.email,
-    //   password: data.password,
-    //   role: "user",
-    //   emailVerified: null,
-    //   image: "images/avatars/default.png",
-    // };
-    // await insertUser(user);
-    //     revalidatePath("/");
-    // return { message: `Added user ${data.email}` };
+      // const user: User = {
+      //   id: randomUUID(), // https://www.rfc-editor.org/rfc/rfc4122.txt
+      //   name: data.name,
+      //   email: data.email,
+      //   password: data.password,
+      //   role: "user",
+      //   emailVerified: null,
+      //   image: "images/avatars/default.png",
+      // };
+      // await insertUser(user);
+      //     revalidatePath("/");
+      // return { message: `Added user ${data.email}` };
       return { success: true, data: result.data };
     }
     console.log("Error:\n", result.error.format());
     return { success: false, error: result.error.format() };
-
-
   } catch (e: any) {
     return { success: false, message: "Failed to create an account" };
+  }
+}
+
+export async function updateUserRoleAction(prevState: any, formData: FormData) {
+  const validatedFields = UpdateUser.safeParse({
+    id: formData.get("id"),
+    role: formData.get("role"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update User.",
+    };
+  }
+
+  const { id, role } = validatedFields.data;
+  try {
+    await updateUserRole(id, role);
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Invoice." };
+  }
+
+  revalidatePath("/admin/users");
+  redirect("/admin/users");
+}
+
+export async function deleteUserAction(formData: FormData) {
+  const { id } = DeleteUser.parse({
+    id: formData.get("id"),
+  });
+
+  try {
+    await deleteUser(id);
+    revalidatePath("/admin/users");
+    return { message: "Deleted User" };
+  } catch (error) {
+    return { message: "Database Error: Failed to Delete User." };
   }
 }
