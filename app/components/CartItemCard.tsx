@@ -9,7 +9,6 @@ import { User } from '@/lib/users';
 export async function CartItemCard({ item }: {item: CartItem }) {
   let cart = item.cart;
   let product = item.products;
-  let user = item.user;
   const imageSrc = `/${product.picture}`;
 
   const deleteCartItem = async () => {

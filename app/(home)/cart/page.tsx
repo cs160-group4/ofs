@@ -15,14 +15,16 @@ export default async function Cart() {
         name = session.user.name as string;
         id = session.user.id as string;
     }
+
     const cartItems = await getCart(id);
+
+    // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
     let subtotal: number = 0;
     cartItems.forEach((item) => {
         if (item.products) {
             subtotal += parseFloat(item.products.itemPrice) * item.cart.quantity;
         }
     });
-
     const shipping = calculateShipping(cartItems);
     const tax = subtotal * 0.1;
     const total = subtotal + shipping + tax;
@@ -31,6 +33,8 @@ export default async function Cart() {
     const shippingString = shipping.toFixed(2);
     const taxString = tax.toFixed(2);
     const totalString = total.toFixed(2);
+    // Hung Pham 11/01/2023 - end of calculations
+
     return (
         <div className="container mx-auto px-6 pt-7 bg-base-100 xl:px-0 relative">
             <div className="flex pb-6 justify-center md:justify-start">
@@ -84,6 +88,7 @@ export default async function Cart() {
     )
 }
 
+// calculates shipping cost based on weight of items in cart - Hung Pham 11/01/2023
 function calculateShipping(cartItems: CartItem[]): number {
     let weight = 0;
     cartItems.forEach((item) => {
