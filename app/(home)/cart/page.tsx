@@ -1,7 +1,23 @@
+import { getAuthSession } from '@/api/auth/[...nextauth]/options'
+import { CartItemCard } from '@/components/CartItemCard';
+import { getCart } from '@/lib/cart';
 import Link from 'next/link'
 import React from 'react'
 
-const Cart = () => {
+export default async function Cart () {
+    var signedIn = false;
+    var name = "";
+    var id = "";
+
+    const session = await getAuthSession();
+    if (session?.user) {
+        signedIn = true;
+        name = session.user.name as string;  
+        id = session.user.id as string;  
+    }
+
+    const cart = await getCart(id);
+
     return (
         <div className="container mx-auto px-6 pt-7 bg-base-100 xl:px-0 relative">
             <div className="flex pb-6 justify-center md:justify-start">
@@ -18,24 +34,9 @@ const Cart = () => {
                                 {/* populate list with appropriate data later(li is just filler)*/}
                                 <ul className="-my-6 pb-6 space-y-5 mt-auto mb-auto">
                                     {/* replace bg color */}
-                                    <li className="flex h-30 content-center py-6 bg-white rounded-box place-items-center">
-                                        img
-                                        <div className="mt-5 sm:mt-0">
-                                            <div>
-                                                <h2 className="text-lg font-bold">Product Title</h2>
-                                                <p className="mt-1 text-s">Product Desc.</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="flex h-30 content-center py-6 bg-white rounded-box place-items-center">
-                                        img
-                                        <div className="mt-5 sm:mt-0">
-                                            <div>
-                                                <h2 className="text-lg font-bold">Product Title</h2>
-                                                <p className="mt-1 text-s">Product Desc.</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    {cart.map((item) => (
+                                        <CartItemCard id={item.id} productId={item.productId} quantity={item.quantity}/>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -65,5 +66,3 @@ const Cart = () => {
         </div>
     )
 }
-
-export default Cart
