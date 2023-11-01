@@ -1,24 +1,16 @@
-'use client'
-
+import { TrashIcon } from '@heroicons/react/24/outline';
 import { Product } from "@/lib/products"
 import { removeProduct } from "app/actions"
-import { experimental_useFormStatus as useFormStatus} from "react-dom"
+import { useFormState, useFormStatus } from "react-dom"
 
-function DeleteButton() {
-    const { pending } = useFormStatus()
-
+export  function RemoveProductForm({ id }: { id: number }) {
     return (
-        <button type="submit" className="btn btn-error rounded-box" aria-disabled={pending}>
-            Delete
-        </button>
-    )
-}
-
-export function RemoveProductForm({ prod }: { prod:Product}){
-    const remove = removeProduct.bind(null, prod)
-    return (
-        <form action={ remove }>
-            <DeleteButton />
+        <form action={removeProduct}>
+            <input type="hidden" name="id" value={id} />
+            <button className="rounded-md border p-2 hover:bg-gray-100">
+                <span className="sr-only">Delete</span>
+                <TrashIcon className="w-5" />
+            </button>
         </form>
     )
 }

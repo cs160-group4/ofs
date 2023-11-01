@@ -108,8 +108,26 @@ export const insertProduct = async (data: NewProduct) => {
 };
 
 // update product
-const updateProduct = async (data: NewProduct) => {
-  return db.update(products).set(data);
+export const updateProduct = async (data: Product) => {
+  return await db
+    .update(products)
+    .set(data)
+    .where(eq(products.id, data.id));
+
+    // return await db
+    // .update(products)
+    // .set({
+    //   name: data.name,
+    //   description: data.description,
+    //   slug: data.slug,
+    //   brand: data.brand,
+    //   categoryId: data.categoryId,
+    //   picture: data.picture,
+    //   itemWeight: data.itemWeight,
+    //   itemPrice: data.itemPrice,
+    //   itemQuantity: data.itemQuantity,
+    // })
+    // .where(eq(products.id, data.id));
 };
 
 // delete product

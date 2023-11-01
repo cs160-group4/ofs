@@ -13,15 +13,22 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.5",
+    "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
+    "@tailwindcss/forms": "^0.5.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "10.4.16",
+    "bcrypt": "^5.1.1",
+    "clsx": "^2.0.0",
+    "daisyui": "^3",
     "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.19.13",
     "drizzle-orm": "^0.28.6",
     "eslint": "^8",
     "eslint-config-next": "^14.0.0",
+    "geist": "^1.0.0",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
     "mysql2": "^3.6.2",
@@ -36,7 +43,10 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "daisyui": "^3",
-    "drizzle-kit": "^0.19.13"
+    "@types/bcrypt": "^5.0.1",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.14",
+    "dotenv": "^16.3.1",
+    "prettier": "^3.0.3"
   }
 }
