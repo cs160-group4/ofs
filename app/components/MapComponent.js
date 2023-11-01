@@ -34,7 +34,7 @@ function MapComponent() {
             L.Routing.control({
                 waypoints: [
                     L.latLng(37.3352, -121.8811), // test data
-                    L.latLng(37.3197, -121.8683), //test data
+                    L.latLng(37.3197, -121.8683),
                 ],
                 routeWhileDragging: true,
                 draggableWaypoints: false,
