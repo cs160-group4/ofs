@@ -1,10 +1,31 @@
 'use server'
 import { z } from 'zod'
-import { Product, deleteProduct, insertProduct } from '../lib/products'
+import { Product, deleteProduct, insertProduct, updateProduct } from '../lib/products'
 import { revalidatePath } from 'next/cache'
+import { redirect } from "next/navigation";
 import { deleteReview } from '../lib/reviews';
 
+export type State = {
+  errors?: {
+    productId?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
 
+const FormSchema = z.object({
+  id: z.number().int(),
+  name: z.string().min(1).max(40),
+  description: z.string().min(0).max(100),
+  slug: z.string().min(1).max(50),
+  // store: z.string().min(1).max(30),
+  brand: z.string().min(1).max(30),
+  categoryId: z.number().int(),
+  picture: z.string().min(0).max(100),
+  itemWeight: z.number().positive(),
+  itemPrice: z.string(),
+  itemQuantity: z.number().int().positive(),
+});
 
 function formatDate(date:Date) {
     const year = date.getFullYear();
@@ -16,9 +37,10 @@ function formatDate(date:Date) {
     const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
   
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-  }
+}
 
-export async function createProduct(prevState: any, formData: FormData) {
+
+export async function createProduct(formData: FormData) {
 
     const currentDateTime = new Date();
     const formattedDateTime = formatDate(currentDateTime);
@@ -68,43 +90,21 @@ export async function createProduct(prevState: any, formData: FormData) {
     }
 }
 
+
 // delete product and all dependent reviews
 // may separate into different functions
-export async function removeProduct(prod:Product, formData: FormData){
-    try {
-        await deleteReview(prod.id)
-        await deleteProduct(prod)
-    } 
-    catch (error) {
-        console.log(error)
-    }
-    revalidatePath('/')
-}"use server";
-import { Product, updateProduct } from "@/lib/products";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
-const FormSchema = z.object({
-  id: z.number().int(),
-  name: z.string().min(1).max(40),
-  description: z.string().min(0).max(100),
-  slug: z.string().min(1).max(50),
-  // store: z.string().min(1).max(30),
-  brand: z.string().min(1).max(30),
-  categoryId: z.number().int(),
-  picture: z.string().min(0).max(100),
-  itemWeight: z.number().positive(),
-  itemPrice: z.string(),
-  itemQuantity: z.number().int().positive(),
-});
-
-export type State = {
-  errors?: {
-    productId?: string[];
-    status?: string[];
-  };
-  message?: string | null;
-};
+export async function removeProduct(formData: FormData) {
+  try {
+    const id = Number(formData.get("id"));
+    await deleteProduct(id);
+    revalidatePath("/admin/products");
+    return { message: "Deleted Product" };
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Create Invoice.",
+    };
+  }
+}
 
 const UpdateProduct = FormSchema.omit({ id: true });
 

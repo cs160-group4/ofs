@@ -1,26 +1,13 @@
-'use client'
-import { Product } from "@/lib/products"
 import { removeProduct } from "@/actions/products"
-import { experimental_useFormStatus as useFormStatus} from "react-dom"
 
-function DeleteButton() {
-    const { pending } = useFormStatus()
-
+export function RemoveProductForm({ id }: { id: number }) {
     return (
-        <button 
-            type="submit" 
-            className="btn btn-error rounded-box" 
-            aria-disabled={pending}>
-            Delete
-        </button>
-    )
-}
-
-export function RemoveProductForm({ product }: { product:Product}){
-    const remove = removeProduct.bind(null, product)
-    return (
-        <form id='rm-form' action={ remove }>
-            <DeleteButton/>
+        <form action={removeProduct}>
+            <input type="hidden" name="id" value={id} />
+            <button className="btn btn-error">
+                Delete
+                <span className="sr-only">Delete</span>
+            </button>
         </form>
     )
 }

@@ -1,20 +1,21 @@
 'use client'
 import React from 'react'
-import { experimental_useFormStatus as useFormStatus} from "react-dom"
 import { RemoveProductForm } from './RemoveProductForm'
-import { Product } from '@/lib/products'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
-export function RemoveProductModal({ product }: { product:Product}){
+export function RemoveProductModal({ id }: { id: number}){
     return (
         <>
-            <button className="btn btn-error btn-md rounded-box w-30" onClick={()=> ((document.getElementById(product.id.toString()) as HTMLDialogElement)).showModal()}>Delete</button>
-            <dialog id={product.id.toString()} className="modal">
+            <button className="btn btn-error btn-md rounded-box w-30" onClick={()=> ((document.getElementById(id.toString()) as HTMLDialogElement)).showModal()}>
+                <TrashIcon className="w-5" />
+            </button>
+            <dialog id={id.toString()} className="modal">
                 <div className="modal-box">
                     <div className='flex flex-col  items-center text-center'>
                         <h3 className="font-bold text-lg">Delete this Product?</h3>
-                        <p>Are you sure you would like to delete {product.name}? This action is permanent and cannot be undone</p>
+                        <p>Are you sure you would like to delete this item? This action is permanent and cannot be undone</p>
                         <div className='flex mt-6'>
-                            <RemoveProductForm product={product}/>
+                            <RemoveProductForm id={id}/>
                             <form method='dialog'>
                                 <button className='btn rounded-box ml-12'>Cancel</button>
                             </form>

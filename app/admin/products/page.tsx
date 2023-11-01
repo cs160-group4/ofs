@@ -86,7 +86,7 @@ export default async function AdminProducts() {
                   <td>{product.itemQuantity}</td>
                   <td>
                     <Suspense fallback={<p>Deleting...</p>}>
-                    <RemoveProductModal product={product.id}/>
+                    <RemoveProductModal id={product.id}/>
                     </Suspense>
                   </td>
                 </tr>

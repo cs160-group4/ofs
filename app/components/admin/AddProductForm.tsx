@@ -1,7 +1,7 @@
 'use client'
+//@ts-ignore
 import { createProduct } from '@/actions/products'
-import {experimental_useFormStatus as useFormStatus, experimental_useFormState as useFormState } from 'react-dom'
-import React, { useEffect } from "react"
+import { useState } from 'react'
 
 
 const initialState = {
@@ -10,10 +10,8 @@ const initialState = {
 
 
 function SubmitButton() {
-  const { pending } = useFormStatus()
-
   return (
-    <button className='btn btn-primary' type='submit' aria-disabled={pending}>
+    <button className='btn btn-primary' type='submit'>
       +  Add
     </button>
   )
@@ -21,7 +19,7 @@ function SubmitButton() {
 
 
 function LimitedInput( {max, descriptor, name}: {max:number, descriptor:string, name:string}) {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = useState(0);
   return (
     <>
         <label className='label'>
@@ -43,31 +41,33 @@ function LimitedInput( {max, descriptor, name}: {max:number, descriptor:string, 
 
 
 export function AddProductForm() {
-  const [state, formAction] = useFormState(createProduct, initialState)
-  const [showAlert, setShowAlert] = React.useState(false)
+  const [showAlert, setShowAlert] = useState(false)
 
   return (
     <>
-      {showAlert != false && (
-        <div className='my-3'>
-          { state?.success === true && (
-            <div className="alert alert-success mb-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>{state?.message}</span>
-              <button className="btn btn-sm btn-circle btn-ghost" onClick={() => setShowAlert(false)}>✕</button>
-            </div>
-          )}
-          { state?.success === false && (
-            <div className="alert alert-error mb-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>{state?.message}</span>
-              <button className="btn btn-sm btn-circle btn-ghost" onClick={() => setShowAlert(false)}>✕</button>
-            </div>
-          )}
-        </div>
-      )}
+      <form id='product-form' 
+        action={ async (formData: FormData) => {
+          const response = await createProduct(formData);
+          if (response?.success) {
+            {showAlert != false && (
+              <div className="alert alert-success mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>{response?.message}</span>
+                <button className="btn btn-sm btn-circle btn-ghost" onClick={() => setShowAlert(false)}>✕</button>
+              </div>
+            )}
+          }
+          else {
+            {showAlert != false && (
+              <div className="alert alert-success mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>{response?.message}</span>
+                <button className="btn btn-sm btn-circle btn-ghost" onClick={() => setShowAlert(false)}>✕</button>
+              </div>
+            )}
+          }
+        }} onSubmit={() => setShowAlert(true)}>
 
-      <form id='product-form' action={ formAction } onSubmit={() => setShowAlert(true)}>
         <div className='form-control w-full my-4'>
           <div className='flex flex-wrap -mx-3 mb-2'>
             <div className='w-full md:w-1/4 px-3 mb-6 md:mb-0'>
@@ -126,7 +126,9 @@ export function AddProductForm() {
             </div>
           </div>
         </div>
-        <SubmitButton />
+        <button className='btn btn-primary' type='submit'>
+          +  Add
+        </button>
       </form>
     </>
   )
