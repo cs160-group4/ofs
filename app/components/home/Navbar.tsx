@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SearchBarComponent } from '../SearchBarComponent'
 import IconAdmin from '../admin/IconAdmin'
-import {getAvatarURL} from '@/utils/utils'
+import { getAvatarURL } from '@/utils/utils'
 
 export default async function NavbarComponent() {
     var signedIn = false;
@@ -97,9 +97,11 @@ export default async function NavbarComponent() {
                                 <span className="font-bold text-lg">8 Items</span>
                                 <span className="text-info">Subtotal: $36.62</span>
                                 <div className="card-actions">
-                                    <button className="btn btn-primary btn-block">
-                                        <Link href="/cart">View Cart</Link>
-                                    </button>
+                                    <Link href="/cart">
+                                        <button className="btn btn-primary btn-block">
+                                            View Cart
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
