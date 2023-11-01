@@ -19,7 +19,7 @@ const FormSchema = z.object({
   createdAt: z.string().min(1).max(30),
 });
 
-export type State = {
+export type ProductState = {
   errors?: {
     productId?: string[];
     status?: string[];
@@ -29,7 +29,7 @@ export type State = {
 
 const UpdateProduct = FormSchema.omit({ id: true });
 
-export async function editProduct(prevState: State, formData: FormData) {
+export async function editProduct(prevState: ProductState, formData: FormData) {
   const validatedFields = UpdateProduct.safeParse({
     id: Number(formData.get("id")),
     name: formData.get("name"),
@@ -47,7 +47,7 @@ export async function editProduct(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Update Invoice.",
+      message: "Missing Fields. Failed to Update Product.",
     };
   }
 
@@ -58,6 +58,6 @@ export async function editProduct(prevState: State, formData: FormData) {
     return { message: "Database Error: Failed to Update Product." };
   }
 
-  revalidatePath("/dashboard/invoices");
+  revalidatePath("/admin/products");
   redirect("/admin/products");
 }

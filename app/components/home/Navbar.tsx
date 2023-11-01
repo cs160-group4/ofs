@@ -4,8 +4,8 @@ import { SignOutLink } from '@/app/ui/common/SignOutLink'
 import LogoIcon from '@/ui/logo_icon'
 import Image from 'next/image'
 import Link from 'next/link'
-import { SearchBarComponent } from '../SearchBarComponent'
-import IconAdmin from '../admin/IconAdmin'
+import { SearchBarComponent } from '@/components/SearchBarComponent'
+import IconAdmin from '@/components/admin/IconAdmin'
 import { getAvatarURL } from '@/utils/utils'
 
 export default async function NavbarComponent() {
@@ -133,18 +133,19 @@ export default async function NavbarComponent() {
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 {session?.user?.role === "admin" ?
                                     <li>
-                                        <div>
-                                            <IconAdmin />
-                                            <Link href="/admin">Admin Dashboard</Link>
-
-                                        </div>
+                                        <Link href="/admin" className="justify-between group">
+                                            <div className="flex items-center text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-gray-800">
+                                                <IconAdmin />
+                                                Admin Dashboard
+                                            </div>
+                                        </Link>
                                         <div className="divider m-0"></div>
                                     </li> : null}
                                 <li>
-                                    <Link href="/profile" className="justify-between">
-                                        <div className="flex items-center text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-gray-800">
-                                            <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" width="18"
-                                                height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    <Link href="/profile" className="justify-between group">
+                                        <div className="flex items-center text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-gray-800  hover:animate-pulse">
+                                            <svg className="mr-2 group-hover:animate-spin" xmlns="http://www.w3.org/2000/svg" width="22"
+                                                height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                 <circle cx="12" cy="12" r="3"></circle>
                                                 <path
@@ -158,9 +159,8 @@ export default async function NavbarComponent() {
                                     </Link>
                                 </li>
 
-                                <li><div>
+                                <li>
                                     <SignOutLink />
-                                </div>
                                 </li>
                             </ul>
                         </div>

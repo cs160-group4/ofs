@@ -9,9 +9,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { PowerIcon } from '@heroicons/react/24/outline';
+import { User } from '@/app/lib/users';
 const links = [
     { name: 'Home', href: '/admin', icon: HomeIcon },
-    { name: 'Users', href: '/admin/users', icon: UserGroupIcon },
+    { name: 'Users', href: '/admin/users', icon: UserGroupIcon, roles: ['admin'] },
     {
         name: 'Products',
         href: '/admin/products',
@@ -19,12 +20,15 @@ const links = [
     },
 ];
 
-export default function NavLinks() {
+export default function NavLinks({ user }: { user: User }) {
     const pathname = usePathname();
     return (
         <>
             {links.map((link) => {
                 const LinkIcon = link.icon;
+                if (link.roles && !link.roles.includes(user.role)) {
+                    return null;
+                }
                 return (
                     <Link
                         key={link.name}
@@ -39,8 +43,9 @@ export default function NavLinks() {
                     </Link>
 
                 );
-            })}
-            
+            }
+            )}
+
         </>
     );
 }

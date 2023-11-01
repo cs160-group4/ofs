@@ -1,10 +1,4 @@
-import OrdersStatusComponent from '@/components/OrdersStatusComponent';
-import CommentsComponent from '@/components/products/CommentsComponent';
-import { getComments } from '@/lib/comments';
-import { getOrders } from '@/lib/orders';
-import { getProducts } from '@/lib/products';
-import { getUsers } from '@/lib/users';
-import Link from 'next/link';
+
 // import Cards from '@/ui/admin/Cards';
 import Cards from '@/ui/admin/Cards';
 import RevenueChart from '@/ui/admin/RevenueChart';
@@ -12,10 +6,11 @@ import LatestOrders from '@/ui/admin/LatestOrders';
 import { Suspense } from 'react';
 import {
   RevenueChartSkeleton,
-  LatestInvoicesSkeleton,
+  LatestOrdersSkeleton,
   CardsSkeleton,
 } from '@/ui/skeletons';
-
+import OrdersStatusComponent from '@/components/OrdersStatusComponent';
+// Todo: Add a component to show the status of orders
 export default async function AdminMainPage() {
   return (
     <>  
@@ -32,7 +27,7 @@ export default async function AdminMainPage() {
         <Suspense fallback={<RevenueChartSkeleton />}>
           <RevenueChart />
         </Suspense>
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
+        <Suspense fallback={<LatestOrdersSkeleton />}>
           <LatestOrders />
         </Suspense>
       </div>

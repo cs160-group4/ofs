@@ -4,7 +4,8 @@ import Link from 'next/link';
 
 export default async function AdminLayout({ children, }: { children: React.ReactNode }) {
     const session = await getAuthSession();
-    if (!session || !session.user || session.user.role !== "admin") {
+    // check if the user is logged in and is an admin or employee
+    if (!session || !session.user || (session.user.role !== "admin" && session.user.role !== "employee")) {
         return <>
             <div className="flex flex-col justify-center items-center h-96">
                 <h1 className='text-3xl font-bold m-12'>You are not authorized to view this page</h1>
@@ -17,7 +18,7 @@ export default async function AdminLayout({ children, }: { children: React.React
     return (
         <div className="flex flex-col h-screen md:flex-row md:overflow-hidden">
             <div className="w-full flex-none md:w-64">
-                <SideNavigation />
+                <SideNavigation user={session.user}/>
             </div>
             <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
         </div>

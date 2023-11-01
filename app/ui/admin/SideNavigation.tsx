@@ -1,11 +1,10 @@
-import Link from 'next/link';
+import { User } from '@/app/lib/users';
+import { SignOutLink } from '@/app/ui/common/SignOutLink';
 import NavLinks from '@/ui/admin/NavLinks';
 import OFSLogo from '@/ui/logo';
+import Link from 'next/link';
 
-import { signOut } from 'next-auth/react'
-import { SignOutLink } from '@/app/ui/common/SignOutLink';
-
-export default function SideNavigation() {
+export default function SideNavigation({ user }: { user: User }) {
   return (
     <>
       <div className="flex h-full flex-col px-3 py-4 md:px-2">
@@ -14,7 +13,8 @@ export default function SideNavigation() {
           <OFSLogo />
         </Link>
         <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-          <NavLinks />
+          <NavLinks user={user}
+                     />
           <div className="hidden h-auto w-full grow rounded-md bg-grey-50 md:block"></div>
           <SignOutLink />
         </div>

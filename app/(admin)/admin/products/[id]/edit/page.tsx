@@ -1,5 +1,5 @@
 import Form from '@/components/products/EditProduct';
-import Breadcrumbs from './breadcrumbs';
+import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getProductById } from '@/lib/products';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
