@@ -57,17 +57,17 @@ VALUES  (17, 'Lay''s Classic', 'lays-classic', 'Lay''s Classic Potato Snack Chip
        (20, 'Goldfish Cheddar Cheese Crackers', 'goldfish-cheddar-crackers', 'Goldfish Cheddar Cheese Crackers, Baked Snack Crackers, 30 oz Carton', 'Pepperidge Farms', 4, 'images/food/goldfishCheddarCheese.jpg', 15, 9.49, 9);
 
 -- Populate Robot Data
-INSERT INTO robots (status, name) VALUES 
-        ('available', 'Robot1'),
-        ('available', 'Robot2'),
-        ('busy', 'Robot3'),
-        ('busy', 'Robot4'),
-        ('offline', 'Robot5'),
-        ('available', 'Robot6'),
-        ('busy', 'Robot7'),
-        ('available', 'Robot8'),
-        ('offline', 'Robot9'),
-        ('available', 'Robot10');
+INSERT INTO robots (id, status, name) VALUES 
+        (1, 'available', 'Robot1'),
+        (2, 'available', 'Robot2'),
+        (3, 'busy', 'Robot3'),
+        (4, 'busy', 'Robot4'),
+        (5, 'offline', 'Robot5'),
+        (6, 'available', 'Robot6'),
+        (7, 'busy', 'Robot7'),
+        (8, 'available', 'Robot8'),
+        (9, 'offline', 'Robot9'),
+        (10, 'available', 'Robot10');
 
 -- Populate Comments
 INSERT INTO comments (text, userId, product_id)
@@ -92,18 +92,19 @@ INSERT INTO cart (userId, product_id, quantity) VALUES
 
 
 -- Populate Orders Data
-INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, grand_total, robot_id, shipping_address_id, delivery_status, userId) VALUES
-(1, 33, 0, 12.91, 0.00, 121.41, 134.32, 5, 1, 'pending', 'f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
-(2, 18, 10.00, 7.12, 0.00, 63.12, 80.24, 7, 2, 'shipped', 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
-(3, 27, 0, 10.74, 5.00, 98.02, 103.76, 3, 3, 'delivered', '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6'),
-(4, 18, 10.00, 8.65, 0.00, 78.02, 96.67, 2, 4, 'cancelled', '5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0'),
-(5, 26, 0, 9.59, 0.00, 86.31, 95.90, 9, 5, 'pending', '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5'),
-(6, 22, 0, 6.71, 0.00, 60.39, 67.10, 8, 1, 'pending', 'f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
-(7, 17, 10.00, 6.09, 0.00, 54.87, 71.96, 4, 2, 'shipped', 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
-(8, 18, 10.00, 8.16, 0.00, 73.42, 81.58, 6, 3, 'delivered', '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
+INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, grand_total, created_at, updated_at, robot_id, shipping_address_id, delivery_status, userId) VALUES
+(1,33,0.00,12.91,0.00,121.41,134.32,'2023-01-01 08:00:00','2023-01-01 08:00:00',5,1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
+(2,18,10.00,7.12,0.00,63.12,80.24,'2023-02-01 09:10:00','2023-02-01 09:10:00',7,2,'shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
+(3,27,0.00,10.74,5.00,98.02,103.76,'2023-03-10 08:30:30','2023-03-10 08:30:30',3,3,'delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6'),
+(4,18,10.00,8.65,0.00,78.02,96.67,'2023-04-09 11:30:00','2023-04-09 11:30:00',2,4,'cancelled','5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0'),
+(5,26,0.00,9.59,0.00,86.31,95.90,'2023-05-10 09:50:00','2023-05-10 09:50:00',9,5,'pending','0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5'),
+(6,22,0.00,6.71,0.00,60.39,67.10,'2023-06-12 08:25:00','2023-06-12 08:25:00',8,1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
+(7,17,10.00,6.09,0.00,54.87,71.96,'2023-07-01 10:25:15','2023-07-01 10:25:15',4,2,'shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
+(8,18,10.00,8.16,0.00,73.42,81.58,'2023-08-20 12:22:10','2023-08-20 12:22:10',6,3,'delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
+
 
 INSERT INTO order_item (order_id, product_id, quantity, price) VALUES 
-(1, 1, 5, 2.49), 
+(1, 1, 50, 2.49), 
 (1, 3, 3, 3.99), 
 (1, 8, 2, 4.5),
 (2, 2, 2, 4.99),

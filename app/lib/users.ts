@@ -9,10 +9,11 @@ export const authenticate = async (
   email: string,
   password: string
 ): Promise<User | null> => {
+
   const result: User[] = await db
     .select()
     .from(user)
-    .where(and(eq(user.email, email), eq(user.password, password)));
+    .where(and(eq(user.email, email), eq(user.password, password))).limit(1);
   if (result.length > 0) {
     return result[0];
   } else {

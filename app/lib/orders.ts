@@ -1,14 +1,37 @@
 import { db } from "@/db/db";
-import { orders } from "@/db/schema";
-import { eq, or, sql } from "drizzle-orm";
+import { orders, user } from "@/db/schema";
+import { eq,asc, desc} from "drizzle-orm";
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
 
 // get all orders
 export const getOrders = async () => {
-  return await db.select().from(orders);
+  return await db.select().from(orders).orderBy(asc(orders.createdAt));
 };
+
+// get lastest orders
+export const getLatestOrders = async (limit: number) => {
+  const result = await db.select().from(orders).leftJoin(user, eq(orders.userId, user.id)).orderBy(desc(orders.id)).limit(limit);
+  return result
+};
+
+// get number of orders
+export const getOrderCount = async (): Promise<number> => {
+  const result: Order[] = await db.select().from(orders);
+  return result.length;
+};
+
+// get total revenue
+export const getTotalRevenue = async (): Promise<number> => {
+  const result: Order[] = await db.select().from(orders);
+  let total = 0;
+  result.forEach((order) => {
+    total += Number(order.grandTotal);
+  });
+  return total;
+};
+
 
 // get orders by order id
 export const getOrder = async (id: number) => {
@@ -39,5 +62,3 @@ export const updateOrder = async (id: number, data: NewOrder) => {
 export const deleteAllOrders = async (user_id: string) => {
   return await db.delete(orders).where(eq(orders.userId, user_id));
 };
-
-
