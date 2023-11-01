@@ -5,6 +5,12 @@
       "@/public/*": [
         "public/*"
       ],
+      "@/app/*": [
+        "app/*"
+      ],
+      "@/ui/*": [
+        "app/ui/*"
+      ],
       "@/actions/*": [
         "app/actions/*"
       ],

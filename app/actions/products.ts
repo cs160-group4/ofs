@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 const FormSchema = z.object({
-  id: z.number().int(),
+  id: z.number(),
   name: z.string().min(1).max(40),
   description: z.string().min(0).max(100),
   slug: z.string().min(1).max(50),
@@ -15,6 +15,8 @@ const FormSchema = z.object({
   itemWeight: z.number().positive(),
   itemPrice: z.string(),
   itemQuantity: z.number().int().positive(),
+  updatedAt: z.string().min(1).max(30),
+  createdAt: z.string().min(1).max(30),
 });
 
 export type State = {
@@ -39,6 +41,7 @@ export async function editProduct(prevState: State, formData: FormData) {
     itemWeight: Number(formData.get("itemWeight")),
     itemPrice: formData.get("itemPrice"),
     itemQuantity: Number(formData.get("itemQuantity")),
+    updatedAt: new Date().toISOString(),
   });
 
   if (!validatedFields.success) {

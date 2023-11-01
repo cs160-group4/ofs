@@ -1,12 +1,12 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
 import DarkModeToggleButton from '@/components/DarkModeButton'
 import { SignOutLink } from '@/components/SignOutLink'
-import logo from "@/public/images/h_logo.png"
+import LogoIcon from '@/ui/logo_icon'
 import Image from 'next/image'
 import Link from 'next/link'
-import { SearchBarComponent } from './SearchBarComponent'
-import IconAdmin from './admin/IconAdmin'
-import getAvatarURL from '@/utils/utils'
+import { SearchBarComponent } from '../SearchBarComponent'
+import IconAdmin from '../admin/IconAdmin'
+import {getAvatarURL} from '@/utils/utils'
 
 export default async function NavbarComponent() {
     var signedIn = false;
@@ -42,9 +42,10 @@ export default async function NavbarComponent() {
                         </ul>
                     </div>
                     {/* Logo */}
-                    <Link href="/" className='lg:ml-12 ml-4'>
+                    {/* <Link href="/" className='lg:ml-12 ml-4'>
                         <Image src={logo} alt="avatar" width={640} height={256} priority className="w-48 h-14 logo-image" />
-                    </Link>
+                    </Link> */}
+                    <LogoIcon />
                 </div>
                 {/* Main Menu */}
                 <div className="navbar-center hidden lg:flex">
