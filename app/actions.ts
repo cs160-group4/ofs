@@ -19,42 +19,53 @@ function formatDate(date: Date) {
 export async function createProduct(formData: FormData) {
   const currentDateTime = new Date();
   const formattedDateTime = formatDate(currentDateTime);
+  const priceEx = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d{9})?(\.\d{1,2})?$/gm
 
   const schema = z.object({
     name: z.string().min(1).max(40),
     description: z.string().min(0).max(100),
-    slug: z.string().min(1).max(50),
+    slug: z.string().min(1).max(50).trim().toLowerCase(),
     // store: z.string().min(1).max(30),
     brand: z.string().min(1).max(30),
     categoryId: z.number().int(),
     picture: z.string().min(0).max(100),
     itemWeight: z.number().positive(),
-    itemPrice: z.string(),
+    itemPrice: z.string().regex(priceEx),
     itemQuantity: z.number().int().positive(),
     createdAt: z.string(),
     updatedAt: z.string(),
   });
 
-  const data = schema.parse({
-    name: formData.get("name"),
-    description: formData.get("description"),
-    slug: formData.get("slug"),
-    // store: formData.get('store'),
-    brand: formData.get("brand"),
-    categoryId: Number(formData.get("category_id")),
-    picture: formData.get("picture"),
-    itemWeight: Number(formData.get("itemWeight")),
-    itemPrice: formData.get("itemPrice"),
-    itemQuantity: Number(formData.get("itemQuantity")),
-    createdAt: formattedDateTime,
-    updatedAt: formattedDateTime,
-  });
   try {
-    await insertProduct(data);
-  } catch (error) {
-    console.log(error);
+    const result = schema.safeParse({
+      name: formData.get("name"),
+      description: formData.get("description"),
+      slug: formData.get("slug"),
+      // store: formData.get('store'),
+      brand: formData.get("brand"),
+      categoryId: Number(formData.get("category_id")),
+      picture: formData.get("picture"),
+      itemWeight: Number(formData.get("itemWeight")),
+      itemPrice: formData.get("itemPrice"),
+      itemQuantity: Number(formData.get("itemQuantity")),
+      createdAt: formattedDateTime,
+      updatedAt: formattedDateTime,
+    });
+
+    if(result.success)
+    {
+      await insertProduct(result.data);
+      revalidatePath("/");
+      return { success: true, message: result.data.name + ' Added Successfully'}
+    }
+    else{
+      console.log(result.error)
+      return { success: false, message: "Product Failed To Be Added"}
+    }
   }
-  revalidatePath("/");
+  catch(error) {
+    return {success: false, err: true, message: "Product Failed To Be Added"}
+  }
 }
 
 // delete product and all dependent reviews
@@ -67,8 +78,7 @@ export async function removeProduct(formData: FormData) {
     return { message: "Deleted Product" };
   } catch (error) {
     return {
-      message: "Database Error: Failed to Create Invoice.",
+      message: "Database Error: Failed to Remove Product",
     };
   }
-  revalidatePath("/");
 }
