@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { RemoveProductModal } from '@/components/RemoveProductModal';
 
 export default async function AdminProducts() {
   const session = await getAuthSession();
@@ -32,16 +33,6 @@ export default async function AdminProducts() {
         {/* management tools container */}
         <div className='flex justify-between items-center max-w-2xl'>
           <AddProductButtonComponent />
-          <div className='dropdown dropdown-bottom'>
-            <span tabIndex={0} className='menu-dropdown-toggle'>Status</span>
-            <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 bg-base-300 rounded-box w-50'>
-              <li>Published</li>
-              <li>Unpublished</li>
-              <li>Draft</li>
-            </ul>
-          </div>
-
-          {/* search */}
 
         </div>
         {/* product list items */}
