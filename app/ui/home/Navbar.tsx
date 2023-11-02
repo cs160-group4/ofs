@@ -61,8 +61,8 @@ export default async function NavbarComponent() {
                 <div className="navbar-end">
                     <SearchBarComponent />
                     {/* Cart Button */}
-                    <button className="btn btn-ghost btn-circle mr-1">
-                        <div className="indicator">
+                    <button className="btn btn-ghost btn-circle mr-1 group">
+                        <div className="indicator group-hover:animate-bounce">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" className="" viewBox="0 0 16 16">
                                 <path
@@ -71,9 +71,9 @@ export default async function NavbarComponent() {
                             <span className="badge badge-xs badge-primary indicator-item "></span>
                         </div>
                     </button>
-                    <div className="dropdown dropdown-end mr-1">
+                    <div className="dropdown dropdown-end mr-1 group">
                         <label tabIndex={0} className="btn btn-ghost btn-circle">
-                            <div className="indicator">
+                            <div className="indicator group-hover:animate-bounce">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                                 <span className="badge badge-sm indicator-item">8</span>
                             </div>
@@ -94,16 +94,16 @@ export default async function NavbarComponent() {
                     </div>
                     {/* Avatar */}
                     {signedIn ?
-                        <div className="dropdown dropdown-end">
+                        <div className="dropdown dropdown-end ">
                             <div tabIndex={0} className="flex flex-col btn btn-ghost z-0">
-                                <button className="flex items-center">
+                                <button className="flex items-center hover:animate-pulse">
                                     <div className="hidden mr-3 text-right md:block">
                                         <p className="text-sm font-bold text-black dark:text-gray-400">
                                             <span className="text-sm text-primary">{name}</span>
                                         </p>
                                     </div>
-                                    <div className="mr-2">
-                                        <Image src={avatar} alt="avatar" width={32} height={32} className="w-8 h-8 rounded-full" />
+                                    <div className="mr-2 ">
+                                        <Image src={avatar} alt="avatar" width={32} height={32} className="w-8 h-8 rounded-full " />
                                     </div>
                                     <span>
                                         <svg className="text-gray-400" width="10" height="6" viewBox="0 0 10 6"

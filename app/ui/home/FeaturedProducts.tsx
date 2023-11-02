@@ -15,7 +15,7 @@ export default async function FeaturedProducts ( { item }: { item: ProductCatego
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
   return (
     <Link href={"/products/" + product.id} >
-      <div className="card w-96 bg-base-100 shadow-xl m-4 ">
+      <div className="card w-96 bg-base-100 shadow hover:shadow-xl m-4 hover:animate-pulse transform hover:scale-103">
         <figure>
           <Image src={imageLink} alt={product.name}
             width={640} height={448} className="h-[250px]" />

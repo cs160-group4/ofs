@@ -5,7 +5,7 @@ interface ModalProps {
     message: string;
 }
 
-const ErrorModal: React.FC<ModalProps> = ({ message }) => {
+function ErrorModal({ message }: ModalProps) {
     return (
         <dialog id="error_modal" className="modal">
             <div className="modal-box">
