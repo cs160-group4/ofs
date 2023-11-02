@@ -37,6 +37,26 @@ export const getUser = async (id: string) => {
   }
 };
 
+export const getSessionUser = async (id: string) => {
+  const result: User[] = await db.select().from(user).where(eq(user.id, id));
+  if (result.length > 0) {
+    return {
+      id: result[0].id,
+      name: result[0].name,
+      firstName: result[0].firstName,
+      lastName: result[0].lastName,
+      email: result[0].email,
+      phoneNumber: result[0].phoneNumber,
+      image: result[0].image,
+      role: result[0].role,
+      createdAt: result[0].createdAt,
+      updatedAt: result[0].updatedAt,
+    };
+  } else {
+    return null;
+  }
+};
+
 // get user role by id
 export const getUserRole = async (id: string): Promise<string> => {
   const result: User[] = await db.select().from(user).where(eq(user.id, id));

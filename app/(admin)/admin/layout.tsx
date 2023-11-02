@@ -1,8 +1,17 @@
-import SideNavigation from '@/ui/admin/SideNavigation';
-import { getAuthSession } from '@/api/auth/[...nextauth]/options'
-import Link from 'next/link';
+import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import '@/app/globals.css'
-export default async function AdminLayout({ children, }: { children: React.ReactNode }) {
+import SideNavigation from '@/ui/admin/SideNavigation';
+import { GeistMono, GeistSans } from 'geist/font';
+import { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+    title: 'OFS Admin Dashboard',
+    description: 'Order food from your OFS groceries.',
+    icons: '/favicon.jpg',
+}
+
+export default async function RootLayout({ children, }: { children: React.ReactNode }) {
     const session = await getAuthSession();
     // check if the user is logged in and is an admin or employee
     if (!session || !session.user || (session.user.role !== "admin" && session.user.role !== "employee")) {
@@ -17,12 +26,16 @@ export default async function AdminLayout({ children, }: { children: React.React
     }
     return (
         <>
-            <div className="flex flex-col h-screen md:flex-row md:overflow-hidden">
-                <div className="w-full flex-none md:w-64">
-                    <SideNavigation user={session.user} />
-                </div>
-                <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-            </div>
+            <html lang="en" data-theme="cupcake" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+                <body >
+                    <div className="flex flex-col h-screen md:flex-row md:overflow-hidden">
+                        <div className="w-full flex-none md:w-64">
+                            <SideNavigation user={session.user} />
+                        </div>
+                        <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+                    </div>
+                </body>
+            </html>
         </>
     );
 }

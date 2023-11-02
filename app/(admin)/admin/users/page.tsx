@@ -11,14 +11,12 @@ export const metadata: Metadata = {
   title: 'Users',
 };
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}) {
+type Props = {
+  query?: string;
+  page?: string;
+};
+
+export default async function Page({ searchParams }: { searchParams: Props }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
@@ -33,9 +31,7 @@ export default async function Page({
         <Search placeholder="Search users by name or email" />
         <CreateUser />
       </div>
-      <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
         <UsersTable query={query} currentPage={currentPage} />
-      </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
