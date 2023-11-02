@@ -97,7 +97,6 @@ export async function updateUserRoleAction(prevState: any, formData: FormData) {
 }
 
 export async function deleteUserAction(prevState: any, formData: FormData) {
- 
   const { id } = DeleteUser.parse({
     id: formData.get("id"),
   });
@@ -107,7 +106,6 @@ export async function deleteUserAction(prevState: any, formData: FormData) {
     // console.log("result: ", result);
     revalidatePath("/admin/users");
     redirect("/admin/users");
-    return { message: "Deleted User" };
   } catch (error) {
     return { message: "Database Error: Failed to Delete User." };
   }

@@ -100,10 +100,10 @@ export async function updateUserRole(id: string, role: string) {
 }
 
 // delete user
-export const deleteUser = async (id: string) => {
+export async function deleteUser(id: string) {
   try {
     return await db.delete(user).where(eq(user.id, id));
   } catch (error) {
     throw new Error("Failed to delete the user");
   }
-};
+}
