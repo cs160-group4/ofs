@@ -13,7 +13,7 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
     const [checkedBrands, setCheckedBrands] = useState<string[]>([]);
     const [priceSort, setPriceSort] = useState<string>("ASC");
     const [nameSort, setNameSort] = useState<string>("ASC");
-
+    let host = process.env.NEXTAUTH_URL;
     useEffect(() => {
         const fetchData = async () => {
             try {

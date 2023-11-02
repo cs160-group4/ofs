@@ -2,7 +2,7 @@ import { ArrowPathIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { getLatestOrders } from '@/lib/orders';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { getAvatarURL } from '@/utils/utils';
+import { getAvatarURL } from '@/lib/utils';
 export default async function LatestOrders() {
     const result = await getLatestOrders(5);
     return (

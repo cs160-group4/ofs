@@ -3,7 +3,7 @@ import Image from 'next/image';
 // import UserStatus from '@/ui/admin/users/status';
 import { formatDateToLocal } from '@/app/lib/utils';
 import { getFilteredUsers } from '@/app/lib/users';
-import { getAvatarURL } from '@/app/utils/utils';
+import { getAvatarURL } from '@/lib/utils';
 import { DeleteUser, UpdateUser } from '@/ui/admin/users/Buttons';
 import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
 

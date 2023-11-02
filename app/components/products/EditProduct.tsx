@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 // import { Button } from '../button';
-import { editProduct } from '@/actions/products';
+// import { editProduct } from '@/actions/products';
 import { useFormState } from 'react-dom';
 import { Product } from '@/lib/products';
 // import Categories from 'app/categories/all/page';

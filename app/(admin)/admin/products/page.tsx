@@ -9,7 +9,6 @@ import { Suspense } from 'react';
 import { RemoveProductModal } from '@/components/RemoveProductModal';
 
 export default async function AdminProducts() {
-
   const products = await getProducts();
   return (
     <>

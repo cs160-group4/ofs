@@ -9,12 +9,19 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-    if (!params.id) {
-        const id = Number(params.id);
-        const product = await getProductById(id)
-        if (!product) {
-            notFound();
+    try {
+        console.log(params.id);
+        if (!params.id) {
+            let id = Number(params.id)
+            const product = await getProductById(id)
+            if (!product) {
+                notFound();
+            }
         }
+        notFound();
+    } catch (err) {
+        console.log(err);
+        notFound();
     }
     return (
         <main>

@@ -74,21 +74,20 @@ export async function createUser(prevState: any, formData: FormData) {
 }
 
 export async function updateUserRoleAction(prevState: any, formData: FormData) {
-  const validatedFields = UpdateUser.safeParse({
-    id: formData.get("id"),
-    role: formData.get("role"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Update User.",
-    };
-  }
-
-  const { id, role } = validatedFields.data;
   try {
-    await updateUserRole(id, role);
+    const validatedFields = UpdateUser.safeParse({
+      id: formData.get("id"),
+      role: formData.get("role"),
+    });
+
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: "Missing Fields. Failed to Update User.",
+      };
+    }
+    const { id, role } = validatedFields.data;
+    const result = await updateUserRole(id, role);
   } catch (error) {
     return { message: "Database Error: Failed to Update Invoice." };
   }
@@ -97,14 +96,17 @@ export async function updateUserRoleAction(prevState: any, formData: FormData) {
   redirect("/admin/users");
 }
 
-export async function deleteUserAction(formData: FormData) {
+export async function deleteUserAction(prevState: any, formData: FormData) {
+ 
   const { id } = DeleteUser.parse({
     id: formData.get("id"),
   });
-
   try {
-    await deleteUser(id);
+    // console.log("Delete Id: ", formData.get("id"));
+    const result = await deleteUser(id);
+    // console.log("result: ", result);
     revalidatePath("/admin/users");
+    redirect("/admin/users");
     return { message: "Deleted User" };
   } catch (error) {
     return { message: "Database Error: Failed to Delete User." };

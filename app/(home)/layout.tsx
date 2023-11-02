@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   icons: '/favicon.jpg',
 }
 
-export default function RootLayout({ children, }: { children: React.ReactNode }) {
+export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
@@ -20,6 +20,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
         {children}
       </main>
       <Footer />
+
     </>
   )
 }

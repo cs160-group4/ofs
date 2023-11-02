@@ -1,19 +1,18 @@
-    import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+'use client';
+import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { deleteUserAction } from '@/actions/users';
-
+import { useFormState } from 'react-dom';
 
 export function CreateUser() {
     return (
-      <Link
-        href="/admin/users/create"
-        className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-      >
-        <span className="hidden md:block">Create User</span>{' '}
-        <PlusIcon className="h-5 md:ml-4" />
-      </Link>
+        <Link href="/admin/users/create"
+            className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        ><span className="hidden md:block">Create User</span>{' '}
+            <PlusIcon className="h-5 md:ml-4" />
+        </Link>
     );
-  }
+}
 
 export function UpdateUser({ id }: { id: string }) {
     return (
@@ -25,8 +24,10 @@ export function UpdateUser({ id }: { id: string }) {
 
 
 export function DeleteUser({ id }: { id: string }) {
+    const initialState = { message: null, errors: {} };
+    const [state, formAction] = useFormState(deleteUserAction, initialState)
     return (
-        <form action={deleteUserAction}>
+        <form action={formAction}>
             <input type="hidden" name="id" value={id} />
             <button className="rounded-md border p-2 hover:bg-gray-100">
                 <span className="sr-only">Delete</span>

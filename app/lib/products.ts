@@ -1,9 +1,14 @@
 import { db } from "@/db/db";
 import { productCategories, products } from "@/db/schema";
 import { asc, desc, eq, sql } from "drizzle-orm";
+import { Categories } from "@/lib/categories";
 
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
+export type ProductCategory = {
+  products: Product;
+  product_categories: Categories;
+};
 
 export type productBrand = {
   brand: string;
@@ -21,15 +26,25 @@ export const getProductCount = async (): Promise<number> => {
   return result.length;
 };
 
-// get all featured products
-export const getFeaturedProducts = async () => {
-  // select random 3 products
-  const result: Product[] = await db
+// get all products with category
+export const getProductsCategory = async (): Promise<ProductCategory[]> => {
+  const result = await db
     .select()
     .from(products)
     .orderBy(sql`rand()`)
-    .limit(3);
-  return result;
+    .leftJoin(productCategories, eq(productCategories.id, products.categoryId));
+  return result as ProductCategory[];
+};
+// get all featured products
+export const getFeaturedProducts = async () => {
+  // select random 3 products
+  const result = await db
+    .select()
+    .from(products)
+    .orderBy(sql`rand()`)
+    .limit(3)
+    .leftJoin(productCategories, eq(productCategories.id, products.categoryId));
+  return result as ProductCategory[];
 };
 
 // get all products with limit
@@ -109,25 +124,22 @@ export const insertProduct = async (data: NewProduct) => {
 
 // update product
 export const updateProduct = async (data: Product) => {
-  return await db
-    .update(products)
-    .set(data)
-    .where(eq(products.id, data.id));
+  return await db.update(products).set(data).where(eq(products.id, data.id));
 
-    // return await db
-    // .update(products)
-    // .set({
-    //   name: data.name,
-    //   description: data.description,
-    //   slug: data.slug,
-    //   brand: data.brand,
-    //   categoryId: data.categoryId,
-    //   picture: data.picture,
-    //   itemWeight: data.itemWeight,
-    //   itemPrice: data.itemPrice,
-    //   itemQuantity: data.itemQuantity,
-    // })
-    // .where(eq(products.id, data.id));
+  // return await db
+  // .update(products)
+  // .set({
+  //   name: data.name,
+  //   description: data.description,
+  //   slug: data.slug,
+  //   brand: data.brand,
+  //   categoryId: data.categoryId,
+  //   picture: data.picture,
+  //   itemWeight: data.itemWeight,
+  //   itemPrice: data.itemPrice,
+  //   itemQuantity: data.itemQuantity,
+  // })
+  // .where(eq(products.id, data.id));
 };
 
 // delete product

@@ -82,20 +82,28 @@ export const getFilteredUsers = async (query: string, currentPage: number) => {
 
 // add a user
 export const insertUser = async (data: NewUser) => {
-  return db.insert(user).values(data);
+  return await db.insert(user).values(data);
 };
 
 // update user
 export const updateUser = async (data: NewUser) => {
-  return db.update(user).set(data);
+  return await db.update(user).set(data);
 };
 
 // update user role
-export const updateUserRole = async (id: string, role: string) => {
-  return db.update(user).set({ role: role }).where(eq(user.id, id));
-};
+export async function updateUserRole(id: string, role: string) {
+  const result = await db
+    .update(user)
+    .set({ role: role })
+    .where(eq(user.id, id));
+  return result;
+}
 
 // delete user
 export const deleteUser = async (id: string) => {
-  return db.delete(user).where(eq(user.id, id));
+  try {
+    return await db.delete(user).where(eq(user.id, id));
+  } catch (error) {
+    throw new Error("Failed to delete the user");
+  }
 };

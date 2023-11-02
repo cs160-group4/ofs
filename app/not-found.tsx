@@ -1,11 +1,11 @@
-'use client'
+'use client';
 import Link from "next/link";
-import router from "next/router";
+import './globals.css'
 
-export default function FourOhFour() {
+export default function Custom404() {
     return (
-        <main className="flex items-center justify-center">
-            <div className="px-40 py-20 bg-white rounded-md shadow-xl">
+        <main className="flex items-center justify-center h-screen">
+            <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
                 <div className="flex flex-col items-center">
                     <h1 className="font-bold text-9xl">404</h1>
                     <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
@@ -15,7 +15,7 @@ export default function FourOhFour() {
                         The page you’re looking for doesn’t exist.
                     </p>
                     <Link href="/" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
-                        Go back home
+                        Go back
                     </Link>
                 </div>
             </div>

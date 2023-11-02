@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Comments } from '@/lib/comments'
 import { getUser } from '@/lib/users'
 import Image from 'next/image'
-import {getAvatarURL} from '@/utils/utils'
+import {getAvatarURL} from '@/lib/utils'
 export default async function CommentsComponent({ comment }: { comment: Comments }) {
     let user = await getUser(comment.userId)
     let image = getAvatarURL(user?.image!);

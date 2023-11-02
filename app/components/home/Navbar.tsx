@@ -1,12 +1,12 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
-import DarkModeToggleButton from '@/components/DarkModeButton'
+import DarkModeToggleButton from '@/app/ui/common/DarkModeButton'
 import { SignOutLink } from '@/app/ui/common/SignOutLink'
 import LogoIcon from '@/ui/logo_icon'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SearchBarComponent } from '@/components/SearchBarComponent'
 import IconAdmin from '@/components/admin/IconAdmin'
-import { getAvatarURL } from '@/utils/utils'
+import { getAvatarURL } from '@/lib/utils'
 
 export default async function NavbarComponent() {
     var signedIn = false;

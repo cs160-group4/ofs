@@ -1,4 +1,4 @@
-import Form from '@/ui/admin/users/EditForm';
+import EditUserRoleForm from '@/ui/admin/users/EditUserRoleForm';
 import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getUser } from '@/lib/users';
 import { notFound } from 'next/navigation';
@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     },
                 ]}
             />
-            <Form user={user} />
+            <EditUserRoleForm user={user} />
         </main>
     );
 }

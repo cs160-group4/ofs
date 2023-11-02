@@ -1,7 +1,7 @@
 import SideNavigation from '@/ui/admin/SideNavigation';
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
 import Link from 'next/link';
-
+import '@/app/globals.css'
 export default async function AdminLayout({ children, }: { children: React.ReactNode }) {
     const session = await getAuthSession();
     // check if the user is logged in and is an admin or employee
@@ -16,11 +16,13 @@ export default async function AdminLayout({ children, }: { children: React.React
         </>
     }
     return (
-        <div className="flex flex-col h-screen md:flex-row md:overflow-hidden">
-            <div className="w-full flex-none md:w-64">
-                <SideNavigation user={session.user}/>
+        <>
+            <div className="flex flex-col h-screen md:flex-row md:overflow-hidden">
+                <div className="w-full flex-none md:w-64">
+                    <SideNavigation user={session.user} />
+                </div>
+                <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
             </div>
-            <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-        </div>
+        </>
     );
 }
