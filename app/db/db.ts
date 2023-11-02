@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import { MySql2Database, drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
-import isProduction from "next/config";
-dotenv.config({ path: ".env.local" });
+// dotenv.config({ path: ".env.local" });
 
 // const connection = await mysql.createConnection({
 //   host: process.env.DB_HOST,
@@ -30,7 +29,7 @@ if (env == "production") {
   if (!global.dbInstance) {
     global.dbInstance = drizzle(poolConnection);
   }
-  console.log("db exists, using global db");
+  // console.log("db exists, using global db");
   db = global.dbInstance;
 }
 

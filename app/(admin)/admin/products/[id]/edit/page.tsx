@@ -1,4 +1,4 @@
-import Form from '@/components/products/EditProduct';
+import Form from '@/app/ui/products/EditProduct';
 import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getProductById } from '@/lib/products';
 import { notFound } from 'next/navigation';

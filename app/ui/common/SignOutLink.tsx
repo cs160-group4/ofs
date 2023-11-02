@@ -6,7 +6,7 @@ import Link from 'next/link'
 export const SignOutLink = () => {
     return (
         <>
-            <Link onClick={() => signOut({ callbackUrl: '/' })} href="/" className='flex group items-center justify-center '>
+            <Link onClick={() => signOut({ callbackUrl: '/' })} href="/" className='flex group items-center'>
                 <div className="flex items-center
                  text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-gray-800 hover:animate-pulse">
                     <PowerIcon className="w-6 mr-2 group-hover:animate-bounce" />

@@ -5,7 +5,7 @@ import LogoIcon from '@/ui/logo_icon'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SearchBarComponent } from '@/components/SearchBarComponent'
-import IconAdmin from '@/components/admin/IconAdmin'
+import IconAdmin from '@/app/ui/admin/IconAdmin'
 import { getAvatarURL } from '@/lib/utils'
 
 export default async function NavbarComponent() {
@@ -41,10 +41,6 @@ export default async function NavbarComponent() {
                             <li><Link href="/pages/contact">Contact Us</Link></li>
                         </ul>
                     </div>
-                    {/* Logo */}
-                    {/* <Link href="/" className='lg:ml-12 ml-4'>
-                        <Image src={logo} alt="avatar" width={640} height={256} priority className="w-48 h-14 logo-image" />
-                    </Link> */}
                     <LogoIcon />
                 </div>
                 {/* Main Menu */}
@@ -52,15 +48,6 @@ export default async function NavbarComponent() {
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href="/">Home</Link></li>
                         <li><Link href="/shop/all">Shop</Link></li>
-                        {/* <li tabIndex={0}>
-                            <details>
-                                <summary><Link href="/shop">Shop</Link></summary>
-                                <ul className="p-2">
-                                    <li><a >Category 1</a></li>
-                                    <li><a>Category 2</a></li>
-                                </ul>
-                            </details>
-                        </li> */}
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
                         {/* Pages */}
@@ -84,7 +71,6 @@ export default async function NavbarComponent() {
                             <span className="badge badge-xs badge-primary indicator-item "></span>
                         </div>
                     </button>
-
                     <div className="dropdown dropdown-end mr-1">
                         <label tabIndex={0} className="btn btn-ghost btn-circle">
                             <div className="indicator">
@@ -154,7 +140,6 @@ export default async function NavbarComponent() {
                                             </svg>
                                             Profile
                                             {/* <span className="badge">New</span>*/}
-
                                         </div>
                                     </Link>
                                 </li>

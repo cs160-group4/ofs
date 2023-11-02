@@ -7,6 +7,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import EmailProvider from "next-auth/providers/email";
 import GithubProvider from "next-auth/providers/github";
+import TwitchProvider from "next-auth/providers/twitch";
+
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
   providers: [
@@ -28,7 +30,10 @@ export const authOptions: AuthOptions = {
         if (typeof credentials == "undefined") {
           return null;
         }
-        const user = await authenticate(credentials.email, credentials.password);
+        const user = await authenticate(
+          credentials.email,
+          credentials.password
+        );
         return user;
       },
     }),
@@ -54,6 +59,10 @@ export const authOptions: AuthOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
+    TwitchProvider({
+      clientId: process.env.TWITCH_CLIENT_ID as string,
+      clientSecret: process.env.TWITCH_CLIENT_SECRET as string,
     }),
   ],
   session: {

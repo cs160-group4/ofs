@@ -1,5 +1,5 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import { RegisterForm } from '@/components/auth/RegisterForm';
+import { RegisterForm } from '@/app/ui/auth/RegisterForm';
 import { redirect } from 'next/navigation';
 
 export default async function RegisterPage() {

@@ -1,5 +1,5 @@
-import Navbar from '@/app/components/home/Navbar'
-import Footer from '@/components/home/Footer';
+import Navbar from '@/app/ui/home/Navbar'
+import Footer from '@/app/ui/home/Footer';
 
 export default function HomeLayout({ children, }: { children: React.ReactNode }) {
   return (

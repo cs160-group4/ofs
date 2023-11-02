@@ -1,9 +1,8 @@
-import Footer from '@/app/components/home/Footer'
-import Navbar from '@/app/components/home/Navbar'
+import Footer from '@/app/ui/home/Footer'
+import Navbar from '@/app/ui/home/Navbar'
 import '@/app/globals.css'
 import { GeistMono, GeistSans } from 'geist/font'
 import type { Metadata } from 'next'
-
 export const metadata: Metadata = {
   title: 'OFS - On-Demand Food Delivery Service',
   description: 'Order food from your OFS groceries.',

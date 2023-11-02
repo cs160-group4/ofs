@@ -17,7 +17,7 @@ export const SearchBarComponent = () => {
 
     const fetchProducts = async(term : string) => {
         try {
-            const response = await fetch("http://localhost:3000/api/productByName?name="+term, {
+            const response = await fetch("/api/productByName?name="+term, {
                 method: 'GET',
             });
             setFilteredOptions(await response.json());

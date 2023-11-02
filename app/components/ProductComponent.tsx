@@ -10,7 +10,7 @@ const ProductComponent = ({ product }: { product: Product }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/categoryByID?categoryID=" + product.categoryId, {
+        const response = await fetch("/api/categoryByID?categoryID=" + product.categoryId, {
           method: 'GET',
         });
         setCategory(await response.json());
