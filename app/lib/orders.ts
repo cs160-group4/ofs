@@ -1,10 +1,15 @@
 import { db } from "@/db/db";
-import { orders, user } from "@/db/schema";
+import { orders, user, addresses } from "@/db/schema";
 import { eq,asc, desc} from "drizzle-orm";
+import { Addresses } from "@/lib/addresses";
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
 
+export type OrderWithAddress = {
+  orders: Order;
+  addresses: Addresses;
+};
 // get all orders
 export const getOrders = async () => {
   return await db.select().from(orders).orderBy(asc(orders.createdAt));
@@ -42,6 +47,13 @@ export const getOrder = async (id: number) => {
 export const getOrdersByUserId = async (user_id: string) => {
   return await db.select().from(orders).where(eq(orders.userId, user_id));
 };
+
+// get oders with addresses
+export const getOrdersWithAddresses = async () => {
+  let result = await db.select().from(orders).leftJoin(addresses, eq(orders.shippingAddressId, addresses.id));
+  return result as OrderWithAddress[];
+};
+
 
 // create order
 export const createOrder = async (order: NewOrder) => {
