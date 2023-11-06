@@ -162,7 +162,8 @@ CREATE TABLE orders (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     robot_id int,
     -- references robots(id)
-    shipping_address_id int,
+    shipping_address_id int NULL,
+    
     -- references addresses(id)
     delivery_status varchar(20) NOT NULL,
     -- (pending, shipped, delivered, cancelled)
@@ -170,7 +171,7 @@ CREATE TABLE orders (
     -- references user(id)
     CONSTRAINT fk_user_order FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
     CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id),
-    CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE no action ON UPDATE no action
+    CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE set NULL ON UPDATE no action
 );
 
 CREATE TABLE order_item (

@@ -19,7 +19,7 @@ const FormSchema = z.object({
   createdAt: z.string().min(1).max(30),
 });
 
-export type State = {
+export type ProductState = {
   errors?: {
     productId?: string[];
     status?: string[];
@@ -27,37 +27,37 @@ export type State = {
   message?: string | null;
 };
 
-const UpdateProduct = FormSchema.omit({ id: true });
+const UpdateProduct = FormSchema.omit({ createdAt: true });
 
-export async function editProduct(prevState: State, formData: FormData) {
-  const validatedFields = UpdateProduct.safeParse({
-    id: Number(formData.get("id")),
-    name: formData.get("name"),
-    description: formData.get("description"),
-    slug: formData.get("slug"),
-    brand: formData.get("brand"),
-    categoryId: Number(formData.get("category_id")),
-    picture: formData.get("picture"),
-    itemWeight: Number(formData.get("itemWeight")),
-    itemPrice: formData.get("itemPrice"),
-    itemQuantity: Number(formData.get("itemQuantity")),
-    updatedAt: new Date().toISOString(),
-  });
+// export async function editProduct(prevState: ProductState, formData: FormData) {
+//   const validatedFields = UpdateProduct.safeParse({
+//     id: Number(formData.get("id")),
+//     name: formData.get("name"),
+//     description: formData.get("description"),
+//     slug: formData.get("slug"),
+//     brand: formData.get("brand"),
+//     categoryId: Number(formData.get("category_id")),
+//     picture: formData.get("picture"),
+//     itemWeight: Number(formData.get("itemWeight")),
+//     itemPrice: formData.get("itemPrice"),
+//     itemQuantity: Number(formData.get("itemQuantity")),
+//     updatedAt: new Date().toISOString(),
+//   });
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Update Invoice.",
-    };
-  }
+//   if (!validatedFields.success) {
+//     return {
+//       errors: validatedFields.error.flatten().fieldErrors,
+//       message: "Missing Fields. Failed to Update Product.",
+//     };
+//   }
 
-  const product: Product = { ...validatedFields.data };
-  try {
-    await updateProduct(product);
-  } catch (error) {
-    return { message: "Database Error: Failed to Update Product." };
-  }
+//   const product: Product = { ...validatedFields.data };
+//   try {
+//     await updateProduct(product);
+//   } catch (error) {
+//     return { message: "Database Error: Failed to Update Product." };
+//   }
 
-  revalidatePath("/dashboard/invoices");
-  redirect("/admin/products");
-}
+//   revalidatePath("/admin/products");
+//   redirect("/admin/products");
+// }

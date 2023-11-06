@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getCategoryById } from '@/lib/categories'
 import { getProductById } from '@/lib/products'
-import CommentsComponent from '@/components/products/CommentsComponent'
+import CommentsComponent from '@/app/ui/products/CommentsComponent'
 import { getCommentsByProductId } from '@/lib/comments'
 import { getProductAverageRating } from '@/lib/ratings'
 export default async function ShopCategory({ params }: { params: { id: string } }) {

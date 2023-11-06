@@ -2,7 +2,7 @@ import { ArrowPathIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { getLatestOrders } from '@/lib/orders';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { getAvatarURL } from '@/utils/utils';
+import { getAvatarURL } from '@/lib/utils';
 export default async function LatestOrders() {
     const result = await getLatestOrders(5);
     return (
@@ -10,8 +10,8 @@ export default async function LatestOrders() {
             <h2 className='mb-4 text-xl md:text-2xl'>
                 Latest Orders
             </h2>
-            <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-                <div className="bg-white px-6">
+            <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4 ">
+                <div className="bg-white px-6 shadow hover:shadow-xl">
                     {result.map((item, i) => {
                         return (
                             <div
@@ -51,7 +51,7 @@ export default async function LatestOrders() {
                     })}
                 </div>
                 <div className="flex items-center pb-2 pt-2">
-                    <ArrowPathIcon className="h-5 w-5 text-gray-500" />
+                    <ArrowPathIcon className="h-5 w-5 text-gray-500 hover:animate-spin" />
                     <h3 className="ml-2 text-sm text-gray-500 ">Updated just now</h3>
                 </div>
             </div>

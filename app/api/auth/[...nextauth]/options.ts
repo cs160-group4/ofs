@@ -1,12 +1,13 @@
 import { db } from "@/db/db";
-import { getUser } from "@/lib/users";
-import { authenticate, getUserRole } from "@/lib/users";
+import { authenticate, getSessionUser } from "@/lib/users";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { randomBytes, randomUUID } from "crypto";
 import { AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
+import EmailProvider from "next-auth/providers/email";
 import GithubProvider from "next-auth/providers/github";
+import TwitchProvider from "next-auth/providers/twitch";
 
 export const authOptions: AuthOptions = {
   adapter: DrizzleAdapter(db),
@@ -29,12 +30,17 @@ export const authOptions: AuthOptions = {
         if (typeof credentials == "undefined") {
           return null;
         }
-        const res = await authenticate(credentials.email, credentials.password);
-        console.log("------------------ authenticate ------------------");
-        console.log(res);
-        // Return null if user data could not be retrieved
-        return res;
+        const user = await authenticate(
+          credentials.email,
+          credentials.password
+        );
+        return user;
       },
+    }),
+    EmailProvider({
+      server: process.env.EMAIL_SERVER,
+      from: process.env.EMAIL_FROM,
+      // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -53,6 +59,10 @@ export const authOptions: AuthOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
+    TwitchProvider({
+      clientId: process.env.TWITCH_CLIENT_ID as string,
+      clientSecret: process.env.TWITCH_CLIENT_SECRET as string,
     }),
   ],
   session: {
@@ -84,7 +94,10 @@ export const authOptions: AuthOptions = {
     // },
     async jwt({ token, user }) {
       if (token?.sub) {
-        token.user = await getUser(token?.sub);
+        let currentUser = await getSessionUser(token?.sub);
+        if (currentUser) {
+          token.user = currentUser;
+        }
       }
       return token;
     },

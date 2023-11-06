@@ -1,5 +1,5 @@
-import Form from '@/components/products/EditProduct';
-import Breadcrumbs from './breadcrumbs';
+import Form from '@/app/ui/products/EditProduct';
+import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getProductById } from '@/lib/products';
 import Image from 'next/image'
 import { notFound } from 'next/navigation';
@@ -11,9 +11,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const id = Number(params.id);
-    const product = await getProductById(id)
-    if (!product) {
+    try {
+        console.log(params.id);
+        if (!params.id) {
+            let id = Number(params.id)
+            const product = await getProductById(id)
+            if (!product) {
+                notFound();
+            }
+        }
+        notFound();
+    } catch (err) {
+        console.log(err);
         notFound();
     }
     return (

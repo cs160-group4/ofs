@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+import Link from "next/link";
+import '@/app/globals.css'
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 export default function NotFound() {
@@ -9,7 +11,7 @@ export default function NotFound() {
             <p>Could not find the requested prodict.</p>
             <Link
                 href="/admin/products"
-                className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400">
+                className="btn btn-primary mt-4 rounded-md  px-4 py-2 text-sm text-white transition-colors hover:bg-teal-400">
                 Go Back
             </Link>
         </main>

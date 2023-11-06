@@ -19,7 +19,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
   daisyui: {
     themes: ["dark", "cupcake"],
     darkTheme: "dark", // name of one of the included themes for dark mode
