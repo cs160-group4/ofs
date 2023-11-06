@@ -8,10 +8,10 @@ import { redirect } from "next/navigation";
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z.string().min(3).max(50),
-  email: z.string().email().min(3).max(100),
-  password: z.string().min(10),
-  confirmPassword: z.string().min(10),
+  name: z.string().min(3).max(255),
+  email: z.string().email().min(1).max(255),
+  password: z.string().min(8),
+  confirmPassword: z.string().min(8),
   role: z.string({ invalid_type_error: "Please select a role" }),
 });
 export type State = {
@@ -22,19 +22,14 @@ export type State = {
   };
   message?: string;
 };
+const CreateUser = FormSchema.pick({ name: true, email: true, password: true, confirmPassword: true });
 const UpdateUser = FormSchema.pick({ id: true, role: true });
 const DeleteUser = FormSchema.pick({ id: true });
 
 export async function createUser(prevState: any, formData: FormData) {
   try {
     console.log("--- Creating user ---");
-    const schema = z.object({
-      name: z.string().min(3).max(50),
-      email: z.string().email().min(3).max(100),
-      password: z.string().min(10),
-      confirmPassword: z.string().min(10),
-    });
-    const result = schema.safeParse({
+    const result = CreateUser.safeParse({
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
@@ -42,7 +37,6 @@ export async function createUser(prevState: any, formData: FormData) {
     });
 
     if (result.success) {
-      console.log("Creating user", result.data);
       const data = result.data;
       if (data.password !== data.confirmPassword) {
         return {
@@ -52,6 +46,7 @@ export async function createUser(prevState: any, formData: FormData) {
           },
         };
       }
+
       // const user: User = {
       //   id: randomUUID(), // https://www.rfc-editor.org/rfc/rfc4122.txt
       //   name: data.name,
