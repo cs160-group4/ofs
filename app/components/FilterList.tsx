@@ -35,51 +35,54 @@ const FilterList: React.FC<FilterListProps> = ({category, brands, checkedBrands,
     }
 
     return (
-        <div>
-        <h2>Filters</h2>
-        <h2>Brands</h2>
-        {brands.map((item) => (
-            <div key={item} className="flex items-center">
-                <input
-                    type="checkbox"
-                    id={item}
-                    checked={checkedBrands.includes(item)}
-                    onChange={() => handleBrandChange(item)}
-                />
-                <label htmlFor={item} className="ml-2">
-                    {item}
-                </label>
-            </div>
-        ))}
-        <h2>Sort By:</h2>
-        <form>
-            {sortPrice.map((item, index) => (
-                <div key={item}>
-                    <input type="radio" 
-                    key={item} 
-                    id={"sort "+index} 
-                    name="sort"
-                    value={sortPriceSQL[index]}
-                    checked={sortPriceSQL[index] === priceSort}
-                    onChange={handlePriceSortChange}></input>
-                    <label htmlFor={"sort "+index}>{item}</label>
+        <div className='p-3 flex flex-col w-48'>
+            <div className='text-2xl'>Filters</div>
+            <div className='text-lg'>Brands</div>
+            {brands.map((item) => (
+                <div key={item} className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id={item}
+                        checked={checkedBrands.includes(item)}
+                        onChange={() => handleBrandChange(item)}
+                    />
+                    <label htmlFor={item} className="text-md ml-2">
+                        {item}
+                    </label>
                 </div>
             ))}
-        </form>
-        <form>
-            {sortName.map((item, index) => (
-                <div key={item}>
-                    <input type="radio" 
-                    key={item} 
-                    id={"sort "+index} 
-                    name="sort"
-                    value={sortNameSQL[index]}
-                    checked={sortNameSQL[index] === nameSort}
-                    onChange={handleNameSortChange}></input>
-                    <label htmlFor={"sort "+index}>{item}</label>
-                </div>
-            ))}
-        </form>
+            <div className='divider'></div>
+            <div className='text-2xl'>Filters</div>
+            <form>
+                {sortPrice.map((item, index) => (
+                    <div key={item}>
+                        <input type="radio" 
+                        key={item} 
+                        id={"sort "+index} 
+                        name="sort"
+                        className='radio radio-sm'
+                        value={sortPriceSQL[index]}
+                        checked={sortPriceSQL[index] === priceSort}
+                        onChange={handlePriceSortChange}></input>
+                        <label htmlFor={"sort "+index} className='text-md'>{item}</label>
+                    </div>
+                ))}
+            </form>
+            <form>
+                {sortName.map((item, index) => (
+                    <div key={item}>
+                        <input type="radio" 
+                        key={item} 
+                        id={"sort "+index} 
+                        name="sort"
+                        className='radio radio-sm mx-auto'
+                        value={sortNameSQL[index]}
+                        checked={sortNameSQL[index] === nameSort}
+                        onChange={handleNameSortChange}></input>
+                        <label htmlFor={"sort "+index} className='text-md'>{item}</label>
+                    </div>
+                ))}
+            </form>
         </div>
     );
 };
