@@ -16,7 +16,6 @@ export default function AddProductButtonComponent() {
           </form>
           <h3 className="font-bold text-lg">Add a Product to the Catalogue</h3>
           <div className='divider my-3'></div>
-          <p>Enter the required product details below</p>
           <AddProductForm key={key}/>
         </div>
         <form onClick={() => (document.getElementById('product-form') as HTMLFormElement).reset()} method="dialog" className="modal-backdrop">

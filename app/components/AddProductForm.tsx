@@ -103,17 +103,16 @@ export function AddProductForm() {
           </div>
           <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
             <label className='label'>
+              <span className='label-text'>Quantity</span>
+            </label>
+            <input className='w-full input input-bordered' type="number" name="itemQuantity" min={0} required />
+          </div>
+          <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+            <label className='label'>
               <span className='label-text'>Price</span>
             </label>
             <input className='w-full input input-bordered' type="text" name="itemPrice" 
               pattern='(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d{9})?(\.\d{1,2})?$' min={0} required />
-          </div>
-
-          <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-            <label className='label'>
-              <span className='label-text'>Quantity</span>
-            </label>
-            <input className='w-full input input-bordered' type="number" name="itemQuantity" min={0} required />
           </div>
         </div>
 
