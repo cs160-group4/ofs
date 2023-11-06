@@ -1,6 +1,3 @@
-FROM mysql
-COPY custom.cnf /etc/mysql/conf.d/custom.cnf
-
 FROM node:18
 
 RUN mkdir -p /app
@@ -13,6 +10,8 @@ RUN npm install
 
 COPY . /app
 
-EXPOSE 3000
+EXPOSE 8888
 
-CMD ["npm", "run", "dev"]
+RUN npm run build
+
+CMD ["npm", "run", "start"]

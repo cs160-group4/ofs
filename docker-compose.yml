@@ -1,20 +1,21 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  mysql-db: 
+  mysql-db:
     container_name: mysql-db
+    command: ["--max_connections=100000"]
     image: mysql:8.0
     restart: unless-stopped
-    env_file: ./.env.local
+    env_file: ./.env.production
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    ports: 
-      - '3306:3306'
+    ports:
+      - "3306:3306"
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
     networks:
       - default
-      
+
   nextjs-app:
     container_name: nextjs-app
     build:
@@ -23,9 +24,11 @@ services:
     links:
       - "mysql-db:database"
     restart: unless-stopped
-    env_file: ./.env.local
-    ports: 
-      - "3000:3000"
+    env_file: ./.env.production
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "8888:8888"
     volumes:
       - /next
       - /node_modules
@@ -34,4 +37,3 @@ services:
       - mysql-db
     networks:
       - default
-
