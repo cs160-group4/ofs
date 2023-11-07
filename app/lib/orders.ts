@@ -54,6 +54,11 @@ export const getOrdersWithAddresses = async () => {
   return result as OrderWithAddress[];
 };
 
+// get oders with addresses by user id
+export const getOrdersWithAddressesByUserId = async (user_id: string) => {
+  let result = await db.select().from(orders).leftJoin(addresses, eq(orders.shippingAddressId, addresses.id)).where(eq(orders.userId, user_id));
+  return result as OrderWithAddress[];
+}
 
 // create order
 export const createOrder = async (order: NewOrder) => {
