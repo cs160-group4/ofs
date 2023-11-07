@@ -1,6 +1,7 @@
 "use server";
 import { z } from "zod";
 import { Product, deleteProduct, insertProduct } from "./lib/products";
+import { addAddress, deleteAddress } from "./lib/addresses";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 
@@ -80,5 +81,42 @@ export async function removeProduct(formData: FormData) {
     return {
       message: "Database Error: Failed to Remove Product",
     };
+  }
+}
+
+// Fariha - 11/03/23
+export async function addNewAddress(formData: FormData) {
+  const schema = z.object({
+    addressLine1: z.string(),
+    city: z.string(),
+    state: z.string(),
+    postalCode: z.string(),
+    addressLine2: z.string(),
+    userId: z.string()
+  });
+
+  try {
+    const newAddress = schema.safeParse({
+      addressLine1: formData.get("addressLine1"),
+      city: formData.get("city"),
+      state: formData.get("state"),
+      postalCode: formData.get("postalCode"),
+      addressLine2: formData.get("addressLine2"),
+      userId: formData.get("userId")
+    });
+
+    if(newAddress.success)
+    {
+      await addAddress(newAddress.data);
+      revalidatePath("/profile");
+      return { success: true, message: "Address added successfully"}
+    }
+    else{
+      console.log(newAddress.error);
+      return { success: false, message: "Address failed to be added"}
+    }
+
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Address failed to be added"}
   }
 }

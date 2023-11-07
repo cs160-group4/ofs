@@ -41,8 +41,9 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
         products.forEach((element: Product) => {
             brandSet.add(element.brand);
         });
-        setBrands(Array.from(brandSet));
-        setCheckedBrands(Array.from(brandSet));
+        let sortedBrands = Array.from(brandSet).sort();
+        setBrands(sortedBrands);
+        setCheckedBrands(sortedBrands);
     }, [products])
 
     useEffect(() => {

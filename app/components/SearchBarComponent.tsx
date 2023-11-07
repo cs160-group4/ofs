@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Product, getProductByName } from '@/lib/products';
 import OptionList from './OptionList';
 
@@ -11,8 +11,28 @@ export const SearchBarComponent = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredOptions, setFilteredOptions] = useState(initOptions);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          const target = event.target as HTMLElement;
+          if (target && !target.closest('#search-container')) {
+            setShowSearch(false);
+          }
+        };
+    
+        if (showSearch) {
+          document.addEventListener('click', handleClickOutside);
+        } else {
+          document.removeEventListener('click', handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener('click', handleClickOutside);
+        };
+      }, [showSearch]);
+
     const handleToggleSearch = () => {
         setShowSearch(!showSearch);
+        console.log(showSearch)
     };
 
     const fetchProducts = async(term : string) => {
@@ -20,7 +40,9 @@ export const SearchBarComponent = () => {
             const response = await fetch("/api/productByName?name="+term, {
                 method: 'GET',
             });
-            setFilteredOptions(await response.json());
+            const x = await response.json()
+            console.log(x)
+            setFilteredOptions(x);
         }
         catch (error) {
             console.error('Error: ', error);
@@ -36,11 +58,11 @@ export const SearchBarComponent = () => {
             term = "%" + e.target.value + "%";
         fetchProducts(term);
         
-  };
+    };
 
 
   return (
-    <div className="flex">
+    <div className="flex" id="search-container">
 
       {showSearch && (
         <div className="right-0 top-10  border-gray-300 p-2 rounded-md">
@@ -52,7 +74,7 @@ export const SearchBarComponent = () => {
                 onChange={handleSearch}
             />
             <div className="absolute z-50 w-fit">
-                <OptionList filteredOptions={filteredOptions}/>
+                <OptionList filteredOptions={filteredOptions} setShowSearch={setShowSearch}/>
             </div>
         </div>
       )}
