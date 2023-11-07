@@ -1,7 +1,15 @@
+import Link from "next/link";
 
 export default function Privacy() {
     return (
         <div className='flex flex-col items-center justify-center py-2'>
+            <div className=' flex items-center justify-center'>
+                <ul className="menu menu-horizontal px-1">
+                    <li><Link href="/pages/privacy">Privacy</Link></li> {/* Privacy */}
+                    <li><Link href="/pages/terms">Terms</Link></li>  {/* Terms */}
+                    <li><Link href="/pages/faq">FAQ</Link></li>   {/* FAQ */}
+                </ul>
+            </div>
             <h1 className='text-4xl'>Privacy Policy</h1>
             <div className='flex flex-col items-center justify-center py-2 w-1/2'>
                 <p className='text-2xl'>Effective date: October 12, 2023</p>

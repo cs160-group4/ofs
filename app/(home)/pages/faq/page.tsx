@@ -1,7 +1,15 @@
+import Link from "next/link";
 
 export default function FAQs() {
     return (
         <div className='flex flex-col items-center justify-center py-2'>
+            <div className=' flex items-center justify-center'>
+                <ul className="menu menu-horizontal px-1">
+                    <li><Link href="/pages/privacy">Privacy</Link></li> {/* Privacy */}
+                    <li><Link href="/pages/terms">Terms</Link></li>  {/* Terms */}
+                    <li><Link href="/pages/faq">FAQ</Link></li>   {/* FAQ */}
+                </ul>
+            </div>
             <h1 className="text-3xl text-center font-bold mt-8">Frequently Asked Questions</h1>
             <div className="container mx-auto py-2 max-w-xl">
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">1. What is OFS?</h2>
