@@ -1,4 +1,3 @@
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { getCategoryById } from '@/lib/categories'
@@ -6,16 +5,75 @@ import { getProductById } from '@/lib/products'
 import CommentsComponent from '@/app/ui/products/CommentsComponent'
 import { getCommentsByProductId } from '@/lib/comments'
 import { getProductAverageRating } from '@/lib/ratings'
-export default async function ShopCategory({ params }: { params: { id: string } }) {
-    var id: number = parseInt(params.id)
-    var product = await getProductById(id);
-    if (product == null) {
-        return <div>Product not found</div>
+import { getAuthSession } from '@/app/api/auth/[...nextauth]/options'
+import { NewCart, addProductToCart, getProdInCart, updateSpecificProductInCart } from '@/app/lib/cart'
+import { user } from 'drizzle/schema'
+import ShopCategoryQuantityComponent from '@/app/components/ShopCategoryQuantityComponent'
+
+export default async function ShopCategory({ searchParams }: { searchParams: { id: string; quantity?:number } }) {
+
+    var signedIn = false;
+    var user_id = "";
+    var currentQuantity = Number(searchParams?.quantity) || 1;
+    const session = await getAuthSession();
+
+    if (session?.user) {
+        signedIn = true;
+        user_id = session.user.id as string;
     }
+
+    var prod_id: number = parseInt(searchParams.id)
+    var product = await getProductById(prod_id);
+    
+    if (product == null) {
+        return <main className="flex items-center justify-center h-screen">
+                    <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
+                        <div className="flex flex-col items-center">
+                            <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
+                                <span className="text-black">Sorry! The Product You Searched <br></br>For Does Not Exist</span> 
+                            </h6>
+                            <Link href="/shop/all" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
+                                Go back
+                            </Link>
+                        </div>
+                    </div>
+                </main>
+    }
+
+    const addCartItem = async () => {
+        'use server'
+
+        console.log(currentQuantity)
+        try {
+            const response : any = await getProdInCart(user_id, prod_id);
+            if (response.length > 0) {
+                currentQuantity += response[0].quantity
+                let data : NewCart = {
+                    userId : user_id,
+                    productId : prod_id,
+                    quantity : currentQuantity
+                }  
+                await updateSpecificProductInCart(response[0].id, data);
+            }
+            else {
+                let data : NewCart = {
+                    userId : user_id,
+                    productId : prod_id,
+                    quantity : currentQuantity
+                }  
+                await addProductToCart(data);
+            }
+
+
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
     var category = await getCategoryById(product.categoryId);
-    let comments = await getCommentsByProductId(id);
-    let averageRating = await getProductAverageRating(id);
-    // console.log(averageRating);
+    let comments = await getCommentsByProductId(prod_id);
+    let averageRating = await getProductAverageRating(prod_id);
+
     return <main>
         <>
             <section className="py-10 font-poppins dark:bg-gray-800">
@@ -30,14 +88,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                             </path>
                                         </svg>
                                     </a>
-                                    {/* <Image className="object-contain w-full lg:h-full" src="https://i.postimg.cc/0jwyVgqz/Microprocessor1-removebg-preview.png" alt="">
-                                    <a className="absolute right-0 transform lg:mr-2 top-1/2 translate-1/2" href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-5 h-5 text-blue-500 bi bi-chevron-right dark:text-blue-200" viewBox="0 0 16 16">
-                                            <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
-                                            </path>
-                                        </svg>
-                                    </a>
-                                </Image> */}
                                     <Image src={'/' + product?.picture} alt={product.name} width={500} height={500} />
                                 </div>
                                 <div className="flex-wrap hidden -mx-2 md:flex">
@@ -142,7 +192,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                     </div>
                                     <p className="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
                                         <span>${product.itemPrice}</span>
-                                        {/* <span className="ml-3 text-base font-normal text-gray-500 line-through dark:text-gray-400">$20</span> */}
                                     </p>
                                 </div>
                                 <div className="mb-6">
@@ -154,9 +203,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                                     <div className="w-full mb-4 md:w-2/5">
                                                         <div className="flex ">
                                                             <span className="mr-3 text-gray-500 dark:text-gray-400">
-                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-diagram-3 w-7 h-7" viewBox="0 0 16 16">
-                                                                <path fillRule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5v-1zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-1zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"></path>
-                                                            </svg> */}
                                                             </span>
                                                             <div>
                                                                 <p className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -171,11 +217,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                                     <div className="w-full mb-4 md:w-2/5">
                                                         <div className="flex ">
                                                             <span className="mr-3 text-gray-500 dark:text-gray-400">
-                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gpu-card w-7 h-7" viewBox="0 0 16 16">
-                                                                <path d="M4 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm7.5-1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"></path>
-                                                                <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .5.5V4h13.5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H2v2.5a.5.5 0 0 1-1 0V2H.5a.5.5 0 0 1-.5-.5Zm5.5 4a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM9 8a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0Z"></path>
-                                                                <path d="M3 12.5h3.5v1a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5v-1Zm4 1v-1h4v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5Z"></path>
-                                                            </svg> */}
                                                             </span>
                                                             <div>
                                                                 <p className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -187,35 +228,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {/* <div className="w-full mb-4 lg:mb-0 md:w-2/5">
-                                                    <div className="flex ">
-                                                        <span className="mr-3 text-gray-500 dark:text-gray-400">
-                                                           
-                                                        </span>
-                                                        <div>
-                                                            <p className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                                Fiber
-                                                            </p>
-                                                            <h2 className="text-base font-semibold text-gray-700 dark:text-gray-400">
-                                                                20%
-                                                            </h2>
-                                                        </div>
-                                                    </div>
-                                                </div> */}
-                                                    {/* <div className="w-full mb-4 lg:mb-0 md:w-2/5">
-                                                    <div className="flex ">
-                                                        <span className="mr-3 text-gray-500 dark:text-gray-400">
-                                                        </span>
-                                                        <div>
-                                                            <p className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                                Prep Time
-                                                            </p>
-                                                            <h2 className="text-base font-semibold text-gray-700 dark:text-gray-400">
-                                                                30 minutes
-                                                            </h2>
-                                                        </div>
-                                                    </div>
-                                                </div> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -230,7 +242,11 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                     </p>
                                 </div>
                                 <div className="py-6 mb-6 border-t border-b border-gray-200 dark:border-gray-700">
-                                    <span className="text-base text-gray-600 dark:text-gray-400">In Stock</span>
+                                    { (product.itemQuantity==0) ?
+                                        <span className="text-base text-gray-600 dark:text-gray-400">Out of Stock</span>
+                                        :
+                                        <span className="text-base text-gray-600 dark:text-gray-400">In Stock</span>
+                                    }
                                     <p className="mt-2 text-sm text-blue-500 dark:text-blue-200">
                                         <span className="text-gray-600 dark:text-gray-400">
 
@@ -240,33 +256,23 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                 <div className="mb-6 "></div>
                                 <div className="flex flex-wrap items-center mb-6">
                                     <div className="mb-4 mr-4 lg:mb-0">
-                                        <div className="w-28">
+                                        <div className="w-fit">
                                             <div className="relative flex flex-row w-full h-10 bg-transparent rounded-lg">
-                                                <button className="w-20 h-full text-gray-600 bg-gray-100 border-r rounded-l outline-none cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-300">
-                                                    <span className="m-auto text-2xl font-thin">-</span>
-                                                </button>
-                                                <input type="number" className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black" placeholder="1" />
-                                                <button className="w-20 h-full text-gray-600 bg-gray-100 border-l rounded-r outline-none cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-300">
-                                                    <span className="m-auto text-2xl font-thin">+</span>
-                                                </button>
+                                                <ShopCategoryQuantityComponent quantity={product.itemQuantity}/>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:mb-0">
-                                        <button className="flex items-center justify-center w-full h-10 p-2 mr-4 text-gray-700 border border-gray-300 lg:w-11 hover:text-gray-50 dark:text-gray-200 dark:border-blue-600 hover:bg-blue-600 hover:border-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 dark:hover:border-blue-500 dark:hover:text-gray-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className=" bi bi-heart" viewBox="0 0 16 16">
-                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <Link href="/cart" >
-                                        <button className="btn btn-accent text-gray-100"> Add to cart</button>
-                                    </Link>
-                                </div>
-                                <div className="flex gap-4 mb-6">
-                                    <Link href="/checkout" className='w-full'>
-                                        <button className="w-full btn btn-primary text-gray-100">Buy now</button>  </Link>
+                                    {signedIn ?
+                                        <form action={addCartItem}>
+                                            <button className="btn btn-accent text-gray-100"> Add to cart</button>
+                                        </form>
+                                        :
+                                        <Link href="/auth/signin">
+                                            <button className="btn btn-primary btn-block">
+                                                Log In
+                                            </button>
+                                        </Link>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -402,136 +408,6 @@ export default async function ShopCategory({ params }: { params: { id: string } 
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                {/* <div>
-                                    <span className="inline-block text-5xl font-bold text-blue-700 dark:text-gray-300">4.5</span>
-                                    <span className="inline-block text-xl font-medium text-gray-700 dark:text-gray-400">
-                                        /5</span>
-                                    <ul className="flex items-center mt-4 mb-4">
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor"
-                                                    className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <p className="text-sm dark:text-gray-400">Average Rating and percentage per views
-                                    </p>
-                                </div>
-                                <div>
-                                    <div className="flex items-center mb-2">
-                                        <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                            <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                            // style=""
-                                            ></div>
-                                        </div>
-                                        <div className="flex justify-end text-base font-medium dark:text-gray-400">91% </div>
-                                    </div>
-                                    <div className="flex items-center mb-2">
-                                        <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                            <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                            // style="width: 45%"
-                                            ></div>
-                                        </div>
-                                        <div className="flex justify-end text-base font-medium dark:text-gray-400">45% </div>
-                                    </div>
-                                    <div className="flex items-center mb-2">
-                                        <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                            <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                            // style="width: 25%"
-                                            ></div>
-                                        </div>
-                                        <div className="flex justify-end text-base font-medium dark:text-gray-400">25% </div>
-                                    </div>
-                                    <div className="flex items-center mb-2 ">
-                                        <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                            <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                            // style="width: 14%"
-                                            ></div>
-                                        </div>
-                                        <div className="flex justify-end text-base font-medium dark:text-gray-400">14% </div>
-                                    </div>
-                                </div> */}
                             </div>
 
                         </div>

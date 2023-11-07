@@ -28,6 +28,20 @@ export const getCart = async (user_id: string) => {
   return result as CartItem[];
 };
 
+// get cart by user id
+export const getProdInCart = async (user_id: string, prod_id : number) => {
+  const result = await db
+    .select({
+      id : cart.id,
+      userId : cart.userId,
+      productId: cart.productId,
+      quantity: cart.quantity
+    })
+    .from(cart)
+    .where(sql`${cart.userId} = ${user_id} and ${cart.productId} = ${prod_id}`)
+  return result;
+};
+
 // add a product to cart
 export const addProductToCart = async (data: NewCart) => {
   return await db.insert(cart).values(data);
@@ -36,6 +50,11 @@ export const addProductToCart = async (data: NewCart) => {
 // delete product from cart
 export const deleteProductFromCart = async (id: number) => {
   return await db.delete(cart).where(eq(cart.id, id));
+};
+
+// update product in cart
+export const updateSpecificProductInCart = async (id: number, data: NewCart) => {
+  return await db.update(cart).set(data).where(eq(cart.id, id));
 };
 
 // update product in cart

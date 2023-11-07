@@ -151,11 +151,6 @@ export default async function OrderSummary() {
                                 Go back shopping
                             </button>
                         </Link>
-                        <button 
-                        // onClick={handleClick}
-                            className="btn btn-primary w-full px-6 py-3 text-gray-100 rounded-md md:w-auto  hover:bg-sky-300 ">
-                            Download Invoice
-                        </button>
                         
                     </div>
                 </div>

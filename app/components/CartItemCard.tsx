@@ -34,8 +34,8 @@ export async function CartItemCard({ item }: {item: CartItem }) {
           <div>
             <p className="text-sm"><b>Quantity: </b></p>
             <form>
-              <input type="number" name="cartQuantity" min="1" max={product.itemQuantity} placeholder={cart.quantity.toString()}
-                value={cart.quantity}
+              <input type="number" name="cartQuantity" min="1" max={product.itemQuantity} placeholder={cart.quantity.toString()} 
+                defaultValue={cart.quantity}
                 className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
               ></input>
             </form>
