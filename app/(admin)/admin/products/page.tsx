@@ -7,6 +7,7 @@ import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { RemoveProductModal } from '@/components/RemoveProductModal';
+import { UpdateProduct } from '@/app/ui/admin/products/Buttons';
 
 export default async function AdminProducts() {
   const products = await getProducts();
@@ -15,7 +16,7 @@ export default async function AdminProducts() {
       <div className='flex flex-col mx-6 pt-7 gap-y-5'>
         {/* title/header */}
         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
-          <p className='font-bold text-3xl'>Manage Catalogue</p>
+          <h1 className='text-2xl font-bold'>Catalogue</h1>
           <p className='text-base'>Add, filter, or make quick updates to your existing product catalogue</p>
         </div>
         {/* management tools container */}
@@ -69,9 +70,12 @@ export default async function AdminProducts() {
                   <td>{product.itemWeight}</td>
                   <td>{product.itemQuantity}</td>
                   <td>
-                    <Suspense fallback={<p>Deleting...</p>}>
-                      <RemoveProductForm id={product.id} />
-                    </Suspense>
+                    <div className='flex gap-3'>
+                      <UpdateProduct id={product.id} />
+                      <Suspense fallback={<p>Deleting...</p>}>
+                        <RemoveProductForm id={product.id} />
+                      </Suspense>
+                    </div>
                   </td>
                 </tr>
               ))}

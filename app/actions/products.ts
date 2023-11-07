@@ -3,61 +3,80 @@ import { Product, updateProduct } from "@/lib/products";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-const FormSchema = z.object({
-  id: z.number(),
+
+const currentDateTime = new Date();
+const formattedDateTime = formatDate(currentDateTime);
+const priceEx = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d{9})?(\.\d{1,2})?$/gm
+const schema = z.object({
+  id: z.number().min(1),
   name: z.string().min(1).max(40),
   description: z.string().min(0).max(100),
-  slug: z.string().min(1).max(50),
+  slug: z.string().min(1).max(50).trim().toLowerCase(),
   // store: z.string().min(1).max(30),
   brand: z.string().min(1).max(30),
   categoryId: z.number().int(),
   picture: z.string().min(0).max(100),
   itemWeight: z.number().positive(),
-  itemPrice: z.string(),
+  itemPrice: z.string().regex(priceEx),
   itemQuantity: z.number().int().positive(),
-  updatedAt: z.string().min(1).max(30),
-  createdAt: z.string().min(1).max(30),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
-export type ProductState = {
-  errors?: {
-    productId?: string[];
-    status?: string[];
-  };
-  message?: string | null;
-};
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
 
-const UpdateProduct = FormSchema.omit({ createdAt: true });
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
 
-// export async function editProduct(prevState: ProductState, formData: FormData) {
-//   const validatedFields = UpdateProduct.safeParse({
-//     id: Number(formData.get("id")),
-//     name: formData.get("name"),
-//     description: formData.get("description"),
-//     slug: formData.get("slug"),
-//     brand: formData.get("brand"),
-//     categoryId: Number(formData.get("category_id")),
-//     picture: formData.get("picture"),
-//     itemWeight: Number(formData.get("itemWeight")),
-//     itemPrice: formData.get("itemPrice"),
-//     itemQuantity: Number(formData.get("itemQuantity")),
-//     updatedAt: new Date().toISOString(),
-//   });
+// export type ProductState = {
+//   errors?: {
+//     productId?: string[];
+//     status?: string[];
+//   };
+//   message?: string | null;
+// };
 
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: "Missing Fields. Failed to Update Product.",
-//     };
-//   }
+export async function editProduct(formData: FormData) {
 
-//   const product: Product = { ...validatedFields.data };
-//   try {
-//     await updateProduct(product);
-//   } catch (error) {
-//     return { message: "Database Error: Failed to Update Product." };
-//   }
+    const result = schema.safeParse({
+      id: Number(formData.get("id")),
+      name: formData.get("name"),
+      description: formData.get("description"),
+      slug: formData.get("slug"),
+      brand: formData.get("brand"),
+      categoryId: Number(formData.get("category_id")),
+      picture: formData.get("picture"),
+      itemWeight: Number(formData.get("itemWeight")),
+      itemPrice: formData.get("itemPrice"),
+      itemQuantity: Number(formData.get("itemQuantity")),
+      updatedAt: formattedDateTime,
+      createdAt: formData.get("created")
+    });
 
-//   revalidatePath("/admin/products");
-//   redirect("/admin/products");
-// }
+    if (!result.success) {
+      console.log(result.error)
+      return {
+        errors: result.error.flatten().fieldErrors,
+        message: "Missing Fields. Failed to Update Product.",
+      };
+    }
+  // const product: Product = { ...result.data };
+  try
+  {
+    await updateProduct(result.data);
+  }
+  catch (error) {
+    console.log(error)
+    return { message: "Database Error: Failed to Update Product." };
+  }
+  // intended action: only revalidates and redirects if no errors are caught by preceding code
+  revalidatePath("/admin/products");
+  redirect("/admin/products");
+}

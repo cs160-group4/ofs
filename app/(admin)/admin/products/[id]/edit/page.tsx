@@ -20,32 +20,36 @@ export default async function Page({ params }: { params: { id: string } }) {
                 notFound();
             }
         }
+        else {
+            let id = Number(params.id)
+            const product = await getProductById(id)
+            return (
+                <main>
+                    <Breadcrumbs
+                        breadcrumbs={[
+                            { label: 'Catalogue', href: '/admin/products' },
+                            {
+                                label: 'Edit Product',
+                                href: `/admin/products/${id}/edit`,
+                                active: true,
+                            },
+                        ]}
+                    />
+                    <div className='flex flex-col mx-6 pt-7 gap-y-5'>
+                        <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
+                            <p className='font-bold text-3xl'>Edit Product</p>
+                            <p className='text-base'>Make changes to an existing product's details and attributes</p>
+                        </div>
+        
+                        <UpdateProductForm product={product} />
+                    </div>
+                    {/* <Form product={product} /> */}
+                </main>
+            );
+        }
         notFound();
     } catch (err) {
         console.log(err);
         notFound();
     }
-    return (
-        <main>
-            <div className='flex flex-col mx-6 pt-7 gap-y-5'>
-                <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
-                    <p className='font-bold text-3xl'>Edit Product</p>
-                    <p className='text-base'>Make changes to an existing product's details and attributes</p>
-                </div>
-
-                <UpdateProductForm product={product} />
-            </div>
-            {/* <Breadcrumbs
-                breadcrumbs={[
-                    { label: 'Products', href: '/admin/products' },
-                    {
-                        label: 'Edit Product',
-                        href: `/admin/products/${id}/edit`,
-                        active: true,
-                    },
-                ]}
-            /> */}
-            {/* <Form product={product} /> */}
-        </main>
-    );
 }
