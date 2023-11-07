@@ -50,7 +50,7 @@ export default async function NavbarComponent() {
                             {/* Blog */}
                             <li><Link href="/blog">Blog</Link></li>
                             {/* Pages */}
-                            <li><Link href="/pages">Pages</Link></li>
+                            <li><Link href="/pages/privacy">Pages</Link></li>
                             {/* About Us */}
                             <li><Link href="/pages/about">About Us</Link></li>
                             {/* Contact Us */}
@@ -67,7 +67,7 @@ export default async function NavbarComponent() {
                         {/* Blog */}
                         <li><Link href="/blog">Blog</Link></li>
                         {/* Pages */}
-                        <li><Link href="/pages">Pages</Link></li>
+                        <li><Link href="/pages/privacy">Pages</Link></li>
                         {/* About Us */}
                         <li><Link href="/pages/about">About Us</Link></li>
                         {/* Contact Us */}
@@ -98,7 +98,7 @@ export default async function NavbarComponent() {
                             <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                                 <div className="card-body">
                                     <span className="font-bold text-lg">{numCartItems} Items</span>
-                                    <span className="text-info">Subtotal: ${cartItemsPrice}</span>
+                                    <span className="text-info">Subtotal: ${Math.round(cartItemsPrice * 100)/ 100}</span>
                                     <div className="card-actions">
                                         <Link href="/cart">
                                             <button className="btn btn-primary btn-block">

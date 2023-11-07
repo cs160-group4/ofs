@@ -3,6 +3,13 @@ import Link from 'next/link'
 export default function Terms() {
     return (
         <div className='flex flex-col items-center justify-center py-2'>
+            <div className=' flex items-center justify-center'>
+                <ul className="menu menu-horizontal px-1">
+                    <li><Link href="/pages/privacy">Privacy</Link></li> {/* Privacy */}
+                    <li><Link href="/pages/terms">Terms</Link></li>  {/* Terms */}
+                    <li><Link href="/pages/faq">FAQ</Link></li>   {/* FAQ */}
+                </ul>
+            </div>
             <h1 className="text-3xl text-center font-bold mt-8">Terms of Service</h1>
             <div className="container mx-auto py-2 max-w-xl">
                 <p className="mt-3 text-2xl">Last updated: 2023-10-12</p>
