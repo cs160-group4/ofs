@@ -1,19 +1,28 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { User, insertUser, updateUserRole } from "@/lib/users";
+import {
+  NewUser,
+  User,
+  checkUserExists,
+  insertUser,
+  updateUserRole,
+} from "@/lib/users";
 import { randomUUID } from "crypto";
 import { deleteUser } from "@/lib/users";
 import { redirect } from "next/navigation";
+import bcrypt from 'bcrypt';
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z.string().min(3).max(255),
+  // name is required, min length 1
+  name: z.string().min(1).max(255),
   email: z.string().email().min(1).max(255),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
-  role: z.string({ invalid_type_error: "Please select a role" }),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
+  role: z.string().default("customer"),
 });
+
 export type State = {
   errors?: {
     name?: string[];
@@ -22,48 +31,74 @@ export type State = {
   };
   message?: string;
 };
-const CreateUser = FormSchema.pick({ name: true, email: true, password: true, confirmPassword: true });
+const CreateUser = FormSchema.pick({
+  name: true,
+  email: true,
+  password: true,
+  confirmPassword: true,
+});
 const UpdateUser = FormSchema.pick({ id: true, role: true });
 const DeleteUser = FormSchema.pick({ id: true });
 
 export async function createUser(prevState: any, formData: FormData) {
   try {
     console.log("--- Creating user ---");
-    const result = CreateUser.safeParse({
+    const validatedFields = CreateUser.safeParse({
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
       confirmPassword: formData.get("confirmPassword"),
     });
 
-    if (result.success) {
-      const data = result.data;
-      if (data.password !== data.confirmPassword) {
-        return {
-          success: false,
-          error: {
-            confirmPassword: "Passwords do not match",
-          },
-        };
-      }
-
-      // const user: User = {
-      //   id: randomUUID(), // https://www.rfc-editor.org/rfc/rfc4122.txt
-      //   name: data.name,
-      //   email: data.email,
-      //   password: data.password,
-      //   role: "user",
-      //   emailVerified: null,
-      //   image: "images/avatars/default.png",
-      // };
-      // await insertUser(user);
-      //     revalidatePath("/");
-      // return { message: `Added user ${data.email}` };
-      return { success: true, data: result.data };
+    if (formData.get("password") !== formData.get("confirmPassword")) {
+      console.log("Passwords do not match");
+      return {
+        errors: {
+          confirmPassword: "Passwords do not match",
+        },
+        message: "Passwords do not match",
+      };
     }
-    console.log("Error:\n", result.error.format());
-    return { success: false, error: result.error.format() };
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: "Error Fields. Failed to Create User.",
+      };
+    }
+
+    const { name, email, password, confirmPassword } = validatedFields.data;
+
+    let id = randomUUID();
+    console.log("Id: ", id);
+    let exists = await checkUserExists(id, email);
+    if (exists) {
+      return {
+        errors: {
+          email: "User already exists",
+        },
+        message: "User already exists",
+      };
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    let user: NewUser = {
+      id: id,
+      name: name,
+      email: email,
+      password: hashedPassword,
+      role: "customer",
+      emailVerified: null,
+    };
+    await insertUser(user);
+    revalidatePath("/");
+    // success message
+    return {
+      success: true,
+      message: "Congratulations! Your account has been successfully created.",
+    };
+  
   } catch (e: any) {
+    console.log("Error: ", e);
     return { success: false, message: "Failed to create an account" };
   }
 }

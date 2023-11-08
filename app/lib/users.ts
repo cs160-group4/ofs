@@ -1,20 +1,21 @@
 import { db } from "@/db/db";
 import { user } from "@/db/schema";
 import { eq, and, or, like, sql } from "drizzle-orm";
+import bcrypt from "bcrypt";
 
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
 
 export type NewEmail = {
-  newEmail:string;
-  confirmEmail:string;
-  user_id:string;
+  newEmail: string;
+  confirmEmail: string;
+  user_id: string;
 };
 
 export type NewPassword = {
-  newPassword:string;
-  confirmPassword:string;
-  user_id:string;
+  newPassword: string;
+  confirmPassword: string;
+  user_id: string;
 };
 
 export const authenticate = async (
@@ -24,15 +25,17 @@ export const authenticate = async (
   const result: User[] = await db
     .select()
     .from(user)
-    .where(and(eq(user.email, email), eq(user.password, password)))
+    .where(eq(user.email, email))
     .limit(1);
   if (result.length > 0) {
-    return result[0];
-  } else {
-    return null;
+    const dbPassword: string = result[0].password as string;
+    const valid = await bcrypt.compare(password, dbPassword);
+    if (valid) {
+      return result[0];
+    }
   }
+  return null;
 };
-
 // get all users
 export const getUsers = async () => {
   const result: User[] = await db.select().from(user);
@@ -112,6 +115,19 @@ export const getFilteredUsers = async (query: string, currentPage: number) => {
   return result;
 };
 
+// Check if user exists
+export const checkUserExists = async (id: string, email: string) => {
+  const result: User[] = await db
+    .select()
+    .from(user)
+    .where(or(eq(user.id, id), eq(user.email, email)));
+  if (result.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // add a user
 export const insertUser = async (data: NewUser) => {
   return await db.insert(user).values(data);
@@ -142,10 +158,16 @@ export async function deleteUser(id: string) {
 
 // update email
 export const updateNewEmail = async (data: NewEmail) => {
-  return await db.update(user).set({email : data.newEmail}).where(eq(user.id, data.user_id));
+  return await db
+    .update(user)
+    .set({ email: data.newEmail })
+    .where(eq(user.id, data.user_id));
 };
 
 // update password
 export const updateNewPassword = async (data: NewPassword) => {
-  return await db.update(user).set({password : data.newPassword}).where(eq(user.id, data.user_id));
+  return await db
+    .update(user)
+    .set({ password: data.newPassword })
+    .where(eq(user.id, data.user_id));
 };

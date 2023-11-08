@@ -63,7 +63,7 @@ export default async function OrderSummary({ params }: { params: { id: string } 
                                 <span className="text-xl">{order.subtotal}</span>
                             </span>
                         </div>
-               
+
                         <div
                             className="flex items-center justify-between px-10 py-3 font-medium leading-8 bg-white bg-opacity-50 rounded-md shadow dark:text-gray-400 dark:bg-gray-800 font-heading">
                             <span>Shipping</span>
