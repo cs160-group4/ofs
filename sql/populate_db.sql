@@ -1,13 +1,13 @@
 USE ofs_dev;
 
--- Populate Customer Data: ..., employeepass123, linapass123, customerpass123,jillpass123
+-- Populate Customer Data: ..., employeepass123, employeepass123, customerpass123, customerpass123
 INSERT INTO user (id, email, password, name, image, role, first_name, last_name, phone_number)
 VALUES 
     ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', '$2b$10$5sqxizup.X5Y5NT8JDJqiuC1sAPn8u1fBJJGNFuj4miW/p5NGvoHe', 'Hung Pham', '', 'admin', 'Hung', 'Pham', '4087778888'),
     ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'employee@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Employee Will', '', 'employee', 'Employee', 'Will', '4087776969'),
-    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'lina@gmail.com', '$2b$10$rbTbJlzXT/xaZQUfwBqNxekNegwXkogxVyV5j9lRlyaNpZGcSMpq.', 'Lina', '', 'employee', 'Lina', 'Medina', '408567699'),
+    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'lina@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Lina', '', 'employee', 'Lina', 'Medina', '408567699'),
     ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'customer@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Customer Gates', '', 'customer', 'Customer', 'Gates', '4086088899'),
-    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', '$2b$10$JbzfWCvq0xlXPnC4Y2jpHOphXrpttv/De9yueSaOvk3D/pClDn0Pe', 'Jill Lane', '', 'customer', 'Jill', 'Lane', '4085554688');
+    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Jill Lane', '', 'customer', 'Jill', 'Lane', '4085554688');
 
 INSERT INTO addresses (id, userId, address_line1, city, state, postal_code, country, latitude, longitude)
 VALUES 
