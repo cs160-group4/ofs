@@ -2,6 +2,7 @@ import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
+import { DeliveryAddress } from '@/app/components/DeliveryAddress';
 import { PaymentMethod } from '@/app/components/PaymentMethod';
 import Link from 'next/link';
 
@@ -62,7 +63,7 @@ export default async function Checkout() {
    <div className="mx-auto justify-center md:flex md:space-x-6">
      <div className="grid grid-cols-3 gap-10 auto-cols-max md:w-4/5">
        <h2 className="font-bold text-xl">1. Delivery Address</h2>
-       <div>
+       {/* <div>
          {name}<br />
          {mainAddress.addressLine1}<br />
          {mainAddress.addressLine2 !== null && (<p>{mainAddress.addressLine2} <br /></p>)}
@@ -70,7 +71,9 @@ export default async function Checkout() {
        </div>
        <div>
          <button className="btn text-center btn-link font-small">Change</button>
-       </div>
+       </div> */}
+       <DeliveryAddress id={id} name={name} address={mainAddress} />
+
 
 
        <h2 className="font-bold text-xl">2. Payment Method</h2>

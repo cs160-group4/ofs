@@ -1,7 +1,7 @@
 "use client"
 import { addNewAddress } from "../actions";
 
-export function AddAddressModal({ id }: { id: string }){
+export function AddAddressModal({ id, buttonText }: { id: string, buttonText: string }){
   
   let stateAbbreviations: string[]
     = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -13,7 +13,7 @@ export function AddAddressModal({ id }: { id: string }){
   return (
     <>
       <button onClick={() => (document.getElementById("add-address") as HTMLDialogElement)?.showModal()}
-              className="text-center btn-link font-small">Add another address</button>
+              className="text-center btn-link font-small">{buttonText}</button>
       
       <dialog id="add-address" className="modal">
         <div className="modal-box">
@@ -55,8 +55,6 @@ export function AddAddressModal({ id }: { id: string }){
           </div>
         </div>
       </dialog>
-
-      
     </>
   )
 }
