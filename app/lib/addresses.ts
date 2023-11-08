@@ -11,7 +11,7 @@ export const getAddresses = async () => {
 
 // get address by user id
 export const getAddress = async (user_id: string) => {
-  return await db.select().from(addresses).where(eq(addresses.userId, user_id));
+  return await db.select().from(addresses).where(eq(addresses.userId, user_id)) as Addresses[];
 };
 
 // add a address to user

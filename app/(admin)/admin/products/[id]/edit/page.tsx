@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 export default async function Page({ params }: { params: { id: string } }) {
     try {
-        console.log(params.id);
         if (!params.id) {
             let id = Number(params.id)
             const product = await getProductById(id)
@@ -49,7 +48,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         }
         notFound();
     } catch (err) {
-        console.log(err);
         notFound();
     }
 }

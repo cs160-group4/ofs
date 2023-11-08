@@ -1,6 +1,6 @@
 import { db } from "@/db/db";
 import { cart, orders, products, user } from "@/db/schema";
-import { eq, or, sql } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 import { User } from "@/lib/users";
 import { Product } from "@/lib/products";
 
@@ -38,8 +38,8 @@ export const getProdInCart = async (user_id: string, prod_id : number) => {
       quantity: cart.quantity
     })
     .from(cart)
-    .where(sql`${cart.userId} = ${user_id} and ${cart.productId} = ${prod_id}`)
-  return result;
+    .where(and(eq(cart.userId, user_id), eq(cart.productId, prod_id)));
+  return result[0] as Cart;
 };
 
 // add a product to cart
@@ -58,8 +58,8 @@ export const updateSpecificProductInCart = async (id: number, data: NewCart) => 
 };
 
 // update product in cart
-export const updateProductInCart = async (id: number, data: Cart) => {
-  return await db.update(cart).set(data).where(eq(cart.id, id));
+export const updateProductInCart = async (id: number, quantity: number) => {
+  return await db.update(cart).set({quantity: quantity}).where(eq(cart.id, id));
 };
 
 // delete all products from cart

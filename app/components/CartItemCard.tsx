@@ -85,10 +85,9 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
               const res = await deleteCartProduct(formData);
 
               try {
-                console.log(res.message);
+
               } catch (error) {
-                console.log(error);
-                console.log(res.message);
+              
               }
             }}>
               <button className="btn text-center btn-link text-sm">Delete</button>

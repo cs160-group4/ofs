@@ -91,7 +91,7 @@ export default async function NavbarComponent() {
                                     <span className="text-info">Subtotal: ${Math.round(cartItemsPrice * 100)/ 100}</span>
                                     <div className="card-actions">
                                         <Link href="/cart">
-                                            <button className="btn btn-primary btn-block">
+                                            <button className="btn btn-primary btn-block text-white">
                                                 View Cart
                                             </button>
                                         </Link>
@@ -109,11 +109,11 @@ export default async function NavbarComponent() {
                             </label>
                             <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                                 <div className="card-body">
-                                    <span className="font-bold text-lg text-center">Log In</span>
+                                    <span className="font-bold text-lg text-center">Sign In</span>
                                     <div className="card-actions justify-center">
                                         <Link href="/auth/signin">
                                             <button className="btn btn-primary btn-block">
-                                                Log In
+                                                Sign In
                                             </button>
                                         </Link>
                                     </div>

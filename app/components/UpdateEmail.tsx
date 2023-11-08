@@ -21,11 +21,8 @@ export function UpdateEmail({ id }: { id: string }){
             
             if(!res.success) {
               setErrorMsg(res.message);
-            //   console.log(res.message);
             } else {
               setErrorMsg(res.message);
-            //   console.log(res.success);
-            //   console.log(res.message);
             }
           }}>
             {/* <input type="hidden" name="userId" value={id}></input> */}

@@ -1,8 +1,41 @@
 "use server";
-import { addProductToCart, deleteProductFromCart, updateProductInCart, updateSpecificProductInCart } from "@/lib/cart";
+import {
+  addProductToCart,
+  deleteProductFromCart,
+  getProdInCart,
+  updateProductInCart,
+  updateSpecificProductInCart
+} from "@/lib/cart";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { getProductById } from "@/lib/products";
+import { getAuthSession } from "@/api/auth/[...nextauth]/options";
+
+export async function addToCartAction(productId: number, quantity: number) {
+  try {
+    const session = await getAuthSession();
+    if (!session) {
+      return { message: "Not logged in" };
+    }
+    const userId = session.user.id;
+    const available = (await getProductById(productId)).itemQuantity;
+    if (available < quantity) {
+      return { message: "Not enough stock" };
+    }
+    const cart = await getProdInCart(userId, productId);
+    if (cart) {
+      let newQuantity: number = cart.quantity + quantity;
+      await updateProductInCart(cart.id, newQuantity);
+    } else {
+      await addProductToCart({ userId, productId, quantity });
+    }
+    revalidatePath("/");
+    return { message: "Added Product" };
+  } catch (error) {
+    return { message: "Database Error: Failed to Add Product" };
+  }
+}
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
@@ -21,7 +54,7 @@ export async function deleteCartProduct(formData: FormData) {
     const cartId = Number(formData.get("cartId"));
     const userId = String(formData.get("userId"));
     await deleteProductFromCart(cartId, userId);
-    
+
     const revalidateUrl = String(formData.get("revalidateUrl"));
     revalidatePath(revalidateUrl);
     return { message: "Deleted Product" };

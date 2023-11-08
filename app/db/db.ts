@@ -29,7 +29,6 @@ if (env == "production") {
   if (!global.dbInstance) {
     global.dbInstance = drizzle(poolConnection);
   }
-  // console.log("db exists, using global db");
   db = global.dbInstance;
 }
 

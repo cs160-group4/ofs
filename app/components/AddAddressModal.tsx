@@ -19,15 +19,12 @@ export function AddAddressModal({ id, buttonText }: { id: string, buttonText: st
         <div className="modal-box">
           <h3 className="font-bold text-lg">Add a new address</h3>
           <form action={async (formData: FormData) => {
-            console.log(formData.set("userId", id));
-
             const res = await addNewAddress(formData);
             
             if(!res.success) {
-              console.log(res.message);
+
             } else {
-              console.log(res.success);
-              console.log(res.message);
+              
             }
           }}>            
             <p className="font-bold py-1">Address</p>
