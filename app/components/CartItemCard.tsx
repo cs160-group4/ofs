@@ -1,13 +1,23 @@
 "use client"
-import { CartItem } from '@/lib/cart';
-import { deleteCartProduct } from '../actions/cart';
 import Image from 'next/image';
 import React from 'react';
 import { useState } from 'react';
+import { User } from '@/lib/users';
+import { getAuthSession } from '../api/auth/[...nextauth]/options';
+import { CartItem } from '../lib/cart';
+import { deleteCartProduct } from '../actions/cart';
 
-export function CartItemCard({ item, revalidateUrl }: {item: CartItem, revalidateUrl: string }) {
-  const [quantity, setQuantity] = useState(item.cart.quantity);
-  
+
+export async function CartItemCard({ item }: {item: CartItem }) {
+  var user_id = "";
+  const session = await getAuthSession();
+
+  if (session?.user) {
+      user_id = session.user.id as string;
+  }
+
+  const[quantity, setQuantity] = useState(item.cart.quantity);
+
   return (
     <div>
       <ul className="my-2 pb-2 space-y-2 mt-auto mb-auto">
@@ -21,7 +31,7 @@ export function CartItemCard({ item, revalidateUrl }: {item: CartItem, revalidat
           <div>
             <p className="text-sm"><b>Quantity: </b></p>
             <form>
-              <input type="number" name="cartQuantity" min="1" max={item.products.itemQuantity} 
+              <input type="number" name="quantity" min="1" max={item.products.itemQuantity} 
                 value={quantity}
                 onChange={(e) => {
                   const newQuantity = parseInt(e.target.value, 10);

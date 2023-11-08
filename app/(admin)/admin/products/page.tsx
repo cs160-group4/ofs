@@ -64,7 +64,7 @@ export default async function AdminProducts() {
                   </td>
                   <td>{product.brand}</td>
                   <td>
-                    {product.categoryId}
+                    {product.slug}
                   </td>
                   <td>{product.itemPrice}</td>
                   <td>{product.itemWeight}</td>
