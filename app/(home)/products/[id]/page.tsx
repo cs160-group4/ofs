@@ -9,6 +9,7 @@ import { getAuthSession } from '@/app/api/auth/[...nextauth]/options'
 import { NewCart, addProductToCart, getProdInCart, updateSpecificProductInCart } from '@/app/lib/cart'
 import { user } from 'drizzle/schema'
 import ShopCategoryQuantityComponent from '@/app/components/ShopCategoryQuantityComponent'
+import { redirect } from 'next/dist/server/api-utils'
 
 export default async function ShopCategory({ searchParams }: { searchParams: { id: string; quantity?:number } }) {
 
@@ -43,7 +44,6 @@ export default async function ShopCategory({ searchParams }: { searchParams: { i
     const addCartItem = async () => {
         'use server'
 
-        console.log(currentQuantity)
         try {
             const response : any = await getProdInCart(user_id, prod_id);
             if (response.length > 0) {
@@ -63,8 +63,6 @@ export default async function ShopCategory({ searchParams }: { searchParams: { i
                 }  
                 await addProductToCart(data);
             }
-
-
         } catch (error) {
           console.log(error);
         }
