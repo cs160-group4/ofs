@@ -490,6 +490,13 @@
           "primaryKey": false,
           "notNull": true
         },
+        "item_weight": {
+          "autoincrement": false,
+          "name": "item_weight",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
         "quantity": {
           "autoincrement": false,
           "name": "quantity",
@@ -692,7 +699,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "set null",
           "onUpdate": "no action"
         },
         "fk_user_order": {
@@ -1304,7 +1311,6 @@
           "notNull": false
         },
         "image": {
-          "default": "'images/avatars/default.png'",
           "autoincrement": false,
           "name": "image",
           "type": "varchar(255)",

@@ -12,7 +12,7 @@ CREATE TABLE user (
     emailVerified timestamp(3),
     password varchar(255),
     name varchar(255),
-    image varchar(255) DEFAULT 'images/avatars/default.png',
+    image varchar(255),
     role varchar(20) NOT NULL DEFAULT 'customer',
     -- (admin, customer, store_owner)
     first_name varchar(100),
@@ -178,6 +178,7 @@ CREATE TABLE order_item (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     order_id int NOT NULL,
     product_id int NOT NULL,
+    item_weight int NOT NULL,
     quantity int NOT NULL,
     price decimal(6, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
