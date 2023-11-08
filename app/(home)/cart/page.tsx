@@ -54,7 +54,7 @@ export default async function Cart() {
             </div>
 
             <div className="mx-auto justify-center md:flex md:space-x-6">
-                <div className="rounded-lg md:w-3/5">
+                <div className="rounded-lg md:w-4/5">
                     {/* replace bg color */}
                     <div className="justify-between mb-3 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
                         {/* shopping items */}
@@ -71,7 +71,7 @@ export default async function Cart() {
                     </div>
                 </div>
                 {/* price totals -- replace bg color*/}
-                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-2/5 px-3 py-3">
+                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
                     <div className="mb-2 flex justify-between">
                         <p>Subtotal</p>
                         <p>${subtotalString}</p>

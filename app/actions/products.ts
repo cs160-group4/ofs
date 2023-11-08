@@ -63,8 +63,9 @@ export async function editProduct(formData: FormData) {
     if (!result.success) {
       console.log(result.error)
       return {
+        success: false,
         errors: result.error.flatten().fieldErrors,
-        message: "Missing Fields. Failed to Update Product.",
+        message: "Missing Fields: Failed to Update Product.",
       };
     }
   // const product: Product = { ...result.data };

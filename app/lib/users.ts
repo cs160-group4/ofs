@@ -5,6 +5,18 @@ import { eq, and, or, like, sql } from "drizzle-orm";
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
 
+export type NewEmail = {
+  newEmail:string;
+  confirmEmail:string;
+  user_id:string;
+};
+
+export type NewPassword = {
+  newPassword:string;
+  confirmPassword:string;
+  user_id:string;
+};
+
 export const authenticate = async (
   email: string,
   password: string
@@ -127,3 +139,13 @@ export async function deleteUser(id: string) {
     throw new Error("Failed to delete the user");
   }
 }
+
+// update email
+export const updateNewEmail = async (data: NewEmail) => {
+  return await db.update(user).set({email : data.newEmail}).where(eq(user.id, data.user_id));
+};
+
+// update password
+export const updateNewPassword = async (data: NewPassword) => {
+  return await db.update(user).set({password : data.newPassword}).where(eq(user.id, data.user_id));
+};
