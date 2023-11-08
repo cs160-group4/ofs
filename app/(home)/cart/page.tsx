@@ -105,7 +105,7 @@ export default async function Cart() {
                     </div>
                     {/* button links to checkout */}
                     {/* <button className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium"> */}
-                    <Link href="/checkout" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">Checkout</Link>
+                    <Link href="/checkout" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">Checkout</Link>
                     {/* </button> */}
                 </div>
             </div>
