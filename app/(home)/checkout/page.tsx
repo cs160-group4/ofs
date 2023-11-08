@@ -20,7 +20,7 @@ export default async function Checkout() {
                   <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
                       <div className="flex flex-col items-center">
                           <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
-                              <span className="text-black">Please Login Before You<br></br>Can See Your Cart</span> 
+                              <span className="text-black">Please Login Before You<br></br>Can See Your Checkout</span> 
                           </h6>
                           <Link href="/auth/signin" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
                               Sign In
@@ -53,7 +53,7 @@ export default async function Checkout() {
  // Hung Pham 11/01/2023 - end of calculations
 
  return (
-  <div className="container mx-auto px-6 pt-7 bg-base-100 h-screen xl:px-0">
+  <div className="container mx-auto px-6 pt-7 bg-base-100 h-fill xl:px-0">
    <div className="flex pb-6 justify-center md:justify-start">
      <h1 className="text-4xl">Checkout</h1>
    </div>
