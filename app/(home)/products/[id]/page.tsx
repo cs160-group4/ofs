@@ -1,12 +1,14 @@
 import { getAuthSession } from '@/app/api/auth/[...nextauth]/options'
 import { getImageUrl } from '@/app/lib/utils'
+import Comments from '@/app/ui/comments/Comments'
+import WriteComment from '@/app/ui/comments/WriteComment'
 import AddToCartForm from '@/app/ui/products/AddToCartForm'
-import CommentsComponent from '@/app/ui/products/CommentsComponent'
 import ProductDoesNotExist from '@/app/ui/products/ProductDoesNotExist'
+import Ratings from '@/app/ui/ratings/Ratings'
 import { getCategoryById } from '@/lib/categories'
 import { getCommentsByProductId } from '@/lib/comments'
 import { getProductById } from '@/lib/products'
-import { getProductAverageRating } from '@/lib/ratings'
+import { getProductRatingByUserId, getRatingsByProductId } from '@/lib/ratings'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -32,8 +34,8 @@ export default async function ProductDetails({ params }: { params: { id: string 
     let productPicture = getImageUrl(product.picture);
     var category = await getCategoryById(product.categoryId);
     let comments = await getCommentsByProductId(prod_id);
-    let averageRating = await getProductAverageRating(prod_id);
-
+    let ratings = await getRatingsByProductId(prod_id);
+    let myRating = await getProductRatingByUserId(user_id, prod_id);
     return <>
         <main>
             <section className="py-10 font-poppins dark:bg-gray-800">
@@ -133,7 +135,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
 
 
                                         </ul>
-                                        <a className="mb-4 text-xs underline hover:text-primary dark:text-gray-400 dark:hover:text-gray-300 lg:mb-0" href="#">
+                                        <a className="mb-4 text-xs underline hover:text-primary dark:text-gray-400 dark:hover:text-gray-300 lg:mb-0" href="#customer-ratings">
                                             reviews (2)
                                         </a>
                                     </div>
@@ -219,208 +221,17 @@ export default async function ProductDetails({ params }: { params: { id: string 
 
 
             </section>
-            <section className="py-10 lg:py-16 bg-gray-100 font-poppins dark:bg-gray-800">
-                <div className="max-w-6xl px-4 py-6 mx-auto lg:py-4 md:px-6">
+            <section className="py-6 lg:py-10 bg-gray-100 ">
+                <div className="max-w-6xl px-4 py-6 mx-auto lg:py-4 md:px-6 ">
                     {/* Ratings */}
-                    <div >
-                        <h2
-                            className="px-2 pb-2 mb-8 text-lg font-semibold border-b border-gray-300 dark:text-gray-300 dark:border-gray-700">
-                            Customer Ratings</h2>
-                        <div className="max-w-5xl px-4">
-                            <div className="flex flex-col items-center justify-between mb-6">
-                                <div className='w-96 items-center justify-center'>
-                                    <div className="p-6 bg-white rounded-md dark:bg-gray-900">
-                                        <h2 className="mb-6 text-3xl font-black text-center dark:text-gray-400">Customer Reviews</h2>
-                                        <div className="mb-4 text-center">
-                                            <span className="inline-block text-5xl font-bold text-blue-500 dark:text-gray-300">4.5</span>
-                                            <span className="inline-block text-xl font-medium text-gray-700 dark:text-gray-400">
-                                                /5</span>
-                                        </div>
-                                        <ul className="flex items-center justify-center mb-6">
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        className="w-4 mr-1 text-blue-500 dark:text-blue-400 bi bi-star-fill"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <p className="mb-6 text-sm text-center dark:text-gray-400">Average Rating and percentage per views
-                                        </p>
-                                        <div>
-                                            <div className="flex items-center mb-2">
-                                                <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                                    <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                                    //  style="width: 75%"
-                                                    >
-                                                    </div>
-                                                </div>
-                                                <div className="text-base font-medium dark:text-gray-400">91% </div>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                                    <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                                    // style="width: 45%"
-                                                    >
-                                                    </div>
-                                                </div>
-                                                <div className="text-base font-medium d dark:text-gray-400">45% </div>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                                    <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                                    // style="width: 25%"
-                                                    >
-                                                    </div>
-                                                </div>
-                                                <div className="text-base font-medium dark:text-gray-400">25% </div>
-                                            </div>
-                                            <div className="flex items-center ">
-                                                <div className="w-full h-4 mr-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                                                    <div className="h-4 bg-blue-500 rounded-full dark:bg-blue-400"
-                                                    // style="width: 14%"
-                                                    >
-                                                    </div>
-                                                </div>
-                                                <div className="text-base font-medium dark:text-gray-400">14% </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <Ratings productId={prod_id} ratings={ratings} myRating={myRating} signedIn={signedIn} />
                     {/* Comments Section */}
-                    <div className="mt-10">
-                        <h2
-                            className="px-2 pb-2 mb-8 text-lg font-semibold border-b border-gray-300 dark:text-gray-300 dark:border-gray-700">
-                            Comments</h2>
-                        <div className="max-w-5xl px-2">
-                            {comments.map((comment) => (
-                                <CommentsComponent key={comment.id} comment={comment} />
-                            ))}
-                        </div>
-                    </div>
-                    {/* Review Section */}
-                    <div className="p-6 bg-white rounded-md dark:bg-gray-900">
-                        <h2 className="mb-6 text-2xl font-black text-left dark:text-gray-400">
-                            Write a Review</h2>
-                        <form action="" className="">
-                            <div className="flex flex-wrap ">
-                                <div className="w-full px-2 mb-6 md:w-1/2">
-                                    <label
-                                        // for="firstname"
-                                        className="block mb-2 font-bold text-gray-700 uppercase dark:text-gray-400">
-                                        First Name
-                                    </label>
-                                    <input type="text" placeholder="first name"
-                                        //  required=""
-                                        className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border rounded lg:mb-0 dark:placeholder-gray-500 dark:text-gray-400 dark:border-gray-800 dark:bg-gray-800 ">
-                                    </input>
-                                </div>
-                                <div className="w-full px-2 mb-6 md:w-1/2">
-                                    <label
-                                        //  for="firstname"
-                                        className="block mb-2 font-bold text-gray-700 uppercase dark:text-gray-400">
-                                        Last Name</label>
-                                    <input type="text" placeholder="last name"
-                                        //  required=""
-                                        className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border rounded dark:placeholder-gray-500 lg:mb-0 dark:text-gray-400 dark:border-gray-800 dark:bg-gray-800 ">
-                                    </input>
-                                </div>
-                            </div>
-                            <div className="px-2 mb-6">
-                                <label
-                                    //  for="firstname"
-                                    className="block mb-2 font-bold text-gray-700 uppercase dark:text-gray-400">
-                                    Email</label>
-                                <input type="text" placeholder="abc@gmail.com"
-                                    // required=""
-                                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border rounded dark:placeholder-gray-500 dark:text-gray-400 dark:border-gray-800 dark:bg-gray-800 ">
-                                </input>
-                            </div>
-                            <div className="px-2 mb-6">
-                                <label
-                                    // for="firstname"
-                                    className="block mb-2 font-bold text-gray-700 uppercase dark:text-gray-400">
-                                    Review</label>
-                                <textarea
-                                    // type="message" 
-                                    placeholder="write a review"
-                                    // required=""
-                                    className="block w-full px-4 leading-tight text-gray-700 bg-gray-100 rounded dark:placeholder-gray-500 py-7 dark:text-gray-400 dark:border-gray-800 dark:bg-gray-800 "></textarea>
-                            </div>
-                            <div className="px-2">
-                                <button
-                                    className="px-4 py-2 font-medium text-gray-100 bg-blue-500 rounded shadow hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-700">
-                                    Send
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    <Comments comments={comments} />
+                    {/* Write a comment */}
+                    <WriteComment productId={prod_id} signedIn={signedIn} />
                 </div>
             </section>
-        </main>
+        </main >
     </>
 
 }

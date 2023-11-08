@@ -115,7 +115,7 @@ CREATE TABLE comments (
 
 CREATE TABLE ratings (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    rating_value INT,
+    rating_value INT NOT NULL,
     userId varchar(255) NOT NULL,
     product_id int NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

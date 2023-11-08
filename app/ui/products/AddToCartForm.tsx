@@ -32,7 +32,7 @@ export default function AddToCartForm({ product }: { product: Product}) {
                         </div>
                     </div>
           
-                    <button className="btn btn-accent text-gray-100">Add to cart</button>
+                    <button className="btn btn-primary text-gray-100">Add to cart</button>
                 </div>
             </form>
         </>
