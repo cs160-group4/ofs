@@ -31,8 +31,8 @@ export async function addToCartAction(productId: number, quantity: number) {
       await addProductToCart({ userId, productId, quantity });
     }
     revalidatePath("/");
-    return { message: "Added Product" };
   } catch (error) {
+    console.log(error);
     return { message: "Database Error: Failed to Add Product" };
   }
 }
