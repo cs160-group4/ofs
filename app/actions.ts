@@ -5,6 +5,7 @@ import { addAddress, deleteAddress } from "./lib/addresses";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
+import bcrypt, { hash } from 'bcrypt';
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
@@ -192,23 +193,27 @@ export async function updatePassword(formData: FormData) {
       user_id: formData.get("userId")
     });
 
-    if(newPasswordForm.success)
+    if(!newPasswordForm.success)
     {
-      const data : NewPassword  = newPasswordForm.data;
-      if (data.newPassword !== data.confirmPassword) {
-        return {
-          success: false,
-          message: "Error: Passwords Do Not Match"
-        };
-      }
-      else {
-        await updateNewPassword(data);
-        revalidatePath("/profile");
-        return { success: true, message: "Password updated successfully"}
-      }
-    }
-    else{
       return { success: false, message: "Error: Password failed to be updated"}
+    }
+    const {newPassword, confirmPassword, user_id}  = newPasswordForm.data;
+    if (newPassword !== confirmPassword) {
+      return {
+        success: false,
+        message: "Error: Passwords Do Not Match"
+      };
+    }
+    else {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      let newData : NewPassword = {
+        user_id: user_id,
+        newPassword: hashedPassword,
+        confirmPassword: hashedPassword
+      } 
+      await updateNewPassword(newData);
+      revalidatePath("/profile");
+      return { success: true, message: "Password updated successfully"}
     }
 
   } catch (error) {

@@ -40,11 +40,16 @@ export default async function OrderSummary({ params }: { params: { id: string } 
         <section className="flex items-center py-16 font-poppins ">
             <div
                 className="justify-center flex-1 max-w-4xl px-6 py-6 mx-auto bg-gray-100 rounded-md shadow-md ">
-                <div className="mb-16 text-center">
+                <div className="mb-8 text-center">
                     <h1
-                        className="mb-6 text-2xl font-semibold leading-7 tracking-wide text-gray-700 lg:text-4xl dark:text-gray-300 lg:leading-9">
+                        className="mb-2 text-2xl font-semibold leading-7 tracking-wide text-gray-700 lg:text-4xl dark:text-gray-300 lg:leading-9">
                         Thank you for your order{name ? `, ${name}!` : ''}</h1>
                     {/* <p className="text-lg text-gray-500 dark:text-gray-400">your order number is: </p> */}
+                </div>
+                <div className="mb-5 text-center">
+                    <div
+                        className="text-lg font-semibold leading-7 tracking-wide text-gray-700 lg:text-1xl dark:text-gray-300 lg:leading-9">
+                        Delivery Status: {order.deliveryStatus}</div>
                 </div>
                 <div className="max-w-4xl mx-auto mb-10">
                     <h2 className="mb-4 text-xl font-medium dark:text-gray-400">What you ordered:</h2>
@@ -96,6 +101,7 @@ export default async function OrderSummary({ params }: { params: { id: string } 
                                 <span className="text-xl">{order.discount}</span>
                             </span>
                         </div> : <div></div>}
+                        
 
                         <div
                             className="flex items-center justify-between px-10 py-3 font-medium leading-8 bg-white rounded-md shadow dark:text-gray-400 dark:bg-gray-800 font-heading">
