@@ -4,6 +4,7 @@ import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress, deleteAddress } from "./lib/addresses";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
+import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
@@ -134,3 +135,88 @@ export async function deleteAddressFromDB(formData: FormData) {
 }
 
 // Fariha - 11/06/23
+
+// Aaron - 11/07/23
+export async function updateEmail(formData: FormData) {
+  const schema = z.object({
+    newEmail: z.string(),
+    confirmEmail: z.string(),
+    user_id: z.string()
+  });
+
+  try {
+    const newEmailForm = schema.safeParse({
+      newEmail: formData.get("newEmail"),
+      confirmEmail: formData.get("confirmEmail"),
+      user_id: formData.get("userId")
+    });
+
+    if(newEmailForm.success)
+    {
+      const data : NewEmail  = newEmailForm.data;
+      if (!data.newEmail.includes("@") || !data.confirmEmail.includes("@")) {
+        return {
+          success: false,
+          message: "Error: New Email Does Not Contain @"
+        };
+      }
+      else if (data.newEmail !== data.confirmEmail) {
+        return {
+          success: false,
+          message: "Error: Emails Do Not Match"
+        };
+      }
+      else {
+        await updateNewEmail(data);
+        revalidatePath("/profile");
+        return { success: true, message: "Address updated successfully"}
+      }
+    }
+    else{
+      console.log(newEmailForm.error);
+      return { success: false, message: "Error: Address failed to be updated"}
+    }
+
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Address failed to be updated"}
+  }
+}
+
+export async function updatePassword(formData: FormData) {
+  const schema = z.object({
+    newPassword: z.string(),
+    confirmPassword: z.string(),
+    user_id: z.string()
+  });
+
+  try {
+    const newPasswordForm = schema.safeParse({
+      newPassword: formData.get("newPassword"),
+      confirmPassword: formData.get("confirmPassword"),
+      user_id: formData.get("userId")
+    });
+
+    if(newPasswordForm.success)
+    {
+      const data : NewPassword  = newPasswordForm.data;
+      if (data.newPassword !== data.confirmPassword) {
+        return {
+          success: false,
+          message: "Error: Passwords Do Not Match"
+        };
+      }
+      else {
+        await updateNewPassword(data);
+        revalidatePath("/profile");
+        return { success: true, message: "Password updated successfully"}
+      }
+    }
+    else{
+      console.log(newPasswordForm.error);
+      return { success: false, message: "Error: Password failed to be updated"}
+    }
+
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Password failed to be updated"}
+  }
+}

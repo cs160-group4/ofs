@@ -1,5 +1,7 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { AddAddressModal } from '@/app/components/AddAddressModal';
+import { UpdateEmail } from '@/app/components/UpdateEmail';
+import { UpdatePassword } from '@/app/components/UpdatePassword';
 import { getAddress } from '@/lib/addresses';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,7 +22,7 @@ export default async function ProfilePage() {
                   <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
                       <div className="flex flex-col items-center">
                           <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
-                              <span className="text-black">Please Login Before You<br></br>Can See Your Cart</span> 
+                              <span className="text-black">Please Login Before You<br></br>Can See Your Profile</span> 
                           </h6>
                           <Link href="/auth/signin" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
                               Sign In
@@ -57,14 +59,8 @@ export default async function ProfilePage() {
               </div>
             </div>
             <div className="flex gap-2 px-2">
-              <button
-                className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2">
-                Follow
-              </button>
-              <button
-                className="flex-1 rounded-full border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2">
-                Message
-              </button>
+              <UpdateEmail id={id}/>
+              <UpdatePassword id={id}/>
             </div>
           </div>
           <div className="px-4 py-4">
