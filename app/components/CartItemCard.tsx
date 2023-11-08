@@ -4,9 +4,18 @@ import { revalidatePath } from 'next/cache'
 import Image from 'next/image';
 import React from 'react';
 import { User } from '@/lib/users';
+import { getAuthSession } from '../api/auth/[...nextauth]/options';
 
 
 export async function CartItemCard({ item }: {item: CartItem }) {
+
+  var user_id = "";
+  const session = await getAuthSession();
+
+  if (session?.user) {
+      user_id = session.user.id as string;
+  }
+
   let cart = item.cart;
   let product = item.products;
   const imageSrc = `/${product.picture}`;
@@ -14,7 +23,7 @@ export async function CartItemCard({ item }: {item: CartItem }) {
   const deleteCartItem = async () => {
     'use server'
     try {
-      await deleteProductFromCart(item.cart.id);
+      await deleteProductFromCart(item.cart.id, user_id);
     } catch (error) {
       console.log(error);
     }

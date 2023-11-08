@@ -48,8 +48,8 @@ export const addProductToCart = async (data: NewCart) => {
 };
 
 // delete product from cart
-export const deleteProductFromCart = async (id: number) => {
-  return await db.delete(cart).where(eq(cart.id, id));
+export const deleteProductFromCart = async (id: number, user_id:string) => {
+  return await db.delete(cart).where(sql`${cart.id} = ${id} and ${cart.userId} = ${user_id}`);
 };
 
 // update product in cart

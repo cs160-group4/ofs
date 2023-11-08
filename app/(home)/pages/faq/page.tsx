@@ -22,28 +22,19 @@ export default function FAQs() {
                 </p>
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">3. Is there a minimum order value?</h2>
                 <p className="mt-3 text-1xl">
-
+                    There is no minimum order, however, there is a delivery fee of $10 if the weight of the total order is less than 20 pounds.
                 </p>
-
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">4. How is the delivery fee calculated?</h2>
                 <p className="mt-3 text-1xl">
-
+                    The delivery fee is calculated from the total weight of the order. If the total order weight is less than 20 pounds, a $10 charge will be added for delivery fees.
                 </p>
-
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">4. How can I pay for my order?</h2>
                 <p className="mt-3 text-1xl">
-
+                    You can pay for the order in the checkout page by entering your payment information, then clicking the "Place Your Order & Pay" Button to continue.
                 </p>
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">5. How can I track my order?</h2>
                 <p className="mt-3 text-1xl">
-
-                </p>
-                <h2 className="text-2xl font-bold mb-5 mt-5 text-center">6. How can I cancel my order?</h2>
-                <p className="mt-3 text-1xl">
-
-                </p>
-                <h2 className="text-2xl font-bold mb-5 mt-5 text-center">7. How can I return my order?</h2>
-                <p className="mt-3 text-1xl">
+                    You can track your order by staying on the order page to see what the route from the delivery is.
                 </p>
             </div>
         </div>
