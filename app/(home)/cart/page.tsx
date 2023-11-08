@@ -6,13 +6,11 @@ import React from 'react'
 
 export default async function Cart() {
     var signedIn = false;
-    var name = "";
     var id = "";
 
     const session = await getAuthSession();
     if (session?.user) {
         signedIn = true;
-        name = session.user.name as string;
         id = session.user.id as string;
     }
 
@@ -44,15 +42,14 @@ export default async function Cart() {
             <div className="mx-auto justify-center md:flex md:space-x-6">
                 <div className="rounded-lg md:w-3/5">
                     {/* replace bg color */}
-                    <div className="justify-between mb-5 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
+                    <div className="justify-between mb-3 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
                         {/* shopping items */}
                         <div className="flex flex-col w-full mt-6 overflow-y-auto">
                             <div className="flow-root">
-                                {/* populate list with appropriate data later(li is just filler)*/}
-                                <ul className="-my-6 pb-6 space-y-5 mt-auto mb-auto">
+                                <ul className="-my-2 pb-1 space-y-1 mt-auto mb-auto">
                                     {/* replace bg color */}
                                     {cartItems.map((item) => (
-                                        <CartItemCard key={item.cart.id} item={item} />
+                                        <CartItemCard key={item.cart.id} item={item} revalidateUrl="/cart" />
                                     ))}
                                 </ul>
                             </div>
