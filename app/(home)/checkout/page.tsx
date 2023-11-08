@@ -2,6 +2,7 @@ import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
+import { PaymentMethod } from '@/app/components/PaymentMethod';
 import Link from 'next/link';
 
 export default async function Checkout() {
@@ -55,7 +56,7 @@ export default async function Checkout() {
  return (
   <div className="container mx-auto px-6 pt-7 bg-base-100 h-fill xl:px-0">
    <div className="flex pb-6 justify-center md:justify-start">
-     <h1 className="text-4xl">Checkout</h1>
+     <h1 className="text-3xl font-bold">Checkout</h1>
    </div>
 
    <div className="mx-auto justify-center md:flex md:space-x-6">
@@ -73,14 +74,15 @@ export default async function Checkout() {
 
 
        <h2 className="font-bold text-xl">2. Payment Method</h2>
-       <div>
+       <PaymentMethod id={id}/>
+       {/* <div>
          <b>Card</b> ending in ****<br />
          <p><b>Billing Address:</b> Same as shipping address.
          <button className="btn-link font-small">Change.</button></p>
        </div>
        <div>
          <button className="btn text-center btn-link font-small">Change</button>
-       </div>
+       </div> */}
 
        <h2 className="font-bold text-xl">3. Review Items</h2>
        <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">
@@ -101,6 +103,10 @@ export default async function Checkout() {
        <div className="mb-2 flex justify-between">
          <p>Shipping</p>
          <p>${shippingString}</p>
+       </div>
+       <div className="mb-2 flex justify-between">
+         <p>Tax</p>
+         <p>${taxString}</p>
        </div>
        <div className="divider border-black"></div>
         <div className="flex justify-between font=bold text-xl">
