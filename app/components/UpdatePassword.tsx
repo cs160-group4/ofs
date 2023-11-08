@@ -20,12 +20,9 @@ export function UpdatePassword({ id }: { id: string }){
             const res = await updatePassword(formData);
             
             if(!res.success) {
-              console.log(res.message);
               setErrorMsg(res.message);
             } else {
               setErrorMsg(res.message);
-              console.log(res.success);
-              console.log(res.message);
             }
           }}>
             {/* <input type="hidden" name="userId" value={id}></input> */}

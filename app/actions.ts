@@ -61,7 +61,6 @@ export async function createProduct(formData: FormData) {
       return { success: true, message: result.data.name + ' Added Successfully'}
     }
     else{
-      console.log(result.error)
       return { success: false, message: "Product Failed To Be Added"}
     }
   }
@@ -113,7 +112,6 @@ export async function addNewAddress(formData: FormData) {
       return { success: true, message: "Address added successfully"}
     }
     else{
-      console.log(newAddress.error);
       return { success: false, message: "Address failed to be added"}
     }
 
@@ -129,7 +127,6 @@ export async function deleteAddressFromDB(formData: FormData) {
     revalidatePath("/profile");
     return { message: "Deleted Address" };
   } catch (error) {
-    console.log(error);
   }
   revalidatePath('/cart');
 }
@@ -173,7 +170,6 @@ export async function updateEmail(formData: FormData) {
       }
     }
     else{
-      console.log(newEmailForm.error);
       return { success: false, message: "Error: Address failed to be updated"}
     }
 
@@ -212,7 +208,6 @@ export async function updatePassword(formData: FormData) {
       }
     }
     else{
-      console.log(newPasswordForm.error);
       return { success: false, message: "Error: Password failed to be updated"}
     }
 

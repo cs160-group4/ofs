@@ -61,7 +61,6 @@ export async function editProduct(formData: FormData) {
     });
 
     if (!result.success) {
-      console.log(result.error)
       return {
         success: false,
         errors: result.error.flatten().fieldErrors,
@@ -74,7 +73,6 @@ export async function editProduct(formData: FormData) {
     await updateProduct(result.data);
   }
   catch (error) {
-    console.log(error)
     return { message: "Database Error: Failed to Update Product." };
   }
   // intended action: only revalidates and redirects if no errors are caught by preceding code

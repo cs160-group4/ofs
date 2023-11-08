@@ -42,7 +42,6 @@ const DeleteUser = FormSchema.pick({ id: true });
 
 export async function createUser(prevState: any, formData: FormData) {
   try {
-    console.log("--- Creating user ---");
     const validatedFields = CreateUser.safeParse({
       name: formData.get("name"),
       email: formData.get("email"),
@@ -51,7 +50,6 @@ export async function createUser(prevState: any, formData: FormData) {
     });
 
     if (formData.get("password") !== formData.get("confirmPassword")) {
-      console.log("Passwords do not match");
       return {
         errors: {
           confirmPassword: "Passwords do not match",
@@ -69,7 +67,6 @@ export async function createUser(prevState: any, formData: FormData) {
     const { name, email, password, confirmPassword } = validatedFields.data;
 
     let id = randomUUID();
-    console.log("Id: ", id);
     let exists = await checkUserExists(id, email);
     if (exists) {
       return {
@@ -98,7 +95,6 @@ export async function createUser(prevState: any, formData: FormData) {
     };
   
   } catch (e: any) {
-    console.log("Error: ", e);
     return { success: false, message: "Failed to create an account" };
   }
 }
@@ -131,9 +127,7 @@ export async function deleteUserAction(prevState: any, formData: FormData) {
     id: formData.get("id"),
   });
   try {
-    // console.log("Delete Id: ", formData.get("id"));
     const result = await deleteUser(id);
-    // console.log("result: ", result);
     revalidatePath("/admin/users");
     redirect("/admin/users");
   } catch (error) {

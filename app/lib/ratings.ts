@@ -38,13 +38,10 @@ export const getProductRatingByUserId = async (
   userId: string,
   productId: number
 ) => {
-  console.log("userId", userId);
-  console.log("productId", productId);
   const result = await db
     .select()
     .from(ratings)
     .where(and(eq(ratings.userId, userId), eq(ratings.productId, productId)));
-  console.log("result", result);
   return result[0]?.ratingValue ?? 0;
 };
 

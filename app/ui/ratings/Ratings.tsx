@@ -8,7 +8,6 @@ import { SignInButton } from '@/app/components/SignInButton';
 
 export default function Ratings({ productId, ratings, myRating, signedIn }: { productId: number, ratings: Rating[], myRating: number, signedIn: boolean }) {
     const [rating, setRating] = useState(myRating);
-    console.log('myRating', myRating);
     let ratingCount = ratings.length;
     let averageRating = 0;
     let fiveStar = 0;

@@ -26,10 +26,8 @@ export async function addToCartAction(productId: number, quantity: number) {
     if (cart) {
       let newQuantity: number = cart.quantity + quantity;
       await updateProductInCart(cart.id, newQuantity);
-      console.log("updated quantity: " + newQuantity);
     } else {
       await addProductToCart({ userId, productId, quantity });
-      console.log("added product");
     }
     revalidatePath("/");
     return { message: "Added Product" };
