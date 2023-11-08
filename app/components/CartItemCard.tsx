@@ -2,19 +2,12 @@
 import Image from 'next/image';
 import React from 'react';
 import { useState } from 'react';
-import { User } from '@/lib/users';
 import { getAuthSession } from '../api/auth/[...nextauth]/options';
 import { CartItem } from '../lib/cart';
 import { deleteCartProduct } from '../actions/cart';
 
 
-export async function CartItemCard({ item }: {item: CartItem }) {
-  var user_id = "";
-  const session = await getAuthSession();
-
-  if (session?.user) {
-      user_id = session.user.id as string;
-  }
+export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: string, revalidateUrl: string }) {
 
   const[quantity, setQuantity] = useState(item.cart.quantity);
 
@@ -48,6 +41,7 @@ export async function CartItemCard({ item }: {item: CartItem }) {
             <p className="text-sm"><b>Price: </b>${(parseFloat(item.products.itemPrice) * item.cart.quantity).toFixed(2)}</p>
             <form action={async (formData: FormData) => {
               formData.set("cartId", String(item.cart.id));
+              formData.set("userId", String(id));
               formData.set("revalidateUrl", String(revalidateUrl));
 
               const res = await deleteCartProduct(formData);

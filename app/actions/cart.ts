@@ -1,12 +1,14 @@
 "use server";
-import { CartItem, deleteProductFromCart } from "@/lib/cart";
+import { deleteProductFromCart, updateProductInCart } from "@/lib/cart";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+
 export async function deleteCartProduct(formData: FormData) {
   try {
     const cartId = Number(formData.get("cartId"));
-    await deleteProductFromCart(cartId);
+    const userId = String(formData.get("userId"));
+    await deleteProductFromCart(cartId, userId);
     
     const revalidateUrl = String(formData.get("revalidateUrl"));
     revalidatePath(revalidateUrl);
@@ -20,7 +22,9 @@ export async function deleteCartProduct(formData: FormData) {
 
 export async function updateCartItemQuantity(formData: FormData) {
   try {
-
+    const quantity = Number(formData.get("q"));
+    
+    //await updateProductInCart();
   } catch (error) {
     return { message: "Database Error: Failed to Update Cart Item" };
   }

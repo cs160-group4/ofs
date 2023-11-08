@@ -63,7 +63,7 @@ export default async function Cart() {
                                 <ul className="-my-2 pb-1 space-y-1 mt-auto mb-auto">
                                     {/* replace bg color */}
                                     {cartItems.map((item) => (
-                                        <CartItemCard key={item.cart.id} item={item} revalidateUrl="/cart" />
+                                        <CartItemCard key={item.cart.id} item={item} id={id} revalidateUrl="/cart" />
                                     ))}
                                 </ul>
                             </div>

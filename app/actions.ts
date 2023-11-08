@@ -120,3 +120,17 @@ export async function addNewAddress(formData: FormData) {
     return {success: false, err: true, message: "Error: Address failed to be added"}
   }
 }
+
+export async function deleteAddressFromDB(formData: FormData) {
+  try {
+    const id = formData.get("id");
+    //await deleteAddress(id);
+    revalidatePath("/profile");
+    return { message: "Deleted Address" };
+  } catch (error) {
+    console.log(error);
+  }
+  revalidatePath('/cart');
+}
+
+// Fariha - 11/06/23
