@@ -3,8 +3,7 @@ import {
   addProductToCart,
   deleteProductFromCart,
   getProdInCart,
-  updateProductInCart,
-  updateSpecificProductInCart
+  updateProductInCart
 } from "@/lib/cart";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -66,40 +65,17 @@ export async function deleteCartProduct(formData: FormData) {
 }
 
 export async function updateCartItem(formData: FormData) {
-  const formattedDateTime = formatDate(new Date());
-
-  const schema = z.object({
-    userId: z.string(),
-    quantity: z.number().int().positive(),
-    id: z.number(),
-    updatedAt: z.string(),
-    productId: z.number().int().positive()
-  });
-   
   try {
     const cartId = Number(formData.get("cartId"));
+    const quantity = Number(formData.get("quantity"));
+    await updateProductInCart(cartId, quantity);
 
-    const updatedCart = schema.safeParse({
-      userId: formData.get("userId"),
-      quantity: Number(formData.get("quantity")),
-      id: Number(formData.get("cartId")),
-      updatedAt: formattedDateTime,
-      productId: Number(formData.get("productId"))
-    });
-
-    if(updatedCart.success){
-      try {
-        await updateSpecificProductInCart(cartId, updatedCart.data);
-        return {success: true, message: "CART ITEM INFO HAS BEEN UPDATED"};
-      } catch (updateError) {
-        console.log(updateError);
-        return {success: false, message: "FAILURE TO UPDATE INFO"};
-      }
-    } else {
-      console.log(updatedCart.error);
-      return { success: false, message: "Cart Item failed to be updated"}
-    }
+    const revalidateUrl = String(formData.get("revalidateUrl"));
+    revalidatePath(revalidateUrl);
+    return { message: "Updated Cart Item" };
   } catch (error) {
-    return {success: false, err: true, message: "Error: Cart Item failed to be updated"}
+    return {
+      message: "Database Error: Failed to update Cart Item",
+    };
   }
 }

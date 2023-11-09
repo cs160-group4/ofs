@@ -8,18 +8,12 @@ import { deleteCartProduct, updateCartItem } from '../actions/cart';
 export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: string, revalidateUrl: string }) {
   const[quantity, setQuantity] = useState(item.cart.quantity);
 
-  async function handleQuantityChange({userId, itemQuantity, id, productId}: {userId: string, itemQuantity: Number, id: Number, productId: Number}) {
+  async function handleQuantityChange({id, itemQuantity}: {id: Number, itemQuantity: Number}) {
     const formData = new FormData();
-    formData.set("userId", userId);
+    formData.set("cartId", String(item.cart.id));
     formData.set("quantity", String(itemQuantity));
-    formData.set("id", String(id));
-    formData.set("productId", String(productId));
-
+    formData.set("revalidateUrl", revalidateUrl);
     
-    
-    console.log(formData.get("id"));
-    console.log(formData.get("productId"));
-
     const res = await updateCartItem(formData);
     console.log(res.message);
   }
@@ -36,23 +30,7 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
           </div>
           <div>
             <p className="text-sm"><b>Quantity: </b></p>
-            <form action={async(formData: FormData) => {
-              formData.set("userId", id);
-              formData.set("quantity", String(quantity));
-              formData.set("id", String(id));
-              formData.set("productId", String(item.products.id));
-
-              console.log(formData.get("quantity"));
-
-              const res = await updateCartItem(formData);
-
-              try {
-                console.log(res.message);
-              } catch (error) {
-                console.log(error);
-                console.log(res.message);
-              }
-            }}>
+            <form>
               <input type="number" name="quantity" min="1" max={item.products.itemQuantity} 
                 value={quantity}
                 onChange={(e) => {
@@ -67,7 +45,7 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
                     setQuantity(item.products.itemQuantity);
                   }
                   
-                  // handleQuantityChange({userId: id, itemQuantity: newQuantity, id: item.cart.id, productId: item.products.id});
+                  handleQuantityChange({id: item.cart.id, itemQuantity: newQuantity});
                 }}
                 className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
               ></input>
