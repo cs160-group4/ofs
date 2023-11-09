@@ -49,7 +49,6 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
                 }}
                 className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
               ></input>
-              <button className="btn text-center btn-link text-sm">Update</button>
             </form>
           </div>
           <div>
