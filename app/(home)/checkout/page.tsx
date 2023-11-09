@@ -72,10 +72,10 @@ export default async function Checkout() {
                             <p>You have not set up an address yet. Please add one.</p>}
 
                     </div>
-                    {/* <div>
+                    <div>
                         <button className="btn text-center btn-link font-small">Change</button>
                     </div>
-                    <DeliveryAddress id={id} name={name} address={mainAddress} /> */}
+                    {/* <DeliveryAddress id={id} name={name} address={mainAddress} /> */}
 
 
 
