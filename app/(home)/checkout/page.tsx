@@ -125,7 +125,7 @@ function calculateShipping(cartItems: CartItem[]): number {
         weight += item.cart.quantity * item.products.itemWeight;
     });
     if (weight > 20) {
-        return 0;
+        return 10;
     }
-    return 10;
+    return 0;
 }
