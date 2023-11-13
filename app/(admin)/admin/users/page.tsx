@@ -16,7 +16,7 @@ type Props = {
   page?: string;
 };
 
-export default async function Page({ searchParams }: { searchParams: Props }) {
+export default async function UserPage({ searchParams }: { searchParams: Props }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 

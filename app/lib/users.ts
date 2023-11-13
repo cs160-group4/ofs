@@ -2,6 +2,7 @@ import { db } from "@/db/db";
 import { user } from "@/db/schema";
 import { eq, and, or, like, sql } from "drizzle-orm";
 import bcrypt from "bcrypt";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
 
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
@@ -82,21 +83,20 @@ export const getUserRole = async (id: string): Promise<string> => {
   }
 };
 
-const ITEMS_PER_PAGE = 10;
 // get users pages
-export const getUsersPages = async (query: string) => {
+export const getUsersPages = async (query: string): Promise<number> => {
   try {
     const result = await db.select({ count: sql<number>`count(*)` }).from(user);
     const count = result[0].count;
-    const pages = Math.ceil(Number(count) / ITEMS_PER_PAGE);
+    const pages:number = Math.ceil(Number(count) / ITEMS_PER_PAGE);
     return pages;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch total number of users.");
+    return 0;
   }
 };
-// get filtered users
 
+// get filtered users
 export const getFilteredUsers = async (query: string, currentPage: number) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // get all users that match the query (like name, email, and phone_number)

@@ -1,3 +1,5 @@
+export const ITEMS_PER_PAGE = 10;
+
 export function getAvatarURL(path: string | null | undefined) {
   if (!path){
     return "/images/avatars/default.svg";} 
