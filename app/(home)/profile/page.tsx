@@ -1,6 +1,6 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { AddAddressModal } from '@/app/components/AddAddressModal';
-import { UpdateEmail } from '@/app/components/UpdateEmail';
+import { UpdateName } from '@/app/components/UpdateName';
 import { UpdatePassword } from '@/app/components/UpdatePassword';
 import { getAvatarURL } from '@/app/lib/utils';
 import { getAddress } from '@/lib/addresses';
@@ -55,7 +55,7 @@ export default async function ProfilePage() {
                             </div>
                         </div>
                         <div className="flex gap-2 px-2">
-                            <UpdateEmail id={id} />
+                            <UpdateName id={id} />
                             <UpdatePassword id={id} />
                         </div>
                     </div>
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
                                 {addresses.map((address) => (
                                     <p key={address.id}>{address.addressLine1}<br />{address.city}, {address.state} {address.postalCode}</p>
                                 ))}
-                                <AddAddressModal id={id} />
+                                <AddAddressModal id={id} buttonText="Add another address" />
                             </div>
                         </div>
 

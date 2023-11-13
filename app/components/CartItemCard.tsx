@@ -1,15 +1,22 @@
 "use client"
 import Image from 'next/image';
 import React from 'react';
-import { useState } from 'react';
-import { getAuthSession } from '../api/auth/[...nextauth]/options';
+import { useState, useEffect } from 'react';
 import { CartItem } from '../lib/cart';
-import { deleteCartProduct } from '../actions/cart';
-
+import { deleteCartProduct, updateCartItem } from '../actions/cart';
 
 export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: string, revalidateUrl: string }) {
-
   const[quantity, setQuantity] = useState(item.cart.quantity);
+
+  async function handleQuantityChange({id, itemQuantity}: {id: Number, itemQuantity: Number}) {
+    const formData = new FormData();
+    formData.set("cartId", String(item.cart.id));
+    formData.set("quantity", String(itemQuantity));
+    formData.set("revalidateUrl", revalidateUrl);
+    
+    const res = await updateCartItem(formData);
+    console.log(res.message);
+  }
 
   return (
     <div>
@@ -28,9 +35,17 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
                 value={quantity}
                 onChange={(e) => {
                   const newQuantity = parseInt(e.target.value, 10);
-                  if(!isNaN(newQuantity)){
+                 
+                  if(!isNaN(newQuantity)){ 
                     setQuantity(newQuantity);
                   }
+
+                  if(newQuantity > item.products.itemQuantity){
+                    alert("The amount you requested is currently not available in store!");
+                    setQuantity(item.products.itemQuantity);
+                  }
+                  
+                  handleQuantityChange({id: item.cart.id, itemQuantity: newQuantity});
                 }}
                 className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
               ></input>

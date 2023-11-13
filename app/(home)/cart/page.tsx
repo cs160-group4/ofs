@@ -100,7 +100,7 @@ export default async function Cart() {
                     </div>
                     <div className="divider border-black"></div>
                     <div className="flex justify-between font=bold text-xl">
-                        <p>Total</p>
+                        <p className="text-red-600">Total</p>
                         <p>${totalString}</p>
                     </div>
                     {/* button links to checkout */}
@@ -119,7 +119,7 @@ function calculateShipping(cartItems: CartItem[]): number {
     cartItems.forEach((item) => {
         weight += item.cart.quantity * item.products.itemWeight;
     });
-    if (weight > 20) {
+    if (weight < 20) {
         return 0;
     }
     return 10;
