@@ -1,77 +1,60 @@
 'use client'
+import { OrderWithAddress } from '@/lib/orders';
 
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import {getOrdersWithAddressesByUserId} from "@/lib/orders";
+import { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet-routing-machine';
+import 'leaflet/dist/leaflet.css';
+import myIconUrl from 'public/images/OFSLOGO.png';
+import avatar from 'public/images/avatar.svg';
+export default function MapComponent({ list }: { list: OrderWithAddress[] }) {
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
+    const mapRef: any = useRef(null);
 
-interface MapComponentProps {
-    startPoint: [37.3352, -121.8811]; // Start point [lng, lat]
-    endPoint: [37.3346, -122.0090];   // End point [lng, lat]
+    useEffect(() => {
+        if (!mapRef.current) {
+            mapRef.current = L.map('map').setView([37.3352, -121.8811], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }).addTo(mapRef.current);
+
+            const myIcon = L.icon({
+                iconUrl: "/images/OFSLOGO.png",
+                iconSize: [25, 25],
+                iconAnchor: [12, 41],
+                popupAnchor: [0, -41]
+            });
+            const customerIcon = L.icon({
+                iconUrl: "/images/avatar.svg",
+                iconSize: [25, 25],
+                iconAnchor: [12, 41],
+                popupAnchor: [0, -41]
+            });
+
+
+            list.forEach(item => {
+                const order = item.orders;
+                const address = item.addresses;
+                let latitude: number = Number(address.latitude);
+                let longitude: number = Number(address.longitude);
+                const start = L.marker([37.3352, -121.8811], { icon: myIcon }).addTo(mapRef.current);
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(37.3352, -121.8811),
+                        L.latLng(latitude, longitude)
+                    ],
+                }).addTo(mapRef.current);
+                const end = L.marker([latitude, longitude], {icon: customerIcon}).addTo(mapRef.current);
+            });
+           
+
+        }
+    }, [list]);
+
+    return (
+        <>
+            <div id="map"></div>
+        </>
+    )
+
 }
-
-const MapComponent: React.FC<MapComponentProps> = ({ startPoint, endPoint }) => {
-    const mapContainerRef = useRef<HTMLDivElement>(null);
-    const mapRef = useRef<mapboxgl.Map | null>(null);
-    const [mapLoaded, setMapLoaded] = useState(false);
-
-    useEffect(() => {
-        if (mapContainerRef.current) {
-            const map = new mapboxgl.Map({
-                container: mapContainerRef.current,
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: startPoint,
-                zoom: 12.5,
-            });
-
-            map.on('load', () => {
-                setMapLoaded(true);
-            });
-
-            mapRef.current = map;
-
-            return () => map.remove();
-        }
-    }, [startPoint]);
-
-    useEffect(() => {
-        if (mapLoaded) {
-            const routeId = 'route';
-            if (mapRef.current?.getLayer(routeId)) {
-                mapRef.current.removeLayer(routeId);
-                mapRef.current.removeSource(routeId);
-            }
-
-            mapRef.current?.addSource(routeId, {
-                type: 'geojson',
-                data: {
-                    type: 'Feature',
-                    properties: {},
-                    geometry: {
-                        type: 'LineString',
-                        coordinates: [startPoint, endPoint],
-                    },
-                },
-            });
-
-            mapRef.current?.addLayer({
-                id: routeId,
-                type: 'line',
-                source: routeId,
-                layout: {
-                    'line-join': 'round',
-                    'line-cap': 'round',
-                },
-                paint: {
-                    'line-color': '#888',
-                    'line-width': 8,
-                },
-            });
-        }
-    }, [startPoint, endPoint, mapLoaded]);
-
-    return <div ref={mapContainerRef} style={{ width: '100%', height: '400px' }} />;
-};
-
-export default MapComponent;
