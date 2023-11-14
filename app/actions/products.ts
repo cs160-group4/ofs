@@ -68,7 +68,7 @@ export async function editProduct(formData: FormData, url: string) {
       return {
         success: false,
         errors: result.error.flatten().fieldErrors,
-        message: "Missing Fields: Failed to Update Product.",
+        message: "Failed to Update Product: Missing or Invalid Fields",
       };
     }
   // const product: Product = { ...result.data };
@@ -82,5 +82,9 @@ export async function editProduct(formData: FormData, url: string) {
   }
   // intended action: only revalidates and redirects if no errors are caught by preceding code
   revalidatePath("/admin/products");
+  return {
+    success: true,
+    message: "Update Sucess!"
+  }
   // redirect("/admin/products");
 }

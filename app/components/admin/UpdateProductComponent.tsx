@@ -16,20 +16,25 @@ function SubmitButton() {
         Save
       </button>
     )
-  }
+}
 
 export function UpdateProductForm({product}: {product:Product})
 {
     const [showError, setShowError] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState('');
     const [file, setFile] = useState<File>();
     const { edgestore } = useEdgeStore();
+
+    const redirect_catalogue = () => {
+        window.location.href = "/admin/products";
+    }
 
     return(
         <>
             {showError === true && (
                 <div className="alert alert-error mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>{message}</span>
                     <button className="btn btn-sm btn-circle btn-ghost" onClick={() => {
                         setShowError(false)
@@ -38,6 +43,28 @@ export function UpdateProductForm({product}: {product:Product})
                 </div>
                     
             )}
+            <dialog id="my_modal" className="modal" {... (success ? {open : true} : {})} onClose={() => {
+                redirect_catalogue()
+                setSuccess(false)
+            }}>
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Update Success!</h3>
+                    <p className="py-4">Close this window to redirect to the catalogue page</p>
+                    <div className="flex flex-wrap w-full justify-end">
+                        <form method="dialog">  
+                            <button className="btn btn-circle btn-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
 
             <div className="bg-base-200 rounded-xl px-6 pb-3">
                 <form action={async (formData: FormData) => {
@@ -62,6 +89,10 @@ export function UpdateProductForm({product}: {product:Product})
                     if(!res.success)
                     {
                         setShowError(true)
+                    }
+                    else 
+                    {
+                        setSuccess(true)
                     }
                 }}>
                     <input type="hidden" name="id" value={product.id}/>
