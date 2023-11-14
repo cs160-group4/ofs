@@ -79,12 +79,18 @@ export default async function Checkout() {
                     <div>
                         <button className="btn text-center btn-link font-small">Change</button>
                     </div>
-                    {/* <DeliveryAddress id={id} name={name} address={mainAddress} /> */}
-
 
 
                     <h2 className="font-bold text-xl">2. Payment Method</h2>
                     <PaymentMethod id={id} />
+                    {/* <div>
+         <b>Card</b> ending in ****<br />
+         <p><b>Billing Address:</b> Same as shipping address.
+         <button className="btn-link font-small">Change.</button></p>
+       </div>
+       <div>
+         <button className="btn text-center btn-link font-small">Change</button>
+       </div> */}
 
                     <h2 className="font-bold text-xl">3. Review Items</h2>
                     <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">

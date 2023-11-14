@@ -6,7 +6,7 @@ import { createOrder, getOrdersByUserId } from "./lib/orders";
 import { addOrderItem } from "./lib/order_item";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
-import { NewName, NewPassword, updateNewName, updateNewPassword } from "./lib/users";
+import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
 import bcrypt, { hash } from 'bcrypt';
 
 function formatDate(date: Date) {
@@ -135,42 +135,47 @@ export async function deleteAddressFromDB(formData: FormData) {
 }
 
 // Aaron - 11/07/23
-export async function updateName(formData: FormData) {
+export async function updateEmail(formData: FormData) {
   const schema = z.object({
-    newName: z.string(),
-    confirmName: z.string(),
+    newEmail: z.string(),
+    confirmEmail: z.string(),
     user_id: z.string()
   });
 
   try {
-    const newNameForm = schema.safeParse({
-      newName: formData.get("newName"),
-      confirmName: formData.get("confirmName"),
+    const newEmailForm = schema.safeParse({
+      newEmail: formData.get("newEmail"),
+      confirmEmail: formData.get("confirmEmail"),
       user_id: formData.get("userId")
     });
 
-    if(newNameForm.success)
+    if(newEmailForm.success)
     {
-      const data : NewName  = newNameForm.data;
-
-      if (data.newName !== data.confirmName) {
+      const data : NewEmail  = newEmailForm.data;
+      if (!data.newEmail.includes("@") || !data.confirmEmail.includes("@")) {
         return {
           success: false,
-          message: "Error: Names Do Not Match"
+          message: "Error: New Email Does Not Contain @"
+        };
+      }
+      else if (data.newEmail !== data.confirmEmail) {
+        return {
+          success: false,
+          message: "Error: Emails Do Not Match"
         };
       }
       else {
-        await updateNewName(data);
+        await updateNewEmail(data);
         revalidatePath("/profile");
-        return { success: true, message: "Name updated successfully"}
+        return { success: true, message: "Address updated successfully"}
       }
     }
     else{
-      return { success: false, message: "Error: Name failed to be updated"}
+      return { success: false, message: "Error: Address failed to be updated"}
     }
 
   } catch (error) {
-    return {success: false, err: true, message: "Error: Name failed to be updated"}
+    return {success: false, err: true, message: "Error: Address failed to be updated"}
   }
 }
 

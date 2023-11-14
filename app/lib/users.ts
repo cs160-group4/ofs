@@ -6,9 +6,9 @@ import bcrypt from "bcrypt";
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
 
-export type NewName = {
-  newName: string;
-  confirmName: string;
+export type NewEmail = {
+  newEmail: string;
+  confirmEmail: string;
   user_id: string;
 };
 
@@ -157,10 +157,10 @@ export async function deleteUser(id: string) {
 }
 
 // update email
-export const updateNewName = async (data: NewName) => {
+export const updateNewEmail = async (data: NewEmail) => {
   return await db
     .update(user)
-    .set({ name: data.newName })
+    .set({ email: data.newEmail })
     .where(eq(user.id, data.user_id));
 };
 

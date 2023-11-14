@@ -8,7 +8,7 @@ function SubmitButton() {
   const { pending } = useFormStatus()
 
   return (
-    <button className='btn btn-primary' type='submit' aria-disabled={pending}>
+    <button className='btn btn-primary' type='submit' disabled={pending} aria-disabled={pending}>
       +  Add Product
     </button>
   )
@@ -65,6 +65,7 @@ export function AddProductForm() {
             <span>{message}</span>
             <button className="btn btn-sm btn-circle btn-ghost" onClick={() => {
               setShowAlert(false)
+              setShowError(false)
               setMessage('')
             }}>✕</button>
           </div>

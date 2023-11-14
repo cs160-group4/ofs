@@ -1,11 +1,7 @@
-'use client'
 import { SignInButton } from "@/app/components/SignInButton";
-import { writeCommentAction } from '@/actions/comments';
-import { useFormState } from "react-dom";
+
 
 export default function WriteComment({ productId, signedIn }: { productId: number, signedIn: boolean }) {
-    const initialState = { message: null, errors: {} };
-    const [state, formAction] = useFormState(writeCommentAction, initialState)
     return (
         <>
             <div className="mt-6 rounded-md ">
@@ -13,10 +9,9 @@ export default function WriteComment({ productId, signedIn }: { productId: numbe
                     Write a comment</h2>
                 {signedIn ? (
                     <div className="flex flex-col mb-6 max-w-2xl">
-                        <form action={formAction} >
-                            <input type="hidden" id="productId" name="productId" value={productId} />
+                        <form action="" >
                             <div className="px-2 mb-6">
-                                <textarea required id="text"  name="text" rows={5} minLength={1} maxLength={255}
+                                <textarea required name="text" id="text" rows={5}
                                     placeholder="write a review"
                                     className="block w-full px-4 leading-tight text-gray-700 bg-gray-100 rounded hover:border-primary focus:border-primary" />
                             </div>

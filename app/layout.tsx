@@ -3,6 +3,7 @@ import Navbar from '@/app/ui/home/Navbar'
 import '@/app/globals.css'
 import { GeistMono, GeistSans } from 'geist/font'
 import type { Metadata } from 'next'
+import { EdgeStoreProvider } from './lib/edgestore'
 export const metadata: Metadata = {
   title: 'OFS - On-Demand Food Delivery Service',
   description: 'Order food from your OFS groceries.',
@@ -14,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang="en" data-theme="cupcake" className={`${GeistSans.variable} ${GeistMono.variable}`}>
         <body >
-            {children}
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </body>
       </html>
     </>

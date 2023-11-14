@@ -73,7 +73,7 @@ export default async function AdminProducts() {
                     <div className='flex gap-3'>
                       <UpdateProduct id={product.id} />
                       <Suspense fallback={<p>Deleting...</p>}>
-                        <RemoveProductForm id={product.id} />
+                        <RemoveProductForm id={product.id} name={product.name}/>
                       </Suspense>
                     </div>
                   </td>

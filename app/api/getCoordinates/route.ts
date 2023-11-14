@@ -2,7 +2,6 @@ import { db } from "@/db/db";
 import { addresses } from "@/db/schema";
 import { eq } from "drizzle-orm";  // Assuming you use 'eq' for equality checks in DB queries
 const getGeoCoordinates = async (addressId) => {
-  // Fetch the address from the database
   const addressData = await db.select().from(addresses).where(eq(addresses.id, addressId)).first();
 
 
