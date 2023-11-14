@@ -1,5 +1,19 @@
 export const ITEMS_PER_PAGE = 10;
 
+export type SearchQueryProps = {
+  query?: string;
+  page?: string;
+};
+
+
+export type FormErrorState = {
+  errors?: {
+    productId?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+
 export function getAvatarURL(path: string | null | undefined) {
   if (!path){
     return "/images/avatars/default.svg";} 

@@ -29,11 +29,13 @@ export async function addToCartAction(productId: number, quantity: number) {
     } else {
       await addProductToCart({ userId, productId, quantity });
     }
-    revalidatePath("/");
+
   } catch (error) {
     console.log(error);
     return { message: "Database Error: Failed to Add Product" };
   }
+  revalidatePath("/");
+  return { message: "Added Product" };
 }
 
 function formatDate(date: Date) {

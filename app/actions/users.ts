@@ -11,7 +11,8 @@ import {
 import { randomUUID } from "crypto";
 import { deleteUser } from "@/lib/users";
 import { redirect } from "next/navigation";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
+import { FormErrorState } from "../lib/utils";
 
 const FormSchema = z.object({
   id: z.string(),
@@ -23,14 +24,6 @@ const FormSchema = z.object({
   role: z.string().default("customer"),
 });
 
-export type State = {
-  errors?: {
-    name?: string[];
-    role?: string[];
-    status?: string[];
-  };
-  message?: string;
-};
 const CreateUser = FormSchema.pick({
   name: true,
   email: true,
@@ -93,7 +86,6 @@ export async function createUser(prevState: any, formData: FormData) {
       success: true,
       message: "Congratulations! Your account has been successfully created.",
     };
-  
   } catch (e: any) {
     return { success: false, message: "Failed to create an account" };
   }
@@ -128,9 +120,9 @@ export async function deleteUserAction(prevState: any, formData: FormData) {
   });
   try {
     const result = await deleteUser(id);
-    revalidatePath("/admin/users");
-    redirect("/admin/users");
   } catch (error) {
     return { message: "Database Error: Failed to Delete User." };
   }
+  revalidatePath("/admin/users");
+  redirect("/admin/users");
 }
