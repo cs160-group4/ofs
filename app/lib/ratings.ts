@@ -53,7 +53,8 @@ export const rateProduct = async (
   const result = await db
     .select()
     .from(ratings)
-    .where(and(eq(ratings.userId, userId), eq(ratings.productId, productId)));
+    .where(eq(ratings.productId, productId))
+    .where(eq(ratings.userId, userId));
   if (result.length === 0) {
     let newRating: NewRating = {
       userId,
