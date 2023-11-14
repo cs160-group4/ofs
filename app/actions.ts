@@ -2,6 +2,8 @@
 import { z } from "zod";
 import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress, deleteAddress } from "./lib/addresses";
+import { createOrder, getOrdersByUserId } from "./lib/orders";
+import { addOrderItem } from "./lib/order_item";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 import { NewName, NewPassword, updateNewName, updateNewPassword } from "./lib/users";
@@ -132,8 +134,6 @@ export async function deleteAddressFromDB(formData: FormData) {
   revalidatePath('/cart');
 }
 
-// Fariha - 11/06/23
-
 // Aaron - 11/07/23
 export async function updateName(formData: FormData) {
   const schema = z.object({
@@ -213,5 +213,86 @@ export async function updatePassword(formData: FormData) {
 
   } catch (error) {
     return {success: false, err: true, message: "Error: Password failed to be updated"}
+  }
+}
+
+// Fariha - 11/11/23
+export async function createNewOrder(formData: FormData) {
+  const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
+  
+  const schema = z.object({
+    totalWeight: z.number().positive(),
+    tax: z.string().regex(priceEx),
+    subtotal: z.string().regex(priceEx),
+    userId: z.string(),
+    shippingCost: z.string().regex(priceEx),
+    discount: z.string().regex(priceEx),
+    grandTotal: z.string().regex(priceEx),
+    deliveryStatus: z.string()
+  });
+
+  try {
+    const order = schema.safeParse({
+      totalWeight: Number(formData.get("totalWeight")),
+      tax: formData.get("tax"),
+      subtotal: formData.get("subtotal"),
+      userId: formData.get("userId"),
+      shippingCost: formData.get("shippingCost"),
+      discount: formData.get("discount"),
+      grandTotal: formData.get("grandTotal"),
+      deliveryStatus: formData.get("deliveryStatus")
+    })
+    
+    if(order.success){
+      await createOrder(order.data);
+      return { success: true, message: "Order created successfully" }
+    } else {
+      return { success: false, message: "Order failed to be created"}
+    }
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Order failed to be added"}
+  }
+}
+
+export async function getLatestOrderByUserId(formData: FormData){
+  try {
+    const userId = String(formData.get("userId"));
+    const res = await getOrdersByUserId(userId);
+    const lastOrderId = res[res.length - 1];
+    
+    return {success: true, message: "Last Order ID retrieved successfully", data: lastOrderId.id};
+  } catch (error) {
+    return { success: false, message: "Error: Orders failed to be retrieved" }
+  }
+}
+
+export async function createOrderItem(formData: FormData){
+  const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
+
+  const schema = z.object({
+    itemWeight: z.number().positive(),
+    productId: z.number().int(),
+    quantity: z.number().int().positive(),
+    orderId: z.number().int(),
+    price: z.string().regex(priceEx)
+  });
+
+  try {
+    const orderItem = schema.safeParse({
+      itemWeight: Number(formData.get("itemWeight")),
+      productId: Number(formData.get("productId")),
+      quantity: Number(formData.get("quantity")),
+      orderId: Number(formData.get("orderId")),
+      price: formData.get("price")
+    });
+
+    if(orderItem.success){
+      await addOrderItem(orderItem.data);
+      return { success: true, message: "Order Item created successfully" }
+    } else {
+      return { success: false, message: orderItem.error.errors }
+    }
+  } catch (error) {
+    return { success: false, message: error}
   }
 }

@@ -15,7 +15,6 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
     formData.set("revalidateUrl", revalidateUrl);
     
     const res = await updateCartItem(formData);
-    console.log(res.message);
   }
 
   return (

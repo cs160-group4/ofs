@@ -2,9 +2,10 @@ import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
-import { DeliveryAddress } from '@/app/components/DeliveryAddress';
 import { PaymentMethod } from '@/app/components/PaymentMethod';
+import { CheckoutButton } from '@/app/components/CheckoutButton';
 import Link from 'next/link';
+import { create } from 'domain';
 
 export default async function Checkout() {
     var signedIn = false;
@@ -39,11 +40,14 @@ export default async function Checkout() {
 
     // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
     let subtotal: number = 0;
+    let totalWeight: number = 0;
     cartItems.forEach((item) => {
         if (item.products) {
             subtotal += parseFloat(item.products.itemPrice) * item.cart.quantity;
+            totalWeight += item.cart.quantity * item.products.itemWeight;
         }
     });
+
     const shipping = calculateShipping(cartItems);
     const tax = subtotal * 0.1;
     const total = subtotal + shipping + tax;
@@ -111,7 +115,7 @@ export default async function Checkout() {
                         <p className="text-red-600">Total</p>
                         <p>${totalString}</p>
                     </div>
-                    <Link href="/order-summary" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">Place Your Order & Pay</Link>
+                    <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems}/>
                 </div>
             </div>
         </div>
@@ -124,8 +128,8 @@ function calculateShipping(cartItems: CartItem[]): number {
     cartItems.forEach((item) => {
         weight += item.cart.quantity * item.products.itemWeight;
     });
-    if (weight > 20) {
-        return 10;
+    if (weight < 20) {
+        return 0;
     }
-    return 0;
+    return 10;
 }
