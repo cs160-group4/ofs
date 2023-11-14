@@ -20,7 +20,6 @@ export const SigninForm = () => {
             });
         }
         catch (err) {
-            console.log(err);
         }
         finally {
             setLoading(false);

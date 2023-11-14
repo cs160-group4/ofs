@@ -6,19 +6,45 @@ import React from 'react'
 
 export default async function Cart() {
     var signedIn = false;
-    var name = "";
     var id = "";
 
     const session = await getAuthSession();
     if (session?.user) {
         signedIn = true;
-        name = session.user.name as string;
         id = session.user.id as string;
+    }
+    else {
+        return <main className="flex items-center justify-center h-screen">
+            <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
+                <div className="flex flex-col items-center">
+                    <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
+                        <span className="text-black">Please Login Before You<br></br>Can See Your Cart</span>
+                    </h6>
+                    <Link href="/auth/signin" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
+                        Sign In
+                    </Link>
+                </div>
+            </div>
+        </main>
     }
 
     const cartItems = await getCart(id);
 
-    // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
+    // Hung Pham 11/01/2023 - check cart empty, calculate subtotal, shipping, tax, and total
+    if (cartItems.length == 0) {
+        return <main className="flex items-center justify-center m-24">
+            <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
+                <div className="flex flex-col items-center">
+                    <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
+                        <span className="text-black">Your Cart Is Empty</span>
+                    </h6>
+                    <Link href="/" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
+                        Continue Shopping
+                    </Link>
+                </div>
+            </div>
+        </main>
+    }
     let subtotal: number = 0;
     cartItems.forEach((item) => {
         if (item.products) {
@@ -42,17 +68,16 @@ export default async function Cart() {
             </div>
 
             <div className="mx-auto justify-center md:flex md:space-x-6">
-                <div className="rounded-lg md:w-3/5">
+                <div className="rounded-lg md:w-4/5">
                     {/* replace bg color */}
-                    <div className="justify-between mb-5 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
+                    <div className="justify-between mb-3 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
                         {/* shopping items */}
                         <div className="flex flex-col w-full mt-6 overflow-y-auto">
                             <div className="flow-root">
-                                {/* populate list with appropriate data later(li is just filler)*/}
-                                <ul className="-my-6 pb-6 space-y-5 mt-auto mb-auto">
+                                <ul className="-my-2 pb-1 space-y-1 mt-auto mb-auto">
                                     {/* replace bg color */}
                                     {cartItems.map((item) => (
-                                        <CartItemCard key={item.cart.id} item={item} />
+                                        <CartItemCard key={item.cart.id} item={item} id={id} revalidateUrl="/cart" />
                                     ))}
                                 </ul>
                             </div>
@@ -60,7 +85,7 @@ export default async function Cart() {
                     </div>
                 </div>
                 {/* price totals -- replace bg color*/}
-                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-2/5 px-3 py-3">
+                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
                     <div className="mb-2 flex justify-between">
                         <p>Subtotal</p>
                         <p>${subtotalString}</p>
@@ -80,7 +105,7 @@ export default async function Cart() {
                     </div>
                     {/* button links to checkout */}
                     {/* <button className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium"> */}
-                    <Link href="/checkout" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium">Checkout</Link>
+                    <Link href="/checkout" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">Checkout</Link>
                     {/* </button> */}
                 </div>
             </div>

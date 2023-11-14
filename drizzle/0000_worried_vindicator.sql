@@ -66,6 +66,7 @@ CREATE TABLE `order_item` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`order_id` int NOT NULL,
 	`product_id` int NOT NULL,
+	`item_weight` int NOT NULL,
 	`quantity` int NOT NULL,
 	`price` decimal(6,2) NOT NULL,
 	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -171,7 +172,7 @@ CREATE TABLE `user` (
 	`emailVerified` timestamp(3),
 	`password` varchar(255),
 	`name` varchar(255),
-	`image` varchar(255) DEFAULT 'images/avatars/default.png',
+	`image` varchar(255),
 	`role` varchar(20) NOT NULL DEFAULT 'customer',
 	`first_name` varchar(100),
 	`last_name` varchar(100),
@@ -198,7 +199,7 @@ ALTER TABLE `comments` ADD CONSTRAINT `fk_user_comment` FOREIGN KEY (`userId`) R
 ALTER TABLE `order_item` ADD CONSTRAINT `fk_order_detail_order` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `order_item` ADD CONSTRAINT `fk_order_detail_product` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `orders` ADD CONSTRAINT `fk_robot_order` FOREIGN KEY (`robot_id`) REFERENCES `robots`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `orders` ADD CONSTRAINT `fk_shipping_address` FOREIGN KEY (`shipping_address_id`) REFERENCES `addresses`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `orders` ADD CONSTRAINT `fk_shipping_address` FOREIGN KEY (`shipping_address_id`) REFERENCES `addresses`(`id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `orders` ADD CONSTRAINT `fk_user_order` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `payment_methods` ADD CONSTRAINT `fk_user_payment` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products` ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `product_categories`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

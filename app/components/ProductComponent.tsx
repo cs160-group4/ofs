@@ -30,7 +30,7 @@ const ProductComponent = ({ product }: { product: Product }) => {
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
 
   return (
-    <Link href={"/products/" + product.id+"?id="+product.id} >
+    <Link href={"/products/" + product.id} >
       <div className="card w-96 bg-base-100 shadow-xl m-4 ">
         <figure>
           <Image src={imageLink} alt={product.name}

@@ -1,13 +1,13 @@
 USE ofs_dev;
 
--- Populate Customer Data
+-- Populate Customer Data: ..., employeepass123, employeepass123, customerpass123, customerpass123
 INSERT INTO user (id, email, password, name, image, role, first_name, last_name, phone_number)
 VALUES 
-    ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', 'masterm', 'Hung Pham', 'images/avatars/default.svg', 'admin', 'Hung', 'Pham', '4086039113'),
-    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'jackma@gmail.com', 'password', 'Jack Ma', 'images/avatars/default.svg', 'employee', 'Jack', 'Ma', '4085027699'),
-    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'elonw@gmail.com', 'test1', 'Bob Li', 'images/avatars/default.svg', 'employee', 'Elon', 'Will', '4084892987'),
-    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', 'jill123456lane', 'Jill Lane', 'images/avatars/default.svg', 'customer', 'Jill', 'Lane', '4086056555'),
-    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'billgates@gmail.com', 'Jogger123456', 'Jogger Bogger', 'images/avatars/default.svg', 'customer', 'Bill', 'Gates', '4086088899');
+    ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', '$2b$10$5sqxizup.X5Y5NT8JDJqiuC1sAPn8u1fBJJGNFuj4miW/p5NGvoHe', 'Hung Pham', '', 'admin', 'Hung', 'Pham', '4087778888'),
+    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'employee@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Employee Will', '', 'employee', 'Employee', 'Will', '4087776969'),
+    ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'lina@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Lina', '', 'employee', 'Lina', 'Medina', '408567699'),
+    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'customer@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Customer Gates', '', 'customer', 'Customer', 'Gates', '4086088899'),
+    ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Jill Lane', '', 'customer', 'Jill', 'Lane', '4085554688');
 
 INSERT INTO addresses (id, userId, address_line1, city, state, postal_code, country, latitude, longitude)
 VALUES 
@@ -93,40 +93,39 @@ INSERT INTO cart (userId, product_id, quantity) VALUES
 
 -- Populate Orders Data
 INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, grand_total, created_at, updated_at, robot_id, shipping_address_id, delivery_status, userId) VALUES
-(1,33,0.00,12.91,0.00,121.41,134.32,'2023-01-01 08:00:00','2023-01-01 08:00:00',5,1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
-(2,18,10.00,7.12,0.00,63.12,80.24,'2023-02-01 09:10:00','2023-02-01 09:10:00',7,2,'shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
-(3,27,0.00,10.74,5.00,98.02,103.76,'2023-03-10 08:30:30','2023-03-10 08:30:30',3,3,'delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6'),
-(4,18,10.00,8.65,0.00,78.02,96.67,'2023-04-09 11:30:00','2023-04-09 11:30:00',2,4,'cancelled','5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0'),
-(5,26,0.00,9.59,0.00,86.31,95.90,'2023-05-10 09:50:00','2023-05-10 09:50:00',9,5,'pending','0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5'),
-(6,22,0.00,6.71,0.00,60.39,67.10,'2023-06-12 08:25:00','2023-06-12 08:25:00',8,1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
-(7,17,10.00,6.09,0.00,54.87,71.96,'2023-07-01 10:25:15','2023-07-01 10:25:15',4,2,'shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
-(8,18,10.00,8.16,0.00,73.42,81.58,'2023-08-20 12:22:10','2023-08-20 12:22:10',6,3,'delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
+(1,139,0.00,14.55,0.00,145.47,160.02,'2023-01-01 08:00:00','2023-01-01 08:00:00',5,1,'Pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
+(2,56,0.00,2.79,0.00,27.93,30.72,'2023-02-01 09:10:00','2023-02-01 09:10:00',7,2,'Shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
+(3,37,0.00,2.47,0.00,24.67,27.14,'2023-03-10 08:30:30','2023-03-10 08:30:30',3,3,'Delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6'),
+(4,46,0.00,3.70,0.00,36.97,40.67,'2023-04-09 11:30:00','2023-04-09 11:30:00',2,4,'Cancelled','5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0'),
+(5,115,0.00,5.07,0.00,50.73,55.80,'2023-05-10 09:50:00','2023-05-10 09:50:00',9,5,'Pending','0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5'),
+(6,50,0.00,2.15,0.00,21.52,23.67,'2023-06-12 08:25:00','2023-06-12 08:25:00',8,1,'Pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
+(7,59,0.00,3.42,0.00,34.24,37.66,'2023-07-01 10:25:15','2023-07-01 10:25:15',4,2,'Shipped','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
+(8,26,0.00,8.75,0.00,87.47,96.22,'2023-08-20 12:22:10','2023-08-20 12:22:10',6,3,'Delivered','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
 
 
-INSERT INTO order_item (order_id, product_id, quantity, price) VALUES 
-(1, 1, 50, 2.49), 
-(1, 3, 3, 3.99), 
-(1, 8, 2, 4.5),
-(2, 2, 2, 4.99),
-(2, 5, 1, 5.99),
-(2, 9, 4, 2.99),
-(3, 4, 3, 1.89),
-(3, 7, 5, 2.75),
-(3, 12, 1, 5.25),
-(4, 6, 2, 3.25),
-(4, 10, 3, 6.99),
-(4, 15, 2, 4.75),
-(5, 13, 4, 3.49),
-(5, 17, 2, 4.15),
-(5, 20, 3, 9.49),
-(6, 11, 5, 1.95),
-(6, 14, 2, 4.99),
-(6, 18, 1, 1.79),
-(7, 15, 3, 4.75),
-(7, 19, 2, 5.50),
-(7, 2, 1, 8.99),
-(8, 3, 4, 12.75),
-(8, 16, 3, 9.99),
-(8, 6, 2, 3.25);
-
+INSERT INTO order_item (order_id, product_id, item_weight, quantity, price) VALUES 
+(1, 1, 2, 50, 2.49), 
+(1, 3, 3, 3, 3.99), 
+(1, 8, 15, 2, 4.5),
+(2, 2, 5, 2, 4.99),
+(2, 5, 6, 1, 5.99),
+(2, 9, 10, 4, 2.99),
+(3, 4, 1, 3, 1.89),
+(3, 7, 5, 5, 2.75),
+(3, 12, 9, 1, 5.25),
+(4, 6, 1, 2, 3.25),
+(4, 10, 8, 3, 6.99),
+(4, 15, 10, 2, 4.75),
+(5, 13, 10, 4, 3.49),
+(5, 17, 15, 2, 4.15),
+(5, 20, 15, 3, 9.49),
+(6, 11, 4, 5, 1.95),
+(6, 14, 10, 2, 4.99),
+(6, 18, 10, 1, 1.79),
+(7, 15, 10, 3, 4.75),
+(7, 19, 12, 2, 5.50),
+(7, 2, 5, 1, 8.99),
+(8, 3, 3, 4, 12.75),
+(8, 16, 4, 3, 9.99),
+(8, 6, 1, 2, 3.25);
 

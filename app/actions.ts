@@ -4,6 +4,8 @@ import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress, deleteAddress } from "./lib/addresses";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
+import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
+import bcrypt, { hash } from 'bcrypt';
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
@@ -60,7 +62,6 @@ export async function createProduct(formData: FormData) {
       return { success: true, message: result.data.name + ' Added Successfully'}
     }
     else{
-      console.log(result.error)
       return { success: false, message: "Product Failed To Be Added"}
     }
   }
@@ -112,11 +113,110 @@ export async function addNewAddress(formData: FormData) {
       return { success: true, message: "Address added successfully"}
     }
     else{
-      console.log(newAddress.error);
       return { success: false, message: "Address failed to be added"}
     }
 
   } catch (error) {
     return {success: false, err: true, message: "Error: Address failed to be added"}
+  }
+}
+
+export async function deleteAddressFromDB(formData: FormData) {
+  try {
+    const id = formData.get("id");
+    //await deleteAddress(id);
+    revalidatePath("/profile");
+    return { message: "Deleted Address" };
+  } catch (error) {
+  }
+  revalidatePath('/cart');
+}
+
+// Fariha - 11/06/23
+
+// Aaron - 11/07/23
+export async function updateEmail(formData: FormData) {
+  const schema = z.object({
+    newEmail: z.string(),
+    confirmEmail: z.string(),
+    user_id: z.string()
+  });
+
+  try {
+    const newEmailForm = schema.safeParse({
+      newEmail: formData.get("newEmail"),
+      confirmEmail: formData.get("confirmEmail"),
+      user_id: formData.get("userId")
+    });
+
+    if(newEmailForm.success)
+    {
+      const data : NewEmail  = newEmailForm.data;
+      if (!data.newEmail.includes("@") || !data.confirmEmail.includes("@")) {
+        return {
+          success: false,
+          message: "Error: New Email Does Not Contain @"
+        };
+      }
+      else if (data.newEmail !== data.confirmEmail) {
+        return {
+          success: false,
+          message: "Error: Emails Do Not Match"
+        };
+      }
+      else {
+        await updateNewEmail(data);
+        revalidatePath("/profile");
+        return { success: true, message: "Address updated successfully"}
+      }
+    }
+    else{
+      return { success: false, message: "Error: Address failed to be updated"}
+    }
+
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Address failed to be updated"}
+  }
+}
+
+export async function updatePassword(formData: FormData) {
+  const schema = z.object({
+    newPassword: z.string(),
+    confirmPassword: z.string(),
+    user_id: z.string()
+  });
+
+  try {
+    const newPasswordForm = schema.safeParse({
+      newPassword: formData.get("newPassword"),
+      confirmPassword: formData.get("confirmPassword"),
+      user_id: formData.get("userId")
+    });
+
+    if(!newPasswordForm.success)
+    {
+      return { success: false, message: "Error: Password failed to be updated"}
+    }
+    const {newPassword, confirmPassword, user_id}  = newPasswordForm.data;
+    if (newPassword !== confirmPassword) {
+      return {
+        success: false,
+        message: "Error: Passwords Do Not Match"
+      };
+    }
+    else {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      let newData : NewPassword = {
+        user_id: user_id,
+        newPassword: hashedPassword,
+        confirmPassword: hashedPassword
+      } 
+      await updateNewPassword(newData);
+      revalidatePath("/profile");
+      return { success: true, message: "Password updated successfully"}
+    }
+
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Password failed to be updated"}
   }
 }

@@ -2,7 +2,7 @@
 
 import {
     UserGroupIcon,
-    HomeIcon,
+    CubeIcon,
     DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { User } from '@/app/lib/users';
 const links = [
-    { name: 'Home', href: '/admin', icon: HomeIcon },
+    { name: 'Dashboard', href: '/admin', icon: CubeIcon },
     { name: 'Users', href: '/admin/users', icon: UserGroupIcon, roles: ['admin'] },
     {
         name: 'Products',

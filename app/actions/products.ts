@@ -64,13 +64,13 @@ export async function editProduct(formData: FormData, url: string) {
     createdAt: formData.get("created")
   });
 
-  if (!result.success) {
-    console.log(result.error)
-    return {
-      errors: result.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Update Product.",
-    };
-  }
+    if (!result.success) {
+      return {
+        success: false,
+        errors: result.error.flatten().fieldErrors,
+        message: "Missing Fields: Failed to Update Product.",
+      };
+    }
   // const product: Product = { ...result.data };
   try
   {
@@ -78,7 +78,6 @@ export async function editProduct(formData: FormData, url: string) {
     console.log("Updated successfully")
   }
   catch (error) {
-    console.log(error)
     return { message: "Database Error: Failed to Update Product." };
   }
   // intended action: only revalidates and redirects if no errors are caught by preceding code

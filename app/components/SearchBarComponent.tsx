@@ -32,7 +32,6 @@ export const SearchBarComponent = () => {
 
     const handleToggleSearch = () => {
         setShowSearch(!showSearch);
-        console.log(showSearch)
     };
 
     const fetchProducts = async(term : string) => {
@@ -41,7 +40,6 @@ export const SearchBarComponent = () => {
                 method: 'GET',
             });
             const x = await response.json()
-            console.log(x)
             setFilteredOptions(x);
         }
         catch (error) {

@@ -1,6 +1,6 @@
 import { db } from "@/db/db";
 import { orders, user, addresses } from "@/db/schema";
-import { eq,asc, desc} from "drizzle-orm";
+import { eq,asc, desc, and} from "drizzle-orm";
 import { Addresses } from "@/lib/addresses";
 
 export type Order = typeof orders.$inferSelect;
@@ -46,6 +46,12 @@ export const getOrder = async (id: number) => {
 // get orders by user id
 export const getOrdersByUserId = async (user_id: string) => {
   return await db.select().from(orders).where(eq(orders.userId, user_id));
+};
+
+// get orders by user id and order id
+export const getOrdersByUserIdAndOrderId = async (user_id: string, order_id: number) => {
+  let result = await db.select().from(orders).where(and(eq(orders.userId, user_id), eq(orders.id, order_id)));
+  return  result[0] as Order;
 };
 
 // get oders with addresses

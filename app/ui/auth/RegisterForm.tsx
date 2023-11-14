@@ -10,7 +10,6 @@ const initialState = {
 
 function SubmitButton() {
     const { pending } = useFormStatus()
-
     return (
         <button type="submit" aria-disabled={pending} className="w-full px-4 py-4 text-sm font-bold text-white uppercase bg-cyan-600 rounded-md lg:text-lg dark:text-gray-300 dark:bg-cyan-800 hover:bg-cyan-700 dark:hover:bg-cyan-900">
             Register
@@ -24,8 +23,39 @@ export function RegisterForm() {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const redirect_sign_in = () => {
+        window.location.href = "/auth/signin";
+    }
+    const redirect_register = () => {
+        window.location.href = "/auth/register";
+    }
     return (
         <>
+            {/* Show success message */}
+            <dialog id="my_modal" className="modal" {...(state?.success ? { open: true } : {})}>
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg text-green-500">Success!</h3>
+                    <p className="py-4">{state?.message}</p>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn btn-primary text-white" onClick={redirect_sign_in}>Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+            {/* Show error message */}
+            <dialog id="my_modal" className="modal" {...(state?.success === false ? { open: true } : {})}>
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg text-red-500">Error!</h3>
+                    <p className="py-4">{state?.message}</p>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn btn-primary text-white" onClick={redirect_register}>Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
             <h2 className="mb-4 text-3xl font-bold text-gray-700 lg:mb-7 lg:text-5xl dark:text-gray-300 ps-16 pe-16">
                 Sign Up
             </h2>
@@ -39,12 +69,19 @@ export function RegisterForm() {
                     <input type="email"
                         className="w-full px-4 py-4 bg-white rounded-lg lg:py-5 "
                         id="email" name="email" placeholder="Enter your email" required />
+                    {state?.errors?.email ? (
+                        <div aria-live="polite" className="my-2 text-sm text-red-500">
+                            <p>{state.message}</p>
+                        </div>
+                    ) : null}
+
                 </div>
                 <div className="mb-4 lg:mb-7">
                     <div className="relative flex items-center">
                         <input type={showPassword ? "text" : "password"} required minLength={8}
                             className="w-full px-4 py-4 bg-white rounded-lg lg:py-5 "
                             id="password" name="password" placeholder="Enter password" />
+
                         <label className="swap swap-rotate absolute right-0 mr-3 items-center">
                             <input type="checkbox" onClick={togglePasswordVisibility} className="hidden" />
                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
@@ -68,13 +105,25 @@ export function RegisterForm() {
                                 <circle cx="12" cy="12" r="3" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </label>
+
                     </div>
+                    {state?.errors?.password ? (
+                        <div aria-live="polite" className="my-2 text-sm text-red-500">
+                            <p>{state.message}</p>
+                        </div>
+                    ) : null}
                 </div>
                 <div className="mb-4 lg:mb-7">
                     <input type={showPassword ? "text" : "password"}
                         className="w-full px-4 py-4 bg-white rounded-lg lg:py-5" required minLength={8}
                         id="confirmPassword" name="confirmPassword" placeholder="Confirm password" />
+                    {state?.errors?.confirmPassword ? (
+                        <div aria-live="polite" className="my-2 text-sm text-red-500">
+                            <p>{state.message}</p>
+                        </div>
+                    ) : null}
                 </div>
+
 
                 {/* <input type="text" id="todo" name="todo" required /> */}
                 <SubmitButton />

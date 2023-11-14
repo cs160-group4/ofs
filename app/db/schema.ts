@@ -87,6 +87,7 @@ export const orderItem = mysqlTable("order_item", {
 	id: int("id").autoincrement().notNull(),
 	orderId: int("order_id").notNull().references(() => orders.id, { onDelete: "cascade" } ),
 	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
+	itemWeight: int("item_weight").notNull(),
 	quantity: int("quantity").notNull(),
 	price: decimal("price", { precision: 6, scale: 2 }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
