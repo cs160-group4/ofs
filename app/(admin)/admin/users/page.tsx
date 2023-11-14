@@ -6,17 +6,13 @@ import { UsersTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { getUsersPages } from '@/app/lib/users';
 import { Metadata } from 'next';
+import { SearchQueryProps } from '@/app/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Users',
 };
 
-type Props = {
-  query?: string;
-  page?: string;
-};
-
-export default async function UserPage({ searchParams }: { searchParams: Props }) {
+export default async function UserPage({ searchParams }: { searchParams: SearchQueryProps }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
@@ -28,7 +24,7 @@ export default async function UserPage({ searchParams }: { searchParams: Props }
         <h1 className='text-2xl'>Users</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search users by name or email" />
+        <Search placeholder="Search users by name, email, or role" />
         <CreateUser />
       </div>
         <UsersTable query={query} currentPage={currentPage} />

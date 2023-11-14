@@ -5,7 +5,7 @@ import WriteComment from '@/app/ui/comments/WriteComment'
 import AddToCartForm from '@/app/ui/products/AddToCartForm'
 import ProductDoesNotExist from '@/app/ui/products/ProductDoesNotExist'
 import Ratings from '@/app/ui/ratings/Ratings'
-import { getCategoryById } from '@/lib/categories'
+import { getCategoryNameById } from '@/lib/categories'
 import { getCommentsByProductId } from '@/lib/comments'
 import { getProductById } from '@/lib/products'
 import { getProductRatingByUserId, getRatingsByProductId } from '@/lib/ratings'
@@ -32,7 +32,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
         return <ProductDoesNotExist />
     }
     let productPicture = getImageUrl(product.picture);
-    var category = await getCategoryById(product.categoryId);
+    var category = await getCategoryNameById(product.categoryId);
     let comments = await getCommentsByProductId(prod_id);
     let ratings = await getRatingsByProductId(prod_id);
     let myRating = await getProductRatingByUserId(user_id, prod_id);

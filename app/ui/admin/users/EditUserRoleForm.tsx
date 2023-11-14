@@ -4,11 +4,10 @@ import { updateUserRoleAction } from '@/actions/users';
 import { useFormState } from 'react-dom';
 import { User } from '@/app/lib/users';
 import { Button } from '@/ui/common/Button';
-import { roles } from '@/lib/utils';
-
+import { FormErrorState, roles } from '@/lib/utils';
 
 export default function EditUserRoleForm({ user }: { user: User }) {
-    const initialState = { message: null, errors: {} };
+    const initialState= { message: "", errors: {} };
     const [state, formAction] = useFormState(updateUserRoleAction, initialState)
     return (
         <form action={formAction} className='flex flex-col gap-4 bg-gray-50 rounded-lg p-4 w-96'>

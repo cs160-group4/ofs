@@ -1,58 +1,63 @@
 import Image from 'next/image';
-// import { UpdateUser, DeleteUser } from '@/ui/admin/users/buttons';
-// import UserStatus from '@/ui/admin/users/status';
-import { formatDateToLocal } from '@/app/lib/utils';
-import { getFilteredUsers } from '@/app/lib/users';
-import { getAvatarURL } from '@/lib/utils';
-import { DeleteUser, UpdateUser } from '@/ui/admin/users/Buttons';
-import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
+import { formatDateToLocal } from '@/lib/utils';
+import { Comments, getFilteredComments } from '@/lib/comments';
+import { DeleteComment } from '@/ui/admin/comments/Buttons';
+import { User } from '@/lib/users';
+import { Product } from '@/lib/products';
 
-export default async function UsersTable({
+export default async function CommentsTable({
   query,
   currentPage,
 }: {
   query: string;
   currentPage: number;
 }) {
-  const session = await getAuthSession();
-  const currentUser = session?.user;
+  const list = await getFilteredComments(query, currentPage);
 
-  const users = await getFilteredUsers(query, currentPage);
+  let comments: Comments[] = [];
+  let users: User[] = [];
+  let products: Product[] = [];
+  list.map((item) => {
+    comments.push(item.comments);
+    users.push(item.user);
+    products.push(item.products);
+  });
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            {users?.map((user) => (
-              <div
-                key={user.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
+            {comments?.map((comment, index) => (
+              <div key={comment.id} className="mb-2 w-full rounded-md bg-white p-4">
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <Image
-                        src={getAvatarURL(user.image)}
+                      {/* <Image
+                        src={category.image)}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
                         alt={`${user.name}'s profile picture`}
-                      />
-                      <p>{user.name}</p>
+                      /> */}
+                      <p>{comment.text}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{user.email}</p>
+                    {/* <p className="text-sm text-gray-500">{comment.description}</p> */}
                   </div>
+                  {/* Slug */}
                   <div className="flex items-center gap-2">
-                    <p className="text-sm text-gray-500">{user.role}</p>
+                    {/* <p className="text-sm text-gray-500">{comment.slug}</p> */}
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
-                    <p>{formatDateToLocal(user.createdAt!)}</p>
+                    <p className="text-xl font-medium">
+                    </p>
+                    <p>{formatDateToLocal(comment.updatedAt as string)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateUser id={user.id} />
-                    <DeleteUser id={user.id} />
+                    {/* <UpdateCategory id={category.id} />
+                    <DeleteCategory id={category.id} /> */}
                   </div>
                 </div>
               </div>
@@ -62,16 +67,16 @@ export default async function UsersTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                  Comment
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  User - Email
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Role
+                  ID, Product Name
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Joined Date
+                  Created At
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Updated At
@@ -82,43 +87,31 @@ export default async function UsersTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {users?.map((user) => (
+              {comments?.map((comment, index) => (
                 <tr
-                  key={user.id}
+                  key={comment.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={getAvatarURL(user.image)}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${user.name}'s profile picture`}
-                      />
-                      <p>{user.name}</p>
+                      <p>{comment.text}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {user.email}
+                   {users[index].name} - {users[index].email}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {user.role}
+                   {products[index].id}, {products[index].name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(user.createdAt!)}
+                    {formatDateToLocal(comment.createdAt as string)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(user.updatedAt!)}
+                    {formatDateToLocal(comment.updatedAt as string)}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      {currentUser?.id !== user.id && (
-                        <>
-                          <UpdateUser id={user.id} />
-                          <DeleteUser id={user.id} />
-                        </>
-                      )}
+                      <DeleteComment id={comment.id} />
                     </div>
                   </td>
                 </tr>
