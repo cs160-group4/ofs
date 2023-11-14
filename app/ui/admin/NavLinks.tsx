@@ -6,6 +6,7 @@ import {
     Square3Stack3DIcon,
     ChatBubbleBottomCenterTextIcon,
     RocketLaunchIcon,
+    MapPinIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,6 +16,11 @@ import { User } from '@/app/lib/users';
 const links = [
     { name: 'Dashboard', href: '/admin', icon: CubeIcon },
     { name: 'Users', href: '/admin/users', icon: UserGroupIcon, roles: ['admin'] },
+    {
+        name: 'Comments',
+        href: '/admin/comments',
+        icon: ChatBubbleBottomCenterTextIcon,
+    },
     {
         name: 'Categories',
         href: '/admin/categories',
@@ -26,14 +32,14 @@ const links = [
         icon: Square3Stack3DIcon,
     },
     {
-        name: 'Comments',
-        href: '/admin/comments',
-        icon: ChatBubbleBottomCenterTextIcon,
+        name: 'Orders',
+        href: '/admin/orders',
+        icon: RocketLaunchIcon,
     },
     {
         name: 'Delivery Robots',
         href: '/admin/robots',
-        icon: RocketLaunchIcon,
+        icon: MapPinIcon,
     },
 
 ];
@@ -62,10 +68,6 @@ export default function NavLinks({ user }: { user: User }) {
                 );
             }
             )}
-            <div className="w-full rounded-md bg-grey-50 md:block p-3 ">
-                {/* User's Role */}
-                <p className="text-sm font-medium text-gray-600">Role: <span className="text-gray-900">{user.role.toUpperCase()}</span></p>
-            </div>
 
         </>
     );
