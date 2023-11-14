@@ -4,7 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import { getAuthSession } from '../api/auth/[...nextauth]/options';
 import { CartItem } from '../lib/cart';
-import { deleteCartProduct } from '../actions/cart';
+import { updateCartItem, deleteCartProduct } from '../actions/cart';
 
 
 export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: string, revalidateUrl: string }) {
