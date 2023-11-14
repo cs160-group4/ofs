@@ -107,7 +107,8 @@ export const getFilteredUsers = async (query: string, currentPage: number) => {
       or(
         like(user.name, `%${query}%`),
         like(user.email, `%${query}%`),
-        like(user.phoneNumber, `%${query}%`)
+        like(user.phoneNumber, `%${query}%`),
+        like(user.role, `%${query}%`)
       )
     )
     .limit(10)

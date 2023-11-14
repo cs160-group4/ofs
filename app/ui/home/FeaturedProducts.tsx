@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Product, ProductCategory } from '@/lib/products'
-import { getCategoryById } from '@/lib/categories';
+import { getCategoryNameById } from '@/lib/categories';
 
 
 export default async function FeaturedProducts ( { item }: { item: ProductCategory } ) {

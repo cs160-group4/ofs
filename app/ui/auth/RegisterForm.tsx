@@ -5,7 +5,8 @@ import { createUser } from '@/actions/users'
 import { useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 const initialState = {
-    message: null,
+    errors: {},
+    message: "",
 }
 
 function SubmitButton() {
@@ -30,8 +31,15 @@ export function RegisterForm() {
     const redirect_register = () => {
         window.location.href = "/auth/register";
     }
+
+    // const showModals = () => {
+    //     let modal = document?.getElementById('my_modal') as HTMLDialogElement;
+    //     modal.showModal();
+    // }
+
     return (
         <>
+            {/* <button onClick={showModals}>Show Modal</button> */}
             {/* Show success message */}
             <dialog id="my_modal" className="modal" {...(state?.success ? { open: true } : {})}>
                 <div className="modal-box">
@@ -107,11 +115,11 @@ export function RegisterForm() {
                         </label>
 
                     </div>
-                    {state?.errors?.password ? (
+                    {/* {state?.errors?.password? (
                         <div aria-live="polite" className="my-2 text-sm text-red-500">
                             <p>{state.message}</p>
                         </div>
-                    ) : null}
+                    ) : null} */}
                 </div>
                 <div className="mb-4 lg:mb-7">
                     <input type={showPassword ? "text" : "password"}
@@ -130,7 +138,7 @@ export function RegisterForm() {
 
                 {/* {state?.message} */}
                 {/* If state.success = false -> make a div with error*/}
-                <div>
+                {/* <div>
                     {state?.success === false && state.error && (
                         <div className="text-red-500">
                             {state.error.name?._errors && (
@@ -144,7 +152,7 @@ export function RegisterForm() {
                             )}
                         </div>
                     )}
-                </div>
+                </div> */}
             </form >
             <p className="px-2 mt-6 text-sm text-left text-gray-700 dark:text-gray-400">
                 Already have an account?&nbsp;
