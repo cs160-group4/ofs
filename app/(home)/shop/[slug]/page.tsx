@@ -13,18 +13,17 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
     const [checkedBrands, setCheckedBrands] = useState<string[]>([]);
     const [priceSort, setPriceSort] = useState<string>("ASC");
     const [nameSort, setNameSort] = useState<string>("ASC");
-    let host = process.env.NEXTAUTH_URL;
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (slug === 'all' || slug === 'All') {
-                    const response = await fetch("/api/productByCategory?name=%&priceSort=" + priceSort + "&nameSort=" + nameSort, {
+                    const response = await fetch("/api/productByCategory?slug=%&priceSort=" + priceSort + "&nameSort=" + nameSort, {
                         method: 'GET',
                     });
                     setProducts(await response.json());
                 }
                 else {
-                    const response = await fetch("/api/productByCategory?name=" + slug + "&priceSort=" + priceSort + "&nameSort=" + nameSort, {
+                    const response = await fetch("/api/productByCategory?slug=" + slug + "&priceSort=" + priceSort + "&nameSort=" + nameSort, {
                         method: 'GET',
                     });
                     setProducts(await response.json());

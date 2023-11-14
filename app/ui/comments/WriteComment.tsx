@@ -4,7 +4,7 @@ import { writeCommentAction } from '@/actions/comments';
 import { useFormState } from "react-dom";
 
 export default function WriteComment({ productId, signedIn }: { productId: number, signedIn: boolean }) {
-    const initialState = { message: null, errors: {} };
+    const initialState = { message: "", errors: {} };
     const [state, formAction] = useFormState(writeCommentAction, initialState)
     return (
         <>

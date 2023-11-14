@@ -44,7 +44,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
                         <div className="w-full px-4 mb-8 md:w-1/2 md:mb-0">
                             <div className="flex sticky top-0 overflow-hidden items-center justify-center">
                                 <div className="relative mb-6 lg:mb-10 lg:h-96">
-                                    <Image src={productPicture} alt={product.name} width={600} height={600} />
+                                    <Image src={productPicture} alt={product.name} width={448} height={704}  className='object-fill'/>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +208,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
                                         <AddToCartForm product={product} />
                                         :
                                         <Link href="/auth/signin">
-                                            <button className="btn btn-primary btn-block">
+                                            <button className="btn btn-primary btn-block text-white" >
                                                 Log In
                                             </button>
                                         </Link>

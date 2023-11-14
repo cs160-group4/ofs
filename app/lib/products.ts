@@ -85,7 +85,7 @@ export const getProductByCategory = async (category: number) => {
 
 // get product by category name
 export const getProductByCategoryName = async (
-  category: string,
+  slug: string,
   priceSort: string,
   nameSort: string
 ) => {
@@ -112,7 +112,7 @@ export const getProductByCategoryName = async (
     })
     .from(products)
     .leftJoin(productCategories, eq(productCategories.id, products.categoryId))
-    .where(sql`${productCategories.name} LIKE ${category}`)
+    .where(sql`${productCategories.slug} LIKE ${slug}`)
     .orderBy(priceOrder, nameOrder);
   return result;
 };
