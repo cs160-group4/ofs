@@ -3,6 +3,8 @@ import { Product, updateProduct } from "@/lib/products";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { useEdgeStore } from "../lib/edgestore";
+import { BucketFunctions } from "node_modules/@edgestore/react/dist/createNextProxy";
 
 const currentDateTime = new Date();
 const formattedDateTime = formatDate(currentDateTime);
@@ -35,6 +37,8 @@ function formatDate(date: Date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
+
+
 // export type ProductState = {
 //   errors?: {
 //     productId?: string[];
@@ -43,34 +47,35 @@ function formatDate(date: Date) {
 //   message?: string | null;
 // };
 
-export async function editProduct(formData: FormData) {
 
-    const result = schema.safeParse({
-      id: Number(formData.get("id")),
-      name: formData.get("name"),
-      description: formData.get("description"),
-      slug: formData.get("slug"),
-      brand: formData.get("brand"),
-      categoryId: Number(formData.get("category_id")),
-      picture: formData.get("picture"),
-      itemWeight: Number(formData.get("itemWeight")),
-      itemPrice: formData.get("itemPrice"),
-      itemQuantity: Number(formData.get("itemQuantity")),
-      updatedAt: formattedDateTime,
-      createdAt: formData.get("created")
-    });
+export async function editProduct(formData: FormData, url: string) {
+  const result = schema.safeParse({
+    id: Number(formData.get("id")),
+    name: formData.get("name"),
+    description: formData.get("description"),
+    slug: formData.get("slug"),
+    brand: formData.get("brand"),
+    categoryId: Number(formData.get("category_id")),
+    picture: url,
+    itemWeight: Number(formData.get("itemWeight")),
+    itemPrice: formData.get("itemPrice"),
+    itemQuantity: Number(formData.get("itemQuantity")),
+    updatedAt: formattedDateTime,
+    createdAt: formData.get("created")
+  });
 
-    if (!result.success) {
-      console.log(result.error)
-      return {
-        errors: result.error.flatten().fieldErrors,
-        message: "Missing Fields. Failed to Update Product.",
-      };
-    }
+  if (!result.success) {
+    console.log(result.error)
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Product.",
+    };
+  }
   // const product: Product = { ...result.data };
   try
   {
     await updateProduct(result.data);
+    console.log("Updated successfully")
   }
   catch (error) {
     console.log(error)
@@ -78,5 +83,5 @@ export async function editProduct(formData: FormData) {
   }
   // intended action: only revalidates and redirects if no errors are caught by preceding code
   revalidatePath("/admin/products");
-  redirect("/admin/products");
+  // redirect("/admin/products");
 }

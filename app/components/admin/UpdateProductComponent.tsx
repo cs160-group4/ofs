@@ -2,15 +2,50 @@
 import { editProduct } from "@/app/actions/products";
 import { Product } from "@/app/lib/products";
 import Link from "next/link";
+import { useFormStatus } from "react-dom";
+import { useEdgeStore } from "@/app/lib/edgestore";
+import { useState } from "react";
+import { SingleImageDropzone } from "./SingleImageDropzone";
 
+
+function SubmitButton() {
+    const { pending } = useFormStatus()
+    
+    return (
+      <button className='btn btn-primary' type='submit' disabled={pending} aria-disabled={pending}>
+        Save
+      </button>
+    )
+  }
 
 export function UpdateProductForm({product}: {product:Product})
 {
+    const [file, setFile] = useState<File>();
+    const { edgestore } = useEdgeStore();
+
     return(
         <div className="bg-base-200 rounded-xl px-6 pb-3">
-            <form action={editProduct}>
+            <form action={async(formData: FormData) => {
+                if(file)
+                {
+                    const res = await edgestore.publicFiles.upload({
+                        file,
+                        options: {
+                            replaceTargetUrl: product.picture
+                        }
+                    });
+                    // console.log(res)
+                    // console.log(formData.get("picture"))
+                    await editProduct(formData, String(res.url));
+                    
+                }
+                else {
+                    await editProduct(formData, product.picture)
+                }
+            }}>
                 <input type="hidden" name="id" value={product.id}/>
                 <input type="hidden" name="created" value={String(product.createdAt)} />
+
                 <div className="my-4 flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                         <label className="label">
@@ -72,17 +107,33 @@ export function UpdateProductForm({product}: {product:Product})
                         <input placeholder={product.description} defaultValue={product.description} className="w-full input input-bordered" type="text" name="description" required/>
                     </div>
                 </div>
-                <div className='flex flex-wrap -mx-3 mb-6'>
+                {/* <div className='flex flex-wrap -mx-3 mb-6'>
                     <div className='w-full px-3'>
                         <label className="label">
                             <span className="label-text">IMG URL (WIP)</span>
                         </label>
                         <input placeholder={product.picture} defaultValue={product.picture} className="w-full input input-bordered" type="text" name="picture" required/>
                     </div>
+                </div> */}
+                <div className='flex flex-wrap -mx-3 mb-6'>
+                    <div className='w-full px-3'>
+                        <label className="label">
+                            <span className="label-text">Image Upload</span>
+                        </label>
+                        {/* <input className="w-full file-input" type="file" accept="image/png, image/jpeg" onChange={setFile()}/> */}
+                        <SingleImageDropzone
+                            width={200}
+                            height={200}
+                            value={file}
+                            onChange={(file) => {
+                            setFile(file);
+                            }}
+                        />
+                    </div>
                 </div>
                 
                 <div className="flex justify-end gap-3">
-                    <button className='btn btn-primary' type="submit">Save</button>
+                    <SubmitButton />
                     <Link href="/admin/products" className="btn bg-gray-100" >Cancel</Link>
                 </div>
             </form>
