@@ -42,7 +42,13 @@ export default async function UsersTable({
                     </div>
                     <p className="text-sm text-gray-500">{user.email}</p>
                   </div>
+                  {/* User Role */}
+                  <div className="flex items-center gap-2">
+                    {/* <UserStatus status={user.status} /> */}
+                    <p className="text-sm text-gray-500">{user.role}</p>
+                  </div>
                   {/* <UserStatus status={user.status} /> */}
+                  
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>

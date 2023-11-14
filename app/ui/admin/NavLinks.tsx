@@ -1,9 +1,11 @@
 'use client';
-
 import {
-    UserGroupIcon,
     CubeIcon,
-    DocumentDuplicateIcon,
+    UserGroupIcon,
+    TagIcon,
+    Square3Stack3DIcon,
+    ChatBubbleBottomCenterTextIcon,
+    RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,10 +16,26 @@ const links = [
     { name: 'Dashboard', href: '/admin', icon: CubeIcon },
     { name: 'Users', href: '/admin/users', icon: UserGroupIcon, roles: ['admin'] },
     {
+        name: 'Categories',
+        href: '/admin/categories',
+        icon: TagIcon,
+    },
+    {
         name: 'Products',
         href: '/admin/products',
-        icon: DocumentDuplicateIcon,
+        icon: Square3Stack3DIcon,
     },
+    {
+        name: 'Comments',
+        href: '/admin/comments',
+        icon: ChatBubbleBottomCenterTextIcon,
+    },
+    {
+        name: 'Delivery Robots',
+        href: '/admin/robots',
+        icon: RocketLaunchIcon,
+    },
+
 ];
 
 export default function NavLinks({ user }: { user: User }) {
@@ -41,10 +59,13 @@ export default function NavLinks({ user }: { user: User }) {
                         <LinkIcon className="w-6" />
                         <p className="hidden md:block">{link.name}</p>
                     </Link>
-
                 );
             }
             )}
+            <div className="w-full rounded-md bg-grey-50 md:block p-3 ">
+                {/* User's Role */}
+                <p className="text-sm font-medium text-gray-600">Role: <span className="text-gray-900">{user.role.toUpperCase()}</span></p>
+            </div>
 
         </>
     );

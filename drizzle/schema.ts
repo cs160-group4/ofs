@@ -17,7 +17,7 @@ export const account = mysqlTable("account", {
 },
 (table) => {
 	return {
-		accountProviderProviderAccountId: primaryKey(table.provider, table.providerAccountId),
+		accountProviderProviderAccountIdPk: primaryKey({ columns: [table.provider, table.providerAccountId], name: "account_provider_providerAccountId_pk"}),
 	}
 });
 
@@ -37,7 +37,7 @@ export const addresses = mysqlTable("addresses", {
 },
 (table) => {
 	return {
-		addressesId: primaryKey(table.id),
+		addressesIdPk: primaryKey({ columns: [table.id], name: "addresses_id_pk"}),
 	}
 });
 
@@ -51,7 +51,7 @@ export const cart = mysqlTable("cart", {
 },
 (table) => {
 	return {
-		cartId: primaryKey(table.id),
+		cartIdPk: primaryKey({ columns: [table.id], name: "cart_id_pk"}),
 	}
 });
 
@@ -65,13 +65,13 @@ export const comments = mysqlTable("comments", {
 },
 (table) => {
 	return {
-		commentsId: primaryKey(table.id),
+		commentsIdPk: primaryKey({ columns: [table.id], name: "comments_id_pk"}),
 	}
 });
 
 export const coupons = mysqlTable("coupons", {
 	id: int("id").autoincrement().notNull(),
-	code: varchar("code", { length: 20 }).notNull(),
+	code: varchar("code", { length: 100 }).notNull(),
 	discount: decimal("discount", { precision: 5, scale: 2 }).notNull(),
 	expiresAt: timestamp("expires_at", { mode: 'string' }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
@@ -79,23 +79,25 @@ export const coupons = mysqlTable("coupons", {
 },
 (table) => {
 	return {
-		couponsId: primaryKey(table.id),
+		couponsIdPk: primaryKey({ columns: [table.id], name: "coupons_id_pk"}),
 	}
 });
 
 export const orderItem = mysqlTable("order_item", {
 	id: int("id").autoincrement().notNull(),
 	orderId: int("order_id").notNull().references(() => orders.id, { onDelete: "cascade" } ),
-	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
+	productId: int("product_id").references(() => products.id, { onDelete: "set null" } ),
+	productName: varchar("product_name", { length: 100 }),
 	itemWeight: int("item_weight").notNull(),
 	quantity: int("quantity").notNull(),
 	price: decimal("price", { precision: 6, scale: 2 }).notNull(),
+	productImage: varchar("product_image", { length: 255 }),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 (table) => {
 	return {
-		orderItemId: primaryKey(table.id),
+		orderItemIdPk: primaryKey({ columns: [table.id], name: "order_item_id_pk"}),
 	}
 });
 
@@ -116,7 +118,7 @@ export const orders = mysqlTable("orders", {
 },
 (table) => {
 	return {
-		ordersId: primaryKey(table.id),
+		ordersIdPk: primaryKey({ columns: [table.id], name: "orders_id_pk"}),
 	}
 });
 
@@ -131,32 +133,33 @@ export const paymentMethods = mysqlTable("payment_methods", {
 },
 (table) => {
 	return {
-		paymentMethodsId: primaryKey(table.id),
+		paymentMethodsIdPk: primaryKey({ columns: [table.id], name: "payment_methods_id_pk"}),
 	}
 });
 
 export const productCategories = mysqlTable("product_categories", {
 	id: int("id").autoincrement().notNull(),
-	name: varchar("name", { length: 50 }).notNull(),
-	slug: varchar("slug", { length: 50 }).notNull(),
-	description: varchar("description", { length: 100 }),
+	name: varchar("name", { length: 100 }).notNull(),
+	slug: varchar("slug", { length: 100 }).notNull(),
+	description: varchar("description", { length: 255 }),
+	image: varchar("image", { length: 100 }),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 (table) => {
 	return {
-		productCategoriesId: primaryKey(table.id),
+		productCategoriesIdPk: primaryKey({ columns: [table.id], name: "product_categories_id_pk"}),
 	}
 });
 
 export const products = mysqlTable("products", {
 	id: int("id").autoincrement().notNull(),
-	name: varchar("name", { length: 40 }).notNull(),
-	slug: varchar("slug", { length: 50 }),
-	description: varchar("description", { length: 100 }).notNull(),
+	name: varchar("name", { length: 100 }).notNull(),
+	slug: varchar("slug", { length: 100 }),
+	description: varchar("description", { length: 255 }).notNull(),
 	brand: varchar("brand", { length: 30 }).notNull(),
 	categoryId: int("category_id").notNull().references(() => productCategories.id, { onDelete: "cascade" } ),
-	picture: varchar("picture", { length: 100 }).notNull(),
+	picture: varchar("picture", { length: 255 }).notNull(),
 	itemWeight: int("item_weight").notNull(),
 	itemPrice: decimal("item_price", { precision: 5, scale: 2 }).notNull(),
 	itemQuantity: int("item_quantity").notNull(),
@@ -165,13 +168,13 @@ export const products = mysqlTable("products", {
 },
 (table) => {
 	return {
-		productsId: primaryKey(table.id),
+		productsIdPk: primaryKey({ columns: [table.id], name: "products_id_pk"}),
 	}
 });
 
 export const ratings = mysqlTable("ratings", {
 	id: int("id").autoincrement().notNull(),
-	ratingValue: int("rating_value"),
+	ratingValue: int("rating_value").notNull(),
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
 	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
@@ -179,13 +182,13 @@ export const ratings = mysqlTable("ratings", {
 },
 (table) => {
 	return {
-		ratingsId: primaryKey(table.id),
+		ratingsIdPk: primaryKey({ columns: [table.id], name: "ratings_id_pk"}),
 	}
 });
 
 export const reviews = mysqlTable("reviews", {
 	id: int("id").autoincrement().notNull(),
-	text: varchar("text", { length: 100 }).notNull(),
+	text: varchar("text", { length: 255 }).notNull(),
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
 	productId: int("product_id").notNull().references(() => products.id, { onDelete: "cascade" } ),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
@@ -193,14 +196,14 @@ export const reviews = mysqlTable("reviews", {
 },
 (table) => {
 	return {
-		reviewsId: primaryKey(table.id),
+		reviewsIdPk: primaryKey({ columns: [table.id], name: "reviews_id_pk"}),
 	}
 });
 
 export const robots = mysqlTable("robots", {
 	id: int("id").autoincrement().notNull(),
 	status: varchar("status", { length: 20 }).notNull(),
-	name: varchar("name", { length: 50 }),
+	name: varchar("name", { length: 100 }),
 	totalOrders: int("total_orders").default(0),
 	totalWeight: decimal("total_weight", { precision: 10, scale: 2 }).default('0.00'),
 	latitude: decimal("latitude", { precision: 12, scale: 8 }),
@@ -208,7 +211,7 @@ export const robots = mysqlTable("robots", {
 },
 (table) => {
 	return {
-		robotsId: primaryKey(table.id),
+		robotsIdPk: primaryKey({ columns: [table.id], name: "robots_id_pk"}),
 	}
 });
 
@@ -219,7 +222,7 @@ export const session = mysqlTable("session", {
 },
 (table) => {
 	return {
-		sessionSessionToken: primaryKey(table.sessionToken),
+		sessionSessionTokenPk: primaryKey({ columns: [table.sessionToken], name: "session_sessionToken_pk"}),
 	}
 });
 
@@ -239,7 +242,7 @@ export const user = mysqlTable("user", {
 },
 (table) => {
 	return {
-		userId: primaryKey(table.id),
+		userIdPk: primaryKey({ columns: [table.id], name: "user_id_pk"}),
 		email: unique("email").on(table.email),
 	}
 });
@@ -251,6 +254,6 @@ export const verificationToken = mysqlTable("verificationToken", {
 },
 (table) => {
 	return {
-		verificationTokenIdentifierToken: primaryKey(table.identifier, table.token),
+		verificationTokenIdentifierTokenPk: primaryKey({ columns: [table.identifier, table.token], name: "verificationToken_identifier_token_pk"}),
 	}
 });

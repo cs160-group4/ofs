@@ -31,7 +31,7 @@ CREATE TABLE addresses (
     state varchar(100) NOT NULL,
     postal_code varchar(20) NOT NULL,
     country varchar(100),
-	latitude decimal(12, 8),
+    latitude decimal(12, 8),
     longitude decimal(12, 8),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -68,21 +68,22 @@ CREATE TABLE verificationToken (
 
 CREATE TABLE product_categories (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name varchar(50) NOT NULL,
-    slug varchar(50) NOT NULL,
-    description varchar(100),
+    name varchar(100) NOT NULL,
+    slug varchar(100) NOT NULL,
+    description varchar(255),
+    image varchar(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name varchar(40) NOT NULL,
-    slug varchar(50),
-    description varchar(100) NOT NULL,
+    name varchar(100) NOT NULL,
+    slug varchar(100),
+    description varchar(255) NOT NULL,
     brand varchar(30) NOT NULL,
     category_id int NOT NULL,
-    picture varchar(100) NOT NULL,
+    picture varchar(255) NOT NULL,
     item_weight int NOT NULL,
     item_price decimal(5, 2) NOT NULL,
     item_quantity int NOT NULL,
@@ -93,7 +94,7 @@ CREATE TABLE products (
 
 CREATE TABLE reviews (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    text varchar(100) NOT NULL,
+    text varchar(255) NOT NULL,
     userId varchar(255) NOT NULL,
     product_id int NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -128,7 +129,7 @@ CREATE TABLE robots (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     status varchar(20) NOT NULL,
     -- (available, busy, offline)
-    name varchar(50),
+    name varchar(100),
     total_orders int DEFAULT 0,
     total_weight decimal(10, 2) DEFAULT 0.00,
     latitude decimal(12, 8),
@@ -163,7 +164,6 @@ CREATE TABLE orders (
     robot_id int,
     -- references robots(id)
     shipping_address_id int NULL,
-    
     -- references addresses(id)
     delivery_status varchar(20) NOT NULL,
     -- (pending, shipped, delivered, cancelled)
@@ -171,20 +171,25 @@ CREATE TABLE orders (
     -- references user(id)
     CONSTRAINT fk_user_order FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
     CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id),
-    CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE set NULL ON UPDATE no action
+    CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE
+    set
+        NULL ON UPDATE no action
 );
 
 CREATE TABLE order_item (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     order_id int NOT NULL,
-    product_id int NOT NULL,
+    product_id int,
+    product_name varchar(100),
     item_weight int NOT NULL,
     quantity int NOT NULL,
     price decimal(6, 2) NOT NULL,
+    product_image varchar(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_detail_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE cascade ON UPDATE no action,
-    CONSTRAINT fk_order_detail_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
+    CONSTRAINT fk_order_detail_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE
+    set NULL ON UPDATE no action
 );
 
 CREATE TABLE payment_methods (
@@ -200,7 +205,7 @@ CREATE TABLE payment_methods (
 
 CREATE TABLE coupons (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    code varchar(20) NOT NULL,
+    code varchar(100) NOT NULL,
     discount decimal(5, 2) NOT NULL,
     expires_at timestamp NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
