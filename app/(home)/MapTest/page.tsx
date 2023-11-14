@@ -6,7 +6,7 @@ import { getOrdersWithAddressesByUserId } from "@/lib/orders"; // import your fu
 const MapPage = () => {
     const [startPoint, setStartPoint] = useState<[number, number]>([0, 0]);
     const [endPoint, setEndPoint] = useState<[number, number]>([0, 0]);
-    const userId = ""; // fetch user 
+    const userId = "user123";
 
     useEffect(() => {
         const fetchData = async () => {
