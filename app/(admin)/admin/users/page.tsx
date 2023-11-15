@@ -28,7 +28,7 @@ export default async function UserPage({ searchParams }: { searchParams: SearchQ
         </div>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
           <Search placeholder="Search users by name, email, or role" />
-          <CreateUser />
+          {/* <CreateUser /> */}
         </div>
         <UsersTable query={query} currentPage={currentPage} />
         <div className="mt-5 flex w-full justify-center">

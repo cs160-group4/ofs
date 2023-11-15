@@ -567,25 +567,23 @@ export default function MapBox() {
             if (index <= lineStringCoords.length - 1) {
                 if (!customer1_done) {
                     let dis1 = calculateDistance(customer1_location[0], customer1_location[1], lineStringCoords[index][0], lineStringCoords[index][1]);
-                    if (dis1 < 50) {
+                    if (dis1 < 10) {
                         setCustomer1_done(true);
                     }
                 }
                 if (!customer2_done) {
                     let dis2 = calculateDistance(customer2_location[0], customer2_location[1], lineStringCoords[index][0], lineStringCoords[index][1]);
-                    if (dis2 < 50) {
+                    if (dis2 < 10) {
                         setCustomer2_done(true);
                     }
                 }
-
-                console.log(lineStringCoords[index]);
                 setMarkerPosition(lineStringCoords[index]);
                 setIndex(index + 1);
             }
         };
         const timerId = setInterval(moveMarker, timer_speed);
         return () => clearInterval(timerId);
-    }, [lineStringCoords]);
+    }, [index, customer1_done, customer2_done, timer_speed, customer1_location, customer2_location]);
 
     function calculateDistance(lon1: number, lat1: number, lon2: number, lat2: number): number {
         const earthRadius = 6371e3; // Radius of the Earth in meters
@@ -606,8 +604,8 @@ export default function MapBox() {
     }
 
     function setRobotSpeed(speed: number) {
-        setSpeed(speed);   
-        setTimer_speed(5000/speed);
+        setSpeed(speed);
+        setTimer_speed(5000 / speed);
         console.log(timer_speed);
     }
 

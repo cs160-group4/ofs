@@ -1,5 +1,5 @@
 import React from 'react';
-import MapComponent from "@/components/MapComponent";
+// import MapComponent from "@/components/MapComponent";
 import { getOrdersWithAddressesByUserId } from "@/lib/orders";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 
@@ -27,7 +27,7 @@ export default async function MapTest() {
             <>
                 <div>
                     <h1>Map with routing</h1>
-                    <MapComponent list={list}/>
+                    {/* <MapComponent list={list}/> */}
                 </div>
             </>
         );
