@@ -2,6 +2,7 @@
 import { createProduct } from 'app/actions'
 import { useFormStatus } from 'react-dom'
 import React, { useState } from "react"
+import { Categories } from '../lib/categories'
 
 
 function SubmitButton() {
@@ -35,10 +36,12 @@ function LimitedInput({ max, descriptor, name }: { max: number, descriptor: stri
   )
 }
 
-export function AddProductForm() {
+export function AddProductForm({categories} : {categories:Categories[]}) {
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
   const [message, setMessage] = useState('')
+  
+
   return (
     <form id='product-form' action={async (formData: FormData) => {
       const res = await createProduct(formData);
@@ -86,11 +89,9 @@ export function AddProductForm() {
               <span className='label-text'>Category</span>
             </label>
             <select defaultValue={'Select a Category'} className='w-full select select-bordered' name="category_id">
-              <option value='1'>Fruits</option>
-              <option value='2'>Frozen</option>
-              <option value='3'>Meats</option>
-              <option value='4'>Dried-Goods</option>
-              <option value='5'>Vegetables</option>
+              {categories.map((category) => (
+                <option value={category.id}>{category.name}</option>
+              ))}
             </select>
           </div>
         </div>

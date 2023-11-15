@@ -19,10 +19,10 @@ export  function RemoveProductForm({ id, name}: { id: number, name:String}) {
             <dialog id="my_modal" className="modal" {... (openModal ? {open : true} : {})} onClose={() => setOpenModal(false)}>
                 <div className="modal-box">
                     <div className='flex flex-col items-center text-center'>
-                        <h3 className="font-bold text-lg">Delete {name} ?</h3>
+                        <h3 className="font-bold text-lg">Delete {name}{id} ?</h3>
                         <p>Are you sure you would like to delete this item? This action is permanent and cannot be undone</p>
                         <div className="flex w-full justify-evenly gap-3 mt-6">
-                            <button type="submit" form="rm_form" className="btn btn-error">
+                            <button type="submit" form={String(id)} className="btn btn-error">
                                 Delete
                             </button>
                             <form method="dialog">  
@@ -40,9 +40,10 @@ export  function RemoveProductForm({ id, name}: { id: number, name:String}) {
             </dialog>
 
             <form action={async (formData : FormData) => {
+                console.log(formData)
                 await removeProduct(formData)
                 setOpenModal(false)
-            }} id="rm_form">
+            }} id={String(id)}>
                 <input type="hidden" name="id" value={id} />
             </form>
         </>

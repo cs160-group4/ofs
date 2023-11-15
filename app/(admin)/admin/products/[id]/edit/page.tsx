@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { UpdateProductForm } from '@/app/components/admin/UpdateProductComponent';
+import { getCategories } from '@/app/lib/categories';
 
 export const metadata: Metadata = {
     title: 'Edit Product',
@@ -22,6 +23,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         else {
             let id = Number(params.id)
             const product = await getProductById(id)
+            const categories = await getCategories();
+            
             return (
                 <main>
                     <Breadcrumbs
@@ -40,7 +43,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <p className='text-base'>Make changes to an existing product's details and attributes</p>
                         </div>
         
-                        <UpdateProductForm product={product} />
+                        <UpdateProductForm product={product} categories={categories}/>
                     </div>
                     {/* <Form product={product} /> */}
                 </main>
