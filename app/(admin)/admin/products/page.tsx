@@ -56,8 +56,15 @@ export default async function AdminProducts() {
                     </label>
                   </td>
                   <td>
-                    <Image src={"/" + product.picture} alt={product.name}
+                    {/* tentative change, can remove once all images are stored */}
+                    {product.picture.substring(0, 5).localeCompare("https") === 0 && (
+                      <Image src={product.picture} alt={product.name}
                       width={50} height={50} className="h-[50px]" />
+                    )}
+                    {product.picture.substring(0, 5).localeCompare("https") != 0 && (
+                      <Image src={"/" + product.picture} alt={product.name}
+                      width={50} height={50} className="h-[50px]" />
+                    )}
                   </td>
                   <td>
                     <div className='flex flex-col'>

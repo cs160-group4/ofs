@@ -23,9 +23,11 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
 {
     const [showError, setShowError] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [progress, setProgress] = useState(0);
     const [message, setMessage] = useState('');
     const [file, setFile] = useState<File>();
     const { edgestore } = useEdgeStore();
+    const MB = 1024 * 1024
 
     const redirect_catalogue = () => {
         window.location.href = "/admin/products";
@@ -76,6 +78,9 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                             file,
                             options: {
                                 replaceTargetUrl: product.picture,
+                            },
+                            onProgressChange: (progress) => {
+                                setProgress(progress);
                             }
                         });
                         res = await editProduct(formData, String(fileRes.url));
@@ -156,14 +161,14 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                             <input placeholder={product.description} defaultValue={product.description} className="w-full input input-bordered" type="text" name="description" required/>
                         </div>
                     </div>
-                    <div className='flex flex-wrap -mx-3 mb-6'>
+                    {/* <div className='flex flex-wrap -mx-3 mb-6'>
                         <div className='w-full px-3'>
                             <label className="label">
                                 <span className="label-text">IMG URL (WIP)</span>
                             </label>
                             <input placeholder={product.picture} defaultValue={product.picture} className="w-full input input-bordered" type="text" name="picture" required/>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex flex-wrap -mx-3 mb-6'>
                         <div className='w-full px-3'>
                             <label className="label">
@@ -173,14 +178,23 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                                 width={200}
                                 height={200}
                                 value={file}
+                                dropzoneOptions={{maxSize: 2 * MB}}
                                 onChange={(file) => {
                                 setFile(file);
                                 }}
                             />
+                            <div className="w-full h-[8px] border rounded overflow-hidden">
+                                <div 
+                                    className="h-full bg-info transition-all duration-150" 
+                                    style={{
+                                        width: `${progress}%`
+                                    }}>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="flex justify-end gap-3">
-                        <button className='btn btn-primary' type="submit">Save</button>
+                        <SubmitButton />
                         <Link href="/admin/products" className="btn bg-gray-100" >Cancel</Link>
                     </div>
                 </form>

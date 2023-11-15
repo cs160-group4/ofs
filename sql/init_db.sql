@@ -82,7 +82,7 @@ CREATE TABLE products (
     description varchar(100) NOT NULL,
     brand varchar(30) NOT NULL,
     category_id int NOT NULL,
-    picture varchar(100) NOT NULL,
+    picture varchar(110) NOT NULL,
     item_weight int NOT NULL,
     item_price decimal(5, 2) NOT NULL,
     item_quantity int NOT NULL,

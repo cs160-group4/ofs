@@ -41,9 +41,11 @@ function LimitedInput({ max, descriptor, name }: { max: number, descriptor: stri
 export function AddProductForm({categories} : {categories:Categories[]}) {
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [message, setMessage] = useState('')
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState('');
   const [file, setFile] = useState<File>();
   const {edgestore} = useEdgeStore();
+  const MB = 1024 * 1024
 
   return (
     <form id='product-form' action={async (formData: FormData) => {
@@ -53,6 +55,9 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
           file,
           options: {
             temporary: true,
+          },
+          onProgressChange: (progress) => {
+            setProgress(progress);
           }
         });
       
@@ -61,9 +66,16 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
         setMessage(res.message)
         if(res.success)
         {
-          await edgestore.publicFiles.confirmUpload({
-            url: fileRes.url
-          });
+          try{
+            await edgestore.publicFiles.confirmUpload({
+              url: fileRes.url
+            });
+          }
+          catch(error)
+          {
+            setMessage("Unable to Confirm Upload, Try Again")
+            setShowError(true)
+          }
         }
         else if(!res.success)
         {
@@ -162,10 +174,19 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
               width={200}
               height={200}
               value={file}
+              dropzoneOptions={{maxSize: 2 * MB}}
               onChange={(file) => {
                 setFile(file);
               }}
             />
+            <div className="w-full h-[8px] border rounded overflow-hidden">
+              <div 
+                className="h-full bg-info transition-all duration-150" 
+                style={{
+                  width: `${progress}%`
+                }}>
+              </div>
+            </div>            
           </div>
         </div>
       </div>

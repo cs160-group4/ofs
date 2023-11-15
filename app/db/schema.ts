@@ -156,7 +156,7 @@ export const products = mysqlTable("products", {
 	description: varchar("description", { length: 100 }).notNull(),
 	brand: varchar("brand", { length: 30 }).notNull(),
 	categoryId: int("category_id").notNull().references(() => productCategories.id, { onDelete: "cascade" } ),
-	picture: varchar("picture", { length: 100 }).notNull(),
+	picture: varchar("picture", { length: 110 }).notNull(),
 	itemWeight: int("item_weight").notNull(),
 	itemPrice: decimal("item_price", { precision: 5, scale: 2 }).notNull(),
 	itemQuantity: int("item_quantity").notNull(),

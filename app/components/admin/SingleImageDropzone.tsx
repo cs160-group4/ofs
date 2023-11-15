@@ -69,7 +69,6 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
       isDragReject,
     } = useDropzone({
       accept: { 'image/*': [] },
-      maxSize:  1024 * 1024 * 2,
       multiple: false,
       disabled,
       onDrop: (acceptedFiles) => {
@@ -200,10 +199,12 @@ Button.displayName = 'Button';
 
 function formatFileSize(bytes?: number) {
   if (!bytes) {
+    console.log("undef")
     return '0 Bytes';
   }
   bytes = Number(bytes);
   if (bytes === 0) {
+    console.log("0")
     return '0 Bytes';
   }
   const k = 1024;
