@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { CartItem } from '../lib/cart';
-import { createNewOrder, getLatestOrderByUserId, createOrderItem, assignOrderToRobot } from "../actions";
+import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
 import { deleteAllCartItems } from '../actions/cart';
 import { updateProductItemQuantity } from '../actions/products';
 
@@ -50,7 +50,7 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
 
       await deleteAllCartItems(id);
 
-      const res = await assignOrderToRobot(formData);
+      // const res = await assignOrderToRobot(formData);
 
       setTimeout(() => {
         window.location.href = `/order-summary/${orderId}`;

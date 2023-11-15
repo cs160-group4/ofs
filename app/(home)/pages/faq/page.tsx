@@ -30,7 +30,7 @@ export default function FAQs() {
                 </p>
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">4. How can I pay for my order?</h2>
                 <p className="mt-3 text-1xl">
-                    You can pay for the order in the checkout page by entering your payment information, then clicking the "Place Your Order & Pay" Button to continue.
+                    You can pay for the order in the checkout page by entering your payment information, then clicking the Place Your Order & Pay Button to continue.
                 </p>
                 <h2 className="text-2xl font-bold mb-5 mt-5 text-center">5. How can I track my order?</h2>
                 <p className="mt-3 text-1xl">

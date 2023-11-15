@@ -71,8 +71,8 @@ export const updateRobot = async (id: number, data: NewRobot) => {
 };
 
 // update robot with order
-export const updateRobotWithOrder = async (id: number, total_weight: number) => {
-  return await db.update(robots).set({currentWeightInLbs: total_weight }).where(eq(robots.id, id));
-};
+// export const updateRobotWithOrder = async (id: number, total_orders: number, total_weight: string) => {
+//   return await db.update(robots).set({totalOrders: total_orders, totalWeight: total_weight }).where(eq(robots.id, id));
+// };
 
 

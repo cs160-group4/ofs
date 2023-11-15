@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <div className='flex flex-col mx-6 pt-7 gap-y-5'>
                         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
                             <p className='font-bold text-3xl'>Edit Product</p>
-                            <p className='text-base'>Make changes to an existing product's details and attributes</p>
+                            <p className='text-base'>Make changes to an existing products details and attributes</p>
                         </div>
         
                         <UpdateProductForm product={product} categories={categories}/>

@@ -127,7 +127,7 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                             </label>
                             <select defaultValue={product.categoryId} className='w-full select select-bordered' name="category_id" required>
                                 {categories.map((category) => (
-                                    <option value={category.id}>{category.name}</option>
+                                    <option key={category.id} value={category.id}>{category.name}</option>
                                 ))}
                             </select>
                         </div>

@@ -4,7 +4,15 @@ export const roles = ["admin", "employee", "customer"];
 export const orderStatus = ["pending", "shipped", "delivered", "cancelled"];
 export const ITEMS_PER_PAGE = 10;
 
-export const sjsu_location = { latitute: 37.3361726, longitude: -121.8832816 };
+export const sjsu_location = { longitude: -121.8832816, latitute: 37.3361726 };
+export const mission_location = {
+  longitude: -121.9827822453428,
+  latitute: 37.392667807874886,
+};
+export const microsoft_location = {
+  longitude: -122.06379663983735,
+  latitute: 37.41280313687151,
+};
 
 export type SearchQueryProps = {
   id?: string;
