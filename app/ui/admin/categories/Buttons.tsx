@@ -1,6 +1,7 @@
 'use client'
 import { deleteCategoryAction } from '@/actions/categories';
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { SubmitButton } from '@/ui/common/Buttons';
+import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useFormState } from 'react-dom';
 
@@ -23,16 +24,19 @@ export function UpdateCategory({ id }: { id: number }) {
     );
 }
 
+
+
 export function DeleteCategory({ id }: { id: number }) {
     const initialState = { message: "", errors: {} };
     const [state, formAction] = useFormState(deleteCategoryAction, initialState)
     return (
-        <form action={formAction}>
-            <input type="hidden" name="id" value={id} />
-            <button className="rounded-md border p-2 hover:bg-gray-100">
-                <span className="sr-only">Delete</span>
-                <TrashIcon className="w-5" />
-            </button>
-        </form>
+        <div>
+            <form action={formAction}>
+                <input type="hidden" name="id" value={id} />
+                <SubmitButton text="Delete" />
+            </form>
+        </div>
     );
 }
+
+

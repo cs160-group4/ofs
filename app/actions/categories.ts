@@ -39,7 +39,6 @@ export async function createCategoryAction(prevState: any, formData: FormData) {
     });
 
     if (!fields.success) {
-      console.log(fields.error.flatten().fieldErrors);
       return {
         errors: fields.error.flatten().fieldErrors,
         message: "Missing Fields. Failed to Create Category",
@@ -66,7 +65,6 @@ export async function createCategoryAction(prevState: any, formData: FormData) {
     }
     const result = await addCategory(fields.data);
   } catch (error) {
-    console.log(error);
     return { message: "Database Error: Failed to Create Category" };
   }
   revalidatePath("/admin/categories");
@@ -91,7 +89,6 @@ export async function editCategoryAction(prevState: any, formData: FormData) {
     });
 
     if (!validatedFields.success) {
-      console.log(validatedFields.error.flatten().fieldErrors);
       return {
         errors: validatedFields.error.flatten().fieldErrors,
         message: "Missing Fields. Failed to Update Category",
@@ -168,5 +165,5 @@ export async function deleteCategoryAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete Category" };
   }
   revalidatePath("/admin/categories");
-  redirect("/admin/categories?status=deleted");
+  redirect("?status=deleted");
 }
