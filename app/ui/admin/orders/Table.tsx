@@ -3,8 +3,12 @@ import { Order, getFilteredOrders } from '@/app/lib/orders';
 import { User } from '@/app/lib/users';
 import { formatDateToLocal } from '@/app/lib/utils';
 import { UpdateOrder } from '@/app/ui/admin/orders/Buttons';
-// import { UpdateCategory } from '@/ui/admin/categories/Buttons';
-// import { DeleteCategoryConfirmation, DeleteCategoryDialog } from '@/ui/admin/categories/DeleteDialog';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function OrdersTable({
   query,
@@ -35,20 +39,11 @@ export default async function OrdersTable({
                   <div className="flex items-center justify-between border-b pb-4">
                     <div>
                       <div className="mb-2 flex items-center">
-                        {/* <Image
-                        src={category.image)}
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${user.name}'s profile picture`}
-                      /> */}
                         <p>{order.id}</p>
                       </div>
                       <p className="text-sm text-gray-500">{order.deliveryStatus}</p>
                     </div>
-                    {/* Slug */}
                     <div className="flex items-center gap-2">
-                      {/* <UserStatus status={user.status} /> */}
                       <p className="text-sm text-gray-500">{users[index].name}</p>
                     </div>
                   </div>
@@ -59,8 +54,7 @@ export default async function OrdersTable({
                       <p>{formatDateToLocal(order.updatedAt as string)}</p>
                     </div>
                     <div className="flex justify-end gap-2">
-                      {/* <UpdateCategory id={category.id} />
-                      <DeleteCategoryConfirmation id={category.id} /> */}
+                      <UpdateOrder id={order.id} />
                     </div>
                   </div>
                 </div>

@@ -60,13 +60,13 @@ VALUES  (17, 'Lay''s Classic', 'lays-classic', 'Lay''s Classic Potato Snack Chip
 INSERT INTO robots (id, status, name) VALUES 
         (1, 'available', 'Robot1'),
         (2, 'available', 'Robot2'),
-        (3, 'busy', 'Robot3'),
-        (4, 'busy', 'Robot4'),
-        (5, 'offline', 'Robot5'),
+        (3, 'available', 'Robot3'),
+        (4, 'available', 'Robot4'),
+        (5, 'available', 'Robot5'),
         (6, 'available', 'Robot6'),
-        (7, 'busy', 'Robot7'),
+        (7, 'available', 'Robot7'),
         (8, 'available', 'Robot8'),
-        (9, 'offline', 'Robot9'),
+        (9, 'available', 'Robot9'),
         (10, 'available', 'Robot10');
 
 -- Populate Comments

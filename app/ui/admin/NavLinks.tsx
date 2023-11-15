@@ -5,6 +5,9 @@ import {
     TagIcon,
     Square3Stack3DIcon,
     ChatBubbleBottomCenterTextIcon,
+    CubeTransparentIcon,
+    Squares2X2Icon,
+    BugAntIcon,
     RocketLaunchIcon,
     MapPinIcon,
 } from '@heroicons/react/24/outline';
@@ -13,6 +16,13 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { User } from '@/app/lib/users';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 const links = [
     { name: 'Dashboard', href: '/admin', icon: CubeIcon },
     { name: 'Users', href: '/admin/users', icon: UserGroupIcon, roles: ['admin'] },
@@ -34,14 +44,18 @@ const links = [
     {
         name: 'Orders',
         href: '/admin/orders',
-        icon: RocketLaunchIcon,
+        icon: CubeTransparentIcon,
     },
     {
-        name: 'Delivery Robots',
+        name: 'Robots',
         href: '/admin/robots',
-        icon: MapPinIcon,
+        icon: BugAntIcon,
     },
-
+    {
+        name: 'Delivery Status',
+        href: '/admin/delivery',
+        icon: RocketLaunchIcon,
+    },
 ];
 
 export default function NavLinks({ user }: { user: User }) {
