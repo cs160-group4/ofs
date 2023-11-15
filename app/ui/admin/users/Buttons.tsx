@@ -3,6 +3,7 @@ import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { deleteUserAction } from '@/actions/users';
 import { useFormState } from 'react-dom';
+import { SubmitButton } from "@/ui/common/Buttons";
 
 export function CreateUser() {
     return (
@@ -27,12 +28,11 @@ export function DeleteUser({ id }: { id: string }) {
     const initialState = { message: "", errors: {} };
     const [state, formAction] = useFormState(deleteUserAction, initialState)
     return (
+        <div>
         <form action={formAction}>
             <input type="hidden" name="id" value={id} />
-            <button className="rounded-md border p-2 hover:bg-gray-100">
-                <span className="sr-only">Delete</span>
-                <TrashIcon className="w-5" />
-            </button>
+            <SubmitButton text="Delete" />
         </form>
+    </div>
     );
 }

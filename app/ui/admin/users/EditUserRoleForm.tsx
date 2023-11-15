@@ -22,8 +22,8 @@ export default function EditUserRoleForm({ user }: { user: User }) {
                     name="id"
                     type="text"
                     value={user.id}
-                    className="mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                    readOnly
+                    className="input mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                    readOnly  disabled
                 />
                 {state?.message ? (
                     <div aria-live="polite" className="my-2 text-sm text-red-500">
@@ -41,8 +41,8 @@ export default function EditUserRoleForm({ user }: { user: User }) {
                     name="name"
                     type="text"
                     value={user.name!}
-                    className="mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                    readOnly
+                    className="input  mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                    readOnly disabled
                 />
             </div>
             <div className="">
@@ -54,8 +54,8 @@ export default function EditUserRoleForm({ user }: { user: User }) {
                     name="email"
                     type="text"
                     value={user.email!}
-                    className="mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                    readOnly
+                    className="input mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
+                    readOnly  disabled
                 />
             </div>
 

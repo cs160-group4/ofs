@@ -54,22 +54,26 @@ export const getUser = async (id: string) => {
 };
 
 export const getSessionUser = async (id: string) => {
-  const result: User[] = await db.select().from(user).where(eq(user.id, id));
-  if (result.length > 0) {
-    return {
-      id: result[0].id,
-      name: result[0].name,
-      firstName: result[0].firstName,
-      lastName: result[0].lastName,
-      email: result[0].email,
-      phoneNumber: result[0].phoneNumber,
-      image: result[0].image,
-      role: result[0].role,
-      createdAt: result[0].createdAt,
-      updatedAt: result[0].updatedAt,
-    };
-  } else {
-    return null;
+  try {
+    const result: User[] = await db.select().from(user).where(eq(user.id, id));
+    if (result.length > 0) {
+      return {
+        id: result[0].id,
+        name: result[0].name,
+        firstName: result[0].firstName,
+        lastName: result[0].lastName,
+        email: result[0].email,
+        phoneNumber: result[0].phoneNumber,
+        image: result[0].image,
+        role: result[0].role,
+        createdAt: result[0].createdAt,
+        updatedAt: result[0].updatedAt,
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    
   }
 };
 
@@ -88,7 +92,7 @@ export const getUsersPages = async (query: string): Promise<number> => {
   try {
     const result = await db.select({ count: sql<number>`count(*)` }).from(user);
     const count = result[0].count;
-    const pages:number = Math.ceil(Number(count) / ITEMS_PER_PAGE);
+    const pages: number = Math.ceil(Number(count) / ITEMS_PER_PAGE);
     return pages;
   } catch (error) {
     console.error("Database Error:", error);
