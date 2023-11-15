@@ -143,6 +143,11 @@ export const updateProduct = async (data: Product) => {
   // .where(eq(products.id, data.id));
 };
 
+// update product in cart
+export const updateProductQuantity = async (id: number, quantity: number) => {
+  return await db.update(products).set({itemQuantity: quantity}).where(eq(products.id, id));
+};
+
 // delete product
 export const deleteProduct = async (id: number) => {
   return db.delete(products).where(eq(products.id, id));
