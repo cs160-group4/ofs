@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Product } from '@/lib/products'
 import { useEffect, useState } from 'react';
+import { getImageUrl } from '../lib/utils';
 
 const ProductComponent = ({ product }: { product: Product }) => {
   const [category, setCategory] = useState<string>("");
@@ -21,7 +22,7 @@ const ProductComponent = ({ product }: { product: Product }) => {
     fetchData();
   },)
   if (!product) return null;
-  let imageLink = "/" + product?.picture;
+  let imageLink = getImageUrl(product.picture);
 
   const maxLength = 35;
   const productDescription: string = product.description;
