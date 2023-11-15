@@ -39,6 +39,20 @@ export default async function Checkout() {
     const cartItems = await getCart(id);
 
     // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
+    if (cartItems.length == 0) {
+        return <main className="flex items-center justify-center m-24">
+            <div className="px-40 py-20 bg-gray-50 rounded-md shadow hover:shadow-xl">
+                <div className="flex flex-col items-center">
+                    <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
+                        <span className="text-black">Your Cart Is Empty</span>
+                    </h6>
+                    <Link href="/" className="btn btn-accent w-full rounded-md py-1.5 font-medium text-center text-white">
+                        Continue Shopping
+                    </Link>
+                </div>
+            </div>
+        </main>
+    }
     let subtotal: number = 0;
     let totalWeight: number = 0;
     cartItems.forEach((item) => {
@@ -83,15 +97,7 @@ export default async function Checkout() {
 
                     <h2 className="font-bold text-xl">2. Payment Method</h2>
                     <PaymentMethod id={id} />
-                    {/* <div>
-         <b>Card</b> ending in ****<br />
-         <p><b>Billing Address:</b> Same as shipping address.
-         <button className="btn-link font-small">Change.</button></p>
-       </div>
-       <div>
-         <button className="btn text-center btn-link font-small">Change</button>
-       </div> */}
-
+                    
                     <h2 className="font-bold text-xl">3. Review Items</h2>
                     <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">
                         <ul className="-my-2 pb-1 mt-auto mb-auto">

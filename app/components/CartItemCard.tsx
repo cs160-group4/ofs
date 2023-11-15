@@ -33,18 +33,17 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
          <div>
            <p className="text-sm"><b>Quantity: </b></p>
            <form>
-             <input type="number" name="quantity" min="1" max={item.products.itemQuantity}
-               value={quantity}
+             <input type="number" name="quantity" min="1" value={quantity}
                onChange={(e) => {
-                 const newQuantity = parseInt(e.target.value, 10);
+                 var newQuantity = parseInt(e.target.value, 10);
                
                  if(!isNaN(newQuantity)){
                    setQuantity(newQuantity);
                  }
 
-
                  if(newQuantity > item.products.itemQuantity){
                    alert("The amount you requested is currently not available in store!");
+                   newQuantity = item.products.itemQuantity;
                    setQuantity(item.products.itemQuantity);
                  }
                 
