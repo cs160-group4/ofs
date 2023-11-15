@@ -66,3 +66,10 @@ export const deleteRobot = async (id: number) => {
 export const updateRobot = async (id: number, data: NewRobot) => {
   return await db.update(robots).set(data).where(eq(robots.id, id));
 };
+
+// update robot with order
+export const updateRobotWithOrder = async (id: number, total_orders: number, total_weight: string) => {
+  return await db.update(robots).set({totalOrders: total_orders, totalWeight: total_weight }).where(eq(robots.id, id));
+};
+
+

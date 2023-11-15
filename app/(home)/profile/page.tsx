@@ -80,7 +80,7 @@ export default async function ProfilePage() {
                                 {addresses.map((address) => (
                                     <p key={address.id}>{address.addressLine1}<br />{address.city}, {address.state} {address.postalCode}</p>
                                 ))}
-                                <AddAddressModal id={id} buttonText="Add another address" />
+                                <AddAddressModal id={id} />
                             </div>
                         </div>
 

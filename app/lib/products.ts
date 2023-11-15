@@ -20,6 +20,7 @@ export const getProducts = async (): Promise<Product[]> => {
   return result;
 };
 
+
 // get product count
 export const getProductCount = async (): Promise<number> => {
   const result: Product[] = await db.select().from(products);

@@ -2,8 +2,9 @@
 import {
   addProductToCart,
   deleteProductFromCart,
+  deleteAllProductsFromCart,
   getProdInCart,
-  updateProductInCart
+  updateProductInCart,
 } from "@/lib/cart";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -29,24 +30,11 @@ export async function addToCartAction(productId: number, quantity: number) {
     } else {
       await addProductToCart({ userId, productId, quantity });
     }
-
+    revalidatePath("/");
+    return { message: "Added Product" };
   } catch (error) {
     return { message: "Database Error: Failed to Add Product" };
   }
-  revalidatePath("/");
-  return { message: "Added Product" };
-}
-
-function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-  const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
 export async function deleteCartProduct(formData: FormData) {
@@ -78,5 +66,14 @@ export async function updateCartItem(formData: FormData) {
     return {
       message: "Database Error: Failed to update Cart Item",
     };
+  }
+}
+
+export async function deleteAllCartItems(userId: string){
+  try {
+    await deleteAllProductsFromCart(userId);
+    return { success: true, message: "Deleted all Cart Items" }
+  } catch (error) {
+    return { message: "Database Error: Failed to delete all Cart Items" };
   }
 }

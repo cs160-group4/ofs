@@ -2,26 +2,25 @@ import AddProductButtonComponent from '@/components/AddProductModal';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
 import { getProducts } from '@/lib/products'
 import Image from 'next/image'
-import { redirect } from "next/navigation";
-import { getAuthSession } from "@/api/auth/[...nextauth]/options";
-import Link from 'next/link';
 import { Suspense } from 'react';
-import { RemoveProductModal } from '@/components/RemoveProductModal';
 import { UpdateProduct } from '@/app/ui/admin/products/Buttons';
+import { getCategories } from '@/app/lib/categories';
 
 export default async function AdminProducts() {
   const products = await getProducts();
+  const categories = await getCategories();
+  
   return (
     <>
       <div className='flex flex-col mx-6 pt-7 gap-y-5'>
         {/* title/header */}
         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
           <h1 className='text-2xl font-bold'>Catalogue</h1>
-          <p className='text-base'>Add, filter, or make quick updates to your existing product catalogue</p>
+          <p className='text-base'>Add, delete, or make quick updates to your existing product catalogue</p>
         </div>
         {/* management tools container */}
         <div className='flex justify-between items-center max-w-2xl'>
-          <AddProductButtonComponent />
+          <AddProductButtonComponent categories={categories} />
 
         </div>
         {/* product list items */}
@@ -57,8 +56,15 @@ export default async function AdminProducts() {
                     {product.id}
                   </td>
                   <td>
-                    <Image src={"/" + product.picture} alt={product.name}
+                    {/* tentative change, can remove once all images are stored */}
+                    {product.picture.substring(0, 5).localeCompare("https") === 0 && (
+                      <Image src={product.picture} alt={product.name}
                       width={50} height={50} className="h-[50px]" />
+                    )}
+                    {product.picture.substring(0, 5).localeCompare("https") != 0 && (
+                      <Image src={"/" + product.picture} alt={product.name}
+                      width={50} height={50} className="h-[50px]" />
+                    )}
                   </td>
                   <td>
                     <div className='flex flex-col'>
@@ -77,7 +83,7 @@ export default async function AdminProducts() {
                     <div className='flex gap-3'>
                       <UpdateProduct id={product.id} />
                       <Suspense fallback={<p>Deleting...</p>}>
-                        <RemoveProductForm id={product.id} />
+                        <RemoveProductForm id={product.id} name={product.name} url={product.picture}/>
                       </Suspense>
                     </div>
                   </td>

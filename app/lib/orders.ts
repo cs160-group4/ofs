@@ -140,6 +140,12 @@ export const updateOrder = async (id: number, data: NewOrder) => {
   return await db.update(orders).set(data).where(eq(orders.id, id));
 };
 
+// update order with assigned robot
+export const updateOrderWithRobotId = async (id: number, robot_id: number) => {
+  return await db.update(orders).set({robotId: robot_id}).where(eq(orders.id, id));
+}
+
+// update order delivery status
 // update order delivery status
 export const updateOrderDeliveryStatus = async (
   id: number,
