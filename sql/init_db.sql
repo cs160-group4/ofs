@@ -125,17 +125,6 @@ CREATE TABLE ratings (
     CONSTRAINT fk_product_rating FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE cascade ON UPDATE no action
 );
 
-CREATE TABLE robots (
-    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    status varchar(20) NOT NULL,
-    -- (available, busy, offline)
-    name varchar(100),
-    total_orders int DEFAULT 0,
-    total_weight decimal(10, 2) DEFAULT 0.00,
-    latitude decimal(12, 8),
-    longitude decimal(12, 8)
-);
-
 CREATE TABLE cart (
     id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     userId varchar(255) NOT NULL,
@@ -161,8 +150,6 @@ CREATE TABLE orders (
     -- subtotal + shipping_cost + tax - discount
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    robot_id int,
-    -- references robots(id)
     shipping_address_id int NULL,
     -- references addresses(id)
     delivery_status varchar(20) NOT NULL,
@@ -170,7 +157,6 @@ CREATE TABLE orders (
     userId varchar(255) NOT NULL,
     -- references user(id)
     CONSTRAINT fk_user_order FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
-    CONSTRAINT fk_robot_order FOREIGN KEY (robot_id) REFERENCES robots(id),
     CONSTRAINT fk_shipping_address FOREIGN KEY (shipping_address_id) REFERENCES addresses(id) ON DELETE
     set
         NULL ON UPDATE no action
@@ -189,7 +175,8 @@ CREATE TABLE order_item (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_detail_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE cascade ON UPDATE no action,
     CONSTRAINT fk_order_detail_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE
-    set NULL ON UPDATE no action
+    set
+        NULL ON UPDATE no action
 );
 
 CREATE TABLE payment_methods (
@@ -212,6 +199,34 @@ CREATE TABLE coupons (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE robots (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    status varchar(20) NOT NULL,
+    -- (available, busy, offline)
+    name varchar(100),
+    max_orders int NOT NULL default 10,
+    max_weight_in_lbs int NOT NULL default 200,
+    current_weight_in_lbs int NOT NULL default 0,
+    latitude decimal(12, 8) DEFAULT 0.0,
+    longitude decimal(12, 8),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE delivery (
+    id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    order_id int NOT NULL,
+    robot_id int NOT NULL,
+    latitude decimal(12, 8),
+    longitude decimal(12, 8),
+    delivery_at timestamp NOT NULL,
+    delivery_status varchar(20) NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_order_delivery FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE cascade ON UPDATE no action,
+    CONSTRAINT fk_robot_delivery FOREIGN KEY (robot_id) REFERENCES robots(id) ON DELETE cascade ON UPDATE no action
+);
+
 ALTER TABLE
     account
 ADD
@@ -221,14 +236,3 @@ ALTER TABLE
     session
 ADD
     CONSTRAINT session_userId_user_id_fk FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action;
-
--- CREATE TABLE delivery (
---      id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
---     orderID int NOT NULL,
---     robotID int NOT NULL,
---     deliveryTime timestamp NOT NULL,
---     deliveryAddress varchar(50) NOT NULL,
---     PRIMARY KEY (deliveryID),
---     FOREIGN KEY (orderID) REFERENCES orders (orderID),
---     FOREIGN KEY (robotID) REFERENCES robots (robotID)
--- );

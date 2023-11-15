@@ -83,6 +83,23 @@ export const coupons = mysqlTable("coupons", {
 	}
 });
 
+export const delivery = mysqlTable("delivery", {
+	id: int("id").autoincrement().notNull(),
+	orderId: int("order_id").notNull().references(() => orders.id, { onDelete: "cascade" } ),
+	robotId: int("robot_id").notNull().references(() => robots.id, { onDelete: "cascade" } ),
+	latitude: decimal("latitude", { precision: 12, scale: 8 }),
+	longitude: decimal("longitude", { precision: 12, scale: 8 }),
+	deliveryAt: timestamp("delivery_at", { mode: 'string' }).notNull(),
+	deliveryStatus: varchar("delivery_status", { length: 20 }).default('pending').notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		deliveryIdPk: primaryKey({ columns: [table.id], name: "delivery_id_pk"}),
+	}
+});
+
 export const orderItem = mysqlTable("order_item", {
 	id: int("id").autoincrement().notNull(),
 	orderId: int("order_id").notNull().references(() => orders.id, { onDelete: "cascade" } ),
@@ -111,7 +128,6 @@ export const orders = mysqlTable("orders", {
 	grandTotal: decimal("grand_total", { precision: 10, scale: 2 }).notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
-	robotId: int("robot_id").references(() => robots.id),
 	shippingAddressId: int("shipping_address_id").references(() => addresses.id, { onDelete: "set null" } ),
 	deliveryStatus: varchar("delivery_status", { length: 20 }).notNull(),
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
@@ -204,10 +220,13 @@ export const robots = mysqlTable("robots", {
 	id: int("id").autoincrement().notNull(),
 	status: varchar("status", { length: 20 }).notNull(),
 	name: varchar("name", { length: 100 }),
-	totalOrders: int("total_orders").default(0),
-	totalWeight: decimal("total_weight", { precision: 10, scale: 2 }).default('0.00'),
-	latitude: decimal("latitude", { precision: 12, scale: 8 }),
+	maxOrders: int("max_orders").default(10).notNull(),
+	maxWeightInLbs: int("max_weight_in_lbs").default(200).notNull(),
+	currentWeightInLbs: int("current_weight_in_lbs").default(0).notNull(),
+	latitude: decimal("latitude", { precision: 12, scale: 8 }).default('0.00000000'),
 	longitude: decimal("longitude", { precision: 12, scale: 8 }),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
 (table) => {
 	return {
