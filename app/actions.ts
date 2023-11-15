@@ -2,6 +2,9 @@
 import { z } from "zod";
 import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress, deleteAddress } from "./lib/addresses";
+import { createOrder, updateOrderWithRobotId, getOrdersByUserId } from "./lib/orders";
+import { addOrderItem } from "./lib/order_item";
+import { getRobots, updateRobotWithOrder } from "./lib/robots";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
@@ -132,8 +135,6 @@ export async function deleteAddressFromDB(formData: FormData) {
   revalidatePath('/cart');
 }
 
-// Fariha - 11/06/23
-
 // Aaron - 11/07/23
 export async function updateEmail(formData: FormData) {
   const schema = z.object({
@@ -218,5 +219,124 @@ export async function updatePassword(formData: FormData) {
 
   } catch (error) {
     return {success: false, err: true, message: "Error: Password failed to be updated"}
+  }
+}
+
+// Fariha - 11/11/23
+export async function createNewOrder(formData: FormData) {
+  const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
+  
+  const schema = z.object({
+    totalWeight: z.number().positive(),
+    tax: z.string().regex(priceEx),
+    subtotal: z.string().regex(priceEx),
+    userId: z.string(),
+    shippingCost: z.string().regex(priceEx),
+    discount: z.string().regex(priceEx),
+    grandTotal: z.string().regex(priceEx),
+    deliveryStatus: z.string()
+  });
+
+  try {
+    const order = schema.safeParse({
+      totalWeight: Number(formData.get("totalWeight")),
+      tax: formData.get("tax"),
+      subtotal: formData.get("subtotal"),
+      userId: formData.get("userId"),
+      shippingCost: formData.get("shippingCost"),
+      discount: formData.get("discount"),
+      grandTotal: formData.get("grandTotal"),
+      deliveryStatus: formData.get("deliveryStatus")
+    })
+    
+    if(order.success){
+      await createOrder(order.data);
+      return { success: true, message: "Order created successfully" }
+    } else {
+      return { success: false, message: "Order failed to be created"}
+    }
+  } catch (error) {
+    return {success: false, err: true, message: "Error: Order failed to be added"}
+  }
+}
+
+export async function getLatestOrderByUserId(formData: FormData){
+  try {
+    const userId = String(formData.get("userId"));
+    const res = await getOrdersByUserId(userId);
+    const lastOrderId = res[res.length - 1];
+    
+    return {success: true, message: "Last Order ID retrieved successfully", data: lastOrderId.id};
+  } catch (error) {
+    return { success: false, message: "Error: Orders failed to be retrieved" }
+  }
+}
+
+export async function createOrderItem(formData: FormData){
+  const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
+
+  const schema = z.object({
+    itemWeight: z.number().positive(),
+    productId: z.number().int(),
+    quantity: z.number().int().positive(),
+    orderId: z.number().int(),
+    price: z.string().regex(priceEx)
+  });
+
+  try {
+    const orderItem = schema.safeParse({
+      itemWeight: Number(formData.get("itemWeight")),
+      productId: Number(formData.get("productId")),
+      quantity: Number(formData.get("quantity")),
+      orderId: Number(formData.get("orderId")),
+      price: formData.get("price")
+    });
+
+    if(orderItem.success){
+      await addOrderItem(orderItem.data);
+      return { success: true, message: "Order Item created successfully" }
+    } else {
+      return { success: false, message: "Order Item failed to be created" }
+    }
+  } catch (error) {
+    return { success: false, message: "Error: Order item failed to be created"}
+  }
+}
+
+export async function assignOrderToRobot(formData: FormData){
+  try {
+    const orderWeight = Number(formData.get("totalWeight"));
+    
+    var robotId = 0;
+    let robot;
+    const robots = await getRobots();
+    for (let i = 0; i < robots.length; i++){
+      robot = robots[i];
+      if (robot.totalOrders === null || robot.totalOrders < 10) {
+        if(robot.totalWeight === null || parseFloat(robot.totalWeight) < 200) {
+          if(robot.totalWeight !== null && parseFloat(robot.totalWeight) + orderWeight <= 200) {
+            robotId = robot.id;
+            break;
+          }     
+        }
+      }   
+    }
+
+    var updatedTotalOrders = 0;
+    var updatedTotalWeight = 0;
+
+    if(robot !== null && robot !== undefined){
+      updatedTotalOrders = robot.totalOrders? robot.totalOrders + 1: 1;
+      updatedTotalWeight = robot.totalWeight !== null ? parseFloat(robot.totalWeight) + orderWeight : orderWeight;
+   
+      await updateRobotWithOrder(robotId, updatedTotalOrders, String(updatedTotalWeight));
+    }
+
+    const orderId = Number(formData.get("orderId"));
+    await updateOrderWithRobotId(orderId, robotId);
+
+    return { success: true, message: "Order updated successfully" }  
+  } catch (error) {
+    return { success: false, message: "Error: order failed to be assigned to a robot"}
   }
 }

@@ -2,6 +2,7 @@
 import {
   addProductToCart,
   deleteProductFromCart,
+  deleteAllProductsFromCart,
   getProdInCart,
   updateProductInCart,
 } from "@/lib/cart";
@@ -52,14 +53,27 @@ export async function deleteCartProduct(formData: FormData) {
   }
 }
 
-export async function updateCartItemQuantity(formData: FormData) {
+export async function updateCartItem(formData: FormData) {
   try {
-    const quantity = Number(formData.get("q"));
+    const cartId = Number(formData.get("cartId"));
+    const quantity = Number(formData.get("quantity"));
+    await updateProductInCart(cartId, quantity);
 
-    //await updateProductInCart();
+    const revalidateUrl = String(formData.get("revalidateUrl"));
+    revalidatePath(revalidateUrl);
+    return { message: "Updated Cart Item" };
   } catch (error) {
-    return { message: "Database Error: Failed to Update Cart Item" };
+    return {
+      message: "Database Error: Failed to update Cart Item",
+    };
   }
-  revalidatePath("/cart");
-  return redirect("/cart");
+}
+
+export async function deleteAllCartItems(userId: string){
+  try {
+    await deleteAllProductsFromCart(userId);
+    return { success: true, message: "Deleted all Cart Items" }
+  } catch (error) {
+    return { message: "Database Error: Failed to delete all Cart Items" };
+  }
 }
