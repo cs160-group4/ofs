@@ -310,14 +310,14 @@ export async function assignOrderToRobot(formData: FormData){
     const robots = await getRobots();
     for (let i = 0; i < robots.length; i++){
       robot = robots[i];
-      if (robot.maxOrders === null || robot.maxOrders < 10) {
+      //if (robot.maxOrders === null || robot.maxOrders < 10) {
         if(robot.currentWeightInLbs === null || robot.currentWeightInLbs < 200) {
           if(robot.currentWeightInLbs !== null && robot.currentWeightInLbs + orderWeight <= 200) {
             robotId = robot.id;
             break;
           }     
         }
-      }   
+      //}   
     }
 
     var updatedTotalOrders = 0;
@@ -327,7 +327,7 @@ export async function assignOrderToRobot(formData: FormData){
       updatedTotalOrders = robot.maxOrders? robot.maxOrders + 1: 1;
       updatedTotalWeight = robot.currentWeightInLbs !== null ? robot.currentWeightInLbs + orderWeight : orderWeight;
    
-      await updateRobotWithOrder(robotId, updatedTotalOrders, String(updatedTotalWeight));
+      await updateRobotWithOrder(robotId, updatedTotalWeight);
     }
 
     const orderId = Number(formData.get("orderId"));
