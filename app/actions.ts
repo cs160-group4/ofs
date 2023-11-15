@@ -310,9 +310,9 @@ export async function assignOrderToRobot(formData: FormData){
     const robots = await getRobots();
     for (let i = 0; i < robots.length; i++){
       robot = robots[i];
-      if (robot.totalOrders === null || robot.totalOrders < 10) {
-        if(robot.totalWeight === null || parseFloat(robot.totalWeight) < 200) {
-          if(robot.totalWeight !== null && parseFloat(robot.totalWeight) + orderWeight <= 200) {
+      if (robot.maxOrders === null || robot.maxOrders < 10) {
+        if(robot.currentWeightInLbs === null || robot.currentWeightInLbs < 200) {
+          if(robot.currentWeightInLbs !== null && robot.currentWeightInLbs + orderWeight <= 200) {
             robotId = robot.id;
             break;
           }     
@@ -324,8 +324,8 @@ export async function assignOrderToRobot(formData: FormData){
     var updatedTotalWeight = 0;
 
     if(robot !== null && robot !== undefined){
-      updatedTotalOrders = robot.totalOrders? robot.totalOrders + 1: 1;
-      updatedTotalWeight = robot.totalWeight !== null ? parseFloat(robot.totalWeight) + orderWeight : orderWeight;
+      updatedTotalOrders = robot.maxOrders? robot.maxOrders + 1: 1;
+      updatedTotalWeight = robot.currentWeightInLbs !== null ? robot.currentWeightInLbs + orderWeight : orderWeight;
    
       await updateRobotWithOrder(robotId, updatedTotalOrders, String(updatedTotalWeight));
     }
