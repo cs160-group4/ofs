@@ -5,7 +5,7 @@ import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { Product } from "@/lib/products";
 import { User } from "@/lib/users";
 
-export type Comments = typeof comments.$inferSelect;
+export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;
 // get all comments
 export const getComments = async () => {
@@ -24,7 +24,7 @@ export const getCommentById = async (id: number) => {
 
 // get comments by product id
 export const getCommentsByProductId = async (productId: number) => {
-  const result: Comments[] = await db
+  const result: Comment[] = await db
     .select()
     .from(comments)
     .where(eq(comments.productId, productId));
@@ -33,7 +33,7 @@ export const getCommentsByProductId = async (productId: number) => {
 
 // get comments by user id
 export const getCommentsByUserId = async (userId: string) => {
-  const result: Comments[] = await db
+  const result: Comment[] = await db
     .select()
     .from(comments)
     .where(eq(comments.userId, userId));
@@ -75,7 +75,7 @@ export const getFilteredComments = async (
     )
     .limit(10)
     .offset(offset);
-  return result as { comments: Comments; products: Product; user: User}[];
+  return result as { comments: Comment; products: Product; user: User}[];
 };
 
 // add a comment to product

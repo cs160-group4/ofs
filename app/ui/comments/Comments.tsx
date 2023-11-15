@@ -1,7 +1,7 @@
-import { Comments } from "@/app/lib/comments";
-import Comment from '@/app/ui/comments/Comment'
+import { Comment } from "@/app/lib/comments";
+import CommentComponent from '@/app/ui/comments/Comment'
 
-export default function Comments({ comments }: { comments: Comments[] }) {
+export default function Comments({ comments }: { comments: Comment[] }) {
     return (
         <>
             {comments.length > 0 && (
@@ -11,7 +11,7 @@ export default function Comments({ comments }: { comments: Comments[] }) {
                             Comments</h2>
                         <div className="max-w-5xl px-2">
                             {comments.map((comment) => (
-                                <Comment key={comment.id} comment={comment} />
+                                <CommentComponent key={comment.id} comment={comment} />
                             ))}
                         </div>
                     </div>

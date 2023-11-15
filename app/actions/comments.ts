@@ -33,10 +33,6 @@ export async function writeCommentAction(prevState: any, formData: FormData) {
     });
 
     if (!validatedFields.success) {
-      console.log(
-        "validatedFields.error.flatten().fieldErrors",
-        validatedFields.error.flatten().fieldErrors
-      );
       return {
         errors: validatedFields.error.flatten().fieldErrors,
         message: "Missing Fields. Failed to comment.",
@@ -45,9 +41,11 @@ export async function writeCommentAction(prevState: any, formData: FormData) {
     const { productId, text } = validatedFields.data;
     const result = await addComment({ userId, productId, text });
     revalidatePath("/products/" + productId);
+    redirect("?status=created");
   } catch (error) {
     return { message: "Database Error: Failed to Update Invoice." };
   }
+ 
 }
 
 const DeleteComment = FormSchema.pick({ id: true });
@@ -69,5 +67,5 @@ export async function deleteCommentAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete Comment." };
   }
   revalidatePath("/admin/comments");
-  redirect("/admin/comments");
+  redirect("?status=deleted");
 }

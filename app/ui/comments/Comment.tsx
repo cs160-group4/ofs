@@ -1,11 +1,8 @@
-import { getCommentsByProductId } from '@/lib/comments'
-import { Product } from '@/lib/products'
-import Link from 'next/link'
-import { Comments } from '@/lib/comments'
+import { Comment } from '@/lib/comments'
 import { getUser } from '@/lib/users'
+import { getAvatarURL } from '@/lib/utils'
 import Image from 'next/image'
-import {getAvatarURL} from '@/lib/utils'
-export default async function CommentsComponent({ comment }: { comment: Comments }) {
+export default async function CommentsComponent({ comment }: { comment: Comment }) {
     let user = await getUser(comment.userId)
     let image = getAvatarURL(user?.image!);
     return (
