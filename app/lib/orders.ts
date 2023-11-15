@@ -81,6 +81,11 @@ export const updateOrder = async (id: number, data: NewOrder) => {
   return await db.update(orders).set(data).where(eq(orders.id, id));
 };
 
+// update order with assigned robot
+export const updateOrderWithRobotId = async (id: number, robot_id: number) => {
+  return await db.update(orders).set({robotId: robot_id}).where(eq(orders.id, id));
+}
+
 // delete all orders of the user
 export const deleteAllOrders = async (user_id: string) => {
   return await db.delete(orders).where(eq(orders.userId, user_id));

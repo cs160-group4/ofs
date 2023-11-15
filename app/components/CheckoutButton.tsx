@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { CartItem } from '../lib/cart';
-import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
+import { createNewOrder, getLatestOrderByUserId, createOrderItem, assignOrderToRobot } from "../actions";
 import { deleteAllCartItems } from '../actions/cart';
 
 export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}) {
@@ -18,7 +18,6 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     formData.set("price", price);
 
     const res = await createOrderItem(formData);
-    console.log(res.message);
   }
 
   // Function to create an order based on what the user has in the cart 
@@ -39,13 +38,15 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
 
       const latestOrderId = await getLatestOrderByUserId(formData);
       orderId = Number(latestOrderId.data);
+      formData.set("orderId", String(orderId));
 
       cartItems.forEach((item) => {        
         createNewOrderItem({itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
       });
 
-      const res = await deleteAllCartItems(id);
-      console.log(res.message);
+      await deleteAllCartItems(id);
+
+      const res = await assignOrderToRobot(formData);
 
       setTimeout(() => {
         window.location.href = `/order-summary/${orderId}`;

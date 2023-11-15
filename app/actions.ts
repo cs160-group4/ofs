@@ -2,8 +2,9 @@
 import { z } from "zod";
 import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress, deleteAddress } from "./lib/addresses";
-import { createOrder, getOrdersByUserId } from "./lib/orders";
+import { createOrder, updateOrderWithRobotId, getOrdersByUserId } from "./lib/orders";
 import { addOrderItem } from "./lib/order_item";
+import { getRobots, updateRobotWithOrder } from "./lib/robots";
 import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
@@ -295,9 +296,47 @@ export async function createOrderItem(formData: FormData){
       await addOrderItem(orderItem.data);
       return { success: true, message: "Order Item created successfully" }
     } else {
-      return { success: false, message: orderItem.error.errors }
+      return { success: false, message: "Order Item failed to be created" }
     }
   } catch (error) {
-    return { success: false, message: error}
+    return { success: false, message: "Error: Order item failed to be created"}
+  }
+}
+
+export async function assignOrderToRobot(formData: FormData){
+  try {
+    const orderWeight = Number(formData.get("totalWeight"));
+    
+    var robotId = 0;
+    let robot;
+    const robots = await getRobots();
+    for (let i = 0; i < robots.length; i++){
+      robot = robots[i];
+      if (robot.totalOrders === null || robot.totalOrders < 10) {
+        if(robot.totalWeight === null || parseFloat(robot.totalWeight) < 200) {
+          if(robot.totalWeight !== null && parseFloat(robot.totalWeight) + orderWeight <= 200) {
+            robotId = robot.id;
+            break;
+          }     
+        }
+      }   
+    }
+
+    var updatedTotalOrders = 0;
+    var updatedTotalWeight = 0;
+
+    if(robot !== null && robot !== undefined){
+      updatedTotalOrders = robot.totalOrders? robot.totalOrders + 1: 1;
+      updatedTotalWeight = robot.totalWeight !== null ? parseFloat(robot.totalWeight) + orderWeight : orderWeight;
+   
+      await updateRobotWithOrder(robotId, updatedTotalOrders, String(updatedTotalWeight));
+    }
+
+    const orderId = Number(formData.get("orderId"));
+    await updateOrderWithRobotId(orderId, robotId);
+
+    return { success: true, message: "Order updated successfully" }  
+  } catch (error) {
+    return { success: false, message: "Error: order failed to be assigned to a robot"}
   }
 }
