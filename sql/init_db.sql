@@ -1,3 +1,5 @@
+-- Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>
+-- Copyright (c) 2023 Hung Pham, Aaron Low. All rights reserved.
 SET
     default_storage_engine = InnoDB;
 

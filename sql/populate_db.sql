@@ -1,6 +1,8 @@
+-- Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>
+-- Copyright (c) 2023 Hung Pham, Aaron Low. All rights reserved.
+
 USE ofs_dev;
 
--- Populate Customer Data: ..., employeepass123, employeepass123, customerpass123, customerpass123
 INSERT INTO user (id, email, password, name, image, role, first_name, last_name, phone_number)
 VALUES 
     ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', '$2b$10$5sqxizup.X5Y5NT8JDJqiuC1sAPn8u1fBJJGNFuj4miW/p5NGvoHe', 'Hung Pham', '', 'admin', 'Hung', 'Pham', '4087778888'),
@@ -16,7 +18,6 @@ VALUES
 	(3, '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', '1001 N 4th St', 'San Jose', 'CA', '95112', 'USA', 37.3567594, -121.9044815),
 	(4, '5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', '259 Charles St', 'Sunnyvale', 'CA', '94086', 'USA', 37.3760182, -122.038707),
 	(5, '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.3531568, -121.8130381);
-
 
 -- Populate Product Categories Data
 INSERT INTO product_categories (id, name, slug, description)
@@ -90,7 +91,6 @@ INSERT INTO cart (userId, product_id, quantity) VALUES
 ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 9, 7),
 ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 6, 8);
 
-
 -- Populate Orders Data
 INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, grand_total, created_at, updated_at, shipping_address_id, delivery_status, userId) VALUES
 (1,139,0.00,14.55,0.00,145.47,160.02,'2023-01-01 08:00:00','2023-01-01 08:00:00',1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
@@ -101,7 +101,6 @@ INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, gr
 (6,50,0.00,2.15,0.00,21.52,23.67,'2023-06-12 08:25:00','2023-06-12 08:25:00',1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
 (7,59,0.00,3.42,0.00,34.24,37.66,'2023-07-01 10:25:15','2023-07-01 10:25:15',2,'pending','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
 (8,26,0.00,8.75,0.00,87.47,96.22,'2023-08-20 12:22:10','2023-08-20 12:22:10',3,'pending','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
-
 
 INSERT INTO order_item (order_id, product_id, item_weight, quantity, price) VALUES 
 (1, 1, 2, 50, 2.49), 
