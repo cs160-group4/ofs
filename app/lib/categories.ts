@@ -1,6 +1,6 @@
 import { db } from "@/db/db";
 import { eq, sql, or, like, asc, not, and } from "drizzle-orm";
-import { productCategories } from "drizzle/schema";
+import { productCategories } from "@/db/schema";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 
 export type Categories = typeof productCategories.$inferSelect;

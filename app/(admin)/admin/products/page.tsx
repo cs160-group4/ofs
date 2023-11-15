@@ -35,6 +35,7 @@ export default async function AdminProducts() {
                     <input type="checkbox" className='checkbox' />
                   </label>
                 </th>
+                <th>ID</th>
                 <th>IMAGE</th>
                 <th>ITEM DETAILS</th>
                 <th>BRAND</th>
@@ -51,6 +52,9 @@ export default async function AdminProducts() {
                     <label>
                       <input type="checkbox" className='checkbox' />
                     </label>
+                  </td>
+                  <td>
+                    {product.id}
                   </td>
                   <td>
                     <Image src={"/" + product.picture} alt={product.name}
