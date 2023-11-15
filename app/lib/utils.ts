@@ -4,12 +4,13 @@ export const roles = ["admin", "employee", "customer"];
 export const orderStatus = ["pending", "shipped", "delivered", "cancelled"];
 export const ITEMS_PER_PAGE = 10;
 
+export const sjsu_location = { latitute: 37.3361726, longitude: -121.8832816 };
+
 export type SearchQueryProps = {
   id?: string;
   query?: string;
   page?: string;
 };
-
 
 export type FormErrorState = {
   errors?: {
@@ -20,9 +21,9 @@ export type FormErrorState = {
 };
 
 export function getAvatarURL(path: string | null | undefined) {
-  if (!path){
-    return "/images/avatars/default.svg";} 
-  else if (path.includes("http")) return path;
+  if (!path) {
+    return "/images/avatars/default.svg";
+  } else if (path.includes("http")) return path;
   else return "/" + path;
 }
 
@@ -31,7 +32,6 @@ export function getImageUrl(path: string) {
   else if (path.includes("http")) return path;
   else return "/" + path;
 }
-
 
 export type Revenue = {
   month: string;
