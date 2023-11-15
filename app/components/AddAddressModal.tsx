@@ -19,13 +19,8 @@ export function AddAddressModal({ id }: { id: string }){
         <div className="modal-box">
           <h3 className="font-bold text-lg">Add a new address</h3>
           <form action={async (formData: FormData) => {
-            const res = await addNewAddress(formData);
-            
-            if(!res.success) {
-
-            } else {
-              
-            }
+            formData.set("userId", id);
+            await addNewAddress(formData);
           }}>            
             <p className="font-bold py-1">Address</p>
             <input className="border border-gray-300 rounded-lg input-sm w-full" name="addressLine1" type="text" placeholder="Street" required></input>
