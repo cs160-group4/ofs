@@ -25,9 +25,7 @@ export default async function DeliveryPage({ searchParams }: { searchParams: Sea
       <>
         <HandleStatus />
         <div className="w-full">
-          <div className="flex w-full items-center justify-between">
-            <h1 className='text-2xl'>Delivery Status</h1>
-          </div>
+     
           <MapBox />
           
           

@@ -3,7 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Map, { CircleLayer, GeolocateControl, Layer, LineLayer, Marker, NavigationControl, Source } from "react-map-gl";
 import { sjsu_location } from "@/app/lib/utils";
 import { FeatureCollection } from "geojson";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from 'next/image';
 type Position = [number, number];
 export default function MapBox() {
@@ -550,13 +550,81 @@ export default function MapBox() {
             'line-opacity': 0.8
         }
     };
+
+    // sjsu_location
+    const [markerPosition, setMarkerPosition] = useState<Position>([sjsu_location.longitude, sjsu_location.latitute]);
+    const customer1_location: Position = [-121.982959, 37.39276];
+    const customer2_location: Position = [-122.063815, 37.412662];
+
+    const [customer1_done, setCustomer1_done] = useState(false);
+    const [customer2_done, setCustomer2_done] = useState(false);
+    const [index, setIndex] = useState(0);
+
+    const [speed, setSpeed] = useState(50);
+    const [timer_speed, setTimer_speed] = useState(1000);
+    useEffect(() => {
+        const moveMarker = () => {
+            if (index <= lineStringCoords.length - 1) {
+                if (!customer1_done) {
+                    let dis1 = calculateDistance(customer1_location[0], customer1_location[1], lineStringCoords[index][0], lineStringCoords[index][1]);
+                    if (dis1 < 50) {
+                        setCustomer1_done(true);
+                    }
+                }
+                if (!customer2_done) {
+                    let dis2 = calculateDistance(customer2_location[0], customer2_location[1], lineStringCoords[index][0], lineStringCoords[index][1]);
+                    if (dis2 < 50) {
+                        setCustomer2_done(true);
+                    }
+                }
+
+                console.log(lineStringCoords[index]);
+                setMarkerPosition(lineStringCoords[index]);
+                setIndex(index + 1);
+            }
+        };
+        const timerId = setInterval(moveMarker, timer_speed);
+        return () => clearInterval(timerId);
+    }, [lineStringCoords]);
+
+    function calculateDistance(lon1: number, lat1: number, lon2: number, lat2: number): number {
+        const earthRadius = 6371e3; // Radius of the Earth in meters
+        const phi1 = (lat1 * Math.PI) / 180;
+        const phi2 = (lat2 * Math.PI) / 180;
+        const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+        const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+
+        const a =
+            Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = earthRadius * c; // Distance in meters
+
+        return distance;
+    }
+
+    function setRobotSpeed(speed: number) {
+        setSpeed(speed);   
+        setTimer_speed(5000/speed);
+        console.log(timer_speed);
+    }
+
+
     return (
         <>
+            <div className="flex ">
+                <h1 className='text-2xl w-64'>Delivery Status</h1>
+                Speed:  <input type="range" min={1} max={4999} value={speed} onChange={(e) =>
+                    setRobotSpeed(parseInt(e.target.value))
+                } className="range range-primary w-96 ml-4" />
+            </div>
             <main className="w-full h-screen">
                 <Map
                     mapboxAccessToken={mapboxToken}
                     mapStyle="mapbox://styles/mapbox/streets-v12"
-                    style={{ width: "100%", height: "90%" }}
+                    style={{ width: "100%", height: "80%" }}
                     initialViewState={{ latitude: sjsu_location.latitute, longitude: sjsu_location.longitude, zoom: 12 }}
                     maxZoom={20}
                     minZoom={3}
@@ -566,17 +634,23 @@ export default function MapBox() {
                     </Source>
                     <GeolocateControl />
                     <NavigationControl />
-                    <Marker longitude={sjsu_location.longitude} latitude={sjsu_location.latitute} anchor="bottom" >
+                    <Marker longitude={markerPosition[0]} latitude={markerPosition[1]} anchor="bottom">
                         <Image src="/images/logo.png" width={50} height={50} alt="robot" />
                     </Marker>
-                    <Marker longitude={sjsu_location.longitude} latitude={sjsu_location.latitute} anchor="bottom" >
-                        <Image src="/images/avatar.svg" width={30} height={30} alt="customer" />
+                    <Marker longitude={-121.9827822453428} latitude={37.392667807874886} anchor="bottom" >
+                        <Image src="/images/avatar.svg" width={35} height={35} alt="customer" />
                     </Marker>
-                    <Marker longitude={sjsu_location.longitude} latitude={sjsu_location.latitute} anchor="bottom" >
-                        <Image src="/images/avatar.svg" width={50} height={50} alt="customer" />
+                    <Marker longitude={-122.06379663983735} latitude={37.41280313687151} anchor="bottom" >
+                        <Image src="/images/avatar.svg" width={35} height={35} alt="customer" />
                     </Marker>
                 </Map>
-
+                <div className="w-full flex justify-center items-center">
+                    <ul className="steps steps-vertical lg:steps-horizontal">
+                        <li className="step step-primary mr-5">Start</li>
+                        {customer1_done ? <li className="step step-primary mr-5">Customer1</li> : <li className="step mr-5">Customer1</li>}
+                        {customer2_done ? <li className="step step-primary mr-5">Customer2</li> : <li className="step mr-5">Customer2</li>}
+                    </ul>
+                </div>
             </main>
         </>
     );
