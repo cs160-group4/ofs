@@ -2,6 +2,7 @@
 import {
   addProductToCart,
   deleteProductFromCart,
+  deleteAllProductsFromCart,
   getProdInCart,
   updateProductInCart,
 } from "@/lib/cart";
@@ -65,5 +66,14 @@ export async function updateCartItem(formData: FormData) {
     return {
       message: "Database Error: Failed to update Cart Item",
     };
+  }
+}
+
+export async function deleteAllCartItems(userId: string){
+  try {
+    await deleteAllProductsFromCart(userId);
+    return { success: true, message: "Deleted all Cart Items" }
+  } catch (error) {
+    return { message: "Database Error: Failed to delete all Cart Items" };
   }
 }

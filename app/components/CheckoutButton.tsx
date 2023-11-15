@@ -1,12 +1,13 @@
 "use client"
 import React from 'react';
 import { CartItem } from '../lib/cart';
-import { createNewOrder, getLatestOrderByUserId } from "../actions";
-import { createOrderItem } from '../actions'; 
+import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
+import { deleteAllCartItems } from '../actions/cart';
 
 export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}) {
   var orderId = 0;
   
+  // Function to create an order item for each item in the user's cart
   async function createNewOrderItem({itemWeight, productId, quantity, orderId, price}: {itemWeight: number, productId: number, quantity: number, orderId: number, price: string}){
     const formData = new FormData();
     
@@ -20,6 +21,7 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     console.log(res.message);
   }
 
+  // Function to create an order based on what the user has in the cart 
   async function createOrder({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}){
     const formData = new FormData();
 
@@ -35,12 +37,15 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     try {
       await createNewOrder(formData);
 
-      const res2 = await getLatestOrderByUserId(formData);
-      orderId = Number(res2.data);
+      const latestOrderId = await getLatestOrderByUserId(formData);
+      orderId = Number(latestOrderId.data);
 
       cartItems.forEach((item) => {        
         createNewOrderItem({itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
       });
+
+      const res = await deleteAllCartItems(id);
+      console.log(res.message);
 
       setTimeout(() => {
         window.location.href = `/order-summary/${orderId}`;
