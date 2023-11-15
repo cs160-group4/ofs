@@ -1,8 +1,9 @@
 'use client'
 import { useState } from 'react'
 import { AddProductForm } from './AddProductForm'
+import { Categories } from '../lib/categories'
 
-export default function AddProductButtonComponent() {
+export default function AddProductButtonComponent({categories} : {categories:Categories[]}) {
   const [key, setKey] = useState(Math.random())
 
   return (
@@ -16,7 +17,7 @@ export default function AddProductButtonComponent() {
           </form>
           <h3 className="font-bold text-lg">Add a Product to the Catalogue</h3>
           <div className='divider my-3'></div>
-          <AddProductForm key={key}/>
+          <AddProductForm categories={categories} key={key}/>
         </div>
         <form onClick={() => (document.getElementById('product-form') as HTMLFormElement).reset()} method="dialog" className="modal-backdrop">
           <button>close</button>

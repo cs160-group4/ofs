@@ -8,9 +8,12 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { RemoveProductModal } from '@/components/RemoveProductModal';
 import { UpdateProduct } from '@/app/ui/admin/products/Buttons';
+import { getCategories } from '@/app/lib/categories';
 
 export default async function AdminProducts() {
   const products = await getProducts();
+  const categories = await getCategories();
+  
   return (
     <>
       <div className='flex flex-col mx-6 pt-7 gap-y-5'>
@@ -21,7 +24,7 @@ export default async function AdminProducts() {
         </div>
         {/* management tools container */}
         <div className='flex justify-between items-center max-w-2xl'>
-          <AddProductButtonComponent />
+          <AddProductButtonComponent categories={categories} />
 
         </div>
         {/* product list items */}

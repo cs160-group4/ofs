@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 import { useEdgeStore } from "@/app/lib/edgestore";
 import { useState } from "react";
 import { SingleImageDropzone } from "./SingleImageDropzone";
+import { Categories } from "@/app/lib/categories";
 
 
 function SubmitButton() {
@@ -18,7 +19,7 @@ function SubmitButton() {
     )
 }
 
-export function UpdateProductForm({product}: {product:Product})
+export function UpdateProductForm({product, categories} : {product:Product, categories:Categories[]})
 {
     const [showError, setShowError] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -122,11 +123,9 @@ export function UpdateProductForm({product}: {product:Product})
                             <span className='label-text'>Category</span>
                             </label>
                             <select defaultValue={product.categoryId} className='w-full select select-bordered' name="category_id" required>
-                                <option value='1'>Fruits</option>
-                                <option value='2'>Frozen</option>
-                                <option value='3'>Meats</option>
-                                <option value='4'>Dried-Goods</option>
-                                <option value='5'>Vegetables</option>
+                                {categories.map((category) => (
+                                    <option value={category.id}>{category.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
