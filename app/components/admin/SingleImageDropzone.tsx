@@ -69,6 +69,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
       isDragReject,
     } = useDropzone({
       accept: { 'image/*': [] },
+      maxSize:  1024 * 1024 * 2,
       multiple: false,
       disabled,
       onDrop: (acceptedFiles) => {
@@ -126,8 +127,8 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           {...getRootProps({
             className: dropZoneClassName,
             style: {
-              width,
-              height,
+              // width,
+              // height,
             },
           })}
         >
@@ -143,12 +144,9 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
             />
           ) : (
             // Upload Icon
-            <div className="flex flex-col items-center justify-center text-xs text-gray-400">
+            <div className="flex flex-col items-center justify-center text-xs">
               <CloudArrowUpIcon className='mb-2 h-7 w-7' />
               <div className="text-gray-400">drag & drop to upload</div>
-              <div className="mt-3">
-                <Button disabled={disabled}>select</Button>
-              </div>
             </div>
           )}
 

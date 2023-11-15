@@ -2,10 +2,9 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Product } from "@/lib/products"
 import { removeProduct } from "app/actions"
-import { useFormState, useFormStatus } from "react-dom"
 import { useState } from 'react';
 
-export  function RemoveProductForm({ id, name}: { id: number, name:String}) {
+export  function RemoveProductForm({ id, name, url}: { id: number, name:string, url:string}) {
     const [openModal, setOpenModal] = useState(false);
 
     return (
@@ -19,7 +18,7 @@ export  function RemoveProductForm({ id, name}: { id: number, name:String}) {
             <dialog id="my_modal" className="modal" {... (openModal ? {open : true} : {})} onClose={() => setOpenModal(false)}>
                 <div className="modal-box">
                     <div className='flex flex-col items-center text-center'>
-                        <h3 className="font-bold text-lg">Delete {name}{id} ?</h3>
+                        <h3 className="font-bold text-lg">Delete {name}?</h3>
                         <p>Are you sure you would like to delete this item? This action is permanent and cannot be undone</p>
                         <div className="flex w-full justify-evenly gap-3 mt-6">
                             <button type="submit" form={String(id)} className="btn btn-error">
@@ -40,7 +39,6 @@ export  function RemoveProductForm({ id, name}: { id: number, name:String}) {
             </dialog>
 
             <form action={async (formData : FormData) => {
-                console.log(formData)
                 await removeProduct(formData)
                 setOpenModal(false)
             }} id={String(id)}>

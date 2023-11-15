@@ -19,7 +19,7 @@ function formatDate(date: Date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
-export async function createProduct(formData: FormData) {
+export async function createProduct(formData: FormData, url: string) {
   const currentDateTime = new Date();
   const formattedDateTime = formatDate(currentDateTime);
   const priceEx = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d{9})?(\.\d{1,2})?$/gm
@@ -47,7 +47,7 @@ export async function createProduct(formData: FormData) {
       // store: formData.get('store'),
       brand: formData.get("brand"),
       categoryId: Number(formData.get("category_id")),
-      picture: formData.get("picture"),
+      picture: url,
       itemWeight: Number(formData.get("itemWeight")),
       itemPrice: formData.get("itemPrice"),
       itemQuantity: Number(formData.get("itemQuantity")),
@@ -66,7 +66,7 @@ export async function createProduct(formData: FormData) {
     }
   }
   catch(error) {
-    return {success: false, err: true, message: "Product Failed To Be Added"}
+    return {success: false, message: "Product Failed To Be Added"}
   }
 }
 

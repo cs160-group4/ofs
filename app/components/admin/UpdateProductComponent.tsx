@@ -75,11 +75,9 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                         const fileRes = await edgestore.publicFiles.upload({
                             file,
                             options: {
-                                replaceTargetUrl: product.picture
+                                replaceTargetUrl: product.picture,
                             }
                         });
-                        // console.log(res)
-                        // console.log(formData.get("picture"))
                         res = await editProduct(formData, String(fileRes.url));
                         
                     }
@@ -171,7 +169,6 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                             <label className="label">
                                 <span className="label-text">Image Upload</span>
                             </label>
-                            {/* <input className="w-full file-input" type="file" accept="image/png, image/jpeg" onChange={setFile()}/> */}
                             <SingleImageDropzone
                                 width={200}
                                 height={200}

@@ -20,7 +20,7 @@ export default async function AdminProducts() {
         {/* title/header */}
         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
           <h1 className='text-2xl font-bold'>Catalogue</h1>
-          <p className='text-base'>Add, filter, or make quick updates to your existing product catalogue</p>
+          <p className='text-base'>Add, delete, or make quick updates to your existing product catalogue</p>
         </div>
         {/* management tools container */}
         <div className='flex justify-between items-center max-w-2xl'>
@@ -76,7 +76,7 @@ export default async function AdminProducts() {
                     <div className='flex gap-3'>
                       <UpdateProduct id={product.id} />
                       <Suspense fallback={<p>Deleting...</p>}>
-                        <RemoveProductForm id={product.id} name={product.name}/>
+                        <RemoveProductForm id={product.id} name={product.name} url={product.picture}/>
                       </Suspense>
                     </div>
                   </td>

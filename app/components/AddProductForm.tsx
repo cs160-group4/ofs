@@ -3,6 +3,8 @@ import { createProduct } from 'app/actions'
 import { useFormStatus } from 'react-dom'
 import React, { useState } from "react"
 import { Categories } from '../lib/categories'
+import { SingleImageDropzone } from './admin/SingleImageDropzone'
+import { useEdgeStore } from '../lib/edgestore'
 
 
 function SubmitButton() {
@@ -40,18 +42,41 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
   const [message, setMessage] = useState('')
-  
+  const [file, setFile] = useState<File>();
+  const {edgestore} = useEdgeStore();
 
   return (
     <form id='product-form' action={async (formData: FormData) => {
-      const res = await createProduct(formData);
-      setShowAlert(true);
-      setMessage(res.message)
-      if(!res.success)
+      if(file)
       {
-        setShowError(true)
+        const fileRes = await edgestore.publicFiles.upload({
+          file,
+          options: {
+            temporary: true,
+          }
+        });
+      
+        const res = await createProduct(formData, String(fileRes.url));
+        setShowAlert(true);
+        setMessage(res.message)
+        if(res.success)
+        {
+          await edgestore.publicFiles.confirmUpload({
+            url: fileRes.url
+          });
+        }
+        else if(!res.success)
+        {
+          setShowError(true)
+        }
+      }
+      else {
+        setMessage("Missing Image");
+        setShowAlert(true);
+        setShowError(true);
       }
     }}>
+
       {showAlert != false && showError != true && (
           <div className='alert alert-success mb-3'>
             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -64,7 +89,7 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
       )}
       {showAlert != false && showError != false && (
           <div className='alert alert-error mb-3'>
-            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             <span>{message}</span>
             <button className="btn btn-sm btn-circle btn-ghost" onClick={() => {
               setShowAlert(false)
@@ -90,7 +115,7 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
             </label>
             <select defaultValue={'Select a Category'} className='w-full select select-bordered' name="category_id">
               {categories.map((category) => (
-                <option value={category.id}>{category.name}</option>
+                <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
           </div>
@@ -123,12 +148,26 @@ export function AddProductForm({categories} : {categories:Categories[]}) {
             <LimitedInput max={100} descriptor={'Description'} name={'description'} />
           </div>
         </div>
-        <div className='flex flex-wrap -mx-3 mb-6'>
+        {/* <div className='flex flex-wrap -mx-3 mb-6'>
           <div className='w-full px-3'>
             <LimitedInput max={100} descriptor={'Picture(WIP)'} name={'picture'} />
           </div>
+        </div> */}
+        <div className='flex flex-wrap -mx-3 mb-6'>
+          <div className='w-full px-3'>
+            <label className="label">
+              <span className="label-text">Image Upload</span>
+            </label>
+            <SingleImageDropzone
+              width={200}
+              height={200}
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+            />
+          </div>
         </div>
-
       </div>
       <SubmitButton />
     </form>
