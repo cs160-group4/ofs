@@ -31,7 +31,6 @@ export async function addToCartAction(productId: number, quantity: number) {
     }
 
   } catch (error) {
-    console.log(error);
     return { message: "Database Error: Failed to Add Product" };
   }
   revalidatePath("/");

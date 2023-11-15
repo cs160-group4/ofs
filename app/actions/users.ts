@@ -111,7 +111,7 @@ export async function updateUserRoleAction(prevState: any, formData: FormData) {
   }
 
   revalidatePath("/admin/users");
-  redirect("/admin/users");
+  redirect("/admin/users?status=updated");
 }
 
 export async function deleteUserAction(prevState: any, formData: FormData) {
@@ -124,5 +124,5 @@ export async function deleteUserAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete User." };
   }
   revalidatePath("/admin/users");
-  redirect("/admin/users");
+  redirect("?status=deleted");
 }

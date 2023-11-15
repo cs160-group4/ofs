@@ -1,6 +1,11 @@
+export const roles = ["admin", "employee", "customer"];
+
+// pending, shipped, delivered, cancelled
+export const orderStatus = ["pending", "shipped", "delivered", "cancelled"];
 export const ITEMS_PER_PAGE = 10;
 
 export type SearchQueryProps = {
+  id?: string;
   query?: string;
   page?: string;
 };
@@ -27,7 +32,6 @@ export function getImageUrl(path: string) {
   else return "/" + path;
 }
 
-export const roles = ["admin", "employee", "customer"];
 
 export type Revenue = {
   month: string;
