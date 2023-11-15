@@ -3,7 +3,7 @@ version: "3.8"
 services:
   mysql-db:
     container_name: mysql-db
-    command: ["--max_connections=100000"]
+    command: ["--max_connections=1000000"]
     image: mysql:8.0
     restart: unless-stopped
     env_file: ./.env.local

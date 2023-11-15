@@ -49,6 +49,17 @@ export async function createCategoryAction(prevState: any, formData: FormData) {
     let isSlugExisting = await isCategorySlugExisting(fields.data.slug);
 
     const errors: any = {};
+    let isNameValid = fields.data.name.match(categoryNameRegex);
+    let isSlugValid = fields.data.slug.match(slugRegex);
+    if (!isNameValid) {
+      errors.name = ["Category name must be letters, numbers, and spaces."];
+    }
+
+    if (!isSlugValid) {
+      errors.slug = [
+        "Category slug must be lowercase letters, numbers, and dashes.",
+      ];
+    }
     if (isNameExisting) {
       errors.name = ["Category name already exists"];
     }
@@ -63,6 +74,7 @@ export async function createCategoryAction(prevState: any, formData: FormData) {
         message: "Failed to Create Category",
       };
     }
+    fields.data.slug = fields.data.slug.toLowerCase();
     const result = await addCategory(fields.data);
   } catch (error) {
     return { message: "Database Error: Failed to Create Category" };
@@ -81,22 +93,22 @@ const UpdateCategory = FormSchema.pick({
 
 export async function editCategoryAction(prevState: any, formData: FormData) {
   try {
-    const validatedFields = UpdateCategory.safeParse({
+    const fields = UpdateCategory.safeParse({
       id: Number(formData.get("id")),
       name: formData.get("name"),
       slug: formData.get("slug"),
       description: formData.get("description"),
     });
 
-    if (!validatedFields.success) {
+    if (!fields.success) {
       return {
-        errors: validatedFields.error.flatten().fieldErrors,
+        errors: fields.error.flatten().fieldErrors,
         message: "Missing Fields. Failed to Update Category",
       };
     }
     const errors: any = {};
-    let isNameValid = validatedFields.data.name.match(categoryNameRegex);
-    let isSlugValid = validatedFields.data.slug.match(slugRegex);
+    let isNameValid = fields.data.name.match(categoryNameRegex);
+    let isSlugValid = fields.data.slug.match(slugRegex);
     if (!isNameValid) {
       errors.name = ["Category name must be letters, numbers, and spaces."];
     }
@@ -113,15 +125,15 @@ export async function editCategoryAction(prevState: any, formData: FormData) {
         message: "Failed to Update Category",
       };
     }
-    const id = validatedFields.data.id;
+    const id = fields.data.id;
 
     let isNameExisting = await isCategoryNameExistingExcept(
       id,
-      validatedFields.data.name
+      fields.data.name
     );
     let isSlugExisting = await isCategorySlugExistingExcept(
       id,
-      validatedFields.data.slug
+      fields.data.slug
     );
 
     if (isNameExisting) {
@@ -137,7 +149,8 @@ export async function editCategoryAction(prevState: any, formData: FormData) {
         message: "Failed to Update Category",
       };
     }
-    const result = await updateCategory(id, validatedFields.data);
+    fields.data.slug = fields.data.slug.toLowerCase();
+    const result = await updateCategory(id, fields.data);
   } catch (error) {
     return { message: "Database Error: Failed to Update Category" };
   }
