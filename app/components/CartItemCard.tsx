@@ -4,6 +4,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { CartItem } from '../lib/cart';
 import { deleteCartProduct, updateCartItem } from '../actions/cart';
+import { getImageUrl } from '../lib/utils';
 
 
 export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: string, revalidateUrl: string }) {
@@ -23,7 +24,7 @@ export function CartItemCard({ item, id, revalidateUrl }: {item: CartItem, id: s
      <ul className="my-2 pb-2 space-y-2 mt-auto mb-auto">
        <li className="grid grid-cols-3 gap-1 py-2 bg-white rounded-box items-center justify-center">
          <div className="row-span-2 items-center m-2 ps-6">
-           <Image src={`/${item.products.picture}`} width={100} height={100} alt={item.products.description} />
+           <Image src={getImageUrl(item.products.picture)} width={100} height={100} alt={item.products.description} />
          </div>
          <div className="col-span-2 text-left">
            <h2 className="text-lg font-bold text-left">{item.products.name}</h2>

@@ -13,20 +13,20 @@ export default function MapComponent({ list }: { list: OrderWithAddress[] }) {
 
     useEffect(() => {
         if (!mapRef.current) {
-            mapRef.current = L.map('map').setView([37.3352, -121.8811], 14);
+            mapRef.current = L.map('map').setView([37.3352, -121.8811], 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(mapRef.current);
 
             const myIcon = L.icon({
                 iconUrl: "/images/OFSLOGO.png",
-                iconSize: [25, 25],
+                iconSize: [50, 50],
                 iconAnchor: [12, 41],
                 popupAnchor: [0, -41]
             });
             const customerIcon = L.icon({
                 iconUrl: "/images/avatar.svg",
-                iconSize: [25, 25],
+                iconSize: [50, 50],
                 iconAnchor: [12, 41],
                 popupAnchor: [0, -41]
             });
@@ -43,8 +43,13 @@ export default function MapComponent({ list }: { list: OrderWithAddress[] }) {
                         L.latLng(37.3352, -121.8811),
                         L.latLng(latitude, longitude)
                     ],
+                    draggableWaypoints: false,
+                    routeWhileDragging: false,
+                    show: false,
+                    createMarker: function() { return null; }
                 }).addTo(mapRef.current);
                 const end = L.marker([latitude, longitude], {icon: customerIcon}).addTo(mapRef.current);
+
             });
            
 
