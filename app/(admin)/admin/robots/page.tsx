@@ -28,7 +28,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
           <h1 className='text-2xl'>Robots</h1>
         </div>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-          <Search placeholder="Search by user's name, email, shipping address, or delivery status" />
+          <Search placeholder="Search by robot's name, status, or carrying capacity" />
         </div>
         <RobotsTable query={query} currentPage={currentPage} />
         <div className="mt-5 flex w-full justify-center">

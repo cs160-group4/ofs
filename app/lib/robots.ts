@@ -43,8 +43,11 @@ export const getFilteredRobots = async (query: string, currentPage: number) => {
   const result = await db
     .select()
     .from(robots)
-    .where(
-      or(like(robots.name, `%${query}%`), like(robots.status, `%${query}%`))
+    .where(or(
+      like(robots.name, `%${query}%`), 
+      like(robots.status, `%${query}%`),
+      like(robots.currentWeightInLbs, `%${query}%`), 
+      )
     )
     .orderBy(asc(robots.id))
     .limit(10)
