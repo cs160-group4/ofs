@@ -8,6 +8,11 @@ import { useState } from "react";
 import { SingleImageDropzone } from "./SingleImageDropzone";
 import { Categories } from "@/app/lib/categories";
 
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 function SubmitButton() {
     const { pending } = useFormStatus()

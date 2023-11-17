@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { deleteReview } from "./lib/reviews";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
 import bcrypt, { hash } from 'bcrypt';
+import { redirect } from "next/navigation";
 
 function formatDate(date: Date) {
   const year = date.getFullYear();

@@ -8,8 +8,7 @@ export default function AddProductButtonComponent({categories} : {categories:Cat
 
   return (
     <>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button className="btn btn-primary rounded-box w-48" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
+      <button className="btn btn-primary rounded-box w-48 text-white" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
       <dialog id='add-modal' className="modal" onClose={() => setKey(Math.random())}>
         <div className="modal-box w-8/12 max-w-5xl">
           <form method="dialog">
