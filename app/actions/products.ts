@@ -1,5 +1,5 @@
 "use server";
-import { updateProduct } from "@/lib/products";
+import { Product, updateProduct, updateProductQuantity } from "@/lib/products";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -77,4 +77,15 @@ export async function editProduct(formData: FormData, url: string) {
     message: "Update Sucess!"
   }
   // redirect("/admin/products");
+}
+
+export async function updateProductItemQuantity(productId: number, quantity: number){
+  try {
+    await updateProductQuantity(productId, quantity);
+    return { message: "Updated Product Quantity" };
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to update Product Quantity",
+    };
+  }
 }

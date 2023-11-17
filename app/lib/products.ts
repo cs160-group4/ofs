@@ -21,19 +21,19 @@ export type productBrand = {
   brand: string;
 };
 
-// get all products
+// get all products - by Hung Pham
 export const getProducts = async (): Promise<Product[]> => {
   const result: Product[] = await db.select().from(products);
   return result;
 };
 
-// get product count
+// get product count - by Hung Pham
 export const getProductCount = async (): Promise<number> => {
   const result: Product[] = await db.select().from(products);
   return result.length;
 };
 
-// get all products with category
+// get all products with category - by Hung Pham
 export const getProductsCategory = async (): Promise<ProductCategory[]> => {
   const result = await db
     .select()

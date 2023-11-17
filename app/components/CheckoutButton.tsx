@@ -1,19 +1,13 @@
 "use client"
 import { createNewOrder, createOrderItem, getLatestOrderByUserId } from "../actions";
 import { deleteAllCartItems } from '../actions/cart';
-import { CartItem } from '../lib/cart';
-
-/*
-  Author: Fariha Ahmed
-  Email: fariha.ahmed@sjsu.edu
-  Copyright (c) 2023 Fariha Ahmed. All rights reserved.
-*/
+import { updateProductItemQuantity } from '../actions/products';
 
 export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total, cartItems }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[] }) {
   var orderId = 0;
 
   // Function to create an order item for each item in the user's cart
-  async function createNewOrderItem({ itemWeight, productId, quantity, orderId, price }: { itemWeight: number, productId: number, quantity: number, orderId: number, price: string }) {
+  async function createNewOrderItem({item, itemWeight, productId, quantity, orderId, price}: {item: CartItem, itemWeight: number, productId: number, quantity: number, orderId: number, price: string}){
     const formData = new FormData();
 
     formData.set("itemWeight", String(itemWeight));
@@ -22,7 +16,10 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
     formData.set("orderId", String(orderId));
     formData.set("price", price);
 
-    const res = await createOrderItem(formData);
+    await createOrderItem(formData);
+
+    const updatedProductQuantity = item.products.itemQuantity - quantity;
+    await updateProductItemQuantity(productId, updatedProductQuantity);
   }
 
   // Function to create an order based on what the user has in the cart 
@@ -45,8 +42,8 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
       orderId = Number(latestOrderId.data);
       formData.set("orderId", String(orderId));
 
-      cartItems.forEach((item) => {
-        createNewOrderItem({ itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice });
+      cartItems.forEach((item) => {        
+        createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
       });
 
       await deleteAllCartItems(id);
