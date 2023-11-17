@@ -1,16 +1,28 @@
 
 // import Cards from '@/ui/admin/Cards';
 import Cards from '@/ui/admin/Cards';
-import RevenueChart from '@/ui/admin/RevenueChart';
 import LatestOrders from '@/ui/admin/LatestOrders';
-import { Suspense } from 'react';
+import RevenueChart from '@/ui/admin/RevenueChart';
 import {
-  RevenueChartSkeleton,
-  LatestOrdersSkeleton,
   CardsSkeleton,
+  LatestOrdersSkeleton,
+  RevenueChartSkeleton,
 } from '@/ui/skeletons';
-import OrdersStatusComponent from '@/components/OrdersStatusComponent';
-// Todo: Add a component to show the status of orders
+import { Metadata } from 'next';
+import { Suspense } from 'react';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+  title: 'OFS Admin Dashboard',
+  description: 'Admin Dashboard',
+};
+
+
 export default async function AdminMainPage() {
   return (
     <>  

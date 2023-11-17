@@ -4,6 +4,12 @@ import { rateProduct } from "@/lib/ratings";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import { revalidatePath } from "next/cache";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export async function productRatingAction(productId: number, rating: number) {
   try {
     const session = await getAuthSession();

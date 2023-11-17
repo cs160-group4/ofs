@@ -1,10 +1,10 @@
 import { SearchQueryProps } from '@/app/lib/utils';
-import HandleStatus from '@/app/ui/common/HandleStatus';
+import StatusListener from '@/app/ui/common/StatusListener';
 import { getRobotsPages } from '@/lib/robots';
 import RobotsTable from '@/ui/admin/robots/Table';
 import Pagination from '@/ui/common/Pagination';
 import Search from '@/ui/common/Search';
-// import { Metadata } from 'next';
+import { Metadata } from 'next';
 
 /*
   Author: Hung Pham
@@ -12,9 +12,9 @@ import Search from '@/ui/common/Search';
   Copyright (c) 2023 Hung Pham. All rights reserved.
 */
 
-// export const metadata: Metadata = {
-//   title: 'Orders | OFS Admin',
-// };
+export const metadata: Metadata = {
+  title: 'Robots | OFS Admin Dashboard',
+};
 
 export default async function OrdersPage({ searchParams }: { searchParams: SearchQueryProps }) {
   const query = searchParams?.query || '';
@@ -22,7 +22,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
   const totalPages = await getRobotsPages(query);
   return (
     <>
-      <HandleStatus />
+      <StatusListener name='robot' />
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <h1 className='text-2xl'>Robots</h1>

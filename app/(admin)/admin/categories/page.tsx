@@ -1,24 +1,30 @@
+import { SearchQueryProps } from '@/app/lib/utils';
+import StatusListener from '@/app/ui/common/StatusListener';
+import { getCategoriesPages } from '@/lib/categories';
+import { CreateCategoryLink } from '@/ui/admin/categories/Buttons';
+import CategoriesTable from '@/ui/admin/categories/Table';
 import Pagination from '@/ui/common/Pagination';
 import Search from '@/ui/common/Search';
 import { Metadata } from 'next';
-import { getCategoriesPages } from '@/lib/categories';
-import CategoriesTable from '@/ui/admin/categories/Table';
-import { CreateCategoryLink } from '@/ui/admin/categories/Buttons';
-import { SearchQueryProps } from '@/app/lib/utils';
-import HandleStatus from '@/app/ui/common/HandleStatus';
 
-// export const metadata: Metadata = {
-//   title: 'Categories | Admin',
-// };
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+  title: 'Categories | OFS Admin Dashboard',
+  description: 'Categories page',
+};
 
 export default async function CategoryPage({ searchParams }: { searchParams: SearchQueryProps }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getCategoriesPages(query);
   return (<>
-    <HandleStatus />
+    <StatusListener name='category' />
     <div className="w-full">
-
       <div className="flex w-full items-center justify-between">
         <h1 className='text-2xl'>Product Categories</h1>
       </div>

@@ -1,10 +1,16 @@
 "use server";
 
-import { addComment, deleteComment } from "@/lib/comments";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
+import { addComment, deleteComment } from "@/lib/comments";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 const FormSchema = z.object({
   id: z.number(),
@@ -41,9 +47,9 @@ export async function writeCommentAction(prevState: any, formData: FormData) {
     const { productId, text } = validatedFields.data;
     const result = await addComment({ userId, productId, text });
     revalidatePath("/products/" + productId);
-    redirect("?status=created");
+    redirect("?status=added");
   } catch (error) {
-    return { message: "Database Error: Failed to Update Invoice." };
+    return { message: "Database Error: Failed to update comment." };
   }
  
 }
@@ -67,5 +73,4 @@ export async function deleteCommentAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete Comment." };
   }
   revalidatePath("/admin/comments");
-  redirect("?status=deleted");
 }

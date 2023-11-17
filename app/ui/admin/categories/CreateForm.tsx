@@ -9,6 +9,12 @@ import {
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 
 export default function CreateForm() {
     const initialState = { message: '', errors: {} };
@@ -46,7 +52,7 @@ export default function CreateForm() {
 
                         <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                     </div>
-                    {state?.errors?.slug? (
+                    {state?.errors?.slug ? (
                         <div id="slug-error" aria-live="polite" className="mt-2 text-sm text-red-500">
                             {state?.errors?.slug?.map((error: string) => (
                                 <p key={error}>{error}</p>
@@ -68,7 +74,7 @@ export default function CreateForm() {
                             <PaperAirplaneIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                         </div>
                     </div>
-                    {state?.errors?.description? (
+                    {state?.errors?.description ? (
                         <div id="description-error" aria-live="polite" className="mt-2 text-sm text-red-500">
                             {state?.errors?.description?.map((error: string) => (
                                 <p key={error}>{error}</p>

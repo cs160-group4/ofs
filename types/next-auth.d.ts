@@ -1,8 +1,13 @@
 import "next-auth";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 declare module "next-auth" {
-  /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
+ 
   interface Session {
     user: DefaultSession['user'] & {
       id: string;
@@ -17,7 +22,6 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    /** The user's role. */
     role?: string;
   }
 }

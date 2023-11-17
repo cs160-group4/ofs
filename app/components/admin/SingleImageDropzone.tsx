@@ -1,9 +1,16 @@
 'use client';
 
 import { CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import * as React from 'react';
 import { useDropzone, type DropzoneOptions } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
+
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 const variants = {
   base: 'relative rounded-md flex justify-center items-center flex-col cursor-pointer min-h-[150px] min-w-[200px] border border-dashed border-gray-400 dark:border-gray-300 transition-colors duration-200 ease-in-out',
@@ -136,7 +143,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
 
           {imageUrl ? (
             // Image Preview
-            <img
+            <Image width={512} height={512}
               className="h-full w-full rounded-md object-cover"
               src={imageUrl}
               alt={acceptedFiles[0]?.name}
@@ -159,7 +166,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
               }}
             >
               <div className="flex h-5 w-5 items-center justify-center rounded-md border border-solid border-gray-500 bg-white transition-all duration-300 hover:h-6 hover:w-6 dark:border-gray-400 dark:bg-black">
-                <XMarkIcon  className="text-gray-500 dark:text-gray-400"
+                <XMarkIcon className="text-gray-500 dark:text-gray-400"
                   width={16}
                   height={16} />
               </div>
@@ -215,3 +222,4 @@ function formatFileSize(bytes?: number) {
 }
 
 export { SingleImageDropzone };
+

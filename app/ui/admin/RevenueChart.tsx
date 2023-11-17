@@ -1,6 +1,12 @@
+import { getAdminRevenueData } from '@/lib/admin';
 import { generateYAxis } from '@/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
-import { getAdminRevenueData } from '@/lib/admin';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function RevenueChart() {
   const revenue = await getAdminRevenueData();

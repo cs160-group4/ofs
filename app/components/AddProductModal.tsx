@@ -1,7 +1,13 @@
 'use client'
 import { useState } from 'react'
-import { AddProductForm } from './AddProductForm'
 import { Categories } from '../lib/categories'
+import { AddProductForm } from './AddProductForm'
+
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 export default function AddProductButtonComponent({categories} : {categories:Categories[]}) {
   const [key, setKey] = useState(Math.random())

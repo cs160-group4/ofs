@@ -2,6 +2,12 @@ import { initEdgeStore } from '@edgestore/server';
 import { createEdgeStoreNextHandler } from '@edgestore/server/adapters/next/app';
 import { initEdgeStoreClient } from '@edgestore/server/core';
 
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
+
 const es = initEdgeStore.create();
 const KB = 1024
 const MB = KB * KB

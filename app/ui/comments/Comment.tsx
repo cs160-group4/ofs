@@ -2,6 +2,13 @@ import { Comment } from '@/lib/comments'
 import { getUser } from '@/lib/users'
 import { getAvatarURL } from '@/lib/utils'
 import Image from 'next/image'
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function CommentsComponent({ comment }: { comment: Comment }) {
     let user = await getUser(comment.userId)
     let image = getAvatarURL(user?.image!);

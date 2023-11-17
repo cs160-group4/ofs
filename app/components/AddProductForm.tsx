@@ -1,12 +1,17 @@
 'use client'
-import { createProduct } from 'app/actions'
-import { useFormStatus } from 'react-dom'
-import React, { useCallback, useState } from "react"
 import { Categories } from '@/lib/categories'
-import { SingleImageDropzone } from './admin/SingleImageDropzone'
 import { useEdgeStore } from '@/lib/edgestore'
+import { createProduct } from 'app/actions'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { useCallback, useState } from "react"
+import { useFormStatus } from 'react-dom'
+import { SingleImageDropzone } from './admin/SingleImageDropzone'
 
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 function SubmitButton() {
   const { pending } = useFormStatus()

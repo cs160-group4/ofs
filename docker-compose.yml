@@ -1,3 +1,7 @@
+#   Author: Aaron Low
+#   Email: aaron.c.low@sjsu.edu
+#   Copyright (c) 2023 Aaron Low. All rights reserved.
+
 version: "3.8"
 
 services:

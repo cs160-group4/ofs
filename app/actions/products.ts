@@ -1,10 +1,13 @@
 "use server";
-import { Product, updateProduct } from "@/lib/products";
+import { updateProduct } from "@/lib/products";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
-import { useEdgeStore } from "../lib/edgestore";
-import { BucketFunctions } from "node_modules/@edgestore/react/dist/createNextProxy";
+
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 const currentDateTime = new Date();
 const formattedDateTime = formatDate(currentDateTime);
@@ -32,20 +35,8 @@ function formatDate(date: Date) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
   const seconds = String(date.getSeconds()).padStart(2, "0");
   const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
-
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
-
-
-
-// export type ProductState = {
-//   errors?: {
-//     productId?: string[];
-//     status?: string[];
-//   };
-//   message?: string | null;
-// };
-
 
 export async function editProduct(formData: FormData, url: string) {
   const result = schema.safeParse({

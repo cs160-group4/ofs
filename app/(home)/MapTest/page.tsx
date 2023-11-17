@@ -1,7 +1,12 @@
-import React from 'react';
 // import MapComponent from "@/components/MapComponent";
-import { getOrdersWithAddressesByUserId } from "@/lib/orders";
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
+import { getOrdersWithAddressesByUserId } from "@/lib/orders";
+
+/*
+  Author: Nandish Kumar
+  Email: nandish.kumar@sjsu.edu
+  Copyright (c) 2023 Nandish Kumar. All rights reserved.
+*/
 
 export default async function MapTest() {
     let signedIn = false;

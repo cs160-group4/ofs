@@ -1,16 +1,21 @@
 "use client"
-import React from 'react';
-import { CartItem } from '../lib/cart';
-import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
+import { createNewOrder, createOrderItem, getLatestOrderByUserId } from "../actions";
 import { deleteAllCartItems } from '../actions/cart';
+import { CartItem } from '../lib/cart';
 
-export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}) {
+/*
+  Author: Fariha Ahmed
+  Email: fariha.ahmed@sjsu.edu
+  Copyright (c) 2023 Fariha Ahmed. All rights reserved.
+*/
+
+export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total, cartItems }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[] }) {
   var orderId = 0;
-  
+
   // Function to create an order item for each item in the user's cart
-  async function createNewOrderItem({itemWeight, productId, quantity, orderId, price}: {itemWeight: number, productId: number, quantity: number, orderId: number, price: string}){
+  async function createNewOrderItem({ itemWeight, productId, quantity, orderId, price }: { itemWeight: number, productId: number, quantity: number, orderId: number, price: string }) {
     const formData = new FormData();
-    
+
     formData.set("itemWeight", String(itemWeight));
     formData.set("productId", String(productId));
     formData.set("quantity", String(quantity));
@@ -21,7 +26,7 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
   }
 
   // Function to create an order based on what the user has in the cart 
-  async function createOrder({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}){
+  async function createOrder({ id, totalWeight, shipping, tax, subtotal, total, cartItems }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[] }) {
     const formData = new FormData();
 
     formData.set("userId", id);
@@ -40,8 +45,8 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
       orderId = Number(latestOrderId.data);
       formData.set("orderId", String(orderId));
 
-      cartItems.forEach((item) => {        
-        createNewOrderItem({itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
+      cartItems.forEach((item) => {
+        createNewOrderItem({ itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice });
       });
 
       await deleteAllCartItems(id);
@@ -55,16 +60,16 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
       console.log(error);
     }
   }
-  
+
   return (
     <div>
       <button
-            onClick={(event) => {
-              createOrder({id: id, totalWeight: totalWeight, shipping: shipping, tax: tax, subtotal: subtotal, total: total, cartItems: cartItems})
-            }} 
-            className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">
+        onClick={(event) => {
+          createOrder({ id: id, totalWeight: totalWeight, shipping: shipping, tax: tax, subtotal: subtotal, total: total, cartItems: cartItems })
+        }}
+        className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">
         Place Your Order & Pay
-      </button>   
+      </button>
     </div>
   );
 }

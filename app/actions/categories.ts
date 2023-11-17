@@ -12,6 +12,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 const categoryNameRegex: RegExp = /^[a-zA-Z0-9\s]+$/;
 const slugRegex: RegExp = /^[a-z0-9-]+$/;
 
@@ -80,7 +86,7 @@ export async function createCategoryAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Create Category" };
   }
   revalidatePath("/admin/categories");
-  redirect("/admin/categories?status=created");
+  redirect("/admin/categories?status=added");
 }
 
 const UpdateCategory = FormSchema.pick({
@@ -178,5 +184,4 @@ export async function deleteCategoryAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete Category" };
   }
   revalidatePath("/admin/categories");
-  redirect("?status=deleted");
 }

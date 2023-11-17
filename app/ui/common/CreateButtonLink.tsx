@@ -1,6 +1,12 @@
 import PlusIcon from "@heroicons/react/24/outline/PlusIcon";
 import Link from "next/link";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export function CreateButtonLink({ text, link }: { text: string, link: string }) {
     return (
         <Link href={link}

@@ -1,8 +1,14 @@
 import { db } from "@/db/db";
 import { productCategories, products } from "@/db/schema";
-import { asc, desc, eq, sql } from "drizzle-orm";
 import { Categories } from "@/lib/categories";
+import { asc, desc, eq, sql } from "drizzle-orm";
 
+/*
+  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>, Kyle Chen <kyle.chen@sjsu.edu>
+  Copyright (c) 2023. All rights reserved.
+*/
+
+// type for product - by Hung Pham
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
 export type ProductCategory = {
@@ -10,6 +16,7 @@ export type ProductCategory = {
   product_categories: Categories;
 };
 
+// type for product brand - by Aaron Low
 export type productBrand = {
   brand: string;
 };
@@ -19,7 +26,6 @@ export const getProducts = async (): Promise<Product[]> => {
   const result: Product[] = await db.select().from(products);
   return result;
 };
-
 
 // get product count
 export const getProductCount = async (): Promise<number> => {
@@ -36,7 +42,7 @@ export const getProductsCategory = async (): Promise<ProductCategory[]> => {
     .leftJoin(productCategories, eq(productCategories.id, products.categoryId));
   return result as ProductCategory[];
 };
-// get all featured products
+// get all featured products - by Hung Pham
 export const getFeaturedProducts = async () => {
   // select random 3 products
   const result = await db
@@ -48,13 +54,13 @@ export const getFeaturedProducts = async () => {
   return result as ProductCategory[];
 };
 
-// get all products with limit
+// get all products with limit - by Hung Pham
 export const getProductsLimit = async (limit: number) => {
   const result: Product[] = await db.select().from(products).limit(limit);
   return result;
 };
 
-// get product by id
+// get product by id - by Hung Pham
 export const getProductById = async (p_id: number): Promise<Product> => {
   const result: Product[] = await db
     .select()
@@ -63,7 +69,21 @@ export const getProductById = async (p_id: number): Promise<Product> => {
   return result[0];
 };
 
-// get product by name
+// get product by category - by Hung Pham
+export const getProductByCategory = async (category: number) => {
+  const result: Product[] = await db
+    .select()
+    .from(products)
+    .where(eq(products.categoryId, category));
+  return result;
+};
+
+// update product = by Hung Pham
+export const updateProduct = async (data: Product) => {
+  return await db.update(products).set(data).where(eq(products.id, data.id));
+};
+
+// get product by name - by Aaron Low
 export const getProductByName = async (
   p_name: string = ""
 ): Promise<Product[]> => {
@@ -75,16 +95,7 @@ export const getProductByName = async (
   return result;
 };
 
-// get product by category
-export const getProductByCategory = async (category: number) => {
-  const result: Product[] = await db
-    .select()
-    .from(products)
-    .where(eq(products.categoryId, category));
-  return result;
-};
-
-// get product by category name
+// get product by category name - by Aaron Low
 export const getProductByCategoryName = async (
   slug: string,
   priceSort: string,
@@ -118,32 +129,12 @@ export const getProductByCategoryName = async (
   return result;
 };
 
-// add a product
+// add a product - by Kyle Chen
 export const insertProduct = async (data: NewProduct) => {
   return db.insert(products).values(data);
 };
 
-// update product
-export const updateProduct = async (data: Product) => {
-  return await db.update(products).set(data).where(eq(products.id, data.id));
-
-  // return await db
-  // .update(products)
-  // .set({
-  //   name: data.name,
-  //   description: data.description,
-  //   slug: data.slug,
-  //   brand: data.brand,
-  //   categoryId: data.categoryId,
-  //   picture: data.picture,
-  //   itemWeight: data.itemWeight,
-  //   itemPrice: data.itemPrice,
-  //   itemQuantity: data.itemQuantity,
-  // })
-  // .where(eq(products.id, data.id));
-};
-
-// delete product
+// delete product - by Kyle Chen
 export const deleteProduct = async (id: number) => {
   return db.delete(products).where(eq(products.id, id));
 };

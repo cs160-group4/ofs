@@ -1,11 +1,16 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { getAuthSession } from '@/api/auth/[...nextauth]/options'
-import React from 'react';
-import { notFound, redirect } from 'next/navigation';
-import { getOrdersByUserIdAndOrderId } from '@/app/lib/orders';
+import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { OrderItemWithProduct, getOrderItemsByOrderId } from '@/app/lib/order_item';
+import { getOrdersByUserIdAndOrderId } from '@/app/lib/orders';
 import OrderItem from '@/app/ui/orders/OrderItem';
+import Link from 'next/link';
+import { notFound, redirect } from 'next/navigation';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function OrderSummary({ params }: { params: { id: string } }) {
     const session = await getAuthSession();
     const name = session?.user?.name;
@@ -101,7 +106,7 @@ export default async function OrderSummary({ params }: { params: { id: string } 
                                 <span className="text-xl">{order.discount}</span>
                             </span>
                         </div> : <div></div>}
-                        
+
 
                         <div
                             className="flex items-center justify-between px-10 py-3 font-medium leading-8 bg-white rounded-md shadow dark:text-gray-400 dark:bg-gray-800 font-heading">

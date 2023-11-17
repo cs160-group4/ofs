@@ -2,11 +2,18 @@ import EditForm from '@/app/ui/admin/categories/EditCategory';
 import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getCategoryById } from '@/lib/categories';
 import { notFound } from 'next/navigation';
-// import { Metadata } from 'next';
+import { Metadata } from 'next';
 
-// export const metadata: Metadata = {
-//     title: 'Edit Category | OFS Admin',
-// };
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+    title: 'Edit Category | OFS Admin Dashboard',
+    description: 'Edit Category page',
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
     try {
@@ -27,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         },
                     ]}
                 />
-               <EditForm category={category}/>
+                <EditForm category={category} />
             </main>
         );
     } catch (err) {

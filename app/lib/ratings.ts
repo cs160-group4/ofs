@@ -2,6 +2,12 @@ import { db } from "@/db/db";
 import { ratings } from "@/db/schema";
 import { and, eq, sql } from "drizzle-orm";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export type Rating = typeof ratings.$inferSelect;
 export type NewRating = typeof ratings.$inferInsert;
 // get all ratings

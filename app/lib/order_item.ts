@@ -1,6 +1,12 @@
 import { db } from "@/db/db";
 import { orderItem, products } from "@/db/schema";
-import { eq, or, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export type OrderItem = typeof orderItem.$inferSelect;
 export type NewOrderItem = typeof orderItem.$inferInsert;

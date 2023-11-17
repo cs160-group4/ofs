@@ -1,12 +1,12 @@
 'use client'
 import { editProduct } from "@/app/actions/products";
+import { Categories } from "@/app/lib/categories";
+import { useEdgeStore } from "@/app/lib/edgestore";
 import { Product } from "@/app/lib/products";
 import Link from "next/link";
-import { useFormStatus } from "react-dom";
-import { useEdgeStore } from "@/app/lib/edgestore";
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
 import { SingleImageDropzone } from "./SingleImageDropzone";
-import { Categories } from "@/app/lib/categories";
 
 /*
   Author: Kyle Chen

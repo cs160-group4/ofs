@@ -1,12 +1,16 @@
-import Image from 'next/image';
-// import { UpdateUser, DeleteUser } from '@/ui/admin/users/buttons';
-// import UserStatus from '@/ui/admin/users/status';
-import { formatDateToLocal } from '@/app/lib/utils';
-import { getFilteredUsers } from '@/app/lib/users';
-import { getAvatarURL } from '@/lib/utils';
-import { DeleteUser, UpdateUser } from '@/ui/admin/users/Buttons';
 import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
+import { getFilteredUsers } from '@/app/lib/users';
+import { formatDateToLocal } from '@/app/lib/utils';
+import { getAvatarURL } from '@/lib/utils';
+import { UpdateUser } from '@/ui/admin/users/Buttons';
 import { DeleteConfirmation, DeleteDialog } from '@/ui/admin/users/DeleteDialog';
+import Image from 'next/image';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function UsersTable({
   query,

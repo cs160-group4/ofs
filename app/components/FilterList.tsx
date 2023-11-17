@@ -1,19 +1,24 @@
-import { check } from 'drizzle-orm/mysql-core';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+
+/*
+  Author: Aaron Low
+  Email: aaron.c.low@sjsu.edu
+  Copyright (c) 2023 Aaron Low. All rights reserved.
+*/
 
 interface FilterListProps {
-    category:string;
+    category: string;
     brands: string[];
     checkedBrands: string[];
-    nameSort : string;
-    priceSort : string;
+    nameSort: string;
+    priceSort: string;
     setNameSort: React.Dispatch<React.SetStateAction<string>>;
     setPriceSort: React.Dispatch<React.SetStateAction<string>>;
     setCheckedBrands: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const FilterList: React.FC<FilterListProps> = ({category, brands, checkedBrands, nameSort, priceSort, setNameSort, setPriceSort, setCheckedBrands}) => {
-  
+const FilterList: React.FC<FilterListProps> = ({ category, brands, checkedBrands, nameSort, priceSort, setNameSort, setPriceSort, setCheckedBrands }) => {
+
     const sortPrice = ["Price - Low to High", "Price - High to Low"];
     const sortPriceSQL = ["ASC", "DESC"];
     const sortName = ["Name - A to Z", "Name - Z to A"];
@@ -21,8 +26,8 @@ const FilterList: React.FC<FilterListProps> = ({category, brands, checkedBrands,
 
     const handleBrandChange = (item: string) => {
         const updatedCheckedItems = checkedBrands.includes(item)
-        ? checkedBrands.filter((i) => i !== item)
-        : [...checkedBrands, item];
+            ? checkedBrands.filter((i) => i !== item)
+            : [...checkedBrands, item];
 
         setCheckedBrands(updatedCheckedItems)
     };
@@ -56,30 +61,30 @@ const FilterList: React.FC<FilterListProps> = ({category, brands, checkedBrands,
             <form>
                 {sortPrice.map((item, index) => (
                     <div key={item}>
-                        <input type="radio" 
-                        key={item} 
-                        id={"sort "+index} 
-                        name="sort"
-                        className='radio radio-sm'
-                        value={sortPriceSQL[index]}
-                        checked={sortPriceSQL[index] === priceSort}
-                        onChange={handlePriceSortChange}></input>
-                        <label htmlFor={"sort "+index} className='text-md'>{item}</label>
+                        <input type="radio"
+                            key={item}
+                            id={"sort " + index}
+                            name="sort"
+                            className='radio radio-sm'
+                            value={sortPriceSQL[index]}
+                            checked={sortPriceSQL[index] === priceSort}
+                            onChange={handlePriceSortChange}></input>
+                        <label htmlFor={"sort " + index} className='text-md'>{item}</label>
                     </div>
                 ))}
             </form>
             <form>
                 {sortName.map((item, index) => (
                     <div key={item}>
-                        <input type="radio" 
-                        key={item} 
-                        id={"sort "+index} 
-                        name="sort"
-                        className='radio radio-sm mx-auto'
-                        value={sortNameSQL[index]}
-                        checked={sortNameSQL[index] === nameSort}
-                        onChange={handleNameSortChange}></input>
-                        <label htmlFor={"sort "+index} className='text-md'>{item}</label>
+                        <input type="radio"
+                            key={item}
+                            id={"sort " + index}
+                            name="sort"
+                            className='radio radio-sm mx-auto'
+                            value={sortNameSQL[index]}
+                            checked={sortNameSQL[index] === nameSort}
+                            onChange={handleNameSortChange}></input>
+                        <label htmlFor={"sort " + index} className='text-md'>{item}</label>
                     </div>
                 ))}
             </form>

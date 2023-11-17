@@ -1,14 +1,20 @@
-import EditUserRoleForm from '@/ui/admin/users/EditUserRoleForm';
+import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
 import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getUser } from '@/lib/users';
-import { notFound } from 'next/navigation';
+import EditUserRoleForm from '@/ui/admin/users/EditUserRoleForm';
 import { Metadata } from 'next';
-import clsx from 'clsx';
 import Link from 'next/link';
-import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
+import { notFound } from 'next/navigation';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export const metadata: Metadata = {
-    title: 'Edit User',
+    title: 'Edit User | OFS Admin Dashboard',
+    description: 'Edit User page',
 };
 
 export default async function Page({ params }: { params: { id: string } }) {

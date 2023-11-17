@@ -1,6 +1,11 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 interface Breadcrumb {
   label: string;
   href: string;

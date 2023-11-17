@@ -1,14 +1,21 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import '@/app/globals.css'
+import '@/app/globals.css';
 import SideNavigation from '@/ui/admin/SideNavigation';
-import { GeistMono, GeistSans } from 'geist/font';
+import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
 import { Metadata } from 'next';
 import Link from 'next/link';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export const metadata: Metadata = {
     title: 'OFS Admin Dashboard',
     description: 'Order food from your OFS groceries.',
-    icons: '/favicon.jpg',
+    icons: '/favicon.ico',
 }
 
 export default async function RootLayout({ children, }: { children: React.ReactNode }) {

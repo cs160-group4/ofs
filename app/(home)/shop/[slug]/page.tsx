@@ -5,6 +5,12 @@ import ProductComponent from '@/components/ProductComponent'
 import { Product } from '@/lib/products';
 import { useEffect, useState } from 'react';
 
+/*
+  Author: Aaron Low
+  Email: aaron.c.low@sjsu.edu
+  Copyright (c) 2023 Aaron Low. All rights reserved.
+*/
+
 const ShopCategory = ({ params }: { params: { slug: string } }) => {
     const { slug } = params;
     const [products, setProducts] = useState<any>([]);

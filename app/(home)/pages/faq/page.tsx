@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/*
+  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>
+  Copyright (c) 2023. All rights reserved.
+*/
+
 export default function FAQs() {
     return (
         <div className='flex flex-col items-center justify-center py-2'>
