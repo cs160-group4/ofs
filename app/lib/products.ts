@@ -4,7 +4,7 @@ import { Categories } from "@/lib/categories";
 import { asc, desc, eq, sql } from "drizzle-orm";
 
 /*
-  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>, Kyle Chen <kyle.chen@sjsu.edu>
+  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>, Kyle Chen <kyle.chen@sjsu.edu>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
   Copyright (c) 2023. All rights reserved.
 */
 
@@ -137,4 +137,9 @@ export const insertProduct = async (data: NewProduct) => {
 // delete product - by Kyle Chen
 export const deleteProduct = async (id: number) => {
   return db.delete(products).where(eq(products.id, id));
+};
+
+// update product in cart - by Fariha
+export const updateProductQuantity = async (id: number, quantity: number) => {
+  return await db.update(products).set({itemQuantity: quantity}).where(eq(products.id, id));
 };
