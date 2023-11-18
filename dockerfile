@@ -14,8 +14,9 @@ RUN npm install
 
 COPY . /app
 
-EXPOSE 8888
+EXPOSE 3000
 
-# RUN npm run build
+RUN chmod +x createDB.sh
+ENTRYPOINT ["/app/createDB.sh"]
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "start"]

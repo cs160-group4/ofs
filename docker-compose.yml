@@ -10,7 +10,7 @@ services:
     command: ["--max_connections=100000"]
     image: mysql:8.0
     restart: unless-stopped
-    env_file: ./.env.local
+    env_file: ./.env.production
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
@@ -28,15 +28,11 @@ services:
     links:
       - "mysql-db:database"
     restart: unless-stopped
-    env_file: ./.env.local
+    env_file: ./.env.production
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "8888:8888"
-    volumes:
-      - /next
-      - /node_modules
-      - /app
+      - "3000:3000"
     depends_on:
       - mysql-db
     networks:
