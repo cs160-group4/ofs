@@ -2,10 +2,17 @@ import { User } from '@/app/lib/users';
 import { SignOutLink } from '@/app/ui/common/SignOutLink';
 import NavLinks from '@/ui/admin/NavLinks';
 import OFSLogo from '@/ui/logo';
-import Link from 'next/link';
 import {
   HomeIcon
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function SideNavigation({ user }: { user: User }) {
   const LinkIcon = HomeIcon;
   return (

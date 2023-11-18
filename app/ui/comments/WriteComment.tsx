@@ -3,6 +3,12 @@ import { SignInButton } from "@/app/components/SignInButton";
 import { writeCommentAction } from '@/actions/comments';
 import { useFormState } from "react-dom";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function WriteComment({ productId, signedIn }: { productId: number, signedIn: boolean }) {
     const initialState = { message: "", errors: {} };
     const [state, formAction] = useFormState(writeCommentAction, initialState)
@@ -16,7 +22,7 @@ export default function WriteComment({ productId, signedIn }: { productId: numbe
                         <form action={formAction} >
                             <input type="hidden" id="productId" name="productId" value={productId} />
                             <div className="px-2 mb-6">
-                                <textarea required id="text"  name="text" rows={5} minLength={1} maxLength={255}
+                                <textarea required id="text" name="text" rows={5} minLength={1} maxLength={255}
                                     placeholder="write a review"
                                     className="block w-full px-4 leading-tight text-gray-700 bg-gray-100 rounded hover:border-primary focus:border-primary" />
                             </div>

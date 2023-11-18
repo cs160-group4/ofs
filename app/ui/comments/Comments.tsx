@@ -1,6 +1,12 @@
 import { Comment } from "@/app/lib/comments";
 import CommentComponent from '@/app/ui/comments/Comment'
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function Comments({ comments }: { comments: Comment[] }) {
     return (
         <>

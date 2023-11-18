@@ -3,6 +3,12 @@ import { formatDateToLocal } from '@/app/lib/utils';
 import { UpdateCategory } from '@/ui/admin/categories/Buttons';
 import { DeleteCategoryConfirmation, DeleteCategoryDialog } from '@/ui/admin/categories/DeleteDialog';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function CategoriesTable({
   query,
   currentPage,
@@ -35,9 +41,7 @@ export default async function CategoriesTable({
                       </div>
                       <p className="text-sm text-gray-500">{category.description}</p>
                     </div>
-                    {/* Slug */}
                     <div className="flex items-center gap-2">
-                      {/* <UserStatus status={user.status} /> */}
                       <p className="text-sm text-gray-500">{category.slug}</p>
                     </div>
                   </div>
@@ -86,13 +90,6 @@ export default async function CategoriesTable({
                   >
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                       <div className="flex items-center gap-3">
-                        {/* <Image
-                        src={getAvatarURL(user.image)}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${user.name}'s profile picture`}
-                      /> */}
                         <p>{category.name}</p>
                       </div>
                     </td>

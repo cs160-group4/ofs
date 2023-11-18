@@ -1,10 +1,14 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Product, ProductCategory } from '@/lib/products'
-import { getCategoryNameById } from '@/lib/categories';
+import { Product, ProductCategory } from '@/lib/products';
+import Image from 'next/image';
+import Link from 'next/link';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
-export default async function FeaturedProducts ( { item }: { item: ProductCategory } ) {
+export default async function FeaturedProducts({ item }: { item: ProductCategory }) {
   let product: Product = item.products;
   let category = item.product_categories;
   if (!product) return null;
@@ -23,7 +27,6 @@ export default async function FeaturedProducts ( { item }: { item: ProductCatego
         <div className="card-body">
           <h2 className="card-title">
             {product.brand} {product.name}
-            {/* <div className="badge badge-secondary">NEW</div> */}
           </h2>
           <p>{truncatedDescription}</p>
           <div className="card-actions justify-end">

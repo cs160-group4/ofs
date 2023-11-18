@@ -1,17 +1,21 @@
 "use server";
+import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import {
   addProductToCart,
-  deleteProductFromCart,
   deleteAllProductsFromCart,
+  deleteProductFromCart,
   getProdInCart,
   updateProductInCart,
 } from "@/lib/cart";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
 import { getProductById } from "@/lib/products";
-import { getAuthSession } from "@/api/auth/[...nextauth]/options";
+import { revalidatePath } from "next/cache";
 
+/*
+  Authors: Hung Pham <mryo.hp@gmail.com>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
+  Copyright (c) 2023. All rights reserved.
+*/
+
+// Add to Cart Action - by Hung Pham on November 8th, 2023
 export async function addToCartAction(productId: number, quantity: number) {
   try {
     const session = await getAuthSession();
@@ -37,6 +41,7 @@ export async function addToCartAction(productId: number, quantity: number) {
   }
 }
 
+// Delete Cart Product - by Fariha on November 7th, 2023
 export async function deleteCartProduct(formData: FormData) {
   try {
     const cartId = Number(formData.get("cartId"));
@@ -53,6 +58,7 @@ export async function deleteCartProduct(formData: FormData) {
   }
 }
 
+// Update Cart Item - by Fariha on 11/16/2023
 export async function updateCartItem(formData: FormData) {
   try {
     const cartId = Number(formData.get("cartId"));
@@ -68,7 +74,7 @@ export async function updateCartItem(formData: FormData) {
     };
   }
 }
-
+// Delete All Cart Items - by Fariha on 11/16/2023
 export async function deleteAllCartItems(userId: string){
   try {
     await deleteAllProductsFromCart(userId);

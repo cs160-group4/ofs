@@ -1,6 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function DarkModeToggleButton() {
     const [theme, setTheme] = useState<string | null>(null);
     const handleToggle = (e: any) => {

@@ -5,6 +5,11 @@ import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useFormState } from 'react-dom';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export function CreateCategoryLink() {
     return (

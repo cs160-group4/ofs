@@ -1,8 +1,12 @@
-import { getAuthSession } from '@/api/auth/[...nextauth]/options'
+import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { CartItemCard } from '@/components/CartItemCard';
 import { CartItem, getCart } from '@/lib/cart';
-import Link from 'next/link'
-import React from 'react'
+import Link from 'next/link';
+
+/*
+  Authors: Fariha Ahmed <fariha.ahmed@sjsu.edu>, Kyle Chen <kyle.chen@sjsu.edu>,  Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
+*/
 
 export default async function Cart() {
     var signedIn = false;

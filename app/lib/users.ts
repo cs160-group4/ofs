@@ -4,21 +4,30 @@ import { eq, and, or, like, sql } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 
+/*
+  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>
+  Copyright (c) 2023. All rights reserved.
+*/
+
+// type for user - by Hung Pham
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
 
-export type NewEmail = {
+// type for new email - by Aaron Low
+export type NewEmail = { 
   newEmail: string;
   confirmEmail: string;
   user_id: string;
 };
 
+// type for new password - by Aaron Low
 export type NewPassword = {
   newPassword: string;
   confirmPassword: string;
   user_id: string;
 };
 
+// authenticate user - by Hung Pham
 export const authenticate = async (
   email: string,
   password: string
@@ -37,13 +46,13 @@ export const authenticate = async (
   }
   return null;
 };
-// get all users
+// get all users - by Hung Pham
 export const getUsers = async () => {
   const result: User[] = await db.select().from(user);
   return result;
 };
 
-// get user by id
+// get user by id - by Hung Pham
 export const getUser = async (id: string) => {
   const result: User[] = await db.select().from(user).where(eq(user.id, id));
   if (result.length > 0) {
@@ -53,6 +62,7 @@ export const getUser = async (id: string) => {
   }
 };
 
+// get Session User - by Hung Pham
 export const getSessionUser = async (id: string) => {
   try {
     const result: User[] = await db.select().from(user).where(eq(user.id, id));
@@ -77,17 +87,17 @@ export const getSessionUser = async (id: string) => {
   }
 };
 
-// get user role by id
+// get user role by id - by Hung Pham
 export const getUserRole = async (id: string): Promise<string> => {
   const result: User[] = await db.select().from(user).where(eq(user.id, id));
   if (result.length > 0) {
     return result[0].role;
   } else {
-    return "user";
+    return "customer";
   }
 };
 
-// get users pages
+// get users pages - by Hung Pham
 export const getUsersPages = async (query: string): Promise<number> => {
   try {
     const result = await db.select({ count: sql<number>`count(*)` }).from(user);
@@ -100,7 +110,7 @@ export const getUsersPages = async (query: string): Promise<number> => {
   }
 };
 
-// get filtered users
+// get filtered users - by Hung Pham
 export const getFilteredUsers = async (query: string, currentPage: number) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   // get all users that match the query (like name, email, and phone_number)
@@ -120,7 +130,7 @@ export const getFilteredUsers = async (query: string, currentPage: number) => {
   return result;
 };
 
-// Check if user exists
+// Check if user exists - by Hung Pham
 export const checkUserExists = async (id: string, email: string) => {
   const result: User[] = await db
     .select()
@@ -133,17 +143,17 @@ export const checkUserExists = async (id: string, email: string) => {
   }
 };
 
-// add a user
+// add a user - by Hung Pham
 export const insertUser = async (data: NewUser) => {
   return await db.insert(user).values(data);
 };
 
-// update user
+// update user - by Hung Pham
 export const updateUser = async (data: NewUser) => {
   return await db.update(user).set(data);
 };
 
-// update user role
+// update user role - by Hung Pham
 export async function updateUserRole(id: string, role: string) {
   const result = await db
     .update(user)
@@ -152,7 +162,7 @@ export async function updateUserRole(id: string, role: string) {
   return result;
 }
 
-// delete user
+// delete user - by Hung Pham
 export async function deleteUser(id: string) {
   try {
     return await db.delete(user).where(eq(user.id, id));
@@ -161,7 +171,7 @@ export async function deleteUser(id: string) {
   }
 }
 
-// update email
+// update email - by Aaron Low
 export const updateNewEmail = async (data: NewEmail) => {
   return await db
     .update(user)
@@ -169,7 +179,7 @@ export const updateNewEmail = async (data: NewEmail) => {
     .where(eq(user.id, data.user_id));
 };
 
-// update password
+// update password - by Aaron Low
 export const updateNewPassword = async (data: NewPassword) => {
   return await db
     .update(user)

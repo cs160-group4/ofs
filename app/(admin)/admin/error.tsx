@@ -1,28 +1,30 @@
-'use client' // Error components must be Client Components
-
+'use client'
+import { Metadata } from 'next'
 import { useEffect } from 'react'
 
-export default function Error({
-    error,
-    reset,
-}: {
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+    title: 'Error | OFS Admin Dashboard',
+    description: 'Error page',
+}
+
+export default function Error({ error, reset }: {
     error: Error & { digest?: string }
     reset: () => void
 }) {
     useEffect(() => {
-        // Log the error to an error reporting service
         console.error(error)
     }, [error])
 
     return (
         <div className="text-center p-8 space-y-4">
             <h2>Something went wrong!</h2>
-            <button className="btn btn-primary text-white"
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
-            >
+            <button className="btn btn-primary text-white" onClick={() => reset()}>
                 Try again
             </button>
         </div>

@@ -1,6 +1,13 @@
 import MainSliderComponent from '@/components/MainSliderComponent';
 import FeaturedProducts from '@/ui/home/FeaturedProducts';
 import { ProductCategory, getFeaturedProducts } from "@/lib/products";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function Home() {
   let result: ProductCategory[] = await getFeaturedProducts();
   return (

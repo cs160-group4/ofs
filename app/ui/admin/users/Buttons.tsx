@@ -1,9 +1,15 @@
 'use client';
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { deleteUserAction } from '@/actions/users';
-import { useFormState } from 'react-dom';
 import { SubmitButton } from "@/ui/common/Buttons";
+import { PencilIcon, PlusIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useFormState } from 'react-dom';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export function CreateUser() {
     return (
@@ -29,10 +35,10 @@ export function DeleteUser({ id }: { id: string }) {
     const [state, formAction] = useFormState(deleteUserAction, initialState)
     return (
         <div>
-        <form action={formAction}>
-            <input type="hidden" name="id" value={id} />
-            <SubmitButton text="Delete" />
-        </form>
-    </div>
+            <form action={formAction}>
+                <input type="hidden" name="id" value={id} />
+                <SubmitButton text="Delete" />
+            </form>
+        </div>
     );
 }

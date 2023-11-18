@@ -1,6 +1,11 @@
 import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, decimal, timestamp, unique } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export const account = mysqlTable("account", {
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),

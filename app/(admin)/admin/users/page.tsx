@@ -1,16 +1,20 @@
+import { getUsersPages } from '@/app/lib/users';
+import { SearchQueryProps } from '@/app/lib/utils';
+import StatusListener from '@/app/ui/common/StatusListener';
+import UsersTable from '@/ui/admin/users/Table';
 import Pagination from '@/ui/common/Pagination';
 import Search from '@/ui/common/Search';
-import UsersTable from '@/ui/admin/users/Table';
-import { CreateUser } from '@/ui/admin/users/Buttons';
-import { UsersTableSkeleton } from '@/app/ui/skeletons';
-import { Suspense } from 'react';
-import { getUsersPages } from '@/app/lib/users';
 import { Metadata } from 'next';
-import { SearchQueryProps } from '@/app/lib/utils';
-import HandleStatus from '@/app/ui/common/HandleStatus';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export const metadata: Metadata = {
-  title: 'Users',
+  title: 'Users | OFS Admin Dashboard',
+  description: 'Users page',
 };
 
 export default async function UserPage({ searchParams }: { searchParams: SearchQueryProps }) {
@@ -21,7 +25,7 @@ export default async function UserPage({ searchParams }: { searchParams: SearchQ
 
   return (
     <>
-      <HandleStatus />
+      <StatusListener name='user' />
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <h1 className='text-2xl'>Users</h1>

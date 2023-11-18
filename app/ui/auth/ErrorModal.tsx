@@ -1,5 +1,10 @@
 'use client';
-import React from "react";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 interface ModalProps {
     message: string;

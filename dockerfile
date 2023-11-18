@@ -1,3 +1,7 @@
+#   Author: Aaron Low
+#   Email: aaron.c.low@sjsu.edu
+#   Copyright (c) 2023 Aaron Low. All rights reserved.
+
 FROM node:18
 
 RUN mkdir -p /app
@@ -10,8 +14,9 @@ RUN npm install
 
 COPY . /app
 
-EXPOSE 8888
+EXPOSE 3000
 
-# RUN npm run build
+RUN chmod +x createDB.sh
+ENTRYPOINT ["/app/createDB.sh"]
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "start"]

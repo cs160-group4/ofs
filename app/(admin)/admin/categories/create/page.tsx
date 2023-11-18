@@ -2,8 +2,15 @@ import CreateForm from '@/ui/admin/categories/CreateForm';
 import Breadcrumbs from '@/ui/common/Breadcrumbs';
 import { Metadata } from 'next';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export const metadata: Metadata = {
-    title: 'Create Category',
+    title: 'Create Category | OFS Admin Dashboard',
+    description: 'Create Category page',
 };
 
 export default async function Page() {

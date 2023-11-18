@@ -1,13 +1,19 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options'
+import { getCart } from '@/app/lib/cart'
+import IconAdmin from '@/app/ui/admin/IconAdmin'
 import DarkModeToggleButton from '@/app/ui/common/DarkModeButton'
 import { SignOutLink } from '@/app/ui/common/SignOutLink'
+import { SearchBarComponent } from '@/components/SearchBarComponent'
+import { getAvatarURL } from '@/lib/utils'
 import LogoIcon from '@/ui/logo_icon'
 import Image from 'next/image'
 import Link from 'next/link'
-import { SearchBarComponent } from '@/components/SearchBarComponent'
-import IconAdmin from '@/app/ui/admin/IconAdmin'
-import { getAvatarURL } from '@/lib/utils'
-import { getCart } from '@/app/lib/cart'
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function NavbarComponent() {
     var signedIn = false;
@@ -88,7 +94,7 @@ export default async function NavbarComponent() {
                             <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                                 <div className="card-body">
                                     <span className="font-bold text-lg">{numCartItems} Items</span>
-                                    <span className="text-info">Subtotal: ${Math.round(cartItemsPrice * 100)/ 100}</span>
+                                    <span className="text-info">Subtotal: ${Math.round(cartItemsPrice * 100) / 100}</span>
                                     <div className="card-actions">
                                         <Link href="/cart">
                                             <button className="btn btn-primary btn-block text-white">

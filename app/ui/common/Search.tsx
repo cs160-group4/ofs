@@ -4,6 +4,12 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -32,7 +38,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
-        defaultValue={searchParams.get('query')?.toString() }
+        defaultValue={searchParams.get('query')?.toString()}
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
     </div>

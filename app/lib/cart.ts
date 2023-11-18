@@ -1,23 +1,31 @@
 import { db } from "@/db/db";
-import { cart, orders, products, user } from "@/db/schema";
-import { and, eq, or, sql } from "drizzle-orm";
-import { User } from "@/lib/users";
+import { cart, products, user } from "@/db/schema";
 import { Product } from "@/lib/products";
+import { User } from "@/lib/users";
+import { and, eq, sql } from "drizzle-orm";
 
+/*
+  Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>
+  Copyright (c) 2023. All rights reserved.
+*/
+
+// cart types - by Hung Pham
 export type Cart = typeof cart.$inferSelect;
 export type NewCart = typeof cart.$inferInsert;
 
+// cart item - by Hung Pham
 export type CartItem = {
   cart: Cart;
   products: Product;
   user: User;
 };
 
+// get all carts - by Hung Pham
 export const getCarts = async () => {
   return await db.select().from(cart);
 };
 
-// get cart by user id
+// get cart by user id - by Hung Pham
 export const getCart = async (user_id: string) => {
   const result = await db
     .select()
@@ -28,7 +36,22 @@ export const getCart = async (user_id: string) => {
   return result as CartItem[];
 };
 
-// get cart by user id
+// add a product to cart - by Hung Pham
+export const addProductToCart = async (data: NewCart) => {
+  return await db.insert(cart).values(data);
+};
+
+// update product in cart - by Hung Pham
+export const updateProductInCart = async (id: number, quantity: number) => {
+  return await db.update(cart).set({quantity: quantity}).where(eq(cart.id, id));
+};
+
+// delete all products from cart - by Hung Pham
+export const deleteAllProductsFromCart = async (user_id: string) => {
+  return await db.delete(cart).where(eq(cart.userId, user_id));
+};
+
+// get cart by user id - by Aaron Low
 export const getProdInCart = async (user_id: string, prod_id : number) => {
   const result = await db
     .select({
@@ -42,27 +65,13 @@ export const getProdInCart = async (user_id: string, prod_id : number) => {
   return result[0] as Cart;
 };
 
-// add a product to cart
-export const addProductToCart = async (data: NewCart) => {
-  return await db.insert(cart).values(data);
-};
-
-// delete product from cart
+// delete product from cart - by Aaron Low
 export const deleteProductFromCart = async (id: number, user_id:string) => {
   return await db.delete(cart).where(sql`${cart.id} = ${id} and ${cart.userId} = ${user_id}`);
 };
 
-// update product in cart
+// update product in cart - by Aaron Low
 export const updateSpecificProductInCart = async (id: number, data: NewCart) => {
   return await db.update(cart).set(data).where(eq(cart.id, id));
 };
 
-// update product in cart
-export const updateProductInCart = async (id: number, quantity: number) => {
-  return await db.update(cart).set({quantity: quantity}).where(eq(cart.id, id));
-};
-
-// delete all products from cart
-export const deleteAllProductsFromCart = async (user_id: string) => {
-  return await db.delete(cart).where(eq(cart.userId, user_id));
-};

@@ -1,21 +1,14 @@
 import { getOrderCount, getOrders, getTotalRevenue } from "@/lib/orders";
 import { getProductCount } from "@/lib/products";
-import { unstable_noStore as noStore } from "next/cache";
 import { Revenue } from "@/lib/utils";
+import { unstable_noStore as noStore } from "next/cache";
 
-// export async function getAdminRevenueData(): Promise<Revenue[]> {
-//   noStore();
-//   try {
-//     const orders = await getOrders();
-//     let data: Revenue[] = [];
-//     orders.forEach((order) => {
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
-//     });
-//     return data;
-//   } catch (error) {
-//     throw new Error("Failed to fetch revenue data.");
-//   }
-// }
 const months: string[] = [
   "Jan",
   "Feb",

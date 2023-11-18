@@ -1,5 +1,11 @@
 import { getProducts, getProductById } from "@/lib/products";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export async function GET(req: Request) {
     return Response.json(await getProducts());
 }

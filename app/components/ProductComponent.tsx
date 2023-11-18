@@ -1,10 +1,16 @@
 'use client'
 
-import Link from 'next/link'
-import Image from 'next/image'
-import { Product } from '@/lib/products'
+import { Product } from '@/lib/products';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getImageUrl } from '../lib/utils';
+
+/*
+  Author: Aaron Low
+  Email: aaron.c.low@sjsu.edu
+  Copyright (c) 2023 Aaron Low. All rights reserved.
+*/
 
 const ProductComponent = ({ product }: { product: Product }) => {
   const [category, setCategory] = useState<string>("");

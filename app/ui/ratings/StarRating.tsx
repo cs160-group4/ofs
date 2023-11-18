@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// Source: https://dev.to/mdmostafizurrahaman/how-to-make-a-rating-component-with-react-typescript-396p
 interface RatingProps {
   className?: string;
   count: number;
@@ -151,5 +152,5 @@ const Rating: React.FC<RatingProps> = ({
 
   return <div className={`rating ${className}`}>{stars}</div>;
 };
-// Source: https://dev.to/mdmostafizurrahaman/how-to-make-a-rating-component-with-react-typescript-396p
+
 export default Rating;

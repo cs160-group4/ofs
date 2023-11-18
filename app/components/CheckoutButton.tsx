@@ -1,9 +1,15 @@
 "use client"
 import React from 'react';
-import { CartItem } from '../lib/cart';
+import { CartItem } from '@/lib/cart';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
-import { deleteAllCartItems } from '../actions/cart';
-import { updateProductItemQuantity } from '../actions/products';
+import { deleteAllCartItems } from '@/actions/cart';
+import { updateProductItemQuantity } from '@/actions/products';
+
+/*
+  Author: Fariha Ahmed
+  Email: fariha.ahmed@sjsu.edu
+  Copyright (c) 2023 Fariha Ahmed. All rights reserved.
+*/
 
 export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}) {
   var orderId = 0;
