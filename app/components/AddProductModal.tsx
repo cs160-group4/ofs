@@ -14,7 +14,7 @@ export default function AddProductButtonComponent({categories} : {categories:Cat
 
   return (
     <>
-      <button className="btn btn-primary rounded-box w-48 text-white" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
+      <button className="btn btn-square btn-sm btn-primary rounded-lg w-48 h-10 text-white" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
       <dialog id='add-modal' className="modal" onClose={() => setKey(Math.random())}>
         <div className="modal-box w-8/12 max-w-5xl">
           <form method="dialog">

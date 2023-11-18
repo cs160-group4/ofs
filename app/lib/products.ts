@@ -1,7 +1,7 @@
 import { db } from "@/db/db";
 import { productCategories, products } from "@/db/schema";
 import { Categories } from "@/lib/categories";
-import { asc, desc, eq, sql } from "drizzle-orm";
+import { asc, desc, eq, like, or, sql } from "drizzle-orm";
 
 /*
   Authors: Hung Pham <mryo.hp@gmail.com>, Aaron Low <aaron.c.low@sjsu.edu>, Kyle Chen <kyle.chen@sjsu.edu>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
@@ -57,6 +57,25 @@ export const getFeaturedProducts = async () => {
 // get all products with limit - by Hung Pham
 export const getProductsLimit = async (limit: number) => {
   const result: Product[] = await db.select().from(products).limit(limit);
+  return result;
+};
+
+
+export const getFilteredProduct = async (
+  query: string
+) => {
+  const result: Product[] = await db
+    .select()
+    .from(products)
+    .where(or(
+      like(products.name, `%${query}%`),
+      like(products.id, `%${query}%`),
+      like(products.slug, `%${query}%`),
+      like(products.description, `%${query}%`),
+      like(products.brand, `%${query}%`)
+    ))
+    .orderBy(asc(products.id), asc(products.createdAt))
+
   return result;
 };
 
