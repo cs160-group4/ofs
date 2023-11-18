@@ -12,14 +12,19 @@ Team 4 project - OFS
 git clone https://github.com/cs160-group4/ofs.git
 ```
 
-2. Run Docker Compose:
+2. Change directory to 'ofs'
+```bash
+cd ofs
+```
+
+3. Run Docker Compose:
 ```bash
 docker compose up
 ```
 
-3. In Docker Desktop Run the OFS container
+4. In Docker Desktop Run the OFS container
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Example Features
 
