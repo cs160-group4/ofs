@@ -1,11 +1,14 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import { getAddress } from '@/lib/addresses';
+import { Addresses, getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
+import { DeliveryAddressComponent } from '@/app/components/DeliveryAddressComponent';
 import { PaymentMethod } from '@/app/components/PaymentMethod';
 import { CheckoutButton } from '@/app/components/CheckoutButton';
+import { CheckoutPage } from '@/app/components/CheckoutPage';
 import Link from 'next/link';
 import { create } from 'domain';
+import {useState} from 'react';
 
 export default async function Checkout() {
     var signedIn = false;
@@ -34,7 +37,6 @@ export default async function Checkout() {
     }
 
     const addresses = await getAddress(id)
-    const mainAddress = addresses[0];
 
     const cartItems = await getCart(id);
 
@@ -78,20 +80,22 @@ export default async function Checkout() {
                 <h1 className="text-3xl font-bold">Checkout</h1>
             </div>
 
-            <div className="mx-auto justify-center md:flex md:space-x-6">
+            <CheckoutPage name={name} id={id} addresses={addresses} cartItems={cartItems}  />
+
+            {/* <div className="mx-auto justify-center md:flex md:space-x-6">
                 <div className="grid grid-cols-3 gap-10 auto-cols-max md:w-4/5">
                     <h2 className="font-bold text-xl">1. Delivery Address</h2>
                     <div>
                         {name}<br />
                         {mainAddress ? <> {mainAddress.addressLine1}<br />
-                            {mainAddress.addressLine2 !== null && (<p>{mainAddress.addressLine2} <br /></p>)}
+                            {mainAddress.addressLine2 !== null && mainAddress.addressLine2.trim() !== "" && (<p>{mainAddress.addressLine2} <br /></p>)}
                             {mainAddress.city}, {mainAddress.state} {mainAddress.postalCode}</>
                             :
                             <p>You have not set up an address yet. Please add one.</p>}
 
                     </div>
                     <div>
-                        <button className="btn text-center btn-link font-small">Change</button>
+                        <DeliveryAddressComponent id={id} addresses={addresses}/>
                     </div>
 
 
@@ -129,7 +133,7 @@ export default async function Checkout() {
                     </div>
                     <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems}/>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../acti
 import { deleteAllCartItems } from '../actions/cart';
 import { updateProductItemQuantity } from '../actions/products';
 
-export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}) {
+export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number}) {
   var orderId = 0;
   
   // Function to create an order item for each item in the user's cart
@@ -35,7 +35,7 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     formData.set("discount", "0.00");
     formData.set("subtotal", subtotal);
     formData.set("grandTotal", total);
-    formData.set("deliveryStatus", "Pending");
+    formData.set("shippingAddressId", String(shippingAddressId));
 
     try {
       await createNewOrder(formData);
