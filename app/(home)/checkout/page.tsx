@@ -1,9 +1,7 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import { CartItemCard } from '@/app/components/CartItemCard';
-import { CheckoutButton } from '@/app/components/CheckoutButton';
-import { PaymentMethod } from '@/app/components/PaymentMethod';
 import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
+import { CheckoutPage } from '@/app/components/CheckoutPage';
 import { CartItemCard } from '@/app/components/CartItemCard';
 import { PaymentMethod } from '@/app/components/PaymentMethod';
 import { CheckoutButton } from '@/app/components/CheckoutButton';
