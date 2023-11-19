@@ -9,12 +9,12 @@ import {useState} from 'react';
 import { delivery } from '../db/schema';
 
 export function CheckoutPage({name, id, addresses, cartItems }: {name: string, id: string, addresses: Addresses[], cartItems: CartItem[]}) {
-  const [shippingAddressId, setShippingAddressId] = useState(addresses[0].id);
+  const [shippingAddressId, setShippingAddressId] = useState(addresses[0]?.id ? addresses[0].id : 0);
   const updateShippingAddress = (id: number) => {
     setShippingAddressId(id);
   }
 
-  var deliveryAddress = addresses[0];
+  var deliveryAddress = addresses[0] ? addresses[0] : null;
   addresses.forEach((address) => {
     if(address.id == shippingAddressId) {
       deliveryAddress = address;
