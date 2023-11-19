@@ -2,6 +2,10 @@ Team 4 project - OFS
 
 ## User's Guide (Installation and Configuration)
 
+### Usage Video
+
+Video: https://drive.google.com/file/d/1C829_4w0x5k0WtyUmXsM8hFuKrpAl40i/view?usp=sharing
+
 ### Prequisites
 1. Setup Docker Desktop
 
