@@ -79,7 +79,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress}: {i
 
             <div className="modal-action">
               <form method="dialog">
-                <button className=" absolute top-1 right-3">X</button>
+                <button className="font-bold text-lg absolute top-2 right-4">x</button>
                 <button className="btn btn-accent rounded">Use this address</button>
               </form>
             </div>

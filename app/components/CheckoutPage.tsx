@@ -9,7 +9,7 @@ import {useState} from 'react';
 import { delivery } from '../db/schema';
 
 export function CheckoutPage({name, id, addresses, cartItems }: {name: string, id: string, addresses: Addresses[], cartItems: CartItem[]}) {
-  const [shippingAddressId, setShippingAddressId] = useState(0);
+  const [shippingAddressId, setShippingAddressId] = useState(addresses[0].id);
   const updateShippingAddress = (id: number) => {
     setShippingAddressId(id);
   }
