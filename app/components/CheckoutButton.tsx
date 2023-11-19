@@ -1,8 +1,8 @@
 "use client"
 import React from 'react';
-import { CartItem } from '@/lib/cart';
+import { Cart, CartItem } from '@/lib/cart';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
-import { deleteAllCartItems } from '@/actions/cart';
+import { deleteAllCartItems, deleteCartProduct } from '@/actions/cart';
 import { updateProductItemQuantity } from '@/actions/products';
 
 /*
@@ -24,10 +24,15 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     formData.set("orderId", String(orderId));
     formData.set("price", price);
 
-    await createOrderItem(formData);
+    const orderItem = await createOrderItem(formData);
+    console.log(orderItem.message);
+  }
 
-    const updatedProductQuantity = item.products.itemQuantity - quantity;
-    await updateProductItemQuantity(productId, updatedProductQuantity);
+  // Function to update the amount of product left in stock after a customer places an order
+  async function updateProductQuantity(item: CartItem){
+    const updatedProductQuantity = item.products.itemQuantity - item.cart.quantity;
+    const updateDB = await updateProductItemQuantity(item.products.id, updatedProductQuantity);
+    console.log(updateDB.message);  
   }
 
   // Function to create an order based on what the user has in the cart 
@@ -50,17 +55,21 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
       orderId = Number(latestOrderId.data);
       formData.set("orderId", String(orderId));
 
-      cartItems.forEach((item) => {        
-        createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
-      });
+      await Promise.all(cartItems.map((item) => {
+        return createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
+      }));
 
+      await Promise.all(cartItems.map((item) => {
+        return updateProductQuantity(item);
+      }));
+
+      //setTimeout(() => {
+      window.location.href = `/order-summary/${orderId}`;
+      //}, 1000);
+      
       await deleteAllCartItems(id);
 
       // const res = await assignOrderToRobot(formData);
-
-      setTimeout(() => {
-        window.location.href = `/order-summary/${orderId}`;
-      }, 1000);
     } catch (error) {
       console.log(error);
     }
