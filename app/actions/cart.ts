@@ -74,12 +74,14 @@ export async function updateCartItem(formData: FormData) {
     };
   }
 }
+
 // Delete All Cart Items - by Fariha on 11/16/2023
 export async function deleteAllCartItems(userId: string){
   try {
-    await deleteAllProductsFromCart(userId);
-    return { success: true, message: "Deleted all Cart Items" }
+    const res = await deleteAllProductsFromCart(userId);
+    return { success: true, message: "Deleted all Cart Items" };
   } catch (error) {
     return { message: "Database Error: Failed to delete all Cart Items" };
   }
+  //return {message: "TESTING DELETING ALL CART ITEMS"}
 }

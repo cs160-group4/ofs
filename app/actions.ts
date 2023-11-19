@@ -1,9 +1,9 @@
 "use server";
 import { z } from "zod";
+import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress } from "./lib/addresses";
+import { createOrder,  getOrdersByUserId } from "./lib/orders";
 import { addOrderItem } from "./lib/order_item";
-import { createOrder, getOrdersByUserId } from "./lib/orders";
-import { deleteProduct, insertProduct } from "./lib/products";
 import bcrypt from 'bcrypt';
 import { revalidatePath } from "next/cache";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
@@ -97,7 +97,10 @@ export async function addNewAddress(formData: FormData) {
     state: z.string(),
     postalCode: z.string(),
     addressLine2: z.string(),
-    userId: z.string()
+    userId: z.string(),
+    country: z.string(),
+    // latitude: z.string(),
+    // longitude: z.string()
   });
 
   try {
@@ -107,7 +110,10 @@ export async function addNewAddress(formData: FormData) {
       state: formData.get("state"),
       postalCode: formData.get("postalCode"),
       addressLine2: formData.get("addressLine2"),
-      userId: formData.get("userId")
+      userId: formData.get("userId"),
+      country: "USA"
+      // latitude: formData.get("latitude"),
+      // longitude: formData.get("longitude")
     });
 
     if(newAddress.success)
@@ -125,16 +131,14 @@ export async function addNewAddress(formData: FormData) {
   }
 }
 
-export async function deleteAddressFromDB(formData: FormData) {
-  try {
-    const id = formData.get("id");
-    //await deleteAddress(id);
-    revalidatePath("/profile");
-    return { message: "Deleted Address" };
-  } catch (error) {
-  }
-  revalidatePath('/cart');
-}
+// export async function getAddressById(id: number) {
+//   try {
+//     //await getAddress(id);
+
+//     return { message: "Deleted Address" };
+//   } catch (error) {
+//   }
+// }
 
 // Aaron - 11/07/23
 export async function updateEmail(formData: FormData) {
@@ -235,7 +239,8 @@ export async function createNewOrder(formData: FormData) {
     shippingCost: z.string().regex(priceEx),
     discount: z.string().regex(priceEx),
     grandTotal: z.string().regex(priceEx),
-    deliveryStatus: z.string()
+    deliveryStatus: z.string(),
+    shippingAddressId: z.number().positive()
   });
 
   try {
@@ -247,14 +252,15 @@ export async function createNewOrder(formData: FormData) {
       shippingCost: formData.get("shippingCost"),
       discount: formData.get("discount"),
       grandTotal: formData.get("grandTotal"),
-      deliveryStatus: formData.get("deliveryStatus")
+      deliveryStatus: "pending",
+      shippingAddressId: Number(formData.get("shippingAddressId"))
     })
     
     if(order.success){
       await createOrder(order.data);
       return { success: true, message: "Order created successfully" }
     } else {
-      return { success: false, message: "Order failed to be created"}
+      return { success: false, message: order.error.errors }
     }
   } catch (error) {
     return {success: false, err: true, message: "Error: Order failed to be added"}
