@@ -1,17 +1,30 @@
+import { getCategories } from '@/app/lib/categories';
+import { UpdateProduct } from '@/app/ui/admin/products/Buttons';
+import StatusListener from '@/app/ui/common/StatusListener';
 import AddProductButtonComponent from '@/components/AddProductModal';
 import { RemoveProductForm } from '@/components/RemoveProductForm';
-import { getProducts } from '@/lib/products'
-import Image from 'next/image'
+import { getProducts } from '@/lib/products';
+import { Metadata } from 'next';
+import Image from 'next/image';
 import { Suspense } from 'react';
-import { UpdateProduct } from '@/app/ui/admin/products/Buttons';
-import { getCategories } from '@/app/lib/categories';
+
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+  title: 'Products | OFS Admin Dashboard',
+};
 
 export default async function AdminProducts() {
   const products = await getProducts();
   const categories = await getCategories();
-  
+
   return (
     <>
+      <StatusListener name='product' />
       <div className='flex flex-col mx-6 pt-7 gap-y-5'>
         {/* title/header */}
         <div className='flex flex-col pb-6 items-center lg:items-start text-center'>
@@ -59,11 +72,11 @@ export default async function AdminProducts() {
                     {/* tentative change, can remove once all images are stored */}
                     {product.picture.substring(0, 5).localeCompare("https") === 0 && (
                       <Image src={product.picture} alt={product.name}
-                      width={50} height={50} className="h-[50px]" />
+                        width={50} height={50} className="h-[50px]" />
                     )}
                     {product.picture.substring(0, 5).localeCompare("https") != 0 && (
                       <Image src={"/" + product.picture} alt={product.name}
-                      width={50} height={50} className="h-[50px]" />
+                        width={50} height={50} className="h-[50px]" />
                     )}
                   </td>
                   <td>
@@ -83,7 +96,7 @@ export default async function AdminProducts() {
                     <div className='flex gap-3'>
                       <UpdateProduct id={product.id} />
                       <Suspense fallback={<p>Deleting...</p>}>
-                        <RemoveProductForm id={product.id} name={product.name} url={product.picture}/>
+                        <RemoveProductForm id={product.id} name={product.name} url={product.picture} />
                       </Suspense>
                     </div>
                   </td>

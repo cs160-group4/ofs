@@ -1,9 +1,15 @@
 import { db } from "@/db/db";
-import { orders, user, addresses } from "@/db/schema";
-import { eq, asc, desc, and, sql, or, like } from "drizzle-orm";
+import { addresses, orders, user } from "@/db/schema";
 import { Addresses } from "@/lib/addresses";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { User } from "@/lib/users";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
@@ -140,12 +146,11 @@ export const updateOrder = async (id: number, data: NewOrder) => {
   return await db.update(orders).set(data).where(eq(orders.id, id));
 };
 
-// update order with assigned robot
+//// update order with assigned robot - by Fariha Ahmed <fariha.ahmed@sjsu.edu>
 // export const updateOrderWithRobotId = async (id: number, robot_id: number) => {
 //   return await db.update(orders).set({robotId: robot_id}).where(eq(orders.id, id));
 // }
 
-// update order delivery status
 // update order delivery status
 export const updateOrderDeliveryStatus = async (
   id: number,

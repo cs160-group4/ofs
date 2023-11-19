@@ -1,3 +1,9 @@
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function Contact() {
   return (
     <>  <h1 className="text-3xl text-center font-bold mt-8">Contact Us</h1>

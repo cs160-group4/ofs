@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 :root {
     --var-logo-image: url('/images/h_logo.png');

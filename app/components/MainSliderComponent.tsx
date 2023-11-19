@@ -1,5 +1,11 @@
-import Link from 'next/link'
 import Image from 'next/image'
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function MainSliderComponent() {
   return (
     <div className="carousel w-full  h-[650px] shadow-xl relative">

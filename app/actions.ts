@@ -4,11 +4,14 @@ import { Product, deleteProduct, insertProduct } from "./lib/products";
 import { addAddress } from "./lib/addresses";
 import { createOrder,  getOrdersByUserId } from "./lib/orders";
 import { addOrderItem } from "./lib/order_item";
-// import { getRobots, updateRobotWithOrder } from "./lib/robots";
+import bcrypt from 'bcrypt';
 import { revalidatePath } from "next/cache";
-import { deleteReview } from "./lib/reviews";
 import { NewEmail, NewPassword, updateNewEmail, updateNewPassword } from "./lib/users";
-import bcrypt, { hash } from 'bcrypt';
+
+/*
+  Authors: Kyle Chen, Fariha, Aaron Low
+  Copyright (c) 2023. All rights reserved.
+*/
 
 function formatDate(date: Date) {
   const year = date.getFullYear();

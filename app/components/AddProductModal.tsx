@@ -1,15 +1,20 @@
 'use client'
 import { useState } from 'react'
-import { AddProductForm } from './AddProductForm'
 import { Categories } from '../lib/categories'
+import { AddProductForm } from './AddProductForm'
+
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
 
 export default function AddProductButtonComponent({categories} : {categories:Categories[]}) {
   const [key, setKey] = useState(Math.random())
 
   return (
     <>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button className="btn btn-primary rounded-box w-48" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
+      <button className="btn btn-primary rounded-box w-48 text-white" onClick={() => ((document.getElementById('add-modal') as HTMLDialogElement)).showModal()}>+  Add Product</button>
       <dialog id='add-modal' className="modal" onClose={() => setKey(Math.random())}>
         <div className="modal-box w-8/12 max-w-5xl">
           <form method="dialog">

@@ -4,6 +4,13 @@ import Link from 'next/link'
 import { createUser } from '@/actions/users'
 import { useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 const initialState = {
     errors: {},
     message: "",

@@ -4,6 +4,11 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { updateOrderDeliveryStatus } from "@/lib/orders";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 const FormSchema = z.object({
     id: z.number(),
@@ -29,7 +34,7 @@ export async function editDeliveryStatusAction(prevState: any, formData: FormDat
       const { id, deliveryStatus } = validatedFields.data;
       const result = await updateOrderDeliveryStatus(id, deliveryStatus);
     } catch (error) {
-      return { message: "Database Error: Failed to Update Invoice." };
+      return { message: "Database Error: Failed to update Delivery ." };
     }
   
     revalidatePath("/admin/orders");

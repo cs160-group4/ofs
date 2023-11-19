@@ -12,6 +12,12 @@ import { getProductRatingByUserId, getRatingsByProductId } from '@/lib/ratings'
 import Image from 'next/image'
 import Link from 'next/link'
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function ProductDetails({ params }: { params: { id: string } }) {
     let prod_id: number = parseInt(params.id);
     if (isNaN(prod_id)) {
@@ -44,7 +50,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
                         <div className="w-full px-4 mb-8 md:w-1/2 md:mb-0">
                             <div className="flex sticky top-0 overflow-hidden items-center justify-center">
                                 <div className="relative mb-6 lg:mb-10 lg:h-96">
-                                    <Image src={productPicture} alt={product.name} width={448} height={704}  className='object-fill'/>
+                                    <Image src={productPicture} alt={product.name} width={448} height={704} className='object-fill' />
                                 </div>
                             </div>
                         </div>

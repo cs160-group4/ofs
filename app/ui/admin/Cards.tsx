@@ -1,10 +1,16 @@
+import { getAdminCardData } from '@/lib/admin';
 import {
   BanknotesIcon,
   ClockIcon,
-  UserGroupIcon,
   InboxIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
-import { getAdminCardData } from '@/lib/admin';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function Cards() {
   const {

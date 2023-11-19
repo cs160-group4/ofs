@@ -1,9 +1,15 @@
 import { db } from "@/db/db";
-import { comments, user, products } from "@/db/schema";
-import { eq, like, sql, or } from "drizzle-orm";
-import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { comments, products, user } from "@/db/schema";
 import { Product } from "@/lib/products";
 import { User } from "@/lib/users";
+import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { eq, like, or, sql } from "drizzle-orm";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;

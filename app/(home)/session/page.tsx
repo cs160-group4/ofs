@@ -1,7 +1,18 @@
 import { getAuthSession } from "@/api/auth/[...nextauth]/options";
 import { NextApiRequest } from "next";
+import { notFound } from "next/navigation";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+// An example of how to get user's session data using server side rendering
+
 export default async function SessionPage() {
-    const session = await getAuthSession();
+    // const session = await getAuthSession();
+    notFound();
     return (
         <>
             {/* <div className="space-y-2  flex flex-col items-center">

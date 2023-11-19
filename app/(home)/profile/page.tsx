@@ -7,6 +7,11 @@ import { getAddress } from '@/lib/addresses';
 import Image from 'next/image';
 import Link from 'next/link';
 
+/*
+  Authors: Fariha Ahmed <fariha.ahmed@sjsu.edu>, Aaron Low <aaron.c.low@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
+*/
+
 export default async function ProfilePage() {
     var signedIn = false;
     var name = "";

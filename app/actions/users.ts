@@ -1,18 +1,22 @@
 "use server";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import {
   NewUser,
-  User,
   checkUserExists,
+  deleteUser,
   insertUser,
-  updateUserRole,
+  updateUserRole
 } from "@/lib/users";
-import { randomUUID } from "crypto";
-import { deleteUser } from "@/lib/users";
-import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { FormErrorState } from "../lib/utils";
+import { randomUUID } from "crypto";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 const FormSchema = z.object({
   id: z.string(),
@@ -124,5 +128,4 @@ export async function deleteUserAction(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Delete User." };
   }
   revalidatePath("/admin/users");
-  redirect("?status=deleted");
 }

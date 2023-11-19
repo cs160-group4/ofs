@@ -1,6 +1,10 @@
 import type { Config } from "drizzle-kit";
-import dotenv from "dotenv";
-dotenv.config({ path: "./.env.local" });
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default {
   driver: "mysql2",

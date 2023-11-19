@@ -1,14 +1,18 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import { Addresses, getAddress } from '@/lib/addresses';
+import { CartItemCard } from '@/app/components/CartItemCard';
+import { CheckoutButton } from '@/app/components/CheckoutButton';
+import { PaymentMethod } from '@/app/components/PaymentMethod';
+import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
-import { DeliveryAddressComponent } from '@/app/components/DeliveryAddressComponent';
 import { PaymentMethod } from '@/app/components/PaymentMethod';
 import { CheckoutButton } from '@/app/components/CheckoutButton';
-import { CheckoutPage } from '@/app/components/CheckoutPage';
 import Link from 'next/link';
-import { create } from 'domain';
-import {useState} from 'react';
+
+/*
+  Authors: Fariha Ahmed <fariha.ahmed@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
+*/
 
 export default async function Checkout() {
     var signedIn = false;
@@ -101,7 +105,7 @@ export default async function Checkout() {
 
                     <h2 className="font-bold text-xl">2. Payment Method</h2>
                     <PaymentMethod id={id} />
-                    
+
                     <h2 className="font-bold text-xl">3. Review Items</h2>
                     <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">
                         <ul className="-my-2 pb-1 mt-auto mb-auto">
@@ -131,7 +135,7 @@ export default async function Checkout() {
                         <p className="text-red-600">Total</p>
                         <p>${totalString}</p>
                     </div>
-                    <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems}/>
+                    <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems} />
                 </div>
             </div> */}
         </div>

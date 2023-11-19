@@ -4,6 +4,12 @@ import { Product } from '@/lib/products';
 import { User } from '@/lib/users';
 import { formatDateToLocal } from '@/lib/utils';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function CommentsTable({ query, currentPage }: {
 	query: string;
 	currentPage: number;

@@ -3,6 +3,12 @@ import Link from "next/link";
 import '@/app/globals.css'
 import { useRouter } from "next/navigation";
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default function Custom404() {
     const router = useRouter();
     return (

@@ -1,7 +1,13 @@
 import { db } from "@/db/db";
-import { eq, sql, or, like, asc, not, and } from "drizzle-orm";
 import { productCategories } from "@/db/schema";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
+import { and, asc, eq, like, not, or, sql } from "drizzle-orm";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export type Categories = typeof productCategories.$inferSelect;
 export type NewCategory = typeof productCategories.$inferInsert;

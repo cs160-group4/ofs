@@ -1,14 +1,20 @@
 import { SearchQueryProps } from '@/app/lib/utils';
-import HandleStatus from '@/app/ui/common/HandleStatus';
+import StatusListener from '@/app/ui/common/StatusListener';
 import { getOrdersPages } from '@/lib/orders';
 import OrdersTable from '@/ui/admin/orders/Table';
 import Pagination from '@/ui/common/Pagination';
 import Search from '@/ui/common/Search';
-// import { Metadata } from 'next';
+import { Metadata } from 'next';
 
-// export const metadata: Metadata = {
-//   title: 'Orders | OFS Admin',
-// };
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+  title: 'Orders | OFS Admin Dashboard',
+};
 
 export default async function OrdersPage({ searchParams }: { searchParams: SearchQueryProps }) {
   const query = searchParams?.query || '';
@@ -17,7 +23,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
 
   return (
     <>
-      <HandleStatus />
+      <StatusListener name='order'/>
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <h1 className='text-2xl'>Orders</h1>

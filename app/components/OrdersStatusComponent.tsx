@@ -1,6 +1,12 @@
 import { Order } from '@/lib/orders';
 import { getUser } from '@/lib/users';
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function OrdersStatusComponent({ order }: { order: Order }) {
     if (!order) return null;
     let user = await getUser(order.userId);

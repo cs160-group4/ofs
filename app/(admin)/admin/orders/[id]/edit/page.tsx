@@ -1,13 +1,19 @@
 import EditDeliveryStatusForm from '@/app/ui/admin/orders/EditForm';
 import Breadcrumbs from '@/app/ui/common/Breadcrumbs';
 import { getOrderById } from '@/lib/orders';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-// import { Metadata } from 'next';
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
-// export const metadata: Metadata = {
-//     title: 'Edit Order | OFS Admin',
-// };
+export const metadata: Metadata = {
+    title: 'Edit Order | OFS Admin',
+    description: 'Edit Order page',
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
     try {

@@ -1,10 +1,16 @@
 import { db } from "@/db/db";
 import { addresses } from "@/db/schema";
-import { eq } from "drizzle-orm";  // Assuming you use 'eq' for equality checks in DB queries
+import { eq } from "drizzle-orm"; // Assuming you use 'eq' for equality checks in DB queries
+
+/*
+  Author: Nandish Kumar
+  Email: nandish.kumar@sjsu.edu
+  Copyright (c) 2023 Nandish Kumar. All rights reserved.
+*/
+
 const getGeoCoordinates = async (addressId: number) => {
   const addressData = null;
   // await db.select().from(addresses).where(eq(addresses.id, addressId)).first();
-
 
   // if (!addressData) {
   //   throw new Error("Address not found");
@@ -15,7 +21,6 @@ const getGeoCoordinates = async (addressId: number) => {
 
   // const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addressString)}&key=${apiKey}`);
 
-  
   // if (response.status === 200) {
   //   const data = await response.json();
   //   const { lat, lng } = data.results[0].geometry.location;
@@ -23,7 +28,7 @@ const getGeoCoordinates = async (addressId: number) => {
   // } else {
   //   throw new Error("Error fetching coordinates");
   // }
-// data.results[0].geometry.location;
+  // data.results[0].geometry.location;
 
   // const { lat, lng } = response.data.results[0].geometry.location;
   //   return { latitude: lat, longitude: lng };

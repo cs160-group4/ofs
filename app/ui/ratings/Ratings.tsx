@@ -1,10 +1,15 @@
 'use client'
-import { Rating } from '@/lib/ratings'
-import { useState } from 'react';
-import StarRating from '@/ui/ratings/StarRating';
 import { productRatingAction } from '@/actions/ratings';
-import { getAuthSession } from '@/app/api/auth/[...nextauth]/options';
 import { SignInButton } from '@/app/components/SignInButton';
+import { Rating } from '@/lib/ratings';
+import StarRating from '@/ui/ratings/StarRating';
+import { useState } from 'react';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default function Ratings({ productId, ratings, myRating, signedIn }: { productId: number, ratings: Rating[], myRating: number, signedIn: boolean }) {
     const [rating, setRating] = useState(myRating);
@@ -31,13 +36,6 @@ export default function Ratings({ productId, ratings, myRating, signedIn }: { pr
     });
     averageRating = averageRating / ratingCount;
     let avg = Number(averageRating).toFixed(1);;
-    // let fiveStarPercent = (fiveStar / ratingCount) * 100;
-    // let fourStarPercent = (fourStar / ratingCount) * 100;
-    // let threeStarPercent = (threeStar / ratingCount) * 100;
-    // let twoStarPercent = (twoStar / ratingCount) * 100;
-    // let oneStarPercent = (oneStar / ratingCount) * 100;
-
-    // const ratingActionForm = productRatingAction.bind(null, productId, rating);
     const handleRating = (value: number) => {
         setRating(value);
         productRatingAction.call(null, productId, value);

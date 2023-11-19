@@ -1,7 +1,13 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { OrderItem, OrderItemWithProduct } from '@/app/lib/order_item';
+import { OrderItemWithProduct } from '@/app/lib/order_item';
 import { getImageUrl } from '@/app/lib/utils';
+import Image from 'next/image';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export default async function OrderItem({ orderItem }: { orderItem: OrderItemWithProduct }) {
     const product = orderItem.products;
     const order_item = orderItem.order_item;

@@ -2,6 +2,11 @@
 import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export const GitHubSignInButton = () => {
     const callbackUrl = "/"

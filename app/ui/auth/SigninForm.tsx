@@ -3,7 +3,13 @@
 import { Loading } from "@/app/ui/common/Loading";
 import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
-import ErrorModal from "./ErrorModal";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
 export const SigninForm = () => {
     const email = useRef("");
     const pass = useRef("");

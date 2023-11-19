@@ -1,12 +1,17 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { DiscordSignInButton } from '@/app/ui/auth/DiscordSignInButton';
+import ErrorListener from '@/app/ui/auth/ErrorListener';
 import { GitHubSignInButton } from '@/app/ui/auth/GitHubSignInButton';
-import { TwitchSignInButton } from '@/app/ui/auth/TwitchSignInButton';
 import { SigninForm } from '@/app/ui/auth/SigninForm';
+import { TwitchSignInButton } from '@/app/ui/auth/TwitchSignInButton';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import ErrorModal from '@/app/ui/auth/ErrorModal';
-import ErrorListener from '@/app/ui/auth/ErrorListener';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default async function SignInPage() {
     const session = await getAuthSession();

@@ -1,7 +1,19 @@
 'use client';
-import Link from "next/link";
-import '@/app/globals.css'
+import '@/app/globals.css';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
+import { Metadata } from "next";
+import Link from "next/link";
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
+
+export const metadata: Metadata = {
+    title: 'Not Found | OFS Admin Dashboard',
+    description: 'Not Found page',
+};
 
 export default function NotFound() {
     return (

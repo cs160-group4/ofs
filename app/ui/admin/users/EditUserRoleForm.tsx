@@ -1,13 +1,19 @@
 'use client';
-import Link from 'next/link';
 import { updateUserRoleAction } from '@/actions/users';
-import { useFormState } from 'react-dom';
 import { User } from '@/app/lib/users';
+import { roles } from '@/lib/utils';
 import { Button } from '@/ui/common/Button';
-import { FormErrorState, roles } from '@/lib/utils';
+import Link from 'next/link';
+import { useFormState } from 'react-dom';
+
+/*
+  Author: Hung Pham
+  Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
+  Copyright (c) 2023 Hung Pham. All rights reserved.
+*/
 
 export default function EditUserRoleForm({ user }: { user: User }) {
-    const initialState= { message: "", errors: {} };
+    const initialState = { message: "", errors: {} };
     const [state, formAction] = useFormState(updateUserRoleAction, initialState)
     return (
         <form action={formAction} className='flex flex-col gap-4 bg-gray-50 rounded-lg p-4 w-96'>
@@ -16,14 +22,14 @@ export default function EditUserRoleForm({ user }: { user: User }) {
                 <label htmlFor="user-id" className="block text-sm font-medium">
                     User ID
                 </label>
-                <input type="hidden"  id="id" name="id" value={user.id} />
+                <input type="hidden" id="id" name="id" value={user.id} />
                 <input
                     id="user-id"
                     name="id"
                     type="text"
                     value={user.id}
                     className="input mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                    readOnly  disabled
+                    readOnly disabled
                 />
                 {state?.message ? (
                     <div aria-live="polite" className="my-2 text-sm text-red-500">
@@ -55,7 +61,7 @@ export default function EditUserRoleForm({ user }: { user: User }) {
                     type="text"
                     value={user.email!}
                     className="input mt-1 block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500"
-                    readOnly  disabled
+                    readOnly disabled
                 />
             </div>
 
