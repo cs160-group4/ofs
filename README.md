@@ -15,6 +15,10 @@ Video: https://drive.google.com/file/d/1C829_4w0x5k0WtyUmXsM8hFuKrpAl40i/view?us
 ```bash
 git clone https://github.com/cs160-group4/ofs.git
 ```
+If there are errors for window users, run the following command before cloning for potential fix:
+```bash
+git config --global core.autocrlf false
+```
 
 2. Change directory to 'ofs'
 ```bash
