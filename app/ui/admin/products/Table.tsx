@@ -4,6 +4,12 @@ import { getFilteredProduct } from "@/app/lib/products"
 import { Suspense } from 'react';
 import Image from 'next/image';
 
+/*
+  Author: Kyle Chen
+  Email: kyle.chen@sjsu.edu
+  Copyright (c) 2023 Kyle Chen. All rights reserved.
+*/
+
 export default async function ProductTable({query} : {query: string})
 {
     const products = await getFilteredProduct(query);
@@ -32,7 +38,7 @@ export default async function ProductTable({query} : {query: string})
                         {product.id}
                     </td>
                     <td>
-                        {/* tentative change, can remove once all images are stored */}
+                        {/* displays either static or uploaded iamge */}
                         {product.picture.substring(0, 5).localeCompare("https") === 0 && (
                         <Image src={product.picture} alt={product.name}
                             width={50} height={50} className="h-[50px]" />

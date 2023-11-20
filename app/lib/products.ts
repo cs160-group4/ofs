@@ -60,7 +60,7 @@ export const getProductsLimit = async (limit: number) => {
   return result;
 };
 
-
+// get products by query - by Kyle Chen
 export const getFilteredProduct = async (
   query: string
 ) => {

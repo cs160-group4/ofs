@@ -118,7 +118,7 @@ export function UpdateProductForm({product, categories} : {product:Product, cate
                             <label className="label">
                                 <span className="label-text">Slug</span>
                             </label>
-                            <input placeholder={String(product.slug)} defaultValue={String(product.slug)} className="input input-borded w-full max-w-xs" type="text" name="slug" required />
+                            <input placeholder={String(product.slug)} defaultValue={String(product.slug)} className="input input-borded w-full max-w-xs" type="text" name="slug" pattern="^([a-zA-Z]+((-[a-zA-Z]+)?)*)$" required />
                         </div>
                         <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <label className="label">

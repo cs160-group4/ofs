@@ -41,8 +41,6 @@ export default async function AdminProducts( {searchParams}:{searchParams: Searc
           <ProductTable query={query} />
         </div>
       </div>
-
-
     </>
   )
 }

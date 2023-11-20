@@ -12,11 +12,12 @@ import { z } from "zod";
 const currentDateTime = new Date();
 const formattedDateTime = formatDate(currentDateTime);
 const priceEx = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d{9})?(\.\d{1,2})?$/gm
+const slugEx = /^([a-zA-Z]+((-[a-zA-Z]+)?)*)$/gm
 const schema = z.object({
   id: z.number().min(1),
   name: z.string().min(1).max(40),
   description: z.string().min(0).max(100),
-  slug: z.string().min(1).max(50).trim().toLowerCase(),
+  slug: z.string().min(1).max(50).trim().toLowerCase().regex(slugEx),
   brand: z.string().min(1).max(30),
   categoryId: z.number().int(),
   picture: z.string().min(0).max(110),
