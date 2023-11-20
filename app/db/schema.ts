@@ -1,11 +1,14 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, decimal, timestamp, unique } from "drizzle-orm/mysql-core"
-import { sql } from "drizzle-orm"
+
+import { sql } from "drizzle-orm";
+import { decimal, int, mysqlTable, primaryKey, timestamp, unique, varchar } from "drizzle-orm/mysql-core";
+
 
 /*
   Author: Hung Pham
   Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
   Copyright (c) 2023 Hung Pham. All rights reserved.
 */
+
 
 export const account = mysqlTable("account", {
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
@@ -94,8 +97,7 @@ export const delivery = mysqlTable("delivery", {
 	robotId: int("robot_id").notNull().references(() => robots.id, { onDelete: "cascade" } ),
 	latitude: decimal("latitude", { precision: 12, scale: 8 }),
 	longitude: decimal("longitude", { precision: 12, scale: 8 }),
-	deliveryAt: timestamp("delivery_at", { mode: 'string' }).notNull(),
-	deliveryStatus: varchar("delivery_status", { length: 20 }).default('pending').notNull(),
+	deliveredAt: timestamp("delivered_at", { mode: 'string' }),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },
@@ -225,11 +227,12 @@ export const robots = mysqlTable("robots", {
 	id: int("id").autoincrement().notNull(),
 	status: varchar("status", { length: 20 }).notNull(),
 	name: varchar("name", { length: 100 }),
-	maxOrders: int("max_orders").default(10).notNull(),
-	maxWeightInLbs: int("max_weight_in_lbs").default(200).notNull(),
-	currentWeightInLbs: int("current_weight_in_lbs").default(0).notNull(),
-	latitude: decimal("latitude", { precision: 12, scale: 8 }).default('0.00000000'),
-	longitude: decimal("longitude", { precision: 12, scale: 8 }),
+	maxOrders: int("max_orders").default(10),
+	currentOrders: int("current_orders").default(0),
+	maxWeightInLbs: int("max_weight_in_lbs").default(200),
+	currentWeightInLbs: int("current_weight_in_lbs").default(0),
+	latitude: decimal("latitude", { precision: 12, scale: 8 }).default('37.33617260'),
+	longitude: decimal("longitude", { precision: 12, scale: 8 }).default('-121.88328160'),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
 },

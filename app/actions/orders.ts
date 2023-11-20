@@ -18,7 +18,6 @@ const FormSchema = z.object({
 const UpdatePick = FormSchema.pick({ id: true, deliveryStatus: true });
 
 export async function editDeliveryStatusAction(prevState: any, formData: FormData) {
-    console.log("editDeliveryStatusAction");
     try {
       const validatedFields = UpdatePick.safeParse({
         id: Number(formData.get("id")),

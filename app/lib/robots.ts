@@ -1,7 +1,8 @@
 import { db } from "@/db/db";
-import { robots } from "@/db/schema";
+import { delivery, orders, robots } from "@/db/schema";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
 import { asc, eq, like, or, sql } from "drizzle-orm";
+import { Order } from "./orders";
 
 /*
   Author: Hung Pham
@@ -43,10 +44,11 @@ export const getFilteredRobots = async (query: string, currentPage: number) => {
   const result = await db
     .select()
     .from(robots)
-    .where(or(
-      like(robots.name, `%${query}%`), 
-      like(robots.status, `%${query}%`),
-      like(robots.currentWeightInLbs, `%${query}%`), 
+    .where(
+      or(
+        like(robots.name, `%${query}%`),
+        like(robots.status, `%${query}%`),
+        like(robots.currentWeightInLbs, `%${query}%`)
       )
     )
     .orderBy(asc(robots.id))
@@ -54,6 +56,15 @@ export const getFilteredRobots = async (query: string, currentPage: number) => {
     .offset(offset);
   return result as Robot[];
 };
+
+export const getAvailableRobots = async () => {
+  let result = await db
+    .select()
+    .from(robots)
+    .where(eq(robots.status, "available"));
+  return result as Robot[];
+};
+
 
 // add a robot
 export const addRobot = async (data: NewRobot) => {
@@ -74,5 +85,3 @@ export const updateRobot = async (id: number, data: NewRobot) => {
 // export const updateRobotWithOrder = async (id: number, total_orders: number, total_weight: string) => {
 //   return await db.update(robots).set({totalOrders: total_orders, totalWeight: total_weight }).where(eq(robots.id, id));
 // };
-
-

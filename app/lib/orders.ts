@@ -3,8 +3,8 @@ import { addresses, orders, user } from "@/db/schema";
 import { Addresses } from "@/lib/addresses";
 import { User } from "@/lib/users";
 import { ITEMS_PER_PAGE } from "@/lib/utils";
-import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
-
+import { and, asc, desc, eq, like, or, sql, isNotNull } from "drizzle-orm";
+import { Location } from "@/lib/utils";
 /*
   Author: Hung Pham
   Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
@@ -18,6 +18,14 @@ export type OrderWithAddress = {
   orders: Order;
   addresses: Addresses;
 };
+
+export type OrderWithLocation = {
+  id: number,
+  weight: number,
+  location: Location,
+}
+
+
 // get all orders
 export const getOrders = async () => {
   return await db.select().from(orders).orderBy(asc(orders.createdAt));
@@ -131,6 +139,18 @@ export const getFilteredOrders = async (query: string, currentPage: number) => {
   return result as { orders: Order; user: User; addresses: Addresses }[];
 };
 
+// get pending orders with addresses and latitude and longitude not null
+export const getPendingOrders = async () => {
+  let result = await db
+    .select()
+    .from(orders)
+    .leftJoin(addresses, eq(orders.shippingAddressId, addresses.id))
+    .where(and(eq(orders.deliveryStatus, "pending"), isNotNull(addresses.latitude), isNotNull(addresses.longitude)));
+  return result as OrderWithAddress[];
+}
+
+
+
 // create order
 export const createOrder = async (order: NewOrder) => {
   return await db.insert(orders).values(order);
@@ -158,7 +178,7 @@ export const updateOrderDeliveryStatus = async (
 ) => {
   return await db
     .update(orders)
-    .set({ deliveryStatus })
+    .set({ deliveryStatus: deliveryStatus })
     .where(eq(orders.id, id));
 };
 // delete all orders of the user

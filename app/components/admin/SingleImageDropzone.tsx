@@ -206,12 +206,10 @@ Button.displayName = 'Button';
 
 function formatFileSize(bytes?: number) {
   if (!bytes) {
-    console.log("undef")
     return '0 Bytes';
   }
   bytes = Number(bytes);
   if (bytes === 0) {
-    console.log("0")
     return '0 Bytes';
   }
   const k = 1024;

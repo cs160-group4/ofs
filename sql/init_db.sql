@@ -206,11 +206,12 @@ CREATE TABLE robots (
     status varchar(20) NOT NULL,
     -- (available, busy, offline)
     name varchar(100),
-    max_orders int NOT NULL default 10,
-    max_weight_in_lbs int NOT NULL default 200,
-    current_weight_in_lbs int NOT NULL default 0,
-    latitude decimal(12, 8) DEFAULT 0.0,
-    longitude decimal(12, 8),
+    max_orders int default 10,
+    current_orders int default 0,
+    max_weight_in_lbs int default 200,
+    current_weight_in_lbs int default 0,
+    latitude decimal(12, 8) DEFAULT 37.3361726,
+    longitude decimal(12, 8) DEFAULT -121.8832816,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -221,8 +222,7 @@ CREATE TABLE delivery (
     robot_id int NOT NULL,
     latitude decimal(12, 8),
     longitude decimal(12, 8),
-    delivery_at timestamp NOT NULL,
-    delivery_status varchar(20) NOT NULL DEFAULT 'pending',
+    delivered_at timestamp,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_delivery FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE cascade ON UPDATE no action,

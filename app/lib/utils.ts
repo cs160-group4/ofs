@@ -10,7 +10,16 @@ export const roles = ["admin", "employee", "customer"];
 export const orderStatus = ["pending", "shipped", "delivered", "cancelled"];
 export const ITEMS_PER_PAGE = 10;
 
-export const sjsu_location = { longitude: -121.8832816, latitute: 37.3361726 };
+export type Location = {
+  longitude: number;
+  latitude: number;
+};
+
+export const ofs_location: Location = {
+  longitude: -121.8832816,
+  latitude: 37.3361726,
+};
+
 export const mission_location = {
   longitude: -121.9827822453428,
   latitute: 37.392667807874886,
@@ -45,6 +54,46 @@ export function getImageUrl(path: string) {
   if (!path) return "/images/products/default.svg";
   else if (path.includes("http")) return path;
   else return "/" + path;
+}
+
+export function calculateDistance(
+  lon1: number,
+  lat1: number,
+  lon2: number,
+  lat2: number
+): number {
+  const earthRadius = 6371e3; // Radius of the Earth in meters
+  const phi1 = (lat1 * Math.PI) / 180;
+  const phi2 = (lat2 * Math.PI) / 180;
+  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+    Math.cos(phi1) *
+      Math.cos(phi2) *
+      Math.sin(deltaLambda / 2) *
+      Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = earthRadius * c;
+  return distance;
+}
+
+export function distance(Location1: Location, Location2: Location): number {
+  const earthRadius = 6371e3; // Radius of the Earth in meters
+  const phi1 = (Location1.latitude * Math.PI) / 180;
+  const phi2 = (Location2.latitude * Math.PI) / 180;
+  const deltaPhi = ((Location2.latitude - Location1.latitude) * Math.PI) / 180;
+  const deltaLambda =
+    ((Location2.longitude - Location1.longitude) * Math.PI) / 180;
+  const a =
+    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+    Math.cos(phi1) *
+      Math.cos(phi2) *
+      Math.sin(deltaLambda / 2) *
+      Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = earthRadius * c;
+  return distance; // Distance in meters
 }
 
 export type Revenue = {

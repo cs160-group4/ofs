@@ -78,7 +78,6 @@ export function AddProductForm({ categories }: { categories: Categories[] }) {
             setProgress(progress);
           }
         });
-        console.log(fileRes.url)
         const res = await createProduct(formData, String(fileRes.url));
         // setShowAlert(true);
         // setMessage(res.message);
@@ -92,7 +91,6 @@ export function AddProductForm({ categories }: { categories: Categories[] }) {
         //     });
         //   }
         //   catch (error) {
-        //     console.log(error)
         //     setMessage("Unable to Confirm Upload, Try Again")
         //     setShowError(true)
         //   }

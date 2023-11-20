@@ -66,7 +66,6 @@ export async function editProduct(formData: FormData, url: string) {
   try
   {
     await updateProduct(result.data);
-    console.log("Updated successfully")
   }
   catch (error) {
     return { message: "Database Error: Failed to Update Product." };

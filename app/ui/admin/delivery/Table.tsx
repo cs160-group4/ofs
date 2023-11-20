@@ -23,7 +23,7 @@ export default async function DeliveryTable({
     list.map((item) => {
         delivery.push(item.delivery);
         robots.push(item.robots);
-        // orders.push(item.order);
+        orders.push(item.orders);
     });
 
     return (
@@ -68,19 +68,19 @@ export default async function DeliveryTable({
                                         ID
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
-                                        Name
+                                        Order Id
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
                                         Status
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
-                                        Carrying
+                                        Robot Id
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
-                                        Max Orders
+                                        Robot
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
-                                        Max Weight
+                                        Delivered At
                                     </th>
                                     <th scope="col" className="px-3 py-5 font-medium">
                                         Created At
@@ -105,19 +105,19 @@ export default async function DeliveryTable({
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-3">
-                                            {item.deliveryStatus}
+                                            {orders[index]?.id}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-3">
-                                            {item.deliveryAt}
+                                            {orders[index]?.deliveryStatus}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-3">
+                                        {robots[index]?.id}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-3">
                                             {robots[index]?.name}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-3">
-                                            {robots[index]?.maxOrders}
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-3">
-                                            
+                                            {item.deliveredAt}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-3">
                                             {formatDateToLocal(item.createdAt as string)}

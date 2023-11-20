@@ -17,8 +17,10 @@ VALUES
 	(2, 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', '168 S 11th St', 'San Jose', 'CA', '95112', 'USA', 37.3386144, -121.880227),
 	(3, '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', '1001 N 4th St', 'San Jose', 'CA', '95112', 'USA', 37.3567594, -121.9044815),
 	(4, '5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', '259 Charles St', 'Sunnyvale', 'CA', '94086', 'USA', 37.3760182, -122.038707),
-	(5, '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.3531568, -121.8130381);
-
+	(5, '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.3531568, -121.8130381),
+    (6, 'f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.312873, -122.013586),
+    (7, 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.348454, -121.823622),
+    (8, '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', '1402 Mt Whitney Dr', 'San Jose', 'CA', '95127', 'USA', 37.368648, -122.001460);
 -- Populate Product Categories Data
 INSERT INTO product_categories (id, name, slug, description)
 VALUES (1, 'Fruits', 'fruits', 'Fresh and delicious fruits'),
@@ -98,9 +100,9 @@ INSERT INTO orders (id, total_weight, shipping_cost, tax, discount, subtotal, gr
 (3,37,0.00,2.47,0.00,24.67,27.14,'2023-03-10 08:30:30','2023-03-10 08:30:30',3,'pending','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6'),
 (4,46,0.00,3.70,0.00,36.97,40.67,'2023-04-09 11:30:00','2023-04-09 11:30:00',4,'pending','5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0'),
 (5,115,0.00,5.07,0.00,50.73,55.80,'2023-05-10 09:50:00','2023-05-10 09:50:00',5,'pending','0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5'),
-(6,50,0.00,2.15,0.00,21.52,23.67,'2023-06-12 08:25:00','2023-06-12 08:25:00',1,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
-(7,59,0.00,3.42,0.00,34.24,37.66,'2023-07-01 10:25:15','2023-07-01 10:25:15',2,'pending','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
-(8,26,0.00,8.75,0.00,87.47,96.22,'2023-08-20 12:22:10','2023-08-20 12:22:10',3,'pending','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
+(6,50,0.00,2.15,0.00,21.52,23.67,'2023-06-12 08:25:00','2023-06-12 08:25:00',6,'pending','f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5'),
+(7,59,0.00,3.42,0.00,34.24,37.66,'2023-07-01 10:25:15','2023-07-01 10:25:15',7,'pending','a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d'),
+(8,26,0.00,8.75,0.00,87.47,96.22,'2023-08-20 12:22:10','2023-08-20 12:22:10',8,'pending','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6');
 
 INSERT INTO order_item (order_id, product_id, item_weight, quantity, price) VALUES 
 (1, 1, 2, 50, 2.49), 

@@ -27,14 +27,12 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     formData.set("price", price);
 
     const orderItem = await createOrderItem(formData);
-    console.log(orderItem.message);
   }
 
   // Function to update the amount of product left in stock after a customer places an order
   async function updateProductQuantity(item: CartItem){
     const updatedProductQuantity = item.products.itemQuantity - item.cart.quantity;
     const updateDB = await updateProductItemQuantity(item.products.id, updatedProductQuantity);
-    console.log(updateDB.message);  
   }
 
   // Function to create an order based on what the user has in the cart 
@@ -76,7 +74,6 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
 
         // const res = await assignOrderToRobot(formData);
       } catch (error) {
-        console.log(error);
       }
     }
   }
