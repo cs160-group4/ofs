@@ -49,7 +49,7 @@ export const getFeaturedProducts = async () => {
     .select()
     .from(products)
     .orderBy(sql`rand()`)
-    .limit(3)
+    .limit(12)
     .leftJoin(productCategories, eq(productCategories.id, products.categoryId));
   return result as ProductCategory[];
 };

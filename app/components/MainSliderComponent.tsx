@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 export default function MainSliderComponent() {
   return (
-    <div className="carousel w-full  h-[650px] shadow-xl relative">
+    <div className="carousel w-full  h-[450px] shadow-xl relative">
       <div id="slide1" className="carousel-item relative w-full ">
         <Image width={1920} height={1080} src="/images/sliders/slide1.jpg" className="w-full" alt='slide 1' />
         <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">

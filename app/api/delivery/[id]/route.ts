@@ -14,7 +14,6 @@ import { getProducts } from "@/lib/products";
 
 export async function POST(req: Request) {
     const body = await req.json();
-  
     let id = body.orderId;
     updateOrderDeliveryStatus(id, "delivered");
     return Response.json("success");
