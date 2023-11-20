@@ -1,8 +1,11 @@
+import axios from 'axios';
 /*
   Author: Hung Pham
   Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
   Copyright (c) 2023 Hung Pham. All rights reserved.
 */
+
+const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export const roles = ["admin", "employee", "customer"];
 
@@ -149,3 +152,19 @@ export const formatDateToLocal = (
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
 };
+
+// Fariha - 11/18 - Get latitude and longitude for addresses
+export const geocode = async (address: string) => {
+  try {
+    const res =  await axios.get(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+        address
+      )}.json?access_token=${MAPBOX_API_KEY}`
+    );
+
+    const [longitude, latitude] = res.data.features[0].center;
+    return {latitude, longitude};
+  } catch (error) {
+    return { message: error};
+  }
+}
