@@ -132,13 +132,13 @@ export function AddProductForm({ categories }: { categories: Categories[] }) {
       <div className='form-control w-full my-4'>
         <div className='flex flex-wrap -mx-3 mb-2'>
           <div className='w-full md:w-1/4 px-3 mb-6 md:mb-0'>
-            <LimitedInput max={40} descriptor={'Product'} name={'name'} regex=''/>
+            <LimitedInput max={40} descriptor={'Product'} name={'name'} regex='.*'/>
           </div>
           <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <LimitedInput max={30} descriptor={'Slug'} name={'slug'} regex='^([a-zA-Z]+((-[a-zA-Z]+)?)*)$' />
           </div>
           <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-            <LimitedInput max={30} descriptor={'Brand'} name={'brand'} regex=''/>
+            <LimitedInput max={30} descriptor={'Brand'} name={'brand'} regex='.*'/>
           </div>
           <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <label className='label'>
@@ -176,7 +176,7 @@ export function AddProductForm({ categories }: { categories: Categories[] }) {
 
         <div className='flex flex-wrap -mx-3 mb-6'>
           <div className='w-full px-3'>
-            <LimitedInput max={100} descriptor={'Description'} name={'description'} regex='' />
+            <LimitedInput max={100} descriptor={'Description'} name={'description'} regex='.*' />
           </div>
         </div>
         {/* <div className='flex flex-wrap -mx-3 mb-6'>
