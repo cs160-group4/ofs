@@ -13,7 +13,7 @@ import { updateProductItemQuantity } from '@/actions/products';
   Copyright (c) 2023 Fariha Ahmed. All rights reserved.
 */
 
-export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId }: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number }) {
+export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId, missingInfo }: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number, missingInfo: boolean }) {
   var orderId = 0;
   
   // Function to create an order item for each item in the user's cart
@@ -39,42 +39,45 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
 
   // Function to create an order based on what the user has in the cart 
   async function createOrder({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}){
-    const formData = new FormData();
+    if(missingInfo) {
+      alert("You have not inputted a delivery address and/or a payment method.");
+    } else {
+      const formData = new FormData();
 
-    formData.set("userId", id);
-    formData.set("totalWeight", String(totalWeight));
-    formData.set("shippingCost", shipping);
-    formData.set("tax", tax);
-    formData.set("discount", "0.00");
-    formData.set("subtotal", subtotal);
-    formData.set("grandTotal", total);
-    formData.set("shippingAddressId", String(shippingAddressId));
+      formData.set("userId", id);
+      formData.set("totalWeight", String(totalWeight));
+      formData.set("shippingCost", shipping);
+      formData.set("tax", tax);
+      formData.set("discount", "0.00");
+      formData.set("subtotal", subtotal);
+      formData.set("grandTotal", total);
+      formData.set("shippingAddressId", String(shippingAddressId));
 
-    try {
-      const res = await createNewOrder(formData);
-      console.log(res.message);
+      try {
+        await createNewOrder(formData);
 
-      const latestOrderId = await getLatestOrderByUserId(formData);
-      orderId = Number(latestOrderId.data);
-      formData.set("orderId", String(orderId));
+        const latestOrderId = await getLatestOrderByUserId(formData);
+        orderId = Number(latestOrderId.data);
+        formData.set("orderId", String(orderId));
 
-      await Promise.all(cartItems.map((item) => {
-        return createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
-      }));
+        await Promise.all(cartItems.map((item) => {
+          return createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
+        }));
 
-      await Promise.all(cartItems.map((item) => {
-        return updateProductQuantity(item);
-      }));
+        await Promise.all(cartItems.map((item) => {
+          return updateProductQuantity(item);
+        }));
 
-      //setTimeout(() => {
-      window.location.href = `/order-summary/${orderId}`;
-      //}, 1000);
+        //setTimeout(() => {
+        window.location.href = `/order-summary/${orderId}`;
+        //}, 1000);
       
-      await deleteAllCartItems(id);
+        await deleteAllCartItems(id);
 
-      // const res = await assignOrderToRobot(formData);
-    } catch (error) {
-      console.log(error);
+        // const res = await assignOrderToRobot(formData);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   

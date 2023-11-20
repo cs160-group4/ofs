@@ -14,3 +14,8 @@ export const getPaymentMethod = async (user_id: string) => {
 export const addPaymentMethod = async (data: NewPaymentMethod) => {
   return await db.insert(paymentMethods).values(data);
 };
+
+// delete payment method
+export const deletePaymentMethod = async (id: number) => {
+  return await db.delete(paymentMethods).where(eq(paymentMethods.id, id));
+};

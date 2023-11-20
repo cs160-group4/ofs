@@ -123,7 +123,8 @@ export function CheckoutPage({name, id, addresses, paymentMethods, cartItems }: 
             <p className="text-red-600">Total</p>
             <p>${totalString}</p>
         </div>
-        <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems} shippingAddressId={shippingAddressId}/>
+       
+        <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems} shippingAddressId={shippingAddressId} missingInfo={deliveryAddress == null || paymentMethod == null} />
       </div>
     </div>
   )
