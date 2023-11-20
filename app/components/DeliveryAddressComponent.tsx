@@ -1,7 +1,8 @@
 "use client"
 import { useState } from 'react';
+import { geocode } from '../lib/utils';
 import { Addresses } from '@/lib/addresses';
-import { addNewAddress, getLatestAddressId } from "../actions";
+import { addNewAddress, getLatestAddress } from "../actions";
 
 export function DeliveryAddressComponent({id, addresses, setShippingAddress, className, txt}: {id: string, addresses: Addresses[], setShippingAddress: Function, className: string, txt: string}) {  
   const [selectedAddress, setSelectedAddress] = useState(0);
@@ -33,10 +34,22 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                   <div>
                     <form action={async (formData: FormData) => {
                       formData.set("userId", id);
-                      await addNewAddress(formData);
-                      
-                      const newestAddress = await getLatestAddressId(id);
-                      setShippingAddress(newestAddress.data);
+
+                      const line1 = formData.get("addressLine1");
+                      const city = formData.get("city");
+                      const state = formData.get("state");
+                      const postalCode = formData.get("postalCode");
+                      const addressString = `${line1}, ${city}, ${state} ${postalCode}`
+
+                      const coordinates = await geocode(addressString);
+                      formData.set("latitude", coordinates.latitude);
+                      formData.set("longitude", coordinates.longitude);
+
+                      const res = await addNewAddress(formData);
+                      console.log(res.message);
+
+                      const newestAddress = await getLatestAddress(id);
+                      setShippingAddress(newestAddress.data?.id);
 
                       setAddAddressForm(false);
                     }}>            

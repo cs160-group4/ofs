@@ -101,8 +101,8 @@ export async function addNewAddress(formData: FormData) {
     addressLine2: z.string(),
     userId: z.string(),
     country: z.string(),
-    // latitude: z.string(),
-    // longitude: z.string()
+    latitude: z.string(),
+    longitude: z.string()
   });
 
   try {
@@ -113,9 +113,9 @@ export async function addNewAddress(formData: FormData) {
       postalCode: formData.get("postalCode"),
       addressLine2: formData.get("addressLine2"),
       userId: formData.get("userId"),
-      country: "USA"
-      // latitude: formData.get("latitude"),
-      // longitude: formData.get("longitude")
+      country: "USA",
+      latitude: formData.get("latitude"),
+      longitude: formData.get("longitude")
     });
 
     if(newAddress.success)
@@ -133,12 +133,12 @@ export async function addNewAddress(formData: FormData) {
   }
 }
 
-export async function getLatestAddressId(userId: string){
+export async function getLatestAddress(userId: string){
   try {
     const res = await getAddress(userId);
     const lastAddress = res[res.length - 1];
     
-    return {success: true, message: "Last Order ID retrieved successfully", data: lastAddress.id};
+    return {success: true, message: "Last Order ID retrieved successfully", data: lastAddress};
   } catch (error) {
     return { success: false, message: "Error: Orders failed to be retrieved" }
   }

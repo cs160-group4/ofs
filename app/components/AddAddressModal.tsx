@@ -1,4 +1,5 @@
 "use client"
+import { geocode } from "../lib/utils";
 import { addNewAddress } from "../actions";
 
 /*
@@ -26,6 +27,17 @@ export function AddAddressModal({ id }: { id: string }) {
           <h3 className="font-bold text-lg">Add a new address</h3>
           <form action={async (formData: FormData) => {
             formData.set("userId", id);
+            
+            const line1 = formData.get("addressLine1");
+            const city = formData.get("city");
+            const state = formData.get("state");
+            const postalCode = formData.get("postalCode");
+            const addressString = `${line1}, ${city}, ${state} ${postalCode}`
+
+            const coordinates = await geocode(addressString);
+            formData.set("latitude", coordinates.latitude);
+            formData.set("longitude", coordinates.longitude);
+            
             await addNewAddress(formData);
           }}>
             <p className="font-bold py-1">Address</p>
