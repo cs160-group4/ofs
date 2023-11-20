@@ -3,7 +3,9 @@ import { AddAddressModal } from '@/app/components/AddAddressModal';
 import { UpdateEmail } from '@/app/components/UpdateEmail';
 import { UpdatePassword } from '@/app/components/UpdatePassword';
 import { getAvatarURL } from '@/app/lib/utils';
-import { getAddress } from '@/lib/addresses';
+import { getAddress, deleteAddress } from '@/lib/addresses';
+import { getPaymentMethod, deletePaymentMethod } from '@/app/lib/payment_methods';
+import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,12 +18,14 @@ export default async function ProfilePage() {
     var signedIn = false;
     var name = "";
     var id = "";
+    var email = "";
 
     const session = await getAuthSession();
     if (session?.user) {
         signedIn = true;
         name = session.user.name as string;
         id = session.user.id as string;
+        email = session.user.email as string;
     }
     else {
         return <main className="flex items-center justify-center h-screen">
@@ -39,11 +43,13 @@ export default async function ProfilePage() {
     }
 
     const addresses = await getAddress(id);
+    const paymentMethods = await getPaymentMethod(id);
     const avatar = getAvatarURL(session.user.image as string);
+    
     return (
-        <div className=' flex items-center justify-center'>
-            <div className="w-screen h-screen dark:bg-gray-700 bg-gray-200 pt-12">
-                <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+        <div className=' flex items-center md:flex justify-center'>
+            <div className="w-screen overflow-auto dark:bg-gray-700 bg-gray-200 pt-12">
+                <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg">
                     <div className="border-b px-4 pb-6">
                         <div className="text-center my-4">
                             <Image src={avatar} alt="avatar" width={640} height={256} className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4" />
@@ -65,27 +71,52 @@ export default async function ProfilePage() {
                         </div>
                     </div>
                     <div className="px-4 py-4">
-                        <div className="grid grid-cols-[35%,65%] items-center text-gray-800 dark:text-gray-300 mb-4">
-                            {/*
-              <svg className="h-6 w-6 text-gray-600 dark:text-gray-400" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path className=""
-                  d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z" />
-              </svg>
-              <span><strong className="text-black dark:text-white">12</strong> Followers you know</span>
-              */}
-
+                        <div className="grid grid-cols-[25%,75%] items-center text-gray-800 dark:text-gray-300 mb-4">
+                            <strong className="text-black dark:text-white">Email</strong>
+                            <p className="">{email}</p>
 
                             <strong className="text-black dark:text-white">Addresses</strong>
 
                             <div>
-                                {/* <p>{mainAddress.addressLine1} <br />
-                   {mainAddress.addressLine2 !== null && (<div>{mainAddress.addressLine2}<br /></div>)}
-                   {mainAddress.city}, {mainAddress.state} {mainAddress.postalCode}</p> */}
                                 {addresses.map((address) => (
-                                    <p key={address.id}>{address.addressLine1}<br />{address.city}, {address.state} {address.postalCode}</p>
+                                    <div key={address.id} className="grid grid-cols-[65%,35%] py-2">
+                                        <p>{address.addressLine1}<br />{address.city}, {address.state} {address.postalCode}</p>
+                                        <div className="flex">
+                                            {/* <form>
+                                                <button className="btn-link py-2">Edit</button>
+                                            </form> */}
+                                            <form action={async (formData: FormData) => {
+                                                "use server"
+                                                formData.set("id", String(address.id));
+                                                await deleteAddress(Number(formData.get("id")));
+                                                revalidatePath("/");
+                                            }}>
+                                                <button className="btn-link py-2 px-4">Delete</button>
+                                            </form>
+                                        </div>    
+                                    </div>
+                                    
                                 ))}
                                 <AddAddressModal id={id} />
+                            </div>
+
+                            <strong className="text-black dark:text-white">Cards</strong>
+                            <div className="py-2">
+                                {paymentMethods.map((card) => (
+                                    <div key={card.id} className="grid grid-cols-[65%,35%] py-2">
+                                        <p><b>Card</b> ending in <b>{card.cardNumber.slice(-4)}</b></p>
+                                        <div className="flex">
+                                            <form action={async (formData: FormData) => {
+                                                "use server"
+                                                formData.set("id", String(card.id));
+                                                await deletePaymentMethod(Number(formData.get("id")));
+                                                revalidatePath("/");
+                                            }}>
+                                                <button className="btn-link px-4">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

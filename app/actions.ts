@@ -177,15 +177,15 @@ export async function updateEmail(formData: FormData) {
       else {
         await updateNewEmail(data);
         revalidatePath("/profile");
-        return { success: true, message: "Address updated successfully"}
+        return { success: true, message: "Email updated successfully"}
       }
     }
     else{
-      return { success: false, message: "Error: Address failed to be updated"}
+      return { success: false, message: "Error: Email failed to be updated"}
     }
 
   } catch (error) {
-    return {success: false, err: true, message: "Error: Address failed to be updated"}
+    return {success: false, err: true, message: "Error: Email failed to be updated"}
   }
 }
 
