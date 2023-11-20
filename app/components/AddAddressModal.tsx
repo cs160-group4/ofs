@@ -56,11 +56,13 @@ export function AddAddressModal({ id }: { id: string }) {
               }</select>
               <input className="border border-gray-300 rounded-lg" name="postalCode" type="text" placeholder="XXXXX" pattern="[0-9]{5}" required></input>
             </div>
-            <button className="btn rounded-lg" type="submit">Add new address</button>
+            <div className="py-2">
+              <button className="btn btn-primary rounded" type="submit">Add new address</button>
+            </div>
           </form>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn rounded-lg">Cancel</button>
+              <button className="font-bold text-lg absolute top-2 right-4">x</button>
             </form>
           </div>
         </div>

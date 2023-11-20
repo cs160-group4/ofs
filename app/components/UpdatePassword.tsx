@@ -38,11 +38,11 @@ export function UpdatePassword({ id }: { id: string }) {
             <p className="font-bold py-1">Confirm Password</p>
             <input className="border border-gray-300 rounded-lg input-sm w-full" name="confirmPassword" type="password" placeholder="Confirm Password" minLength={8} required></input>
             <p className="font-bold py-1">{errorMsg}</p>
-            <button className="btn m-2" type="submit">Update Password</button>
+            <button className="btn btn-primary rounded" type="submit">Update Password</button>
           </form>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn">Cancel</button>
+              <button className="font-bold text-lg absolute top-2 right-4">x</button>
             </form>
           </div>
         </div>

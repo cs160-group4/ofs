@@ -48,7 +48,7 @@ export default async function ProfilePage() {
     
     return (
         <div className=' flex items-center md:flex justify-center'>
-            <div className="w-screen overflow-auto dark:bg-gray-700 bg-gray-200 pt-12">
+            <div className="w-screen overflow-scroll dark:bg-gray-700 bg-gray-200 pt-12">
                 <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg">
                     <div className="border-b px-4 pb-6">
                         <div className="text-center my-4">

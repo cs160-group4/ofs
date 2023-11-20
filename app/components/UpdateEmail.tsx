@@ -38,17 +38,15 @@ export function UpdateEmail({ id }: { id: string }) {
             <p className="font-bold py-1">Confirm Email</p>
             <input className="border border-gray-300 rounded-lg input-sm w-full" name="confirmEmail" type="email" placeholder="Confirm Email" required></input>
             <p className="font-bold py-1">{errorMsg}</p>
-            <button className="btn m-2" type="submit">Update Email</button>
+            <button className="btn btn-primary rounded" type="submit">Update Email</button>
           </form>
           <div className="modal-action">
             <form method="dialog" className="gap-2 p-2">
-              <button className="btn">Cancel</button>
+              <button className="font-bold text-lg absolute top-2 right-4">x</button>
             </form>
           </div>
         </div>
       </dialog>
-
-
     </>
   )
 }
