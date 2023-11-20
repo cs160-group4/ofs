@@ -9,6 +9,7 @@ import {
 } from "@/lib/cart";
 import { getProductById } from "@/lib/products";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 /*
   Authors: Hung Pham <mryo.hp@gmail.com>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
@@ -34,11 +35,12 @@ export async function addToCartAction(productId: number, quantity: number) {
     } else {
       await addProductToCart({ userId, productId, quantity });
     }
-    revalidatePath("/");
-    return { message: "Added Product" };
+
   } catch (error) {
     return { message: "Database Error: Failed to Add Product" };
   }
+  revalidatePath("/products/" + productId);
+  redirect("/products/" + productId + "?status=added");
 }
 
 // Delete Cart Product - by Fariha on November 7th, 2023
@@ -76,7 +78,7 @@ export async function updateCartItem(formData: FormData) {
 }
 
 // Delete All Cart Items - by Fariha on 11/16/2023
-export async function deleteAllCartItems(userId: string){
+export async function deleteAllCartItems(userId: string) {
   try {
     const res = await deleteAllProductsFromCart(userId);
     return { success: true, message: "Deleted all Cart Items" };
