@@ -45,17 +45,19 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
                     <input className="border border-gray-300 rounded-lg input-sm w-full"
                       name="cvv" type="text" placeholder="XXX" pattern="[0-9]{3}" required></input>
 
-                    <button className="btn rounded" type="submit">Add credit card</button>
+                    <div className="py-2">
+                      <button className="btn btn-primary rounded" type="submit">Add credit card</button>
+                    </div>
                   </form>
                 </div>
               )}
             </div>
 
-            <div>
+            <div className="ml-4">
               {paymentMethods[0] 
                 ? (<span>
                   {paymentMethods.map((card) => (
-                    <div key={card.id}>
+                    <div key={card.id} className="py-2 form-control">
                       <p>
                       <input className="radio-xs mr-3" name="selectAddress" type="radio"
                         checked={selectedCard === card.id} onChange={(e) => {

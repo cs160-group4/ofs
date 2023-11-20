@@ -66,10 +66,14 @@ export function CheckoutPage({name, id, addresses, paymentMethods, cartItems }: 
               <span>{deliveryAddress.addressLine2}<br /></span>
             )}
             {deliveryAddress.city}, {deliveryAddress.state} {deliveryAddress.postalCode}</>
-            :<p>You have not set up an address yet. Please add one.</p>}          
+            :(<span>
+                <p>You have not set up an address yet.</p>
+                <DeliveryAddressComponent id={id} addresses={addresses} setShippingAddress={updateShippingAddress} className="text-center btn-link font-small" txt="Add an address."/>
+              </span>)
+          }
         </div>
         <div>
-          <DeliveryAddressComponent id={id} addresses={addresses} setShippingAddress={updateShippingAddress}/>
+          <DeliveryAddressComponent id={id} addresses={addresses} setShippingAddress={updateShippingAddress} className="btn text-center btn-link font-small" txt="CHANGE"/>
         </div>
 
         <h2 className="font-bold text-xl">2. Payment Method</h2>
@@ -79,9 +83,12 @@ export function CheckoutPage({name, id, addresses, paymentMethods, cartItems }: 
                 <p><b>Card</b> ending in <b>{paymentMethod.cardNumber.slice(-4)}</b></p>
                 <p><b>Billing Address:</b> Same as shipping address.</p>
               </span>) 
-            : <PaymentMethodComponent id={id} paymentMethods={paymentMethods} setPaymentMethod={updateCardId}
-            className="text-center btn-link font-small" txt="Add a credit card"/>}
-          
+            : (<span>
+                <p>You have not set up a payment method yet.</p>
+                <PaymentMethodComponent id={id} paymentMethods={paymentMethods} setPaymentMethod={updateCardId}
+                  className="text-center btn-link font-small" txt="Add a credit card."/>
+              </span>)
+          }
         </div>
         <div>
           <PaymentMethodComponent id={id} paymentMethods={paymentMethods} setPaymentMethod={updateCardId}
