@@ -1,8 +1,10 @@
 "use client"
 import React from 'react';
+import { Addresses } from '../lib/addresses';
 import { CartItem } from '@/lib/cart';
+import { PaymentMethod } from '../lib/payment_methods';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
-import { deleteAllCartItems, deleteCartProduct } from '@/actions/cart';
+import { deleteAllCartItems } from '@/actions/cart';
 import { updateProductItemQuantity } from '@/actions/products';
 
 /*
@@ -11,7 +13,7 @@ import { updateProductItemQuantity } from '@/actions/products';
   Copyright (c) 2023 Fariha Ahmed. All rights reserved.
 */
 
-export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number}) {
+export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId }: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number }) {
   var orderId = 0;
   
   // Function to create an order item for each item in the user's cart
@@ -49,7 +51,8 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
     formData.set("shippingAddressId", String(shippingAddressId));
 
     try {
-      await createNewOrder(formData);
+      const res = await createNewOrder(formData);
+      console.log(res.message);
 
       const latestOrderId = await getLatestOrderByUserId(formData);
       orderId = Number(latestOrderId.data);

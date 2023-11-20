@@ -1,7 +1,7 @@
 "use server";
 import { z } from "zod";
 import { Product, deleteProduct, insertProduct } from "./lib/products";
-import { addAddress } from "./lib/addresses";
+import { addAddress, getAddress } from "./lib/addresses";
 import { createOrder,  getOrdersByUserId } from "./lib/orders";
 import { addOrderItem } from "./lib/order_item";
 import bcrypt from 'bcrypt';
@@ -91,6 +91,7 @@ export async function removeProduct(formData: FormData) {
 }
 
 // Fariha - 11/03/23
+// Address server functions
 export async function addNewAddress(formData: FormData) {
   const schema = z.object({
     addressLine1: z.string(),
@@ -121,7 +122,7 @@ export async function addNewAddress(formData: FormData) {
     {
       await addAddress(newAddress.data);
       revalidatePath("/profile");
-      return { success: true, message: "Address added successfully"}
+      return { success: true, message: "Address added successfully" }
     }
     else{
       return { success: false, message: "Address failed to be added"}
@@ -132,14 +133,16 @@ export async function addNewAddress(formData: FormData) {
   }
 }
 
-// export async function getAddressById(id: number) {
-//   try {
-//     //await getAddress(id);
-
-//     return { message: "Deleted Address" };
-//   } catch (error) {
-//   }
-// }
+export async function getLatestAddressId(userId: string){
+  try {
+    const res = await getAddress(userId);
+    const lastAddress = res[res.length - 1];
+    
+    return {success: true, message: "Last Order ID retrieved successfully", data: lastAddress.id};
+  } catch (error) {
+    return { success: false, message: "Error: Orders failed to be retrieved" }
+  }
+}
 
 // Aaron - 11/07/23
 export async function updateEmail(formData: FormData) {
@@ -229,6 +232,7 @@ export async function updatePassword(formData: FormData) {
 }
 
 // Fariha - 11/11/23
+// Order server functions
 export async function createNewOrder(formData: FormData) {
   const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
   
@@ -261,7 +265,7 @@ export async function createNewOrder(formData: FormData) {
       await createOrder(order.data);
       return { success: true, message: "Order created successfully" }
     } else {
-      return { success: false, message: "Order failed to be created" }
+      return { success: false, message: order.error.errors }
     }
   } catch (error) {
     return {success: false, err: true, message: "Error: Order failed to be added"}

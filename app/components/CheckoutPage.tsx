@@ -22,7 +22,7 @@ export function CheckoutPage({name, id, addresses, paymentMethods, cartItems }: 
     }
   });
 
-  const [cardId, setCardId] = useState(0);
+  const [cardId, setCardId] = useState(paymentMethods[0]?.id ? paymentMethods[0].id : 0);
   const updateCardId = (id: number) => {
     setCardId(id);
   }

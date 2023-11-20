@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Addresses } from '@/lib/addresses';
-import { addNewAddress } from "../actions";
+import { addNewAddress, getLatestAddressId } from "../actions";
 
 export function DeliveryAddressComponent({id, addresses, setShippingAddress, className, txt}: {id: string, addresses: Addresses[], setShippingAddress: Function, className: string, txt: string}) {  
   const [selectedAddress, setSelectedAddress] = useState(0);
@@ -34,6 +34,10 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                     <form action={async (formData: FormData) => {
                       formData.set("userId", id);
                       await addNewAddress(formData);
+                      
+                      const newestAddress = await getLatestAddressId(id);
+                      setShippingAddress(newestAddress.data);
+
                       setAddAddressForm(false);
                     }}>            
                       <p className="font-bold py-1">Address</p>
