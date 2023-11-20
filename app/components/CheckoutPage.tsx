@@ -1,14 +1,15 @@
 "use client"
 import { Addresses } from '@/lib/addresses';
+import { PaymentMethod } from '../lib/payment_methods';
 import { CartItem } from '@/lib/cart';
 import { CartItemCard } from '@/app/components/CartItemCard';
 import { DeliveryAddressComponent } from '@/app/components/DeliveryAddressComponent';
-import { PaymentMethod } from '@/app/components/PaymentMethod';
+import { PaymentMethodComponent } from '@/app/components/PaymentMethodComponent';
 import { CheckoutButton } from '@/app/components/CheckoutButton';
 import {useState} from 'react';
 import { delivery } from '../db/schema';
 
-export function CheckoutPage({name, id, addresses, cartItems }: {name: string, id: string, addresses: Addresses[], cartItems: CartItem[]}) {
+export function CheckoutPage({name, id, addresses, paymentMethods, cartItems }: {name: string, id: string, addresses: Addresses[], paymentMethods: PaymentMethod[], cartItems: CartItem[]}) {
   const [shippingAddressId, setShippingAddressId] = useState(addresses[0]?.id ? addresses[0].id : 0);
   const updateShippingAddress = (id: number) => {
     setShippingAddressId(id);
@@ -20,6 +21,17 @@ export function CheckoutPage({name, id, addresses, cartItems }: {name: string, i
       deliveryAddress = address;
     }
   });
+
+  const [cardId, setCardId] = useState(0);
+  const updateCardId = (id: number) => {
+    setCardId(id);
+  }
+  var paymentMethod = paymentMethods[0] ? paymentMethods[0] : null;
+  paymentMethods.forEach((card) => {
+    if(card.id === cardId) {
+      paymentMethod = card;
+    }
+  })
 
   // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
   let subtotal: number = 0;
@@ -47,19 +59,34 @@ export function CheckoutPage({name, id, addresses, cartItems }: {name: string, i
         <h2 className="font-bold text-xl">1. Delivery Address</h2>
         <div>
           {name}<br />
-          {deliveryAddress ? <> {deliveryAddress.addressLine1}<br />
+          {deliveryAddress 
+            ? <> 
+            {deliveryAddress.addressLine1}<br />
             {deliveryAddress.addressLine2 && deliveryAddress.addressLine2.trim() !== "" && (
               <span>{deliveryAddress.addressLine2}<br /></span>
             )}
             {deliveryAddress.city}, {deliveryAddress.state} {deliveryAddress.postalCode}</>
-          :<p>You have not set up an address yet. Please add one.</p>}          
+            :<p>You have not set up an address yet. Please add one.</p>}          
         </div>
         <div>
           <DeliveryAddressComponent id={id} addresses={addresses} setShippingAddress={updateShippingAddress}/>
         </div>
 
         <h2 className="font-bold text-xl">2. Payment Method</h2>
-        <PaymentMethod id={id} />
+        <div>
+          {paymentMethod 
+            ? ( <span>
+                <p><b>Card</b> ending in <b>{paymentMethod.cardNumber.slice(-4)}</b></p>
+                <p><b>Billing Address:</b> Same as shipping address.</p>
+              </span>) 
+            : <PaymentMethodComponent id={id} paymentMethods={paymentMethods} setPaymentMethod={updateCardId}
+            className="text-center btn-link font-small" txt="Add a credit card"/>}
+          
+        </div>
+        <div>
+          <PaymentMethodComponent id={id} paymentMethods={paymentMethods} setPaymentMethod={updateCardId}
+            className="btn text-center btn-link font-small" txt="CHANGE"/>
+        </div>
                     
         <h2 className="font-bold text-xl">3. Review Items</h2>
         <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">

@@ -1,9 +1,9 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
 import { getAddress } from '@/lib/addresses';
 import { CartItem, getCart } from '@/lib/cart';
+import { getPaymentMethod } from '@/app/lib/payment_methods';
 import { CheckoutPage } from '@/app/components/CheckoutPage';
 import { CartItemCard } from '@/app/components/CartItemCard';
-import { PaymentMethod } from '@/app/components/PaymentMethod';
 import { CheckoutButton } from '@/app/components/CheckoutButton';
 import Link from 'next/link';
 
@@ -38,8 +38,8 @@ export default async function Checkout() {
         </main>
     }
 
-    const addresses = await getAddress(id)
-
+    const addresses = await getAddress(id);
+    const paymentMethods = await getPaymentMethod(id);
     const cartItems = await getCart(id);
 
     // Hung Pham 11/01/2023 - calculate subtotal, shipping, tax, and total
@@ -57,32 +57,14 @@ export default async function Checkout() {
             </div>
         </main>
     }
-    let subtotal: number = 0;
-    let totalWeight: number = 0;
-    cartItems.forEach((item) => {
-        if (item.products) {
-            subtotal += parseFloat(item.products.itemPrice) * item.cart.quantity;
-            totalWeight += item.cart.quantity * item.products.itemWeight;
-        }
-    });
-
-    const shipping = calculateShipping(cartItems);
-    const tax = subtotal * 0.1;
-    const total = subtotal + shipping + tax;
-
-    const subtotalString = subtotal.toFixed(2);
-    const shippingString = shipping.toFixed(2);
-    const taxString = tax.toFixed(2);
-    const totalString = total.toFixed(2);
-    // Hung Pham 11/01/2023 - end of calculations
-
+    
     return (
         <div className="container mx-auto px-6 pt-7 bg-base-100 h-fill xl:px-0">
             <div className="flex pb-6 justify-center md:justify-start">
                 <h1 className="text-3xl font-bold">Checkout</h1>
             </div>
 
-            <CheckoutPage name={name} id={id} addresses={addresses} cartItems={cartItems}  />
+            <CheckoutPage name={name} id={id} addresses={addresses} paymentMethods={paymentMethods} cartItems={cartItems}  />
 
             {/* <div className="mx-auto justify-center md:flex md:space-x-6">
                 <div className="grid grid-cols-3 gap-10 auto-cols-max md:w-4/5">
@@ -138,16 +120,4 @@ export default async function Checkout() {
             </div> */}
         </div>
     )
-}
-
-// calculates shipping cost based on weight of items in cart - Hung Pham 11/01/2023
-function calculateShipping(cartItems: CartItem[]): number {
-    let weight = 0;
-    cartItems.forEach((item) => {
-        weight += item.cart.quantity * item.products.itemWeight;
-    });
-    if (weight < 20) {
-        return 0;
-    }
-    return 10;
 }

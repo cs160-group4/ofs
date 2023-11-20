@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { Cart, CartItem } from '@/lib/cart';
+import { CartItem } from '@/lib/cart';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
 import { deleteAllCartItems, deleteCartProduct } from '@/actions/cart';
 import { updateProductItemQuantity } from '@/actions/products';

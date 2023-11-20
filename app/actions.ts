@@ -260,7 +260,7 @@ export async function createNewOrder(formData: FormData) {
       await createOrder(order.data);
       return { success: true, message: "Order created successfully" }
     } else {
-      return { success: false, message: order.error.errors }
+      return { success: false, message: "Order failed to be created" }
     }
   } catch (error) {
     return {success: false, err: true, message: "Error: Order failed to be added"}
