@@ -47,7 +47,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
 
                       if(!geocodeRes.isValid) {
                         setValidAddress(false);
-                        console.log(geocodeRes.suggestedAddress);
+                        console.log(geocodeRes.data);
                         setSuggestedAddress(geocodeRes.suggestedAddress);
                       } else {
                         setValidAddress(true);

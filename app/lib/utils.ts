@@ -163,7 +163,7 @@ export const geocode = async (address: string) => {
     );
 
     const relevance = res.data.features[0].relevance;
-    if(relevance != 1) {
+    if(relevance < 0.95) {
       const relevantAddr = res.data.features[0].place_name;
       return { isValid: false, data: res.data.features, suggestedAddress: relevantAddr}
     } else {
