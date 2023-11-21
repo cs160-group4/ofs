@@ -1,7 +1,7 @@
 import { db } from "@/db/db";
 import { blogPosts, user } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
 import { User } from "@/lib/users";
+import { desc, eq } from "drizzle-orm";
 
 export type Post = typeof blogPosts.$inferSelect;
 // get all blog posts

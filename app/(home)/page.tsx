@@ -1,6 +1,6 @@
 import MainSliderComponent from '@/components/MainSliderComponent';
-import FeaturedProducts from '@/ui/home/FeaturedProducts';
 import { ProductCategory, getFeaturedProducts } from "@/lib/products";
+import FeaturedProducts from '@/ui/home/FeaturedProducts';
 
 /*
   Author: Hung Pham

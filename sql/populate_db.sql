@@ -6,9 +6,9 @@ USE ofs_dev;
 INSERT INTO user (id, email, password, name, image, role, first_name, last_name, phone_number)
 VALUES 
     ('f0a1b2c3-d4e5-f6a7-b8c9-d0e1f2a3b4c5', 'hung.pham@sjsu.edu', '$2b$10$5sqxizup.X5Y5NT8JDJqiuC1sAPn8u1fBJJGNFuj4miW/p5NGvoHe', 'Hung Pham', '', 'admin', 'Hung', 'Pham', '4087778888'),
-    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'employee@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Employee Will', '', 'employee', 'Employee', 'Will', '4087776969'),
+    ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6', 'employee@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Timmy Will', '', 'employee', 'Timmy', 'Will', '4087776969'),
     ('a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'lina@gmail.com', '$2b$10$Y4yQBn47MqpWtAm32os/Y.Gl9pHjBAPDFgpGVPj2tiVYANG6rjND2', 'Lina', '', 'employee', 'Lina', 'Medina', '408567699'),
-    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'customer@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Customer Gates', '', 'customer', 'Customer', 'Gates', '4086088899'),
+    ('0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'customer@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Bill Gates', '', 'customer', 'Bill', 'Gates', '4086088899'),
     ('5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'jill@gmail.com', '$2b$10$TFJZ0jNa/iWejbnfukawJOgHeeAzCymMj8xkXrUcauUl/aSgTEvlm', 'Jill Lane', '', 'customer', 'Jill', 'Lane', '4085554688');
 
 INSERT INTO addresses (id, userId, address_line1, city, state, postal_code, country, latitude, longitude)
@@ -129,4 +129,11 @@ INSERT INTO order_item (order_id, product_id, item_weight, quantity, price) VALU
 (8, 3, 3, 4, 12.75),
 (8, 16, 4, 3, 9.99),
 (8, 6, 1, 2, 3.25);
+
+
+INSERT INTO blog_posts (title, content, image, userId, category, tags, status, created_at, updated_at)
+VALUES 
+('Organic Food', 'Organic food, fresh or processed food produced by organic farming methods. Organic food is grown without the use of synthetic chemicals, such as human-made pesticides and fertilizers, and does not contain genetically modified organisms (GMOs). Organic foods include fresh produce, meats, and dairy products as well as processed foods such as crackers, drinks, and frozen meals. The market for organic food has grown significantly since the late 20th century, becoming a multibillion dollar industry with distinct production, processing, distribution, and retail systems. https://www.britannica.com/topic/organic-food ', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ25nLsbH4kHfxmRyWURrkhTR6NRMwdmct5mNJCYAyzDfrXfjjQ7bUF8lxDLzsxuXM8OTw&usqp=CAU', '0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5', 'food', 'food, fresh', 'published', '2023-11-21 04:00:19', '2023-11-21 04:36:08'),
+('Organic food: Is it safer or more nutritious?', 'Some data shows possible health benefits of organic foods when compared with foods grown using the usual (conventional) process. These studies have shown differences in the food. But there is limited information to prove how these differences can give potential overall health benefits.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRry6qRrUnwMqa4ZxKB8GQgPIa6_JUKPb_8DQ&usqp=CAU', '5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0', 'organic-food', 'organic, food', 'published', '2023-11-21 04:36:08', '2023-11-21 04:36:08'),
+('16 Foods for High Protein Meals', 'Getting enough protein daily is essential for your overall health. Healthy protein sources include eggs, nuts, lean meats, fish, dairy, and certain grains. https://www.healthline.com/nutrition/high-protein-foods', 'https://qph.cf2.quoracdn.net/main-qimg-ed69ab1a3144fbe726a4382083ae8539-lq', 'a1b2c3d4-e5f6-a7b8-9c0d-e1f2a3b4c5d', 'food', 'protein', 'published', '2023-11-21 04:38:17', '2023-11-21 04:38:17');
 

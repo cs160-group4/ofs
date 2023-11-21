@@ -1,9 +1,7 @@
-import { Post, getBlogPosts, getBlogPostsWithAuthor } from '@/app/lib/posts';
+import { Post, getBlogPostsWithAuthor } from '@/app/lib/posts';
 import { User } from '@/app/lib/users';
 import { getAvatarURL, getImageUrl } from '@/app/lib/utils';
-import { user } from 'drizzle/schema';
-import { get } from 'http';
-import Image from 'next/image'
+import Image from 'next/image';
 
 /*
   Author: Hung Pham
