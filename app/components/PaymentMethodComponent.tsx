@@ -41,9 +41,9 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
                     <input className="border border-gray-300 rounded-lg input-sm w-full"
                       name="expirationDate" type="text" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/2[3-9]" required></input>
 
-                    <p className="font-bold py-1">CVV/CVC (3 digits)</p>
+                    <p className="font-bold py-1">CVV/CVC (3/4 digits)</p>
                     <input className="border border-gray-300 rounded-lg input-sm w-full"
-                      name="cvv" type="text" placeholder="XXX" pattern="[0-9]{3}" required></input>
+                      name="cvv" type="text" placeholder="XXX or XXXX" pattern="\d{3,4}" required></input>
 
                     <div className="py-2">
                       <button className="btn btn-primary rounded" type="submit">Add credit card</button>
