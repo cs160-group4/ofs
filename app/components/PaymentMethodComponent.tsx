@@ -12,6 +12,32 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
   const [selectedCard, setSelectedCard] = useState(0);
   const [addCardForm, setAddCardForm] = useState(false);
 
+  const isValidDate = (date: string) => {
+    const pattern = /^(0[1-9]|1[0-2])\/(2[2-9]|1[0-9])$/;
+    const match = date.match(pattern);
+
+    if (match) {
+      const [month, year] = date.split('/').map(Number);
+
+      console.log(month);
+      console.log(year);
+
+      // Get the current date
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear() % 100; // Get the last two digits of the current year
+      const currentMonth = currentDate.getMonth() + 1; // Months are zero-based, so add 1
+
+      // Compare the extracted date with the current date
+      const validation =  year > currentYear || (year === currentYear && month > currentMonth);
+      console.log(validation);
+      return validation;
+    }
+
+    return false;
+  }
+
+  const [validDate, setValidDate] = useState(true);
+
   return (
     <div>
       <button onClick={() => (document.getElementById("paymentMethods") as HTMLDialogElement)?.showModal()} 
@@ -29,15 +55,25 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
               {addCardForm && (
                 <div>
                   <form action={async (formData: FormData) => {
-                    formData.set("userId", id);
-                    await addNewPaymentMethod(formData);
-                    setAddCardForm(false);
+                    const expirationDate = String(formData.get("expirationDate"));
+                    console.log(expirationDate);
+                    
+                    
+                    if(!isValidDate(expirationDate)) {
+                      setValidDate(false);
+                    } else {
+                      setValidDate(true);
+                      formData.set("userId", id);
+                      await addNewPaymentMethod(formData);
+                      setAddCardForm(false);
+                    }
                   }}>
                     <p className="font-bold py-1">Card Number (16 digits)</p>
                     <input className="border border-gray-300 rounded-lg input-sm w-full"
                       name="cardNumber" type="text" placeholder="XXXXXXXXXXXXXXXX" pattern="[0-9]{16}" required></input>
 
                     <p className="font-bold py-1">Expiration Date (MM/YY)</p>
+                    {!validDate &&<p className="text-red-600">Card is expired</p>}
                     <input className="border border-gray-300 rounded-lg input-sm w-full"
                       name="expirationDate" type="text" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/2[3-9]" required></input>
 
@@ -46,7 +82,8 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
                       name="cvv" type="text" placeholder="XXX or XXXX" pattern="\d{3,4}" required></input>
 
                     <div className="py-2">
-                      <button className="btn btn-primary rounded" type="submit">Add credit card</button>
+                      <button className="btn btn-primary rounded" type="submit"
+                        >Add credit card</button>
                     </div>
                   </form>
                 </div>
