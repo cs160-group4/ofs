@@ -7,6 +7,7 @@ import { addNewAddress, getLatestAddress } from "../actions";
 export function DeliveryAddressComponent({id, addresses, setShippingAddress, className, txt}: {id: string, addresses: Addresses[], setShippingAddress: Function, className: string, txt: string}) {  
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [addAddressForm, setAddAddressForm] = useState(false);
+  const [validAddress, setValidAddress] = useState(true);
 
   let stateAbbreviations: string[]
     = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -33,26 +34,34 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                 {addAddressForm && (
                   <div>
                     <form action={async (formData: FormData) => {
-                      formData.set("userId", id);
-
                       const line1 = formData.get("addressLine1");
                       const city = formData.get("city");
                       const state = formData.get("state");
                       const postalCode = formData.get("postalCode");
                       const addressString = `${line1}, ${city}, ${state} ${postalCode}`
 
-                      const coordinates = await geocode(addressString);
-                      formData.set("latitude", coordinates.latitude);
-                      formData.set("longitude", coordinates.longitude);
+                      const geocodeRes = await geocode(addressString);
+                      
+                      console.log(geocodeRes.isValid);
 
-                      const res = await addNewAddress(formData);
-                      console.log(res.message);
+                      if(!geocodeRes.isValid) {
+                        setValidAddress(false);
+                      } else {
+                        setValidAddress(true);
+                        formData.set("userId", id);
 
-                      const newestAddress = await getLatestAddress(id);
-                      setShippingAddress(newestAddress.data?.id);
+                        formData.set("latitude", geocodeRes.latitude);
+                        formData.set("longitude", geocodeRes.longitude);
 
-                      setAddAddressForm(false);
-                    }}>            
+                        const res = await addNewAddress(formData);
+                        console.log(res.message);
+
+                        const newestAddress = await getLatestAddress(id);
+                        setShippingAddress(newestAddress.data?.id);
+
+                        setAddAddressForm(false);
+                      }
+                    }}>  
                       <p className="font-bold py-1">Address</p>
                       <input className="border border-gray-300 rounded-lg input-sm w-full" name="addressLine1" type="text" placeholder="Street" required></input>
                       <input className="border border-gray-300 rounded-lg input-sm w-full" name="addressLine2" type="text" placeholder="Apt, suit, unit, building, floor, etc"></input>
@@ -70,6 +79,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                         <input className="border border-gray-300 rounded-lg" name="postalCode" type="text" placeholder="XXXXX" pattern="[0-9]{5}" required></input>
                       </div>
                       <div className="py-2">
+                        {!validAddress &&<p className="text-red-600">Address is invalid</p>}  
                         <button className="btn btn-primary rounded" type="submit">Add new address</button>
                       </div>
                     </form>

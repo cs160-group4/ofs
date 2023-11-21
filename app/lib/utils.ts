@@ -162,9 +162,14 @@ export const geocode = async (address: string) => {
       )}.json?access_token=${MAPBOX_API_KEY}`
     );
 
-    const [longitude, latitude] = res.data.features[0].center;
-    return {latitude, longitude};
+    const relevance = res.data.features[0].relevance;
+    if(relevance != 1) {
+      return { isValid: false}
+    } else {
+      const [longitude, latitude] = res.data.features[0].center;
+      return { isValid: true, latitude, longitude};
+    }
   } catch (error) {
-    return { message: error};
+    return { isValid: false, message: error};
   }
 }
