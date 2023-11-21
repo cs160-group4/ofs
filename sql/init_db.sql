@@ -229,6 +229,20 @@ CREATE TABLE delivery (
     CONSTRAINT fk_robot_delivery FOREIGN KEY (robot_id) REFERENCES robots(id) ON DELETE cascade ON UPDATE no action
 );
 
+CREATE TABLE blog_posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image VARCHAR(255),
+    userId varchar(255) NOT NULL,
+    category VARCHAR(50),
+    tags VARCHAR(255),
+    status VARCHAR(50) DEFAULT 'draft',
+    CONSTRAINT fk_user_blog_posts FOREIGN KEY (userId) REFERENCES user(id) ON DELETE cascade ON UPDATE no action,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 ALTER TABLE
     account
 ADD

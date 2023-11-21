@@ -1,14 +1,11 @@
-
-import { sql } from "drizzle-orm";
-import { decimal, int, mysqlTable, primaryKey, timestamp, unique, varchar } from "drizzle-orm/mysql-core";
-
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, foreignKey, primaryKey, varchar, int, decimal, timestamp, text, unique } from "drizzle-orm/mysql-core"
+import { sql } from "drizzle-orm"
 
 /*
   Author: Hung Pham
   Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
   Copyright (c) 2023 Hung Pham. All rights reserved.
 */
-
 
 export const account = mysqlTable("account", {
 	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
@@ -46,6 +43,24 @@ export const addresses = mysqlTable("addresses", {
 (table) => {
 	return {
 		addressesIdPk: primaryKey({ columns: [table.id], name: "addresses_id_pk"}),
+	}
+});
+
+export const blogPosts = mysqlTable("blog_posts", {
+	id: int("id").autoincrement().notNull(),
+	title: varchar("title", { length: 255 }).notNull(),
+	content: text("content").notNull(),
+	image: varchar("image", { length: 255 }),
+	userId: varchar("userId", { length: 255 }).notNull().references(() => user.id, { onDelete: "cascade" } ),
+	category: varchar("category", { length: 50 }),
+	tags: varchar("tags", { length: 255 }),
+	status: varchar("status", { length: 50 }).default('draft'),
+	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).onUpdateNow(),
+},
+(table) => {
+	return {
+		blogPostsIdPk: primaryKey({ columns: [table.id], name: "blog_posts_id_pk"}),
 	}
 });
 

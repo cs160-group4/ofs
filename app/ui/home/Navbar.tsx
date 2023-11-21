@@ -152,7 +152,7 @@ export default async function NavbarComponent() {
 
                             </div>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                {session?.user?.role === "admin" ?
+                                {(session?.user?.role === "admin" || session?.user?.role === "employee") ?
                                     <li>
                                         <Link href="/admin" className="justify-between group">
                                             <div className="flex items-center text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-gray-800">

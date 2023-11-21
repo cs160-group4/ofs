@@ -24,7 +24,7 @@ export default function ActivateOrderProcessing() {
         }
 
         let picked_orders: OrderWithLocation[][] = [];
-        for (let i = 0; i <= 10; i++) {
+        for (let i = 0; i < 10; i++) {
           let orders = pickOrders(order_list, ofs_location);
           if (orders.length > 0) {
             picked_orders.push(orders);
