@@ -8,6 +8,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [addAddressForm, setAddAddressForm] = useState(false);
   const [validAddress, setValidAddress] = useState(true);
+  const [suggestedAddress, setSuggestedAddress] = useState("");
 
   let stateAbbreviations: string[]
     = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -46,6 +47,8 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
 
                       if(!geocodeRes.isValid) {
                         setValidAddress(false);
+                        console.log(geocodeRes.suggestedAddress);
+                        setSuggestedAddress(geocodeRes.suggestedAddress);
                       } else {
                         setValidAddress(true);
                         formData.set("userId", id);
@@ -53,6 +56,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                         formData.set("latitude", geocodeRes.latitude);
                         formData.set("longitude", geocodeRes.longitude);
 
+                        console.log(geocodeRes.data);
                         const res = await addNewAddress(formData);
                         console.log(res.message);
 
@@ -79,7 +83,12 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                         <input className="border border-gray-300 rounded-lg" name="postalCode" type="text" placeholder="XXXXX" pattern="[0-9]{5}" required></input>
                       </div>
                       <div className="py-2">
-                        {!validAddress &&<p className="text-red-600">Address is invalid</p>}  
+                        {!validAddress &&
+                          <span>
+                            <p className="text-red-600">Address is invalid</p>
+                            <p>Did you mean: <br/> {suggestedAddress}?</p>
+                          </span>  
+                        }  
                         <button className="btn btn-primary rounded" type="submit">Add new address</button>
                       </div>
                     </form>

@@ -164,10 +164,11 @@ export const geocode = async (address: string) => {
 
     const relevance = res.data.features[0].relevance;
     if(relevance != 1) {
-      return { isValid: false}
+      const relevantAddr = res.data.features[0].place_name;
+      return { isValid: false, data: res.data.features, suggestedAddress: relevantAddr}
     } else {
       const [longitude, latitude] = res.data.features[0].center;
-      return { isValid: true, latitude, longitude};
+      return { isValid: true, latitude, longitude, data: res.data.features};
     }
   } catch (error) {
     return { isValid: false, message: error};
