@@ -117,14 +117,19 @@ export const getProductByName = async (
 // get product by category name - by Aaron Low
 export const getProductByCategoryName = async (
   slug: string,
-  priceSort: string,
-  nameSort: string
+  sortBy: string,
+  sortDirection: string
 ) => {
-  if (priceSort === "ASC") var priceOrder = asc(products.itemPrice);
-  else var priceOrder = desc(products.itemPrice);
 
-  if (nameSort === "ASC") var nameOrder = asc(products.name);
-  else var nameOrder = desc(products.name);
+  let sortOrder = asc(products.itemPrice);
+  if (sortBy === "price" && sortDirection==="ASC") 
+    sortOrder = asc(products.itemPrice);
+  else if (sortBy === "price" && sortDirection==="DESC") 
+    sortOrder = desc(products.itemPrice);
+  else if (sortBy === "name" && sortDirection==="ASC") 
+    sortOrder = asc(products.name);
+  else if (sortBy === "name" && sortDirection==="DESC") 
+    sortOrder = desc(products.name);
 
   const result: Product[] = await db
     .select({
@@ -144,7 +149,7 @@ export const getProductByCategoryName = async (
     .from(products)
     .leftJoin(productCategories, eq(productCategories.id, products.categoryId))
     .where(sql`${productCategories.slug} LIKE ${slug}`)
-    .orderBy(priceOrder, nameOrder);
+    .orderBy(sortOrder);
   return result;
 };
 

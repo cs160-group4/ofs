@@ -32,9 +32,13 @@ const ProductComponent = ({ product }: { product: Product }) => {
 
   const maxLength = 35;
   const productDescription: string = product.description;
+  const productName:string = product.name;
 
   const truncatedDescription: string = productDescription.length > maxLength
     ? productDescription.substring(0, maxLength) + "..." : productDescription;
+
+  const truncatedName: string = productName.length > 28
+  ? productName.substring(0, 28) + "..." : productName;
 
   return (
     <Link href={"/products/" + product.id} >
@@ -45,9 +49,10 @@ const ProductComponent = ({ product }: { product: Product }) => {
         </figure>
         <div className="card-body">
           <h2 className="card-title">
-            {product.brand} {product.name}
+            {truncatedName}
             {/* <div className="badge badge-secondary">NEW</div> */}
           </h2>
+          <p>{product.brand}</p>
           <p>{truncatedDescription}</p>
           <div className="card-actions justify-end">
             <div className="badge badge-outline">{category}</div>

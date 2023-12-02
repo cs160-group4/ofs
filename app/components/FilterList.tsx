@@ -10,19 +10,14 @@ interface FilterListProps {
     category: string;
     brands: string[];
     checkedBrands: string[];
-    nameSort: string;
-    priceSort: string;
-    setNameSort: React.Dispatch<React.SetStateAction<string>>;
-    setPriceSort: React.Dispatch<React.SetStateAction<string>>;
+    sort: string;
+    setSort: React.Dispatch<React.SetStateAction<string>>;
     setCheckedBrands: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const FilterList: React.FC<FilterListProps> = ({ category, brands, checkedBrands, nameSort, priceSort, setNameSort, setPriceSort, setCheckedBrands }) => {
+const FilterList: React.FC<FilterListProps> = ({ category, brands, checkedBrands, sort, setSort, setCheckedBrands }) => {
 
-    const sortPrice = ["Price - Low to High", "Price - High to Low"];
-    const sortPriceSQL = ["ASC", "DESC"];
-    const sortName = ["Name - A to Z", "Name - Z to A"];
-    const sortNameSQL = ["ASC", "DESC"];
+    const sortFilters = ["Price - Low to High", "Price - High to Low", "Name - A to Z", "Name - Z to A"];
 
     const handleBrandChange = (item: string) => {
         const updatedCheckedItems = checkedBrands.includes(item)
@@ -33,10 +28,7 @@ const FilterList: React.FC<FilterListProps> = ({ category, brands, checkedBrands
     };
 
     const handlePriceSortChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-        setPriceSort(event.target.value)
-    }
-    const handleNameSortChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-        setNameSort(event.target.value)
+        setSort(event.target.value)
     }
 
     return (
@@ -57,33 +49,18 @@ const FilterList: React.FC<FilterListProps> = ({ category, brands, checkedBrands
                 </div>
             ))}
             <div className='divider'></div>
-            <div className='text-2xl'>Filters</div>
+            <div className='text-2xl'>Sort</div>
             <form>
-                {sortPrice.map((item, index) => (
+                {sortFilters.map((item, index) => (
                     <div key={item}>
                         <input type="radio"
                             key={item}
                             id={"sort " + index}
                             name="sort"
                             className='radio radio-sm'
-                            value={sortPriceSQL[index]}
-                            checked={sortPriceSQL[index] === priceSort}
+                            value={sortFilters[index]}
+                            checked={sortFilters[index] === sort}
                             onChange={handlePriceSortChange}></input>
-                        <label htmlFor={"sort " + index} className='text-md'>{item}</label>
-                    </div>
-                ))}
-            </form>
-            <form>
-                {sortName.map((item, index) => (
-                    <div key={item}>
-                        <input type="radio"
-                            key={item}
-                            id={"sort " + index}
-                            name="sort"
-                            className='radio radio-sm mx-auto'
-                            value={sortNameSQL[index]}
-                            checked={sortNameSQL[index] === nameSort}
-                            onChange={handleNameSortChange}></input>
                         <label htmlFor={"sort " + index} className='text-md'>{item}</label>
                     </div>
                 ))}

@@ -17,19 +17,41 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
     const [displayedProducts, setdisplayedProducts] = useState<any>([]);
     const [brands, setBrands] = useState<string[]>([]);
     const [checkedBrands, setCheckedBrands] = useState<string[]>([]);
-    const [priceSort, setPriceSort] = useState<string>("ASC");
-    const [nameSort, setNameSort] = useState<string>("ASC");
+    const [sort, setSort] = useState<string>("Price - Low to High");
     useEffect(() => {
         const fetchData = async () => {
+            let sortBy = ""
+            let sortDirection = ""
+            if(sort === "Price - Low to High")
+            {
+                sortBy = "price";
+                sortDirection = "ASC"
+            }
+            else if(sort === "Price - High to Low")
+            {
+                sortBy = "price";
+                sortDirection = "DESC"
+            }
+            else if(sort === "Name - A to Z")
+            {
+                sortBy = "name";
+                sortDirection = "ASC"
+            }
+            else if(sort === "Name - Z to A")
+            {
+                sortBy = "name";
+                sortDirection = "DESC"
+            }
+
             try {
                 if (slug === 'all' || slug === 'All') {
-                    const response = await fetch("/api/productByCategory?slug=%&priceSort=" + priceSort + "&nameSort=" + nameSort, {
+                    const response = await fetch("/api/productByCategory?slug=%&sortBy=" + sortBy + "&sortDirection=" + sortDirection, {
                         method: 'GET',
                     });
                     setProducts(await response.json());
                 }
                 else {
-                    const response = await fetch("/api/productByCategory?slug=" + slug + "&priceSort=" + priceSort + "&nameSort=" + nameSort, {
+                    const response = await fetch("/api/productByCategory?slug=" + slug + "&sortBy=" + sortBy + "&sortDirection=" + sortDirection, {
                         method: 'GET',
                     });
                     setProducts(await response.json());
@@ -39,7 +61,7 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
             }
         }
         fetchData();
-    }, [slug, nameSort, priceSort])
+    }, [slug, sort])
 
     useEffect(() => {
         let brandSet: Set<string> = new Set();
@@ -62,7 +84,7 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
         <>
             <div className='flex '>
                 <div className="p-3">
-                    <FilterList category={slug} brands={brands} checkedBrands={checkedBrands} nameSort={nameSort} priceSort={priceSort} setNameSort={setNameSort} setPriceSort={setPriceSort} setCheckedBrands={setCheckedBrands} />
+                    <FilterList category={slug} brands={brands} checkedBrands={checkedBrands} sort={sort} setSort={setSort} setCheckedBrands={setCheckedBrands} />
                 </div>
                 <div className="flex flex-wrap justify-center space-evenly">
                     {displayedProducts.map((products: Product) => (
