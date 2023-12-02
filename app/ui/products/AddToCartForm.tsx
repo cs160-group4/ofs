@@ -11,14 +11,22 @@ import { useState } from "react";
 
 export default function AddToCartForm({ product }: { product: Product }) {
     const [quantity, setQuantity] = useState(1);
+    const [errorMsg, setErrorMsg] = useState("")
     const quantityOptions = Array.from({ length: product.itemQuantity }, (_, index) => index + 1);
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setQuantity(parseInt(e.target.value));
     };
     const addToCartWithId = addToCartAction.bind(null, product.id, quantity);
+    const handleChange = async () => {
+        const response : any = await addToCartWithId();
+        if(response?.message != null)
+            setErrorMsg(response.message)
+        else 
+            setErrorMsg("")
+    };
     return (
         <>
-            <form action={addToCartWithId}>
+            <form action={handleChange}>
                 <div className="flex flex-wrap items-center mb-6">
                     <div className="mb-4 mr-4 lg:mb-0">
                         <div className="w-28">
@@ -40,6 +48,7 @@ export default function AddToCartForm({ product }: { product: Product }) {
                     <button className="btn btn-primary text-gray-100">Add to cart</button>
                 </div>
             </form>
+            <p className='text-red-500'>{errorMsg}</p>
         </>
     )
 }

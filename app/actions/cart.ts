@@ -31,6 +31,14 @@ export async function addToCartAction(productId: number, quantity: number) {
     const cart = await getProdInCart(userId, productId);
     if (cart) {
       let newQuantity: number = cart.quantity + quantity;
+
+      if (newQuantity > available)
+      {
+        newQuantity = available
+        await updateProductInCart(cart.id, newQuantity);
+        return { message: "Cannot add more than stocked amount. Cart amount set to max stock." };
+      }
+
       await updateProductInCart(cart.id, newQuantity);
     } else {
       await addProductToCart({ userId, productId, quantity });
