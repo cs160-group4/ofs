@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function AddToCartForm({ product }: { product: Product }) {
     const [quantity, setQuantity] = useState(1);
     const [errorMsg, setErrorMsg] = useState("")
-    const quantityOptions = Array.from({ length: product.itemQuantity }, (_, index) => index + 1);
+    const quantityOptions = (product.itemQuantity > 10000) ? Array.from({ length: 10000 }, (_, index) => index + 1) : Array.from({ length: product.itemQuantity }, (_, index) => index + 1);
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setQuantity(parseInt(e.target.value));
     };
