@@ -6,6 +6,7 @@ import { PaymentMethod } from '../lib/payment_methods';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
 import { deleteAllCartItems } from '@/actions/cart';
 import { updateProductItemQuantity } from '@/actions/products';
+import { revalidatePath } from 'next/cache';
 
 /*
   Author: Fariha Ahmed
@@ -66,11 +67,11 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
           return updateProductQuantity(item);
         }));
 
+        await deleteAllCartItems(id);
+
         //setTimeout(() => {
         window.location.href = `/order-summary/${orderId}`;
         //}, 1000);
-      
-        await deleteAllCartItems(id);
 
         // const res = await assignOrderToRobot(formData);
       } catch (error) {

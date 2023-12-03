@@ -30,7 +30,7 @@ export default async function NavbarComponent() {
     }
 
     const cartItems = await getCart(id);
-
+    
     cartItems.forEach((item) => {
         if (item.products) {
             cartItemsPrice += parseFloat(item.products.itemPrice) * item.cart.quantity;

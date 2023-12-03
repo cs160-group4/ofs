@@ -89,6 +89,7 @@ export async function updateCartItem(formData: FormData) {
 export async function deleteAllCartItems(userId: string) {
   try {
     const res = await deleteAllProductsFromCart(userId);
+    revalidatePath('/', 'layout');
     return { success: true, message: "Deleted all Cart Items" };
   } catch (error) {
     return { message: "Database Error: Failed to delete all Cart Items" };
