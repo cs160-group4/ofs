@@ -32,40 +32,40 @@ export default async function ProductTable({query} : {query: string})
                 </thead>
                 <tbody className="bg-white">
                 {products.map((product) => (
-                    <tr key={product.id}>
+                    <tr key={product.products.id}>
                     <td></td>
                     <td>
-                        {product.id}
+                        {product.products.id}
                     </td>
                     <td>
                         {/* displays either static or uploaded iamge */}
-                        {product.picture.substring(0, 5).localeCompare("https") === 0 && (
-                        <Image src={product.picture} alt={product.name}
+                        {product.products.picture.substring(0, 5).localeCompare("https") === 0 && (
+                        <Image src={product.products.picture} alt={product.products.name}
                             width={50} height={50} className="h-[50px]" />
                         )}
-                        {product.picture.substring(0, 5).localeCompare("https") != 0 && (
-                        <Image src={"/" + product.picture} alt={product.name}
+                        {product.products.picture.substring(0, 5).localeCompare("https") != 0 && (
+                        <Image src={"/" + product.products.picture} alt={product.products.name}
                             width={50} height={50} className="h-[50px]" />
                         )}
                     </td>
                     <td>
                         <div className='flex flex-col'>
-                        <p className='font-bold'>{product.name}</p>
-                        <p>{product.description}</p>
+                        <p className='font-bold'>{product.products.name}</p>
+                        <p>{product.products.description}</p>
                         </div>
                     </td>
-                    <td>{product.brand}</td>
+                    <td>{product.products.brand}</td>
                     <td>
-                        {product.slug}
+                        {product.product_categories.name}
                     </td>
-                    <td>{product.itemPrice}</td>
-                    <td>{product.itemWeight}</td>
-                    <td>{product.itemQuantity}</td>
+                    <td>{product.products.itemPrice}</td>
+                    <td>{product.products.itemWeight}</td>
+                    <td>{product.products.itemQuantity}</td>
                     <td>
                         <div className='flex gap-3'>
-                        <UpdateProduct id={product.id} />
+                        <UpdateProduct id={product.products.id} />
                         <Suspense fallback={<p>Deleting...</p>}>
-                            <RemoveProductForm id={product.id} name={product.name} url={product.picture} />
+                            <RemoveProductForm id={product.products.id} name={product.products.name} url={product.products.picture} />
                         </Suspense>
                         </div>
                     </td>

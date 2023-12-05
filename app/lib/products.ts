@@ -64,19 +64,21 @@ export const getProductsLimit = async (limit: number) => {
 export const getFilteredProduct = async (
   query: string
 ) => {
-  const result: Product[] = await db
+  const result = await db
     .select()
     .from(products)
+    .leftJoin(productCategories, eq(products.categoryId, productCategories.id))
     .where(or(
       like(products.name, `%${query}%`),
       like(products.id, `%${query}%`),
       like(products.slug, `%${query}%`),
       like(products.description, `%${query}%`),
-      like(products.brand, `%${query}%`)
+      like(products.brand, `%${query}%`),
+      like(productCategories.name, `%${query}%`)
     ))
     .orderBy(asc(products.id), asc(products.createdAt))
 
-  return result;
+  return result as ProductCategory[];
 };
 
 // get product by id - by Hung Pham
