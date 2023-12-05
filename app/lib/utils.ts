@@ -7,6 +7,11 @@ import axios from 'axios';
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
+
+export async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const roles = ["admin", "employee", "customer"];
 
 // pending, shipped, delivered, cancelled

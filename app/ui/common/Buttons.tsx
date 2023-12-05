@@ -2,6 +2,7 @@
 import { Button } from "@/ui/common/Button";
 import { Spinner } from "@/ui/common/Spinner";
 import { useFormStatus } from 'react-dom';
+import { Loading } from "@/ui/common/Loading";
 
 /*
   Author: Hung Pham
@@ -19,6 +20,17 @@ export const SubmitButton = ({ text = "Submit" }: { text?: string }) => {
         </Button>
     );
 };
+
+export const SubmitButtonWithLoading = ({ text = "Submit" }: { text?: string }) => {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" className="flex h-10 rounded-lg bg-primary text-sm font-medium hover:bg-teal-500 active:bg-teal-600 disabled:opacity-50"
+            disabled={pending}  >
+            {pending ? <span className="loading loading-spinner me-2"></span> : null}
+            {text}
+        </Button>
+    );
+}
 
 export const CancelButton = ({ text = "Cancel" }: { text?: string }) => {
     return (
@@ -38,3 +50,15 @@ export const DeleteButton = ({ text = "Delete" }: { text?: string }) => {
         </Button>
     );
 };
+
+export const SubmitButtonText = ({ text = "Submit" }: { text?: string }) => {
+    const { pending } = useFormStatus();
+    return (
+        <>
+            <button type="submit" className="btn text-center btn-link text-sm  hover:text-red-600 active:text-red-600 disabled:bg-transparent disabled:text-gray-400"
+                disabled={pending}  >
+                {pending ? <span className="loading loading-ring loading-lg"></span> : text}
+            </button>
+        </>
+    );
+}

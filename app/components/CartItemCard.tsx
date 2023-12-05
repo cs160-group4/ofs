@@ -1,25 +1,33 @@
 "use client"
+import { deleteCartProduct, updateCartItem } from '@/actions/cart';
+import { CartItem } from '@/lib/cart';
+import { getImageUrl } from '@/lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
-import { deleteCartProduct, updateCartItem } from '../actions/cart';
-import { CartItem } from '../lib/cart';
-import { getImageUrl } from '../lib/utils';
+import { SubmitButtonText } from '@/ui/common/Buttons';
 
 /*
-  Authors: Aaron Low <aaron.c.low@sjsu.edu>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
+  Authors: Aaron Low <aaron.c.low@sjsu.edu>, Fariha Ahmed <fariha.ahmed@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
   Copyright (c) 2023. All rights reserved.
 */
 
 export function CartItemCard({ item, id, revalidateUrl }: { item: CartItem, id: string, revalidateUrl: string }) {
   const [quantity, setQuantity] = useState(item.cart.quantity);
 
-  async function handleQuantityChange({ id, itemQuantity }: { id: Number, itemQuantity: Number }) {
+  async function handleQuantityChange(itemQuantity: string) {
+    let newQuantity = parseInt(itemQuantity, 10);
+    if (isNaN(newQuantity) || newQuantity <= 0) {
+      newQuantity = 1;
+    } else if (newQuantity > item.products.itemQuantity) {
+      alert("The amount you requested is currently not available in store!");
+      newQuantity = item.products.itemQuantity;
+    }
+    setQuantity(newQuantity);
     const formData = new FormData();
     formData.set("cartId", String(item.cart.id));
     formData.set("quantity", String(itemQuantity));
     formData.set("revalidateUrl", revalidateUrl);
-
-    const res = await updateCartItem(formData);
+    await updateCartItem(formData);
   }
 
   return (
@@ -35,22 +43,8 @@ export function CartItemCard({ item, id, revalidateUrl }: { item: CartItem, id: 
           <div>
             <p className="text-sm"><b>Quantity: </b></p>
             <form>
-              <input type="number" name="quantity" min="1" value={quantity}
-                onChange={(e) => {
-                  var newQuantity = parseInt(e.target.value, 10);
-
-                  if (!isNaN(newQuantity)) {
-                    setQuantity(newQuantity);
-                  }
-
-                  if (newQuantity > item.products.itemQuantity) {
-                    alert("The amount you requested is currently not available in store!");
-                    newQuantity = item.products.itemQuantity;
-                    setQuantity(item.products.itemQuantity);
-                  }
-
-                  handleQuantityChange({ id: item.cart.id, itemQuantity: newQuantity });
-                }}
+              <input type="number" id="quantity" name="quantity" min="1" value={quantity}
+                onChange={(e) => { handleQuantityChange(e.target.value); }}
                 className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
               ></input>
             </form>
@@ -62,19 +56,10 @@ export function CartItemCard({ item, id, revalidateUrl }: { item: CartItem, id: 
               formData.set("cartId", String(item.cart.id));
               formData.set("userId", String(id));
               formData.set("revalidateUrl", String(revalidateUrl));
-
-
-              const res = await deleteCartProduct(formData);
-
-
-              try {
-
-
-              } catch (error) {
-
-              }
+              await deleteCartProduct(formData);
             }}>
-              <button className="btn text-center btn-link text-sm">Delete</button>
+              {/* Add loading */}
+              <SubmitButtonText text="Delete" />
             </form>
           </div>
         </li>

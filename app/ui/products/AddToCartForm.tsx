@@ -2,6 +2,7 @@
 import { addToCartAction } from '@/actions/cart';
 import { Product } from "@/app/lib/products";
 import { useState } from "react";
+import { SubmitButton, SubmitButtonWithLoading } from '../common/Buttons';
 
 /*
   Author: Hung Pham
@@ -18,10 +19,10 @@ export default function AddToCartForm({ product }: { product: Product }) {
     };
     const addToCartWithId = addToCartAction.bind(null, product.id, quantity);
     const handleChange = async () => {
-        const response : any = await addToCartWithId();
-        if(response?.message != null)
+        const response: any = await addToCartWithId();
+        if (response?.message != null)
             setErrorMsg(response.message)
-        else 
+        else
             setErrorMsg("")
     };
     return (
@@ -31,11 +32,9 @@ export default function AddToCartForm({ product }: { product: Product }) {
                     <div className="mb-4 mr-4 lg:mb-0">
                         <div className="w-28">
                             <select
-
                                 value={quantity}
                                 onChange={handleQuantityChange}
-                                className="w-full p-2 border border-gray-300"
-                            >
+                                className="w-full p-2 border border-gray-300">
                                 {quantityOptions.map((option) => (
                                     <option key={option} value={option}>
                                         {option}
@@ -44,8 +43,8 @@ export default function AddToCartForm({ product }: { product: Product }) {
                             </select>
                         </div>
                     </div>
-
-                    <button className="btn btn-primary text-gray-100">Add to cart</button>
+                    <SubmitButtonWithLoading text="Add to cart" />
+                    {/* <button className="btn btn-primary text-gray-100">Add to cart</button> */}
                 </div>
             </form>
             <p className='text-red-500'>{errorMsg}</p>

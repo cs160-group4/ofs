@@ -10,11 +10,13 @@ import {
 import { getProductById } from "@/lib/products";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { sleep } from "../lib/utils";
 
 /*
   Authors: Hung Pham <mryo.hp@gmail.com>, Fariha Ahmed <fariha.ahmed@sjsu.edu>
   Copyright (c) 2023. All rights reserved.
 */
+
 
 // Add to Cart Action - by Hung Pham on November 8th, 2023
 export async function addToCartAction(productId: number, quantity: number) {
@@ -31,19 +33,19 @@ export async function addToCartAction(productId: number, quantity: number) {
     const cart = await getProdInCart(userId, productId);
     if (cart) {
       let newQuantity: number = cart.quantity + quantity;
-
-      if (newQuantity > available)
-      {
-        newQuantity = available
+      if (newQuantity > available) {
+        newQuantity = available;
         await updateProductInCart(cart.id, newQuantity);
-        return { message: "Cannot add more than stocked amount. Cart amount set to max stock." };
+        return {
+          message:
+            "Cannot add more than stocked amount. Cart amount set to max stock.",
+        };
       }
 
       await updateProductInCart(cart.id, newQuantity);
     } else {
       await addProductToCart({ userId, productId, quantity });
     }
-
   } catch (error) {
     return { message: "Database Error: Failed to Add Product" };
   }
@@ -74,7 +76,6 @@ export async function updateCartItem(formData: FormData) {
     const cartId = Number(formData.get("cartId"));
     const quantity = Number(formData.get("quantity"));
     await updateProductInCart(cartId, quantity);
-
     const revalidateUrl = String(formData.get("revalidateUrl"));
     revalidatePath(revalidateUrl);
     return { message: "Updated Cart Item" };
@@ -89,7 +90,7 @@ export async function updateCartItem(formData: FormData) {
 export async function deleteAllCartItems(userId: string) {
   try {
     const res = await deleteAllProductsFromCart(userId);
-    revalidatePath('/', 'layout');
+    revalidatePath("/", "layout");
     return { success: true, message: "Deleted all Cart Items" };
   } catch (error) {
     return { message: "Database Error: Failed to delete all Cart Items" };

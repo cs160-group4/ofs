@@ -66,50 +66,56 @@ export default async function Cart() {
     // Hung Pham 11/01/2023 - end of calculations
 
     return (
-        <div className="container mx-auto px-6 pt-7 bg-base-100 xl:px-0 relative">
+        <div className="flex flex-col items-center justify-center ">
             <div className="flex pb-6 justify-center md:justify-start">
                 <h1 className="text-3xl font-bold">Shopping Cart</h1>
             </div>
-
-            <div className="mx-auto justify-center md:flex md:space-x-6">
-                <div className="rounded-lg md:w-4/5">
-                    {/* replace bg color */}
-                    <div className="justify-between mb-3 rounded-lg w-full p-6 bg-base-200 border sm:flex sm:justify-start">
-                        {/* shopping items */}
-                        <div className="flex flex-col w-full mt-6 overflow-y-auto">
-                            <div className="flow-root">
-                                <ul className="-my-2 pb-1 space-y-1 mt-auto mb-auto">
-                                    {/* replace bg color */}
-                                    {cartItems.map((item) => (
-                                        <CartItemCard key={item.cart.id} item={item} id={id} revalidateUrl="/cart" />
-                                    ))}
-                                </ul>
-                            </div>
+            <div className="flex flex-wrap mx-auto justify-center gap-4 m-4">
+                <div className="card grow border shadow-lg bg-base-200 p-2 ">
+                    <div className="flex flex-col w-full ">
+                        <div className="">
+                            <ul className="">
+                                {cartItems.map((item) => (
+                                    <CartItemCard key={item.cart.id} item={item} id={id} revalidateUrl="/cart" />
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
-                {/* price totals -- replace bg color*/}
-                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
-                    <div className="mb-2 flex justify-between">
-                        <p>Subtotal</p>
-                        <p>${subtotalString}</p>
+                <div className="card w-80 border shadow-lg bg-base-200">
+                    <div className="flex card-body 64">
+                        <div className="flex flex-wrap">
+                            <div className='grow'>Subtotal</div>
+                            <div className=''>${subtotalString}</div>
+                        </div>
+                        <div className="flex flex-wrap">
+                            <div className='grow'>Shipping</div>
+                            <div>${shippingString}</div>
+                        </div>
+                        <div className="flex flex-wrap">
+                            <div className='grow'>Tax</div>
+                            <div>${taxString}</div>
+                        </div>
+                        <div className="divider divider-neutral "></div>
+                        <div className="flex font-bold text-xl">
+                            <div className="grow text-red-600">Total</div>
+                            <div>${totalString}</div>
+                        </div>
+                        <form>
+                            <Link href="/checkout" className="btn btn-primary w-full rounded-md mt-3 py-1.5 font-medium text-white">Checkout</Link>
+                        </form>
                     </div>
-                    <div className="mb-2 flex justify-between">
-                        <p>Shipping</p>
-                        <p>${shippingString}</p>
-                    </div>
-                    <div className="mb-2 flex justify-between">
-                        <p>Tax</p>
-                        <p>${taxString}</p>
-                    </div>
-                    <div className="divider border-black"></div>
-                    <div className="flex justify-between font=bold text-xl">
-                        <p className="text-red-600">Total</p>
-                        <p>${totalString}</p>
-                    </div>
-                    <Link href="/checkout" className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">Checkout</Link>
                 </div>
             </div>
+
+            {/* <div className="mx-auto justify-center md:flex md:space-x-6">
+                <div className="rounded-lg md:w-4/5">
+
+                </div>
+                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
+
+                </div>
+            </div> */}
         </div>
     )
 }
