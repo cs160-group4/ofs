@@ -22,23 +22,19 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
         const fetchData = async () => {
             let sortBy = ""
             let sortDirection = ""
-            if(sort === "Price - Low to High")
-            {
+            if (sort === "Price - Low to High") {
                 sortBy = "price";
                 sortDirection = "ASC"
             }
-            else if(sort === "Price - High to Low")
-            {
+            else if (sort === "Price - High to Low") {
                 sortBy = "price";
                 sortDirection = "DESC"
             }
-            else if(sort === "Name - A to Z")
-            {
+            else if (sort === "Name - A to Z") {
                 sortBy = "name";
                 sortDirection = "ASC"
             }
-            else if(sort === "Name - Z to A")
-            {
+            else if (sort === "Name - Z to A") {
                 sortBy = "name";
                 sortDirection = "DESC"
             }
@@ -79,39 +75,27 @@ const ShopCategory = ({ params }: { params: { slug: string } }) => {
         }));
     }, [checkedBrands, products])
 
-
     return (
         <>
-            <div className='flex '>
-                <div className="p-3">
-                    <FilterList category={slug} brands={brands} checkedBrands={checkedBrands} sort={sort} setSort={setSort} setCheckedBrands={setCheckedBrands} />
-                </div>
-                <div className="flex flex-wrap justify-center space-evenly">
-                    {displayedProducts.map((products: Product) => (
-                        <ProductComponent key={products.id} product={products} />
-                    ))}
-                </div>
-            </div>
-
-
-            {/* <section className="flex items-center bg-stone-100 lg:h-screen font-poppins dark:bg-gray-800 ">
-                <div className="justify-center flex-1 max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
-                   
-                    <div className="grid gap-4 mb-11 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                        {products.map((product) => (
-                            <ProductComponent key={product.id} product={product} />
+            <div className="drawer xl:drawer-open">
+                <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+                <div className="drawer-content flex flex-col items-center justify-center">
+                    <div className="flex flex-wrap justify-center space-evenly">
+                        {displayedProducts.map((products: Product) => (
+                            <ProductComponent key={products.id} product={products} />
                         ))}
-                        </div>
-                    <div className="flex justify-center">
-                        <a href="#" className="px-4 py-2    ">
-                            View More</a>
                     </div>
                 </div>
-            </section> */}
+                <div className="drawer-side">
+                    <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
+                    <ul className="menu p-4 w-80 min-h-full  bg-base-100">
+                        <FilterList category={slug} brands={brands} checkedBrands={checkedBrands} sort={sort} setSort={setSort} setCheckedBrands={setCheckedBrands} />
+                    </ul>
 
+                </div>
+            </div>
         </>
     )
-
 }
 
 export default ShopCategory;
