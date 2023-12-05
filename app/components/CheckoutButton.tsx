@@ -40,7 +40,10 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
   async function createOrder({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}){
     if(missingInfo) {
       alert("You have not inputted a delivery address and/or a payment method.");
-    } else {
+    } else if(totalWeight > 200) {
+      alert(`Your order has a total weight of ${totalWeight}, which exceeds the maximum accepted weight of 200 lbs`);
+    }
+    else {
       const formData = new FormData();
 
       formData.set("userId", id);
