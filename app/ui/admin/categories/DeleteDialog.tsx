@@ -4,6 +4,9 @@ import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { Button } from "../../common/Button";
+import { useFormState } from "react-dom";
+import { deleteCategoryAction } from "@/app/actions/categories";
+import { DeleteButton } from "../../common/Buttons";
 
 /*
   Author: Hung Pham
@@ -32,6 +35,8 @@ export function DeleteCategoryConfirmation({ id }: { id: number }) {
 }
 
 export function DeleteCategoryDialog() {
+    const initialState = { message: "", errors: {} };
+    const [state, formAction] = useFormState(deleteCategoryAction, initialState)
     const searchParams = useSearchParams();
     const { replace } = useRouter();
     const pathname = usePathname();
@@ -49,6 +54,7 @@ export function DeleteCategoryDialog() {
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Delete Confirmation</h3>
                     <p className="py-4">Are you sure you want to delete this category?</p>
+                    <p>All data about this category will be permanently removed (including all products of this category). This action cannot be undone.</p>
                     <div className="flex gap-2 modal-action">
                         <div>
                             <form method="dialog">
@@ -58,7 +64,12 @@ export function DeleteCategoryDialog() {
                             </form>
                         </div>
                         <div>
-                            <DeleteCategory id={id} />
+                            <div>
+                                <form action={formAction} method="dialog" onClick={closeModal}>
+                                    <input type="hidden" name="id" value={id} />
+                                    <DeleteButton text="Delete" />
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
