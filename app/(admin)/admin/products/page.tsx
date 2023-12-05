@@ -32,7 +32,7 @@ export default async function AdminProducts( {searchParams}:{searchParams: Searc
           <p className='text-base'>Add, delete, or make quick updates to your existing product catalogue</p>
         </div>
         {/* management tools container */}
-        <div className='flex justify-between items-center max-w-full gap-2 md:mt-8'>
+        <div className='flex flex-col w-full sm:flex-row justify-between items-center max-w-full gap-2 md:mt-8'>
           <Search placeholder="Search Products by id, name, slug, description, or brand" />
           <AddProductButtonComponent categories={categories} />
         </div>
