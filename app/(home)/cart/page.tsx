@@ -71,7 +71,7 @@ export default async function Cart() {
                 <h1 className="text-3xl font-bold">Shopping Cart</h1>
             </div>
             <div className="flex flex-wrap mx-auto justify-center gap-4 m-4">
-                <div className="card grow border shadow-lg bg-base-200 p-2 ">
+                <div className="card grow border shadow-lg bg-base-200 p-2">
                     <div className="flex flex-col w-full ">
                         <div className="">
                             <ul className="">
@@ -107,15 +107,6 @@ export default async function Cart() {
                     </div>
                 </div>
             </div>
-
-            {/* <div className="mx-auto justify-center md:flex md:space-x-6">
-                <div className="rounded-lg md:w-4/5">
-
-                </div>
-                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
-
-                </div>
-            </div> */}
         </div>
     )
 }

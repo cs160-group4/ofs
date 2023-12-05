@@ -33,7 +33,7 @@ export function CartItemCard({ item, id, revalidateUrl }: { item: CartItem, id: 
   return (
     <div>
       <ul className="my-2 pb-2 space-y-2 mt-auto mb-auto">
-        <li className="grid grid-cols-3 gap-1 py-2 bg-white rounded-box items-center justify-center">
+        <li className="grid grid-cols-3 border gap-1 py-2 rounded-box items-center justify-center">
           <div className="row-span-2 items-center m-2 ps-6">
             <Image src={getImageUrl(item.products.picture)} width={100} height={100} alt={item.products.description} />
           </div>
@@ -45,7 +45,7 @@ export function CartItemCard({ item, id, revalidateUrl }: { item: CartItem, id: 
             <form>
               <input type="number" id="quantity" name="quantity" min="1" value={quantity}
                 onChange={(e) => { handleQuantityChange(e.target.value); }}
-                className="w-1/2 px-2 py-4 text-center border-0 rounded-md bg-gray-50 dark:text-gray-400"
+                className="w-1/2 px-2 py-4 text-center border-0 rounded-md "
               ></input>
             </form>
           </div>

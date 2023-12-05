@@ -7,20 +7,23 @@ import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../acti
 import { deleteAllCartItems } from '@/actions/cart';
 import { updateProductItemQuantity } from '@/actions/products';
 import { revalidatePath } from 'next/cache';
+import { SubmitButton } from '../ui/common/Buttons';
+import { useFormStatus } from 'react-dom';
+import { Button } from '../ui/common/Button';
+import { Spinner } from '../ui/common/Spinner';
 
 /*
-  Author: Fariha Ahmed
-  Email: fariha.ahmed@sjsu.edu
-  Copyright (c) 2023 Fariha Ahmed. All rights reserved.
+  Authors: Fariha Ahmed <fariha.ahmed@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
 */
 
-export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId, missingInfo }: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number, missingInfo: boolean }) {
+export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId, missingInfo }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number, missingInfo: boolean }) {
   var orderId = 0;
-  
+
   // Function to create an order item for each item in the user's cart
-  async function createNewOrderItem({item, itemWeight, productId, quantity, orderId, price}: {item: CartItem, itemWeight: number, productId: number, quantity: number, orderId: number, price: string}){
+  async function createNewOrderItem({ item, itemWeight, productId, quantity, orderId, price }: { item: CartItem, itemWeight: number, productId: number, quantity: number, orderId: number, price: string }) {
     const formData = new FormData();
-    
+
     formData.set("itemWeight", String(itemWeight));
     formData.set("productId", String(productId));
     formData.set("quantity", String(quantity));
@@ -31,16 +34,16 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
   }
 
   // Function to update the amount of product left in stock after a customer places an order
-  async function updateProductQuantity(item: CartItem){
+  async function updateProductQuantity(item: CartItem) {
     const updatedProductQuantity = item.products.itemQuantity - item.cart.quantity;
     const updateDB = await updateProductItemQuantity(item.products.id, updatedProductQuantity);
   }
 
   // Function to create an order based on what the user has in the cart 
-  async function createOrder({id, totalWeight, shipping, tax, subtotal, total, cartItems}: {id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[]}){
-    if(missingInfo) {
+  async function createOrder({ id, totalWeight, shipping, tax, subtotal, total, cartItems }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[] }) {
+    if (missingInfo) {
       alert("You have not inputted a delivery address and/or a payment method.");
-    } else if(totalWeight > 200) {
+    } else if (totalWeight > 200) {
       alert(`Your order has a total weight of ${totalWeight}, which exceeds the maximum accepted weight of 200 lbs`);
     }
     else {
@@ -63,7 +66,7 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
         formData.set("orderId", String(orderId));
 
         await Promise.all(cartItems.map((item) => {
-          return createNewOrderItem({item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice});
+          return createNewOrderItem({ item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice });
         }));
 
         await Promise.all(cartItems.map((item) => {
@@ -81,16 +84,33 @@ export function CheckoutButton({id, totalWeight, shipping, tax, subtotal, total,
       }
     }
   }
-  
+
   return (
     <div>
-      <button
+      {/* <button
             onClick={(event) => {
               createOrder({id: id, totalWeight: totalWeight, shipping: shipping, tax: tax, subtotal: subtotal, total: total, cartItems: cartItems})
             }} 
             className="btn btn-accent w-full rounded-md mt-3 py-1.5 font-medium text-white">
         Place Your Order & Pay
-      </button>   
+      </button>    */}
+      <form action={() => {
+        createOrder({ id: id, totalWeight: totalWeight, shipping: shipping, tax: tax, subtotal: subtotal, total: total, cartItems: cartItems });
+      }
+      }>
+        <CheckOutSubmitButton text="Place Your Order & Pay" />
+      </form>
     </div>
   );
 }
+
+export const CheckOutSubmitButton = ({ text = "Submit" }: { text?: string }) => {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" className="flex w-full items-center justify-center h-11 rounded-lg bg-primary text-sm font-medium hover:bg-teal-500 active:bg-teal-600"
+      disabled={pending}  >
+      {pending ? <Spinner /> : null}
+      {text}
+    </Button>
+  );
+};

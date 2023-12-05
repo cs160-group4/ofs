@@ -1,10 +1,8 @@
 import { getAuthSession } from '@/api/auth/[...nextauth]/options';
-import { getAddress } from '@/lib/addresses';
-import { CartItem, getCart } from '@/lib/cart';
-import { getPaymentMethod } from '@/app/lib/payment_methods';
 import { CheckoutPage } from '@/app/components/CheckoutPage';
-import { CartItemCard } from '@/app/components/CartItemCard';
-import { CheckoutButton } from '@/app/components/CheckoutButton';
+import { getPaymentMethod } from '@/app/lib/payment_methods';
+import { getAddress } from '@/lib/addresses';
+import { getCart } from '@/lib/cart';
 import Link from 'next/link';
 
 /*
@@ -57,67 +55,13 @@ export default async function Checkout() {
             </div>
         </main>
     }
-    
+
     return (
-        <div className="container mx-auto px-6 pt-7 bg-base-100 h-fill xl:px-0">
+        <div className="flex flex-col items-center justify-center ">
             <div className="flex pb-6 justify-center md:justify-start">
                 <h1 className="text-3xl font-bold">Checkout</h1>
             </div>
-
-            <CheckoutPage name={name} id={id} addresses={addresses} paymentMethods={paymentMethods} cartItems={cartItems}  />
-
-            {/* <div className="mx-auto justify-center md:flex md:space-x-6">
-                <div className="grid grid-cols-3 gap-10 auto-cols-max md:w-4/5">
-                    <h2 className="font-bold text-xl">1. Delivery Address</h2>
-                    <div>
-                        {name}<br />
-                        {mainAddress ? <> {mainAddress.addressLine1}<br />
-                            {mainAddress.addressLine2 !== null && mainAddress.addressLine2.trim() !== "" && (<p>{mainAddress.addressLine2} <br /></p>)}
-                            {mainAddress.city}, {mainAddress.state} {mainAddress.postalCode}</>
-                            :
-                            <p>You have not set up an address yet. Please add one.</p>}
-
-                    </div>
-                    <div>
-                        <DeliveryAddressComponent id={id} addresses={addresses}/>
-                    </div>
-
-
-                    <h2 className="font-bold text-xl">2. Payment Method</h2>
-                    <PaymentMethod id={id} />
-
-                    <h2 className="font-bold text-xl">3. Review Items</h2>
-                    <div className="col-span-2 rounded-lg overflow-y-auto max-h-[550px]">
-                        <ul className="-my-2 pb-1 mt-auto mb-auto">
-                            {cartItems.map((item) => (
-                                <CartItemCard key={item.cart.id} id={id} item={item} revalidateUrl="/checkout" />
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-
-                <div className="container mt-6 h-full rounded-lg border bg-base-200 shadow-md md:mt-0 md:w-1/5 px-3 py-3">
-                    <div className="mb-2 flex justify-between">
-                        <p>Subtotal</p>
-                        <p>${subtotalString}</p>
-                    </div>
-                    <div className="mb-2 flex justify-between">
-                        <p>Shipping</p>
-                        <p>${shippingString}</p>
-                    </div>
-                    <div className="mb-2 flex justify-between">
-                        <p>Tax</p>
-                        <p>${taxString}</p>
-                    </div>
-                    <div className="divider border-black"></div>
-                    <div className="flex justify-between font=bold text-xl">
-                        <p className="text-red-600">Total</p>
-                        <p>${totalString}</p>
-                    </div>
-                    <CheckoutButton id={id} totalWeight={totalWeight} shipping={shippingString} tax={taxString} subtotal={subtotalString} total={totalString} cartItems={cartItems} />
-                </div>
-            </div> */}
+            <CheckoutPage name={name} id={id} addresses={addresses} paymentMethods={paymentMethods} cartItems={cartItems} />
         </div>
     )
 }
