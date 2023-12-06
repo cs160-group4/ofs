@@ -1,8 +1,7 @@
 
 /*
-  Author: Aaron Low
-  Email: aaron.c.low@sjsu.edu
-  Copyright (c) 2023 Aaron Low. All rights reserved.
+  Authors: Aaron Low <aaron.c.low@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
 */
 
 import { redirect } from 'next/navigation'

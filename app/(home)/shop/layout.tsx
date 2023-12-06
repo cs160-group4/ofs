@@ -1,11 +1,9 @@
 import { FC, ReactNode } from 'react'
 import Categories from '@/components/ProductCategoryComponent'
 
-
 /*
-  Author: Aaron Low
-  Email: aaron.c.low@sjsu.edu
-  Copyright (c) 2023 Aaron Low. All rights reserved.
+  Authors: Aaron Low <aaron.c.low@sjsu.edu>, Hung Pham <mryo.hp@gmail.com>
+  Copyright (c) 2023. All rights reserved.
 */
 
 export default function ShopLayout({ children, }: { children: React.ReactNode }) {
