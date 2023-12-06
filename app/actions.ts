@@ -38,9 +38,9 @@ export async function createProduct(formData: FormData, url: string) {
     brand: z.string().min(1).max(30),
     categoryId: z.number().int(),
     picture: z.string().min(0).max(110),
-    itemWeight: z.number().positive(),
+    itemWeight: z.number().positive().lte(200),
     itemPrice: z.string().regex(priceEx),
-    itemQuantity: z.number().int().positive(),
+    itemQuantity: z.number().int().positive().lte(50000),
     createdAt: z.string(),
     updatedAt: z.string(),
   });
@@ -237,13 +237,13 @@ export async function createNewOrder(formData: FormData) {
   const priceEx = /^(?:\$?)((?:[1-9]\d{0,2}(,\d{3})*|\d{1,9})(?:\.\d{1,2})?)$/gm;
   
   const schema = z.object({
-    totalWeight: z.number().positive(),
+    totalWeight: z.number().positive().lt(200),
     tax: z.string().regex(priceEx),
-    subtotal: z.string().regex(priceEx),
+    subtotal: z.string().regex(priceEx).max(14),
     userId: z.string(),
     shippingCost: z.string().regex(priceEx),
-    discount: z.string().regex(priceEx),
-    grandTotal: z.string().regex(priceEx),
+    discount: z.string().regex(priceEx).max(14),
+    grandTotal: z.string().regex(priceEx).max(14),
     deliveryStatus: z.string(),
     shippingAddressId: z.number().positive()
   });
