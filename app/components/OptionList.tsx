@@ -17,10 +17,10 @@ const OptionList: React.FC<OptionListProps> = ({ filteredOptions, setShowSearch 
   }
 
   return (
-    <ul className="mt-2">
+    <ul className="mt-2 gap-1">
       {filteredOptions.map((product, index) => (
-        <li key={index} className="p-2 border bg-gray-600 w-full">
-          <a onClick={handleClick} href={"/products/" + product.id} >
+        <li key={index} className=" bg-base-100 rounded-box m-0 p-0">
+          <a className="m-0 p-2" onClick={handleClick} href={"/products/" + product.id} >
             {product.name}
           </a>
         </li>
