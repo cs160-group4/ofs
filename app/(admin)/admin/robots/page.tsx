@@ -1,6 +1,7 @@
+import { checkRobotStatus } from '@/app/lib/delivery';
 import { SearchQueryProps } from '@/app/lib/utils';
 import StatusListener from '@/app/ui/common/StatusListener';
-import { getRobotsPages } from '@/lib/robots';
+import { getRobots, getRobotsPages } from '@/lib/robots';
 import RobotsTable from '@/ui/admin/robots/Table';
 import Pagination from '@/ui/common/Pagination';
 import Search from '@/ui/common/Search';
@@ -17,6 +18,13 @@ export const metadata: Metadata = {
 };
 
 export default async function OrdersPage({ searchParams }: { searchParams: SearchQueryProps }) {
+  // get all robots
+  const robots = await getRobots();
+  for (let i = 0; i < robots.length; i++) {
+    const robot = robots[i];
+    await checkRobotStatus(robot.id);
+  }
+
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getRobotsPages(query);

@@ -1,6 +1,7 @@
 import { Delivery, getDeliveryList, getDeliveryPages } from '@/app/lib/delivery';
 import { Location, SearchQueryProps, distance, ofs_location } from '@/app/lib/utils';
 import ActivateOrderProcessing from '@/app/ui/admin/delivery/ActivateOrderProcessing';
+import DeliveryListener from '@/app/ui/admin/delivery/DeliveryListener';
 import DeliveryTable from '@/app/ui/admin/delivery/Table';
 import MapBox from '@/app/ui/admin/mapbox/map';
 import StatusListener from '@/app/ui/common/StatusListener';
@@ -26,7 +27,7 @@ export type RobotDelivery = {
   deliveredStates?: boolean[];
 };
 
-export default async function OrdersPage({ searchParams }: { searchParams: SearchQueryProps }) {
+export default async function DeliveryPage({ searchParams }: { searchParams: SearchQueryProps }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await getDeliveryPages(query);
@@ -81,9 +82,10 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
     })
   );
 
+
   return (
     <>
-      <StatusListener name='robot' />
+      <DeliveryListener />
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <h1 className='text-2xl'>Delivery</h1>
@@ -102,4 +104,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
     </>
   );
 }
+
+
+
 

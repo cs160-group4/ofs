@@ -36,8 +36,6 @@ export function AddAddressModal({ id }: { id: string }) {
 
             const geocodeRes = await geocode(addressString);
                       
-            console.log(geocodeRes.isValid);
-
             if(!geocodeRes.isValid) {
               setValidAddress(false);
             } else {
@@ -48,7 +46,6 @@ export function AddAddressModal({ id }: { id: string }) {
               formData.set("longitude", geocodeRes.longitude);
 
               const res = await addNewAddress(formData);
-              console.log(res.message);
             }            
           }}>
             <p className="font-bold py-1">Address</p>

@@ -34,17 +34,15 @@ export default function MapBox({ listRobots }: { listRobots: RobotDelivery[] }) 
                         customers.map((customer, i) => {
                             const dist = distance({ longitude: nextPos[0], latitude: nextPos[1] }, { longitude: Number(customer.longitude), latitude: Number(customer.latitude) });
                             if (dist < 50) {
-                                console.log(`Robot ${robot.robotId} delivered to customer ${customer.orderId}`);
                                 fetch(`/api/delivery/${customer.orderId}`, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ orderId: customer.orderId })
+                                    body: JSON.stringify({ robotId: robot.robotId , orderId: customer.orderId })
                                 })
                                     .then((response) => response.json())
                                     .then((data) => {
-                                        console.log('Success:', data);
                                     })
                                     .catch((error) => {
                                         console.error('Error:', error);

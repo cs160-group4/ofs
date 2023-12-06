@@ -35,7 +35,6 @@ export async function editDeliveryStatusAction(prevState: any, formData: FormDat
     } catch (error) {
       return { message: "Database Error: Failed to update Delivery ." };
     }
-  
     revalidatePath("/admin/orders");
     redirect("/admin/orders?status=updated");
   }

@@ -118,3 +118,32 @@ export async function setDeliveryToRobot(
     } catch (err) {}
   });
 }
+
+export async function checkRobotStatus(robotId: number) {
+    try {
+      // get delivery with this robotId
+      const result = await db
+        .select()
+        .from(delivery)
+        .where(eq(delivery.robotId, robotId));
+
+      let hasDelivering = false;
+      for (let i = 0; i < result.length; i++) {
+        const orderId = result[i].orderId;
+        const order = await db
+          .select()
+          .from(orders)
+          .where(eq(orders.id, orderId));
+        if (order[0].deliveryStatus == "delivering") {
+          hasDelivering = true;
+          break;
+        }
+      }
+      if (!hasDelivering) {
+        await db
+          .update(robots)
+          .set({ status: "available", currentWeightInLbs: 0 })
+          .where(eq(robots.id, robotId));
+      }
+    } catch (err) {}
+}
