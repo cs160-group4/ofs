@@ -19,6 +19,7 @@ import { Spinner } from '../ui/common/Spinner';
 
 export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId, missingInfo }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number, missingInfo: boolean }) {
   var orderId = 0;
+  var unavailableItems = "";
 
   // Function to create an order item for each item in the user's cart
   async function createNewOrderItem({ item, itemWeight, productId, quantity, orderId, price }: { item: CartItem, itemWeight: number, productId: number, quantity: number, orderId: number, price: string }) {
@@ -33,6 +34,19 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
     const orderItem = await createOrderItem(formData);
   }
 
+  // Function to check if any items in a user's cart have become unavailable
+  const checkForUnavailableItems = (cartItems: CartItem[]) => {
+    const outOfStockItems = cartItems.filter((item) => {
+      return item.products.itemQuantity < item.cart.quantity;
+    });
+
+    if (outOfStockItems.length > 0) {
+      unavailableItems = outOfStockItems.map((item) => item.products.name).join('\n');
+      return true;
+    }
+    return false;
+  }
+
   // Function to update the amount of product left in stock after a customer places an order
   async function updateProductQuantity(item: CartItem) {
     const updatedProductQuantity = item.products.itemQuantity - item.cart.quantity;
@@ -45,8 +59,9 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
       alert("You have not inputted a delivery address and/or a payment method.");
     } else if (totalWeight > 200) {
       alert(`Your order has a total weight of ${totalWeight}, which exceeds the maximum accepted weight of 200 lbs`);
-    }
-    else {
+    } else if (checkForUnavailableItems(cartItems)) {
+      alert(`The following items in your cart are not available in the quantity you requested:\n\n${unavailableItems}\n\nPlease edit/delete the specified cart items to proceed with your order!`);
+    } else {
       const formData = new FormData();
 
       formData.set("userId", id);
