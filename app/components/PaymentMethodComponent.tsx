@@ -19,9 +19,6 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
     if (match) {
       const [month, year] = date.split('/').map(Number);
 
-      console.log(month);
-      console.log(year);
-
       // Get the current date
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear() % 100; // Get the last two digits of the current year
@@ -29,7 +26,6 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
 
       // Compare the extracted date with the current date
       const validation =  year > currentYear || (year === currentYear && month > currentMonth);
-      console.log(validation);
       return validation;
     }
 
@@ -56,8 +52,6 @@ export function PaymentMethodComponent({id, paymentMethods, setPaymentMethod, cl
                 <div>
                   <form action={async (formData: FormData) => {
                     const expirationDate = String(formData.get("expirationDate"));
-                    console.log(expirationDate);
-                    
                     
                     if(!isValidDate(expirationDate)) {
                       setValidDate(false);

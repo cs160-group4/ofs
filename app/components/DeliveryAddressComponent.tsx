@@ -42,12 +42,9 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                       const addressString = `${line1}, ${city}, ${state} ${postalCode}`
 
                       const geocodeRes = await geocode(addressString);
-                      
-                      console.log(geocodeRes.isValid);
 
                       if(!geocodeRes.isValid) {
                         setValidAddress(false);
-                        console.log(geocodeRes.data);
                         setSuggestedAddress(geocodeRes.suggestedAddress);
                       } else {
                         setValidAddress(true);
@@ -56,9 +53,7 @@ export function DeliveryAddressComponent({id, addresses, setShippingAddress, cla
                         formData.set("latitude", geocodeRes.latitude);
                         formData.set("longitude", geocodeRes.longitude);
 
-                        console.log(geocodeRes.data);
                         const res = await addNewAddress(formData);
-                        console.log(res.message);
 
                         const newestAddress = await getLatestAddress(id);
                         setShippingAddress(newestAddress.data?.id);

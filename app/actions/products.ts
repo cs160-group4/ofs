@@ -21,9 +21,9 @@ const schema = z.object({
   brand: z.string().min(1).max(30),
   categoryId: z.number().int(),
   picture: z.string().min(0).max(110),
-  itemWeight: z.number().positive(),
+  itemWeight: z.number().positive().lte(200),
   itemPrice: z.string().regex(priceEx),
-  itemQuantity: z.number().int().positive(),
+  itemQuantity: z.number().int().positive().lte(50000),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

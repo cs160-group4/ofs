@@ -1,7 +1,6 @@
+import { checkRobotStatus } from "@/app/lib/delivery";
+import { updateOrderDeliveryStatus } from "@/app/lib/orders";
 
-import { updateOrder, updateOrderDeliveryStatus } from "@/app/lib/orders";
-import { getProducts } from "@/lib/products";
- 
 /*
   Author: Hung Pham
   Email: mryo.hp@gmail.com | hung.pham@sjsu.edu
@@ -13,10 +12,10 @@ import { getProducts } from "@/lib/products";
 // }
 
 export async function POST(req: Request) {
-    const body = await req.json();
-    let id = body.orderId;
-    updateOrderDeliveryStatus(id, "delivered");
-    return Response.json("success");
+  const body = await req.json();
+  let id = body.orderId;
+  let robotId = body.robotId;
+  await updateOrderDeliveryStatus(id, "delivered");
+  await checkRobotStatus(robotId);
+  return Response.json("success");
 }
-
-
