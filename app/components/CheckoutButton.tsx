@@ -1,11 +1,12 @@
 "use client"
 import React from 'react';
+import { useState } from 'react';
 import { Addresses } from '../lib/addresses';
 import { CartItem } from '@/lib/cart';
 import { PaymentMethod } from '../lib/payment_methods';
 import { createNewOrder, getLatestOrderByUserId, createOrderItem } from "../actions";
 import { deleteAllCartItems } from '@/actions/cart';
-import { updateProductItemQuantity } from '@/actions/products';
+import { updateProductItemQuantity, restoreItemQuantity } from '@/actions/products';
 import { revalidatePath } from 'next/cache';
 import { SubmitButton } from '../ui/common/Buttons';
 import { useFormStatus } from 'react-dom';
@@ -20,6 +21,9 @@ import { Spinner } from '../ui/common/Spinner';
 export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total, cartItems, shippingAddressId, missingInfo }: { id: string, totalWeight: number, shipping: string, tax: string, subtotal: string, total: string, cartItems: CartItem[], shippingAddressId: number, missingInfo: boolean }) {
   var orderId = 0;
   var unavailableItems = "";
+  var insufficientOrder = false;
+  var insufficientItems: CartItem[] = [];
+  var sufficientItems: CartItem[] = [];
 
   // Function to create an order item for each item in the user's cart
   async function createNewOrderItem({ item, itemWeight, productId, quantity, orderId, price }: { item: CartItem, itemWeight: number, productId: number, quantity: number, orderId: number, price: string }) {
@@ -35,7 +39,7 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
   }
 
   // Function to check if any items in a user's cart have become unavailable
-  const checkForUnavailableItems = (cartItems: CartItem[]) => {
+  async function checkForUnavailableItems (cartItems: CartItem[]) {
     const outOfStockItems = cartItems.filter((item) => {
       return item.products.itemQuantity < item.cart.quantity;
     });
@@ -49,8 +53,20 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
 
   // Function to update the amount of product left in stock after a customer places an order
   async function updateProductQuantity(item: CartItem) {
-    const updatedProductQuantity = item.products.itemQuantity - item.cart.quantity;
-    const updateDB = await updateProductItemQuantity(item.products.id, updatedProductQuantity);
+    const updateDB = await updateProductItemQuantity(item.products.id, item.cart.quantity, item.products.updatedAt? item.products.updatedAt: "");
+    if(updateDB.success === false) {
+      console.log(updateDB.message);
+      insufficientOrder = true;
+      insufficientItems.push(item);
+    } else {
+      sufficientItems.push(item);
+    }
+    //alert(`${item.products.name}: ${updateDB.message}`)
+  }
+
+  // Function to restock an item if order can't be completed
+  async function restockItem(item: CartItem) {
+    await restoreItemQuantity(item.products.id, item.cart.quantity);
   }
 
   // Function to create an order based on what the user has in the cart 
@@ -59,8 +75,8 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
       alert("You have not inputted a delivery address and/or a payment method.");
     } else if (totalWeight > 200) {
       alert(`Your order has a total weight of ${totalWeight}, which exceeds the maximum accepted weight of 200 lbs`);
-    } else if (checkForUnavailableItems(cartItems)) {
-      alert(`The following items in your cart are not available in the quantity you requested:\n\n${unavailableItems}\n\nPlease edit/delete the specified cart items to proceed with your order!`);
+    } else if (await checkForUnavailableItems(cartItems)) {
+      alert(`The following items in your cart are not available in the quantity you requested:\n\n${unavailableItems}\n\nPlease edit/delete the specified cart items and refresh to proceed with your order!`);
     } else {
       const formData = new FormData();
 
@@ -74,27 +90,35 @@ export function CheckoutButton({ id, totalWeight, shipping, tax, subtotal, total
       formData.set("shippingAddressId", String(shippingAddressId));
 
       try {
-        await createNewOrder(formData);
+        for (const item of cartItems){
+          await updateProductQuantity(item);
+        }
 
-        const latestOrderId = await getLatestOrderByUserId(formData);
-        orderId = Number(latestOrderId.data);
-        formData.set("orderId", String(orderId));
+        if (!insufficientOrder) {
+          await createNewOrder(formData);
 
-        await Promise.all(cartItems.map((item) => {
-          return createNewOrderItem({ item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice });
-        }));
+          const latestOrderId = await getLatestOrderByUserId(formData);
+          orderId = Number(latestOrderId.data);
+          formData.set("orderId", String(orderId));
 
-        await Promise.all(cartItems.map((item) => {
-          return updateProductQuantity(item);
-        }));
+          await Promise.all(cartItems.map((item) => {
+            createNewOrderItem({ item: item, itemWeight: item.products.itemWeight, productId: item.products.id, quantity: item.cart.quantity, orderId: orderId, price: item.products.itemPrice });
+          }));
 
-        await deleteAllCartItems(id);
+          await deleteAllCartItems(id);
+          //setTimeout(() => {
+          window.location.href = `/order-summary/${orderId}`;
+          //}, 1000);
+        } else {
+          var insufficientItemsString = insufficientItems.map((item) => item.products.name).join('\n');
 
-        //setTimeout(() => {
-        window.location.href = `/order-summary/${orderId}`;
-        //}, 1000);
-
-        // const res = await assignOrderToRobot(formData);
+          alert(`The following items in your cart are not available in the quantity you requested:\n\n${insufficientItemsString}\n\nPlease edit/delete the specified cart items and refresh to proceed with your order!`)
+          
+          //restock the sufficient items 
+          sufficientItems.forEach((item) => {
+            restockItem(item);
+          })
+        } 
       } catch (error) {
       }
     }

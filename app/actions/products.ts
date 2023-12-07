@@ -1,5 +1,5 @@
 "use server";
-import { Product, updateProduct, updateProductQuantity } from "@/lib/products";
+import { Product, getProductById, updateProduct, updateProductQuantity } from "@/lib/products";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -79,13 +79,37 @@ export async function editProduct(formData: FormData, url: string) {
   // redirect("/admin/products");
 }
 
-export async function updateProductItemQuantity(productId: number, quantity: number){
+export async function updateProductItemQuantity(productId: number, cartQuantity: number, expectedVersion: string){
   try {
-    await updateProductQuantity(productId, quantity);
-    return { message: "Updated Product Quantity" };
+    const currentVersion =  (await getProductById(productId)).updatedAt;
+    const currentStock = (await getProductById(productId)).itemQuantity;
+
+    if (currentVersion !== expectedVersion) {
+      if (currentStock >= cartQuantity) {
+        await updateProductQuantity(productId, currentStock - cartQuantity);
+        return { success: true, message: "Updated product quantity"  };
+      } else {
+        return { success: false, message: `Product stocks do not match up;\nExpected: ${expectedVersion}; Current: ${currentVersion}` };
+      }
+    } else {
+      await updateProductQuantity(productId, currentStock - cartQuantity);
+      return { success: true, message: "Updated Product Quantity" };
+    }
   } catch (error) {
     return {
-      message: "Database Error: Failed to update Product Quantity",
+      success: false, message: "Database Error: Failed to update Product Quantity",
     };
+  }
+}
+
+export async function restoreItemQuantity(productId: number, cartQuantity: number) {
+  try {
+    const currentStock = (await getProductById(productId)).itemQuantity;
+    await updateProductQuantity(productId, currentStock + cartQuantity);
+    return { success: true, message: "Updated Product Quantity" };
+  } catch (error) {
+      return {
+        success: false, message: "Database Error: Failed to update Product Quantity",
+      };
   }
 }
